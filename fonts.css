@@ -1,0 +1,24 @@
+@font-face {
+   font-family: "Avenir Black";
+   src: url("fonts/Avenir Black.woff") format("woff"), url("fonts/Avenir Black.eot") format("embedded-opentype"), url("fonts/Avenir Black.ttf") format("truetype"), url("fonts/Avenir Black.svg") format("svg");
+   font-weight: normal;
+   font-style: normal;
+}
+@font-face {
+   font-family: "Montserrat Bold";
+   src: url("fonts/Montserrat Bold.woff") format("woff"), url("fonts/Montserrat Bold.eot") format("embedded-opentype"), url("fonts/Montserrat Bold.ttf") format("truetype"), url("fonts/Montserrat Bold.svg") format("svg");
+   font-weight: bold;
+   font-style: normal;
+}
+@font-face {
+   font-family: "Open Sans Semibold";
+   src: url("fonts/Open Sans Semibold Italic.woff") format("woff"), url("fonts/Open Sans Semibold Italic.eot") format("embedded-opentype"), url("fonts/Open Sans Semibold Italic.ttf") format("truetype"), url("fonts/Open Sans Semibold Italic.svg") format("svg");
+   font-weight: bold;
+   font-style: italic;
+}
+@font-face {
+   font-family: "Open Sans Semibold";
+   src: url("fonts/Open Sans Semibold.woff") format("woff"), url("fonts/Open Sans Semibold.eot") format("embedded-opentype"), url("fonts/Open Sans Semibold.ttf") format("truetype"), url("fonts/Open Sans Semibold.svg") format("svg");
+   font-weight: bold;
+   font-style: normal;
+}

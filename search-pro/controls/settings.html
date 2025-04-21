@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Pro Configuration</title>
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --panel-bg: #ffffff;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0f172a;
+                --text-color: #e2e8f0;
+                --border-color: #334155;
+                --panel-bg: #1e293b;
+                --primary-color: #60a5fa;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .settings-panel {
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--text-color);
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary-color);
+            opacity: 1;
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .setting-item {
+            margin-bottom: 15px;
+        }
+        
+        .setting-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: var(--panel-bg);
+            color: var(--text-color);
+        }
+        
+        input[type="color"] {
+            width: 40px;
+            height: 30px;
+            vertical-align: middle;
+            padding: 0;
+        }
+        
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .color-input input[type="text"] {
+            flex: 1;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: .3s;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        .button-row {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .secondary-button {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .import-export {
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .import-export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #importFile {
+            display: none;
+        }
+        
+        .incognito-warning {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        /* Preview area styles */
+        .preview-container {
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            background-color: var(--bg-color);
+        }
+        
+        .preview-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .search-preview {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .preview-search-field {
+            position: relative;
+            background: #ffffff;
+            border-radius: 35px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .preview-search-input {
+            flex: 1;
+            color: #1a1a1a;
+            opacity: 0.6;
+        }
+        
+        .preview-search-icon {
+            width: 24px;
+            height: 24px;
+            color: #64748b;
+        }
+        
+        .preview-search-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        
+        .preview-results-panel {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        
+        .preview-result-item {
+            padding: 8px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            border-left: 3px solid transparent;
+        }
+        
+        .preview-result-item:hover {
+            background-color: var(--result-hover-color, #f1f5f9);
+            border-left-color: var(--result-border-left-color, #3b82f6);
+        }
+        
+        .preview-result-icon {
+            width: 14px;
+            height: 14px;
+            background-color: #6E85F7;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .preview-result-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .preview-result-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+        
+        .preview-result-description {
+            font-size: 11px;
+            color: #64748b;
+        }
+        
+        .preview-group-header {
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-group-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #475569;
+        }
+        
+        .preview-group-count {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+        
+        /* Dark mode preview */
+        .preview-dark-mode .preview-search-field {
+            background: #1e293b;
+        }
+        
+        .preview-dark-mode .preview-search-input {
+            color: #e2e8f0;
+        }
+        
+        .preview-dark-mode .preview-results-panel {
+            background: #1e293b;
+        }
+        
+        .preview-dark-mode .preview-result-text {
+            color: #e2e8f0;
+        }
+        
+        .preview-dark-mode .preview-result-description {
+            color: #94a3b8;
+        }
+        
+        .preview-dark-mode .preview-group-title {
+            color: #94a3b8;
+        }
+        
+        .preview-dark-mode .preview-result-item:hover {
+            background-color: var(--result-hover-color, rgba(59, 130, 246, 0.1));
+        }
+        
+        /* Range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: var(--border-color);
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: none;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-row, .import-export-buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+        
+        /* Typography preview styling */
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .range-value-display {
+            font-weight: 600;
+        }
+
+        /* Font preview */
+        .font-preview {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--bg-color);
+        }
+
+        /* Preview container */
+        .preview-container {
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            background-color: var(--bg-color);
+        }
+
+        /* Preview theme styling fix */
+        #layoutPreview.preview-dark-mode .preview-search-field {
+            background: rgba(30, 41, 59, 0.98) !important;
+        }
+        #layoutPreview.preview-dark-mode .preview-search-input {
+            color: #e2e8f0 !important;
+        }
+        #layoutPreview.preview-dark-mode .preview-results-panel {
+            background: rgba(30, 41, 59, 0.98) !important;
+        }
+
+        /* Add a Reset All button style */
+        .reset-all-button {
+            background-color: #f87171;
+            color: white;
+        }
+
+        .reset-all-button:hover {
+            background-color: #ef4444;
+        }
+
+        /* Deployment modal */
+        .deployment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .deployment-modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .deployment-modal h3 {
+            margin-top: 0;
+        }
+
+        .deployment-modal code {
+            background-color: #f1f5f9;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .close-modal {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Search Pro Configuration</h1>
+            <div>
+                <button id="applySettings" class="primary-button">Apply Settings</button>
+            </div>
+        </header>
+        
+        <div id="incognitoWarning" class="incognito-warning">
+            <strong>⚠️ Private Browsing Detected:</strong> Your settings will not persist after closing this session. 
+            Please export your settings to a file after making changes.
+        </div>
+        
+        <div class="settings-panel">
+            <div class="tabs">
+                <div class="tab active" data-tab="general">General</div>
+                <div class="tab" data-tab="appearance">Appearance</div>
+                <div class="tab" data-tab="display">Display</div>
+                <div class="tab" data-tab="content">Content</div>
+                <div class="tab" data-tab="filtering">Filtering</div>
+                <div class="tab" data-tab="advanced">Advanced</div>
+                <div class="tab" data-tab="management">Management</div>
+            </div>
+            
+            <!-- General Tab -->
+            <div class="tab-content active" id="general-tab">
+                <div class="section">
+                    <h2 class="section-title">General Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Auto-hide on Mobile</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoHideMobile" data-path="autoHide.mobile">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Auto-hide on Desktop</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoHideDesktop" data-path="autoHide.desktop" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Mobile Breakpoint (px)</label>
+                            <input type="number" id="mobileBreakpoint" data-path="mobileBreakpoint" value="768" min="320" max="1200">
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Minimum Search Characters</label>
+                            <input type="number" id="minSearchChars" data-path="minSearchChars" value="2" min="1" max="5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Appearance Tab -->
+            <div class="tab-content" id="appearance-tab">
+                <div class="section">
+                    <h2 class="section-title">Theme Settings</h2>
+                    <div class="settings-grid">
+                        <!-- NEW: Theme Toggle -->
+                        <div class="setting-item">
+                            <label class="setting-label">Theme Mode</label>
+                            <select id="themeMode" data-path="theme.useDarkMode">
+                                <option value="">Auto (System Preference)</option>
+                                <option value="true">Dark Mode</option>
+                                <option value="false">Light Mode</option>
+                            </select>
+                        </div>
+                        
+                        <!-- NEW: Search Width -->
+                        <div class="setting-item">
+                            <label class="setting-label">Search Bar Width (px)</label>
+                            <input type="number" id="searchWidth" data-path="appearance.searchWidth" value="350" min="200" max="800">
+                        </div>
+                        
+                        <!-- NEW: Results Max Height -->
+                        <div class="setting-item">
+                            <label class="setting-label">Results Panel Max Height (px)</label>
+                            <input type="number" id="resultsMaxHeight" data-path="appearance.searchResults.maxHeight" value="500" min="200" max="1000">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NEW: Typography Section -->
+                <div class="section">
+                    <h2 class="section-title">Typography</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Font Family</label>
+                            <select id="fontFamily" data-path="theme.typography.fontFamily">
+                                <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">System Default</option>
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                <option value="Verdana, sans-serif">Verdana</option>
+                                <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Font Size (px): <span id="fontSizeValue">16</span></label>
+                            <input type="range" id="fontSize" data-path="theme.typography.fontSize" value="16" min="12" max="24" step="1" oninput="document.getElementById('fontSizeValue').textContent = this.value">
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Letter Spacing (px): <span id="letterSpacingValue">0</span></label>
+                            <input type="range" id="letterSpacing" data-path="theme.typography.letterSpacing" value="0" min="-1" max="2" step="0.1" oninput="document.getElementById('letterSpacingValue').textContent = this.value">
+                        </div>
+                    </div>
+                    
+                    <!-- Add Font Preview -->
+                    <div class="font-preview" id="fontPreview">
+                        <p>This text shows how your typography settings will look.</p>
+                        <p><strong>Bold text</strong> and <em>italic text</em> for comparison.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">Colors</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Search Background Color</label>
+                            <div class="color-input">
+                                <input type="color" id="searchBackground" data-path="appearance.colors.searchBackground" value="#ffffff">
+                                <input type="text" id="searchBackgroundText" data-linked="searchBackground" value="#ffffff">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Search Text Color</label>
+                            <div class="color-input">
+                                <input type="color" id="searchText" data-path="appearance.colors.searchText" value="#1a1a1a">
+                                <input type="text" id="searchTextText" data-linked="searchText" value="#1a1a1a">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Results Background Color</label>
+                            <div class="color-input">
+                                <input type="color" id="resultsBackground" data-path="appearance.colors.resultsBackground" value="#ffffff">
+                                <input type="text" id="resultsBackgroundText" data-linked="resultsBackground" value="#ffffff">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Result Hover Color</label>
+                            <div class="color-input">
+                                <input type="color" id="resultHover" data-path="appearance.colors.resultHover" value="#f1f5f9">
+                                <input type="text" id="resultHoverText" data-linked="resultHover" value="#f1f5f9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NEW: Live Layout Preview -->
+                <div class="preview-container">
+                    <h3 class="preview-title">Live Preview</h3>
+                    <div class="search-preview" id="layoutPreview">
+                        <!-- Search Field -->
+                        <div class="preview-search-field">
+                            <div class="preview-search-input">Search...</div>
+                            <div class="preview-search-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Panel -->
+                        <div class="preview-results-panel">
+                            <!-- Group Header -->
+                            <div class="preview-group-header">
+                                <span class="preview-group-title">Panorama</span>
+                                <span class="preview-group-count">3</span>
+                            </div>
+                            
+                            <!-- Result Items -->
+                            <div class="preview-result-item">
+                                <div class="preview-result-icon"></div>
+                                <div class="preview-result-content">
+                                    <div class="preview-result-text">Living Room</div>
+                                    <div class="preview-result-description">First floor panorama</div>
+                                </div>
+                            </div>
+                            
+                            <div class="preview-result-item">
+                                <div class="preview-result-icon"></div>
+                                <div class="preview-result-content">
+                                    <div class="preview-result-text">Kitchen</div>
+                                    <div class="preview-result-description">Main area</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Another Group -->
+                            <div class="preview-group-header">
+                                <span class="preview-group-title">Hotspot</span>
+                                <span class="preview-group-count">2</span>
+                            </div>
+                            
+                            <div class="preview-result-item">
+                                <div class="preview-result-icon"></div>
+                                <div class="preview-result-content">
+                                    <div class="preview-result-text">Dining Room</div>
+                                    <div class="preview-result-description">In Living Room</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Display Tab -->
+            <div class="tab-content" id="display-tab">
+                <div class="section">
+                    <h2 class="section-title">Display Options</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Show Group Headers</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showGroupHeaders" data-path="display.showGroupHeaders" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Show Group Count</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showGroupCount" data-path="display.showGroupCount" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Show Icons in Results</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showIconsInResults" data-path="display.showIconsInResults" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Show Subtitles in Results</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showSubtitlesInResults" data-path="display.showSubtitlesInResults" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Show Tags in Results</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showTagsInResults" data-path="showTagsInResults" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Only Show Subtitles</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="onlySubtitles" data-path="display.onlySubtitles">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Tab -->
+            <div class="tab-content" id="content-tab">
+                <div class="section">
+                    <h2 class="section-title">Content Inclusion</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Include Unlabeled with Subtitles</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="unlabeledWithSubtitles" data-path="includeContent.unlabeledWithSubtitles" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Include Unlabeled with Tags</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="unlabeledWithTags" data-path="includeContent.unlabeledWithTags" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Include Completely Blank</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="completelyBlank" data-path="includeContent.completelyBlank">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Skip Empty Labels</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="skipEmptyLabels" data-path="includeContent.elements.skipEmptyLabels">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Minimum Label Length</label>
+                            <input type="number" id="minLabelLength" data-path="includeContent.elements.minLabelLength" value="0" min="0" max="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filtering Tab -->
+            <div class="tab-content" id="filtering-tab">
+                <div class="section">
+                    <h2 class="section-title">Filtering Options</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Filter Mode</label>
+                            <select id="filterMode" data-path="filter.mode">
+                                <option value="none">None</option>
+                                <option value="whitelist">Whitelist</option>
+                                <option value="blacklist">Blacklist</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Element Types Filter Mode</label>
+                            <select id="elementTypesMode" data-path="filter.elementTypes.mode">
+                                <option value="none">None</option>
+                                <option value="whitelist">Whitelist</option>
+                                <option value="blacklist">Blacklist</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Tag Filter Mode</label>
+                            <select id="tagFilterMode" data-path="filter.tagFiltering.mode">
+                                <option value="none">None</option>
+                                <option value="whitelist">Whitelist</option>
+                                <option value="blacklist">Blacklist</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Advanced Tab -->
+            <div class="tab-content" id="advanced-tab">
+                <div class="section">
+                    <h2 class="section-title">Advanced Options</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="setting-label">Max Click Retries</label>
+                            <input type="number" id="maxRetries" data-path="elementTriggering.maxRetries" value="3" min="1" max="10">
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Initial Click Delay (ms)</label>
+                            <input type="number" id="initialDelay" data-path="elementTriggering.initialDelay" value="300" min="0" max="1000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Management Tab -->
+            <div class="tab-content" id="management-tab">
+                <div class="section">
+                    <h2 class="section-title">Settings Management</h2>
+                    <p>Export your settings to a file for backup or import them on another device. You can also reset all settings to their default values.</p>
+                    
+                    <div class="button-row">
+                        <button id="resetSettings" class="secondary-button">Reset to Defaults</button>
+                        <button id="exportSettings" class="secondary-button">Export Settings</button>
+                        <button id="importButton" class="secondary-button">Import Settings</button>
+                        <input type="file" id="importFile" accept=".json">
+                    </div>
+                </div>
+                
+                <!-- Server Configuration Section -->
+                <div class="section">
+                    <h2 class="section-title">Server Configuration</h2>
+                    <p>To make your settings persistent across all browsers and tours, export to a server configuration file.</p>
+                    
+                    <div class="export-instructions">
+                        <p><strong>Permanent Configuration:</strong> Export your settings to a JSON file that can be used for persistent configuration across all browsers and devices.</p>
+                        <ol class="instruction-steps">
+                            <li>Click "Export for Server" to download the configuration file</li>
+                            <li>Upload the file to <code>/search-pro/config/search-config.json</code> on your server</li>
+                            <li>The configuration will automatically load for all users</li>
+                        </ol>
+                        <div class="info-box">
+                            <div class="info-icon">ℹ️</div>
+                            <div class="info-content">
+                                After setting up your permanent configuration, you can remove or restrict access to this settings page.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-row">
+                        <button id="exportForServer" class="primary-button">Export for Server</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-row">
+                <button id="resetSettings" class="secondary-button">Reset to Defaults</button>
+                <button id="saveSettings" class="primary-button">Save Settings</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // State Manager
+        class StateManager {
+            constructor(initialState = {}) {
+                this.state = initialState;
+                this.listeners = [];
+                this._tabScrollPositions = new Map(); // NEW: Track tab scroll positions
+            }
+            
+            getState() {
+                return JSON.parse(JSON.stringify(this.state));
+            }
+            
+            setState(newState, path = null) {
+                if (path) {
+                    // Set value at specific path
+                    const parts = path.split('.');
+                    let current = this.state;
+                    
+                    for (let i = 0; i < parts.length - 1; i++) {
+                        const part = parts[i];
+                        if (!current[part]) current[part] = {};
+                        current = current[part];
+                    }
+                    
+                    current[parts[parts.length - 1]] = newState;
+                } else {
+                    // Replace entire state
+                    this.state = newState;
+                }
+                
+                this.notifyListeners();
+            }
+            
+            subscribe(listener) {
+                this.listeners.push(listener);
+                return () => this.listeners = this.listeners.filter(l => l !== listener);
+            }
+            
+            notifyListeners() {
+                this.listeners.forEach(listener => listener(this.state));
+            }
+            
+            // NEW: Save tab scroll position
+            saveTabScrollPosition(tabId, position) {
+                this._tabScrollPositions.set(tabId, position);
+            }
+            
+            // NEW: Get tab scroll position
+            getTabScrollPosition(tabId) {
+                return this._tabScrollPositions.get(tabId) || 0;
+            }
+        }
+        
+        // Storage Manager
+        class StorageManager {
+            constructor(key = 'searchPro.config') {
+                this.storageKey = key;
+            }
+            
+            save(data) {
+                try {
+                    localStorage.setItem(this.storageKey, JSON.stringify(data));
+                    return true;
+                } catch (e) {
+                    console.error('[SearchPro] Failed to save settings:', e);
+                    return false;
+                }
+            }
+            
+            load() {
+                try {
+                    const saved = localStorage.getItem(this.storageKey);
+                    return saved ? JSON.parse(saved) : null;
+                } catch (e) {
+                    console.error('[SearchPro] Failed to load settings:', e);
+                    return null;
+                }
+            }
+            
+            clear() {
+                try {
+                    localStorage.removeItem(this.storageKey);
+                    return true;
+                } catch (e) {
+                    console.error('[SearchPro] Failed to clear settings:', e);
+                    return false;
+                }
+            }
+            
+            // NEW: Enhanced validation for imports
+            validateImport(data) {
+                const result = {
+                    valid: false,
+                    settings: null,
+                    warnings: [],
+                    errors: []
+                };
+                
+                try {
+                    // Check basic structure
+                    if (!data) {
+                        result.errors.push('Import data is empty or null');
+                        return result;
+                    }
+                    
+                    // Check if it's a valid config file format
+                    if (!data.settings && typeof data !== 'object') {
+                        result.errors.push('Invalid config file format: missing "settings" object');
+                        return result;
+                    }
+                    
+                    // If data is directly a settings object (no wrapper)
+                    const settingsObj = data.settings || data;
+                    
+                    // Check for required top-level sections
+                    const requiredSections = ['display', 'appearance', 'includeContent', 'searchBar'];
+                    const missingSections = requiredSections.filter(section => !settingsObj[section]);
+                    
+                    if (missingSections.length > 0) {
+                        result.warnings.push(`Missing required sections: ${missingSections.join(', ')}`);
+                    }
+                    
+                    // Simple validation
+                    if (settingsObj.minSearchChars !== undefined && 
+                        (typeof settingsObj.minSearchChars !== 'number' || 
+                         settingsObj.minSearchChars < 1 || 
+                         settingsObj.minSearchChars > 10)) {
+                        result.warnings.push('minSearchChars should be a number between 1 and 10');
+                    }
+                    
+                    // If we have settings and no critical errors, mark as valid
+                    if (settingsObj) {
+                        result.valid = true;
+                        result.settings = settingsObj;
+                    }
+                    
+                    return result;
+                } catch (error) {
+                    result.errors.push(`Validation error: ${error.message}`);
+                    return result;
+                }
+            }
+        }
+        
+        // UI Manager
+        class UIManager {
+            constructor(stateManager, storageManager) {
+                this.stateManager = stateManager;
+                this.storageManager = storageManager;
+                this.controlMap = new Map();
+                this.activeTab = 'general';
+                
+                // Check for incognito mode
+                this.checkIncognitoMode();
+                
+                // Set up the preview
+                this.setupPreview();
+            }
+            
+            initialize() {
+                // Set up tabs with scroll position preservation
+                this.setupTabs();
+                
+                // Collect all inputs with data-path attribute
+                const inputs = document.querySelectorAll('[data-path]');
+                inputs.forEach(input => this.setupControl(input));
+                
+                // Streamlined input binding for all data-path elements
+                document.querySelectorAll('[data-path]').forEach(input => {
+                    const eventType = input.type === 'range' ? 'input' : 'change';
+                    input.addEventListener(eventType, () => this.updatePreview());
+                });
+                
+                // Add specific event bindings
+                document.querySelectorAll('input[type="color"]').forEach(input => {
+                    input.addEventListener('input', () => this.updatePreview());
+                    input.addEventListener('change', () => this.updatePreview());
+                });
+                
+                document.querySelectorAll('input[type="range"]').forEach(input => {
+                    input.addEventListener('input', () => this.updatePreview());
+                });
+                
+                document.querySelectorAll('select').forEach(input => {
+                    input.addEventListener('change', () => this.updatePreview());
+                });
+                
+                // Set up linked color inputs
+                const linkedInputs = document.querySelectorAll('[data-linked]');
+                linkedInputs.forEach(input => this.setupLinkedControl(input));
+                
+                // Set up action buttons
+                this.setupActionButtons();
+                
+                // Load and apply initial state
+                this.loadState();
+            }
+            
+            setupTabs() {
+                const tabs = document.querySelectorAll('.tab');
+                const tabScrollPositions = new Map();
+                
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Save scroll position of current tab
+                        const currentTabId = document.querySelector('.tab.active')?.getAttribute('data-tab');
+                        if (currentTabId) {
+                            const currentPanel = document.getElementById(`${currentTabId}-tab`);
+                            if (currentPanel) {
+                                tabScrollPositions.set(currentTabId, currentPanel.scrollTop);
+                            }
+                        }
+                        
+                        // Deactivate all tabs
+                        tabs.forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.remove('active');
+                            content.style.display = 'none';
+                        });
+                        
+                        // Activate clicked tab
+                        tab.classList.add('active');
+                        const tabId = tab.getAttribute('data-tab');
+                        const tabContent = document.getElementById(`${tabId}-tab`);
+                        if (tabContent) {
+                            tabContent.classList.add('active');
+                            tabContent.style.display = 'block';
+                            
+                            // Restore scroll position
+                            if (tabScrollPositions.has(tabId)) {
+                                tabContent.scrollTop = tabScrollPositions.get(tabId);
+                            }
+                            
+                            this.activeTab = tabId;
+                        }
+                    });
+                });
+            }
+            
+            setupControl(input) {
+                const path = input.dataset.path;
+                this.controlMap.set(path, input);
+                
+                // Set up event listeners based on input type
+                if (input.type === 'checkbox') {
+                    input.addEventListener('change', () => {
+                        this.stateManager.setState(input.checked, path);
+                        this.updatePreview();
+                    });
+                } else if (input.type === 'color') {
+                    input.addEventListener('input', () => {
+                        this.stateManager.setState(input.value, path);
+                        
+                        // Update linked text input if exists
+                        const textInput = document.getElementById(`${input.id}Text`);
+                        if (textInput) {
+                            textInput.value = input.value;
+                        }
+                        
+                        this.updatePreview();
+                    });
+                } else if (input.type === 'number') {
+                    input.addEventListener('change', () => {
+                        const value = parseInt(input.value, 10);
+                        this.stateManager.setState(value, path);
+                        this.updatePreview();
+                    });
+                } else if (input.type === 'range') {
+                    input.addEventListener('input', () => {
+                        const value = input.type === 'range' ? parseFloat(input.value) : input.value;
+                        this.stateManager.setState(value, path);
+                        this.updatePreview();
+                    });
+                } else if (input.tagName === 'SELECT') {
+                    input.addEventListener('change', () => {
+                        let value = input.value;
+                        
+                        // Handle boolean and null values in selects
+                        if (value === 'true') value = true;
+                        else if (value === 'false') value = false;
+                        else if (value === '') value = null;
+                        
+                        this.stateManager.setState(value, path);
+                        this.updatePreview();
+                    });
+                } else {
+                    // Text input or other types
+                    input.addEventListener('change', () => {
+                        this.stateManager.setState(input.value, path);
+                        this.updatePreview();
+                    });
+                }
+            }
+            
+            setupLinkedControl(input) {
+                const linkedId = input.dataset.linked;
+                const linkedInput = document.getElementById(linkedId);
+                
+                if (linkedInput) {
+                    input.addEventListener('input', () => {
+                        linkedInput.value = input.value;
+                        // Trigger input event on the linked input
+                        linkedInput.dispatchEvent(new Event('input'));
+                    });
+                }
+            }
+            
+            setupActionButtons() {
+                // Save Settings
+                const saveButton = document.getElementById('saveSettings');
+                if (saveButton) {
+                    saveButton.addEventListener('click', () => {
+                        const state = this.stateManager.getState();
+                        const saved = this.storageManager.save(state);
+                        
+                        if (saved) {
+                            this.showNotification('Settings saved successfully!', 'success');
+                        } else {
+                            this.showNotification('Failed to save settings. If you are in private browsing mode, please export your settings to a file.', 'error');
+                        }
+                    });
+                }
+                
+                // Apply Settings (to active tour if available)
+                const applyButton = document.getElementById('applySettings');
+                if (applyButton) {
+                    applyButton.addEventListener('click', () => {
+                        const state = this.stateManager.getState();
+                        const saved = this.storageManager.save(state);
+
+                        let applied = false;
+
+                        try {
+                            if (window.opener && window.opener.tourSearchFunctions) {
+                                window.opener.tourSearchFunctions.updateConfig(state);
+                                applied = true;
+                            }
+                        } catch (e) {
+                            console.warn('[SearchPro] Could not update opener window:', e);
+                        }
+
+                        if (applied) {
+                            this.showNotification('Settings applied to active tour and saved.', 'success');
+                        } else {
+                            this.showNotification('Settings saved. They will be applied the next time the tour loads.', 'info');
+                        }
+                    });
+                }
+                
+                // Reset Settings
+                const resetButtons = document.querySelectorAll('#resetSettings');
+                if (resetButtons) {
+                    resetButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            if (confirm('Reset all settings to defaults?')) {
+                                this.stateManager.setState(DEFAULT_CONFIG);
+                                this.applyStateToControls();
+                                this.updatePreview();
+                                this.showNotification('Settings reset to defaults', 'info');
+                            }
+                        });
+                    });
+                }
+                
+                // Export Settings
+                const exportButton = document.getElementById('exportSettings');
+                if (exportButton) {
+                    exportButton.addEventListener('click', () => {
+                        this.exportSettings();
+                    });
+                }
+                
+                // Export for Server
+                const exportServerButton = document.getElementById('exportForServer');
+                if (exportServerButton) {
+                    exportServerButton.addEventListener('click', () => {
+                        this.exportForServer();
+                    });
+                }
+                
+                // Import Settings
+                const importButton = document.getElementById('importButton');
+                const importFile = document.getElementById('importFile');
+                if (importButton && importFile) {
+                    importButton.addEventListener('click', () => {
+                        importFile.click();
+                    });
+                    
+                    importFile.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            this.importSettings(file);
+                        }
+                    });
+                }
+            }
+            
+            loadState() {
+                // Try to load from localStorage
+                const savedState = this.storageManager.load();
+                
+                if (savedState) {
+                    this.stateManager.setState(savedState);
+                } else {
+                    // Use defaults
+                    this.stateManager.setState(DEFAULT_CONFIG);
+                }
+                
+                // Apply state to UI controls
+                this.applyStateToControls();
+                
+                // Update preview with initial state
+                this.updatePreview();
+                
+                // Subscribe to state changes
+                this.stateManager.subscribe(() => {
+                    // Nothing needed here since controls are updated directly
+                });
+            }
+            
+            applyStateToControls() {
+                const state = this.stateManager.getState();
+                
+                // Update each control with value from state
+                this.controlMap.forEach((control, path) => {
+                    const value = this.getValueFromPath(state, path);
+                    
+                    if (value !== undefined) {
+                        if (control.type === 'checkbox') {
+                            control.checked = Boolean(value);
+                        } else if (control.type === 'color') {
+                            control.value = value;
+                            
+                            // Update linked text input if exists
+                            const textInput = document.getElementById(`${control.id}Text`);
+                            if (textInput) {
+                                textInput.value = value;
+                            }
+                        } else if (control.type === 'range') {
+                            control.value = value;
+                            // Update display value
+                            const displayId = `${control.id}Value`;
+                            const displayEl = document.getElementById(displayId);
+                            if (displayEl) {
+                                displayEl.textContent = value;
+                            }
+                        } else if (control.tagName === 'SELECT') {
+                            // Handle boolean and null values in selects
+                            if (value === true) control.value = 'true';
+                            else if (value === false) control.value = 'false';
+                            else if (value === null) control.value = '';
+                            else control.value = value;
+                        } else {
+                            control.value = value;
+                        }
+                    }
+                });
+            }
+            
+            getValueFromPath(obj, path) {
+                const parts = path.split('.');
+                let current = obj;
+                
+                for (const part of parts) {
+                    if (current === undefined || current === null) {
+                        return undefined;
+                    }
+                    current = current[part];
+                }
+                
+                return current;
+            }
+            
+            setupPreview() {
+                this.preview = document.getElementById('layoutPreview');
+                if (!this.preview) return;
+                
+                // Get preview elements
+                this.previewSearchField = this.preview.querySelector('.preview-search-field');
+                this.previewSearchInput = this.preview.querySelector('.preview-search-input');
+                this.previewSearchIcon = this.preview.querySelector('.preview-search-icon');
+                this.previewResultsPanel = this.preview.querySelector('.preview-results-panel');
+                this.previewResultItems = this.preview.querySelectorAll('.preview-result-item');
+                this.previewGroupHeaders = this.preview.querySelectorAll('.preview-group-header');
+            }
+            
+            updatePreview() {
+                if (!this.preview) return;
+                
+                const state = this.stateManager.getState();
+                
+                // Update search width
+                const searchWidth = state.appearance?.searchWidth || 350;
+                this.preview.style.width = `${Math.min(searchWidth, 500)}px`; // Limit preview width
+                
+                // Update max height
+                const maxHeight = state.appearance?.searchResults?.maxHeight || 500;
+                if (this.previewResultsPanel) {
+                    this.previewResultsPanel.style.maxHeight = `${Math.min(maxHeight / 2, 200)}px`; // Scale down for preview
+                }
+                
+                // Update theme
+                this.preview.classList.remove('preview-dark-mode', 'preview-light-mode');
+                if (state.theme?.useDarkMode === true) {
+                    this.preview.classList.add('preview-dark-mode');
+                } else if (state.theme?.useDarkMode === false) {
+                    this.preview.classList.add('preview-light-mode');
+                }
+                
+                // Update typography
+                if (state.theme?.typography) {
+                    const typography = state.theme.typography;
+                    this.preview.style.fontFamily = typography.fontFamily || '';
+                    this.preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}em` : '';
+                    this.preview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
+                    
+                    // Update font preview
+                    const fontPreview = document.getElementById('fontPreview');
+                    if (fontPreview) {
+                        fontPreview.style.fontFamily = typography.fontFamily || '';
+                        fontPreview.style.fontSize = typography.fontSize ? `${typography.fontSize}px` : '';
+                        fontPreview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
+                    }
+                }
+                
+                // Update colors
+                if (state.appearance?.colors) {
+                    const colors = state.appearance.colors;
+                    
+                    if (this.previewSearchField) {
+                        this.previewSearchField.style.backgroundColor = colors.searchBackground || '';
+                    }
+                    
+                    if (this.previewSearchInput) {
+                        this.previewSearchInput.style.color = colors.searchText || '';
+                    }
+                    
+                    if (this.previewSearchIcon) {
+                        this.previewSearchIcon.style.color = colors.searchIcon || '';
+                    }
+                    
+                    if (this.previewResultsPanel) {
+                        this.previewResultsPanel.style.backgroundColor = colors.resultsBackground || '';
+                    }
+                    
+                    // Update result items
+                    if (this.previewResultItems) {
+                        this.previewResultItems.forEach(item => {
+                            const text = item.querySelector('.preview-result-text');
+                            if (text) {
+                                text.style.color = colors.resultText || '';
+                            }
+                            
+                            const description = item.querySelector('.preview-result-description');
+                            if (description) {
+                                description.style.color = colors.resultSubtitle || '';
+                            }
+                            
+                            // Update hover color using CSS variable for dynamic updates
+                            item.style.setProperty('--result-hover-color', colors.resultHover || '');
+                        });
+                    }
+                    
+                    // Update group headers
+                    if (this.previewGroupHeaders) {
+                        this.previewGroupHeaders.forEach(header => {
+                            const title = header.querySelector('.preview-group-title');
+                            if (title) {
+                                title.style.color = colors.groupHeaderColor || '';
+                            }
+                            
+                            const count = header.querySelector('.preview-group-count');
+                            if (count) {
+                                count.style.color = colors.groupCountColor || '';
+                            }
+                        });
+                    }
+                }
+                
+                // Update visibility based on display settings
+                if (this.previewGroupHeaders) {
+                    this.previewGroupHeaders.forEach(header => {
+                        const title = header.querySelector('.preview-group-title');
+                        if (title) {
+                            title.style.display = state.display?.showGroupHeaders ? '' : 'none';
+                        }
+                        
+                        const count = header.querySelector('.preview-group-count');
+                        if (count) {
+                            count.style.display = state.display?.showGroupCount ? '' : 'none';
+                        }
+                    });
+                }
+            }
+            
+            exportSettings() {
+                const state = this.stateManager.getState();
+                const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'search-pro-config.json';
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                this.showNotification('Settings exported to file', 'success');
+            }
+            
+            exportForServer() {
+                try {
+                    const state = this.stateManager.getState();
+                    const success = this.storageManager.exportForServer(state);
+                    
+                    if (success) {
+                        this.showDeploymentInstructions();
+                        this.showNotification('Server configuration exported', 'success');
+                    } else {
+                        this.showNotification('Failed to export server configuration', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error exporting server configuration:', error);
+                    this.showNotification('Failed to export server configuration', 'error');
+                }
+            }
+            
+            showDeploymentInstructions() {
+                alert('To make these settings permanent across all browsers:\n\n' +
+                      '1. Upload search-config.json to: /search-pro/config/search-config.json\n' +
+                      '2. The configuration will automatically load for all users\n' +
+                      '3. You can now remove or restrict access to this settings page');
+            }
+            
+            importSettings(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        // Validate imported settings
+                        const validation = this.storageManager.validateImport(data);
+                        
+                        if (validation.valid) {
+                            // Apply the settings
+                            this.stateManager.setState(validation.settings);
+                            this.applyStateToControls();
+                            this.updatePreview();
+                            
+                            // Show warnings if any
+                            if (validation.warnings.length > 0) {
+                                this.showNotification(`Settings imported with warnings: ${validation.warnings[0]}`, 'warning');
+                            } else {
+                                this.showNotification('Settings imported successfully!', 'success');
+                            }
+                        } else {
+                            // Show error
+                            this.showNotification(`Failed to import settings: ${validation.errors[0]}`, 'error');
+                        }
+                    } catch (error) {
+                        this.showNotification(`Failed to parse settings file: ${error.message}`, 'error');
+                    }
+                    
+                    // Reset file input
+                    document.getElementById('importFile').value = '';
+                };
+                reader.readAsText(file);
+            }
+            
+            checkIncognitoMode() {
+                try {
+                    localStorage.setItem('test', '1');
+                    localStorage.removeItem('test');
+                } catch (e) {
+                    // Show incognito warning
+                    const warning = document.getElementById('incognitoWarning');
+                    if (warning) {
+                        warning.style.display = 'block';
+                    }
+                }
+            }
+            
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.padding = '10px 20px';
+                notification.style.backgroundColor = type === 'success' ? '#10b981' : 
+                                                   type === 'error' ? '#ef4444' :
+                                                   type === 'warning' ? '#f59e0b' : '#3b82f6';
+                notification.style.color = 'white';
+                notification.style.borderRadius = '4px';
+                notification.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+                notification.style.zIndex = '9999';
+                notification.style.transition = 'opacity 0.3s, transform 0.3s';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                
+                // Add to document
+                document.body.appendChild(notification);
+                
+                // Show notification
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateY(0)';
+                }, 10);
+                
+                // Remove after delay
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(20px)';
+                    
+                    // Remove from DOM after animation
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+        }
+        
+        // Default configuration - Replace hardcoded default settings
+        let DEFAULT_CONFIG;
+        
+        // Initialize the control panel
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get default settings from schema
+            if (typeof window.getDefaultSettings === 'function') {
+                DEFAULT_CONFIG = window.getDefaultSettings();
+            } else {
+                // Fallback to import if available
+                try {
+                    import('../js/settings-schema.js') // Updated path to point to parent directory's js folder
+                        .then(module => {
+                            DEFAULT_CONFIG = module.getDefaultSettings();
+                            initializeUI();
+                        })
+                        .catch(error => {
+                            console.error('Failed to import settings schema:', error);
+                            // Use hardcoded fallback defaults if import fails
+                            DEFAULT_CONFIG = {
+                                appearance: {
+                                    colors: {
+                                        searchBackground: '#ffffff',
+                                        searchText: '#1a1a1a',
+                                        // ...existing fallback defaults...
+                                    },
+                                    searchWidth: 350,
+                                    searchResults: {
+                                        maxHeight: 500
+                                    }
+                                },
+                                // ...existing fallback properties...
+                            };
+                            initializeUI();
+                        });
+                    return; // Exit since we're initializing asynchronously
+                } catch (error) {
+                    console.error('Failed to load default settings:', error);
+                    // Use hardcoded fallback defaults
+                    DEFAULT_CONFIG = {
+                        // ...existing fallback properties...
+                    };
+                }
+            }
+            
+            // Initialize UI immediately if we got defaults synchronously
+            initializeUI();
+            
+            function initializeUI() {
+                const stateManager = new StateManager();
+                const storageManager = new StorageManager('searchPro.config');
+                
+                // Add the exportForServer method to the storageManager if it doesn't exist
+                if (!storageManager.exportForServer) {
+                    storageManager.exportForServer = function(settings, options = {}) {
+                        try {
+                            const fileName = options.fileName || 'search-config.json';
+                            const data = {
+                                version: "1.0.0", // We can use hardcoded version since we don't have getSchemaVersion here
+                                timestamp: new Date().toISOString(),
+                                meta: {
+                                    warning: 'DO NOT EDIT THIS FILE MANUALLY. Use the Search Pro Settings Panel.',
+                                    source: options.meta?.source || 'settings-panel',
+                                    target: options.meta?.target || 'server-config',
+                                    generatedBy: 'Search Pro Config Panel v2.0',
+                                    generatedAt: new Date().toISOString()
+                                },
+                                settings: settings
+                            };
+
+                            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                            const url = URL.createObjectURL(blob);
+
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = fileName;
+                            document.body.appendChild(a);
+                            a.click();
+
+                            setTimeout(() => {
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                            }, 100);
+
+                            return true;
+                        } catch (error) {
+                            console.error('[StorageManager] Failed to export server config:', error);
+                            return false;
+                        }
+                    };
+                }
+                
+                const uiManager = new UIManager(stateManager, storageManager);
+                uiManager.initialize();
+            }
+        });
+    </script>
+</body>
+</html>

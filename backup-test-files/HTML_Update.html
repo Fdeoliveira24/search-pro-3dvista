@@ -1,0 +1,84 @@
+<!-- Version 1.0.3 -->
+<!-- [1.0] Search CSS dependencies. This link imports the necessary CSS styles for the search functionality. Add it right before the head HTML closing tag -->
+<link rel="stylesheet" href="search/search_v1.3.css">
+</head>
+<body>
+
+<!-- [2.0] Preload container for the virtual tour loading. This div will show only if you have the Loading screen showing on 3DVista tab Project/Loading/Global settings show/Don't Show Loading -->
+<!-- <div id="preloadContainer" class="fill-viewport"><div style="z-index: 4; position: absolute; overflow: hidden; left: 0%; top: 50%; width: 100.00%; height: 10.00%" ><div style="text-align:left; color:#000; "><DIV STYLE="text-align:center;font-size:1.6666666666666663vmin;"><SPAN STYLE="display:inline-block; letter-spacing:0vmin; white-space:pre-wrap;color:#777777;font-size:1.67vmin;font-family:Arial, Helvetica, sans-serif;">Loading virtual tour. Please wait...</SPAN></DIV></div></div></div> -->
+   
+<!-- [3.0] The main viewer container that will hold the virtual tour -->
+<div id="viewer" class="fill-viewport">
+    <!-- [3.1] Search container will be initialized by JavaScript. The searchContainer must be a child of the viewer container, meaning, it must be inside the viewer container in order for it to work  -->
+    <div id="searchContainer" class="search-container">
+        <!-- [3.2] Search input field -->
+        <div class="search-field">
+            <input type="text" id="tourSearch" placeholder="Search tour locations... (* for all)" autocomplete="off">
+            <div class="icon-container">
+                <!-- [3.3] Search icon -->
+                <div class="search-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <!-- [3.4] Clear search button -->
+                <button class="clear-button" aria-label="Clear search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- [3.5] Search results container -->
+        <div class="search-results" role="listbox">
+            <div class="results-section">
+            </div>
+            <!-- [3.6] No results message -->
+            <div class="no-results" role="status" aria-live="polite">
+                <div class="no-results-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </div>
+                No matching results
+            </div>
+        </div>
+    </div>
+</div>
+   
+<!-- [4.0] Fuse library dependency. This script imports the Fuse.js library, which is a dependency for the search functionality. Add it right before the body HTML closing tag -->
+<script src="search/fuse.js/dist/fuse.min.js"></script>
+<script>
+    // [4.0.1] Fallback handler for Fuse.js - matched version 7.0.0
+    window.addEventListener('load', function() {
+        if (typeof Fuse === 'undefined') {
+            console.warn('Local Fuse.js failed to load, attempting to load from CDN...');
+            const fuseCDN = document.createElement('script');
+            fuseCDN.src = 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js';
+            
+            fuseCDN.onerror = function() {
+                console.error('Both local and CDN versions of Fuse.js failed to load. Search functionality may not work.');
+            };
+            
+            fuseCDN.onload = function() {
+                console.log('Fuse.js v7.0.0 loaded successfully from CDN');
+                // [4.0.2] Initialize search after ensuring Fuse is loaded
+                if (typeof window.tourSearchFunctions !== 'undefined' && typeof tour !== 'undefined') {
+                    window.tourSearchFunctions.initializeSearch(tour);
+                }
+            };
+            
+            document.body.appendChild(fuseCDN);
+        }
+    });
+</script>
+<!-- [4.1] Search Javascript dependencies. This script imports the JavaScript code for the search functionality. Add it right before the body HTML closing tag -->
+<script src="search/search_v1.3.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,708 @@
+/* 
+ * Search Stylesheet - Version 3.1
+ * Last Updated: 04/17/2025
+ * This stylesheet defines the layout, styling, and responsiveness for the search bar, 
+ * its associated components, and the search results. It includes configurations for 
+ * positioning, visibility, animations, and theme adjustments to ensure a seamless 
+ * user experience across different devices and screen sizes.
+ */
+
+/* CSS Variables for color customization - Single source of truth */
+:root {
+    /* Search Field Colors */
+    --search-background: #ffffff;
+    --search-text: #1a1a1a;
+    --placeholder-text: #64748b;
+    --search-icon: #64748b;
+    --clear-icon: #64748b;
+    
+    /* Results Colors */
+    --results-background: #ffffff;
+    --group-header-color: #475569;
+    --group-count-color: #94a3b8;
+    --result-hover: #f1f5f9;
+    --result-border-left: #3b82f6;
+    --result-text: #1e293b;
+    --result-subtitle: #64748b;
+    --result-icon-color: #6E85F7;
+    --result-subtext-color: #64748b;
+}
+
+/* ===================================
+   Position and Visibility Settings
+   =================================== */
+
+/* Main Search Container */
+#searchContainer {
+    position: fixed;
+    top: 90px;
+    right: 40px;
+    left: auto;
+    width: 350px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    z-index: 9999;
+    opacity: 0;
+    transform-origin: top right;
+    transform: scale(0.95) translateY(-20px);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    display: none;
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+    will-change: transform, opacity;
+    border-radius: 5px;
+}
+
+/* Position variations can use data attributes */
+#searchContainer[data-position="left"] {
+    left: 40px;
+    right: auto;
+    transform-origin: top left;
+}
+
+#searchContainer[data-position="center"] {
+    left: 50%;
+    right: auto;
+    transform-origin: top center;
+    transform: translateX(-50%) scale(0.95) translateY(-20px);
+}
+
+/* Visibility toggle */
+#searchContainer.visible {
+    opacity: 1;
+    display: block;
+    transform: scale(1) translateY(0);
+}
+
+/* Special case for center positioning */
+#searchContainer[data-position="center"].visible {
+    transform: translateX(-50%) scale(1) translateY(0);
+}
+
+/* ===================================
+   Fullscreen Mode Adjustments
+   =================================== */
+
+:fullscreen #searchContainer,
+:-webkit-full-screen #searchContainer,
+:-moz-full-screen #searchContainer,
+:-ms-fullscreen #searchContainer {
+    position: fixed;
+    top: 90px;
+    right: 100px;
+    z-index: 9999;
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===================================
+   Search Field Styling
+   =================================== */
+
+.search-field {
+    position: relative;
+    width: 100%;
+    background: var(--search-background);
+    border-radius: 35px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#tourSearch {
+    width: 100%;
+    height: 48px;
+    padding: 0 48px 0 16px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    font-size: 16px;
+    color: var(--search-text);
+    transition: all 0.2s ease;
+}
+
+#tourSearch::placeholder {
+    color: var(--placeholder-text);
+}
+
+#tourSearch:focus {
+    outline: none;
+}
+
+/* Icons and Buttons */
+.icon-container {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-icon,
+.clear-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--search-icon);
+    transition: all 0.2s ease;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.clear-button {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    outline: none;
+}
+
+.clear-button.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.clear-button:hover {
+    color: #64748b;
+}
+
+/* Focus states for interactive elements */
+input:focus,
+button:focus,
+.result-item:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.search-icon svg,
+.clear-button svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ===================================
+   Results Styling
+   =================================== */
+
+.search-results {
+    margin-top: 8px;
+    background: var(--results-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all 0.2s ease;
+    display: none;
+    max-height: calc(100vh - 260px);
+    overflow: hidden;
+}
+
+/* Scrolling container for results */
+.results-section {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 transparent;
+    margin-bottom: 60px;
+}
+
+.search-results.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}
+
+/* Custom scrollbar for WebKit browsers */
+.results-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.results-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.results-section::-webkit-scrollbar-thumb {
+    background-color: #94a3b8;
+    border-radius: 3px;
+}
+
+/* Group Headers */
+.results-group {
+    margin-bottom: 4px;
+}
+
+.group-header {
+    padding: 12px 16px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--group-header-color);
+}
+
+.group-count {
+    font-size: 12px;
+    color: var(--group-count-color);
+}
+
+/* State classes to control element visibility */
+#searchContainer.hide-count .group-count {
+    display: none;
+}
+
+#searchContainer.hide-headers .results-group .group-header .group-title {
+    display: none;
+}
+
+#searchContainer.hide-headers .results-group .group-header {
+    justify-content: flex-end;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 4px;
+}
+
+#searchContainer.hide-headers .results-group {
+    margin-top: 5px;
+}
+
+/* Result Items */
+.result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+}
+
+.result-item:hover,
+.result-item:focus,
+.result-item.selected {
+    background-color: var(--result-hover);
+    border-left-color: var(--result-border-left);
+    outline: none;
+}
+
+.result-icon {
+    flex-shrink: 0;
+    color: var(--result-icon-color);
+}
+
+.search-result-icon {
+    color: var(--result-icon-color);
+}
+
+/* Icon visibility control */
+#searchContainer.hide-icons .result-icon,
+#searchContainer.hide-icons .search-result-icon {
+    display: none;
+}
+
+.result-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.result-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--result-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.result-description {
+    font-size: 12px;
+    color: var(--result-subtext-color);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.result-tags {
+    font-size: 0.85em;
+    color: #e40a0a;
+    margin-top: 2px;
+}
+
+/* Toggle based on configuration */
+.result-tags.hidden {
+    display: none;
+}
+
+.result-subtitle {
+    color: var(--result-subtext-color);
+    font-size: 13px;
+    line-height: 1.3em;
+    margin-top: 2px;
+    display: block;
+}
+
+.result-subtext {
+    font-size: 13px;
+    color: var(--result-subtext-color);
+    margin-top: -4px;
+}
+
+.result-parent {
+    font-size: 0.8em;
+    opacity: 0.8;
+    color: var(--result-subtext-color);
+}
+
+/* ===================================
+   Search History Styling
+   =================================== */
+
+.search-history {
+    padding: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.history-header h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    margin: 0;
+}
+
+.clear-history {
+    font-size: 12px;
+    color: #94a3b8;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.clear-history:hover {
+    color: #64748b;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.history-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #1e293b;
+}
+
+/* ===================================
+   No Results State
+   =================================== */
+
+.no-results {
+    padding: 32px 16px;
+    text-align: center;
+    color: #94a3b8;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Minimum characters message */
+.search-min-chars {
+    padding: 16px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.search-min-chars p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Highlight matches */
+mark {
+    background-color: rgba(250, 204, 21, 0.2);
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-weight: 600;
+}
+
+/* ===================================
+   Tooltip Styling
+   =================================== */
+
+.info-icon .tooltip-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition-delay: 0.3s;
+}
+
+.info-icon:hover .tooltip-content,
+.info-icon:focus .tooltip-content,
+.info-icon:focus-within .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-icon:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Position control via data attributes */
+[data-position="top"] .tooltip-content {
+    bottom: 125%;
+    top: auto;
+}
+
+[data-position="bottom"] .tooltip-content {
+    top: 125%;
+    bottom: auto;
+}
+
+[data-position="left"] .tooltip-content {
+    right: 125%;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+[data-position="right"] .tooltip-content {
+    left: 125%;
+    right: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ===================================
+   Theme Variations
+   =================================== */
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --search-background: rgba(30, 41, 59, 0.98);
+        --search-text: #e2e8f0;
+        --placeholder-text: #64748b;
+        --results-background: rgba(30, 41, 59, 0.98);
+        --result-text: #e2e8f0;
+        --result-hover: rgba(59, 130, 246, 0.1);
+        --group-header-color: #94a3b8;
+    }
+    
+    .result-description {
+        color: #94a3b8;
+    }
+    
+    .history-item {
+        background: rgba(255, 255, 255, 0.06);
+        color: #94a3b8;
+    }
+    
+    .history-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+    }
+    
+    mark {
+        background-color: rgba(250, 204, 21, 0.15);
+    }
+}
+
+/* Light Mode override */
+body:not(.dark-mode) {
+    .search-field,
+    .search-results {
+        background: #ffffff;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .result-item:hover,
+    .result-item:focus,
+    .result-item.selected {
+        background-color: var(--result-hover);
+    }
+    
+    .history-item {
+        background: #f1f5f9;
+        color: #475569;
+    }
+    
+    .history-item:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+    
+    mark {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #1e293b;
+    }
+}
+
+/* ===================================
+   Responsive Design - Media Queries
+   =================================== */
+
+/* Mobile devices (768px and below) */
+@media screen and (max-width: 768px) {
+    #searchContainer {
+        /* Reset position for mobile */
+        left: 20px;
+        right: 20px;
+        width: calc(100% - 40px);
+        top: 90px;
+        transform-origin: top center;
+    }
+    
+    /* Ensure transform matches on mobile */
+    #searchContainer.visible {
+        transform: scale(1) translateY(0);
+    }
+    
+    /* Mobile search field adjustments */
+    #tourSearch {
+        height: 44px;
+        font-size: 15px;
+    }
+    
+    /* Mobile results adjustments */
+    .search-results {
+        max-height: 70vh;
+    }
+    
+    .results-section {
+        max-height: 65vh;
+    }
+    
+    /* Mobile history adjustments */
+    .history-items {
+        gap: 6px;
+    }
+}
+
+/* Mobile Portrait (480px and below) */
+@media screen and (max-width: 480px) {
+    #searchContainer {
+        top: 70px;
+        max-height: 80vh;
+        overflow: auto;
+    }
+    
+    #tourSearch {
+        height: 40px;
+        font-size: 14px;
+        padding: 0 40px 0 12px;
+    }
+    
+    .result-text {
+        font-size: 13px;
+    }
+    
+    .result-description {
+        font-size: 11px;
+    }
+    
+    .group-header {
+        padding: 10px 12px 6px;
+    }
+    
+    .result-item {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+    
+    .history-item {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Height-based queries */
+@media screen and (max-height: 700px) {
+    #searchContainer {
+        max-height: calc(100vh - 120px);
+    }
+    
+    .search-results {
+        max-height: 35vh;
+    }
+    
+    .results-section {
+        max-height: 30vh;
+    }
+}
+
+/* Landscape mode with limited height */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    #searchContainer {
+        top: 20px;
+    }
+}
+
+/* Mobile touch enhancements */
+@media (hover: none) and (pointer: coarse) {
+    .info-icon .tooltip-content {
+        transition-delay: 0s;
+    }
+    
+    .info-icon.active .tooltip-content {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .info-icon {
+        padding: 8px;
+        margin: -8px;
+    }
+    
+    /* Larger tap targets for mobile */
+    .result-item {
+        padding: 12px 16px;
+    }
+    
+    .clear-button,
+    .search-icon {
+        width: 30px;
+        height: 30px;
+    }
+}

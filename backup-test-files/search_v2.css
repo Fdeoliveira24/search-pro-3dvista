@@ -1,0 +1,894 @@
+/* 
+ * Search Stylesheet - Version 2.0
+ * Last Updated: 04/14/2025
+ * This stylesheet defines the layout, styling, and responsiveness for the search bar, 
+ * its associated components, and the search results. It includes configurations for 
+ * positioning, visibility, animations, and theme adjustments to ensure a seamless 
+ * user experience across different devices and screen sizes.
+ * 
+ * Key Features:
+ * 
+ * 1. **Position and Visibility Settings**:
+ *    - Configures the fixed position of the search bar in the viewport.
+ *    - Includes options for left, right, and center alignment.
+ *    - Provides visibility toggles and animations for smooth transitions.
+ * 
+ * 2. **Fullscreen Mode Adjustments**:
+ *    - Adjusts the search bar's position and visibility when in fullscreen mode.
+ * 
+ * 3. **Search Field Styling**:
+ *    - Styles the search input field, including placeholder text and focus states.
+ *    - Adds icons and buttons for search and clearing input.
+ * 
+ * 4. **Results Styling**:
+ *    - Defines the appearance of the search results container and individual result items.
+ *    - Includes hover, focus, and selected states for result items.
+ *    - Ensures results stay within the viewport and are scrollable if necessary.
+ * 
+ * 5. **Search History Styling**:
+ *    - Styles the search history section, including individual history items and the 
+ *      "Clear History" button.
+ * 
+ * 6. **No Results State**:
+ *    - Provides styling for the "No results" message displayed when no matches are found.
+ * 
+ * 7. **Dark Mode Styling**:
+ *    - Adjusts colors and backgrounds for dark mode compatibility.
+ *    - Uses media queries to detect the user's preferred color scheme.
+ * 
+ * 8. **Responsive Design**:
+ *    - Includes media queries for various screen sizes and orientations.
+ *    - Ensures the search bar and results are optimized for mobile, tablet, and desktop devices.
+ * 
+ * 9. **Custom Scrollbars**:
+ *    - Adds custom styling for scrollbars in the results section for a polished look.
+ * 
+ * 10. **Animations and Transitions**:
+ *     - Smooth animations for visibility toggles, hover effects, and focus states.
+ * 
+ * This stylesheet ensures a consistent and visually appealing design for the search 
+ * functionality, enhancing usability and accessibility across different platforms.
+ */
+
+/* CSS Variables for color customization */
+:root {
+    /* Search Field Colors - Light Theme */
+    --search-background: #ffffff;
+    --search-text: #1a1a1a;
+    --placeholder-text: #64748b;
+    --search-icon: #64748b;
+    --clear-icon: #64748b;
+    
+    /* Results Colors - Light Theme */
+    --results-background: #ffffff;
+    --group-title: #475569;
+    --group-count: #64748b;
+    --result-hover: #f1f5f9;
+    --result-border-left: #3b82f6;
+    --result-text: #1e293b;
+    --result-subtitle: #64748b;
+    --group-header-color: #475569;
+    --result-icon-color: #3b82f6;
+    --result-subtext-color: #64748b;
+  
+    /* Add CSS variable aliases for backward compatibility */
+    --group-title: var(--group-header-color, #64748b);
+    --result-icon-color: var(--result-icon-color, #6E85F7);
+  }
+  
+  /* ===================================
+     Position and Visibility Settings
+     =================================== */
+  
+  /* Main Search Container */
+  /* Adjust the position and size of the search bar here */
+  #searchContainer {
+      position: fixed; /* Keeps the search bar fixed in the viewport */
+      top: 90px;       /* Distance from the top of the viewport */
+      
+      /* Position control - uncomment only ONE of these positioning options */
+      
+      /* LEFT POSITION */
+      /* left: 40px;
+      right: auto;
+      transform-origin: top left;
+      transform: scale(0.95) translateY(-20px); */
+      
+      /* RIGHT POSITION */
+      right: 40px;
+      left: auto;
+      transform-origin: top right;
+      transform: scale(0.95) translateY(-20px);
+      
+      /* CENTER POSITION */
+      /* left: 50%;
+      right: auto;
+      transform-origin: top center;
+      transform: translateX(-50%) scale(0.95) translateY(-20px); */
+     
+      width: 350px;    /* Fixed width for desktop */
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      z-index: 9999;
+      opacity: 0; /* Initial opacity (invisible) */
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      display: none; /* Initially not displayed */
+      max-height: calc(100vh - 200px); /* Maximum height */
+      overflow: hidden;
+      will-change: transform, opacity;
+      border-radius: 5px; /* Default value */
+  }
+  
+  /* Visibility toggle for the search container */
+  #searchContainer.visible {
+      opacity: 1; /* Fully visible */
+      display: block;
+      transform: scale(1) translateY(0); /* Standard right/left position transform */
+  }
+  
+  /* Special case for center positioning */
+  #searchContainer[style*="left: 50%"].visible {
+      transform: translateX(-50%) scale(1) translateY(0); /* Center position transform */
+  }
+  
+  /* ===================================
+     Fullscreen Mode Adjustments
+     =================================== */
+  
+  /* Adjust the position of the search bar in fullscreen mode */
+  :fullscreen #searchContainer,
+  :-webkit-full-screen #searchContainer,
+  :-moz-full-screen #searchContainer,
+  :-ms-fullscreen #searchContainer {
+      position: fixed;
+      top: 90px;   /* Distance from top in fullscreen mode */
+      right: 100px; /* Distance from right in fullscreen mode */
+      z-index: 9999;
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+  }
+  
+  /* ===================================
+     Search Field Styling
+     =================================== */
+  
+  /* Search Field */
+  /* Styling for the search input and its container */
+  .search-field {
+      position: relative;
+      width: 100%;
+      background: var(--search-background, rgba(244, 243, 242, 0.98));
+      border-radius: 35px; /* Rounded corners */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Shadow effect */
+  }
+  
+  /* Search Input Field */
+  #tourSearch {
+      width: 100%;
+      height: 48px; /* Height of the search input */
+      padding: 0 48px 0 16px; /* Padding inside the search input */
+      border: none;
+      border-radius: 12px; /* Rounded corners */
+      background: transparent;
+      font-size: 16px; /* Font size of the input text */
+      color: var(--search-text, #1a1a1a); /* Text color */
+      transition: all 0.2s ease;
+  }
+  
+  /* Placeholder text styling */
+  #tourSearch::placeholder {
+      color: var(--placeholder-text, #94a3b8); /* Placeholder text color */
+  }
+  
+  /* Removes the default outline when the search input is focused */
+  #tourSearch:focus {
+      outline: none;
+  }
+  
+  /* Icons and Buttons */
+  /* Container for the icons inside the search field */
+  .icon-container {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%); /* Vertically center the icons */
+      display: flex;
+      align-items: center;
+      gap: 8px; /* Space between icons */
+  }
+  
+  /* Search Icon and Clear Button Styles */
+  .search-icon,
+  .clear-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      color: var(--search-icon, #94a3b8); /* Icon color */
+      transition: all 0.2s ease;
+      position: absolute;  
+      right: 0;          
+      top: 50%;          
+      transform: translateY(-50%); 
+  }
+  
+  /* Clear Button Styles */
+  .clear-button {
+      border: none;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0; /* Initially hidden */
+      pointer-events: none;
+      outline: none; 
+  }
+  
+  /* Clear Button becomes visible when there is text */
+  .clear-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+  }
+  
+  /* Change color when hovering over the Clear Button */
+  .clear-button:hover {
+      color: #64748b;
+  }
+  
+  /* Custom focus outline for interactive elements */
+  input:focus,
+  button:focus,
+  .result-item:focus {
+      outline: none;
+      outline: 2px solid #3b82f6; /* Outline color when focused */
+      outline-offset: 2px;
+  }
+  
+  /* Adjust the size of the icons */
+  .search-icon svg,
+  .clear-button svg {
+      width: 22px;
+      height: 22px;
+  }
+  
+  /* ===================================
+     Results Styling
+     =================================== */
+  
+  /* Results Container */
+  /* Styling for the container that holds the search results */
+  .search-results {
+      margin-top: 8px;
+      background: var(--results-background, rgba(244, 243, 242, 0.98)); /* Background color */
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      opacity: 0; /* Initially hidden */
+      transform: translateY(-4px);
+      transition: all 0.2s ease;
+      display: none;
+      max-height: calc(100vh - 260px); /* Maximum height */
+      overflow: hidden;
+  }
+  
+  /* Ensure the search results container stays within the viewport */
+  .search-results {
+      max-height: calc(100vh - 100px); /* Prevent overflow by limiting height */
+      overflow-y: auto; /* Enable scrolling if content exceeds max height */
+  }
+  
+  /* Icon color in search results */
+  .search-result-icon {
+      color: #6E85F7; /* Adjust to change icons color */
+  }
+  
+  /* Search Results become visible */
+  .search-results.visible {
+      opacity: 1;
+      transform: translateY(0);
+      display: block;
+  }
+  
+  /* Results Section */
+  /* Styling for the scrollable area of results */
+  .results-section {
+      max-height: calc(100vh - 260px); /* Ensure it ends above the shortcuts */
+      overflow-y: auto; /* Enable vertical scrolling */
+      scrollbar-width: thin;
+      scrollbar-color: #94a3b8 transparent;
+      margin-bottom: 60px; /* Add space for the shortcuts */
+  }
+  
+  /* Custom scrollbar styling for WebKit browsers */
+  .results-section::-webkit-scrollbar {
+      width: 6px;
+  }
+  
+  .results-section::-webkit-scrollbar-track {
+      background: transparent;
+  }
+  
+  .results-section::-webkit-scrollbar-thumb {
+      background-color: #94a3b8;
+      border-radius: 3px;
+  }
+  
+  /* Group Headers */
+  .results-group {
+      margin-bottom: 4px;
+  }
+  
+  .group-header {
+      padding: 12px 16px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  
+  /* Group title styling with proper specificity */
+  .group-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--group-header-color, #64748b);
+  }
+  
+  /* Higher specificity for group headers */
+  #searchContainer .group-header .group-title {
+      color: var(--group-header-color, #64748b);
+  }
+  
+  /* Group count styling with proper specificity */
+  .group-count {
+      font-size: 12px;
+      color: var(--group-count-color, #94a3b8);
+  }
+  
+  /* Higher specificity for count */
+  #searchContainer .group-header .group-count {
+      color: var(--group-count-color, #94a3b8);
+  }
+  
+  /* Hide count when needed */
+  #searchContainer.hide-count .group-count {
+      display: none;
+  }
+  
+  /* Result Items */
+  /* Styling for individual result items */
+  .result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-left: 3px solid transparent; /* Left border for selection indicator */
+  }
+  
+  /* Styles when hovering over or focusing on a result item */
+  .result-item:hover,
+  .result-item:focus,
+  .result-item.selected {
+      background-color: var(--result-hover, rgba(59, 130, 246, 0.08)); /* Background color on hover or focus */
+      border-left-color: var(--result-border-left, #dd0e0e); /* Left border color when selected */
+      outline: none;
+  }
+  
+  /* Icon within a result item */
+  .result-icon {
+      flex-shrink: 0;
+      color: var(--result-icon-color, #6E85F7);
+  }
+  
+  /* More specific selectors for icons in search results */
+  #searchContainer .result-icon,
+  #searchContainer .result-item .result-icon {
+      color: var(--result-icon-color, #6E85F7) !important;
+  }
+  
+  /* Icon colors in search results - updated with more specific selectors */
+  #searchContainer .search-result-icon,
+  #searchContainer .result-item .result-icon,
+  #searchContainer .search-results .result-icon {
+      color: var(--result-icon-color) !important;
+  }
+  
+  /* Icon colors in search results - using highly specific selectors */
+  #searchContainer[class] .search-results[class] .search-result-icon,
+  #searchContainer[class] .search-results[class] .result-item .result-icon,
+  #searchContainer[class] div[class*="result"] .result-icon {
+      color: var(--result-icon-color);
+  }
+  
+  /* Extra specificity for icon states */
+  #searchContainer[class] .search-results[class] .result-item:hover .result-icon,
+  #searchContainer[class] .search-results[class] .result-item:focus .result-icon,
+  #searchContainer[class] .search-results[class] .result-item.selected .result-icon {
+      color: var(--result-icon-color);
+  }
+  
+  /* Ensure icon color persists on hover */
+  #searchContainer .result-item:hover .result-icon,
+  #searchContainer .result-item:focus .result-icon {
+      color: var(--result-icon-color) !important;
+  }
+  
+  /* Content within a result item */
+  .result-content {
+      flex: 1;
+      min-width: 0;
+  }
+  
+  /* Main text in a result item */
+  .result-text {
+      font-size: 14px; /* Main text font size */
+      font-weight: 500;
+      color: var(--result-text, #1e293b);
+      overflow: hidden;
+      text-overflow: ellipsis; /* Truncate long text */
+      white-space: nowrap;
+  }
+  
+  /* Description text in a result item */
+  .result-description {
+      font-size: 12px; /* Description text font size */
+      color: var(--result-subtext-color, #64748b); /* Use same variable */
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+  
+  .result-tags {
+      font-size: 0.85em;
+      color: #e40a0a;
+      margin-top: 2px;
+      display: none; /* Hide tags in search results */
+  }
+  
+  /* Result subtitle styling */
+  #searchContainer .result-subtitle {
+      color: var(--result-subtext-color, #94a3b8);
+      font-size: 13px;
+      line-height: 1.3em;
+      margin-top: 2px;
+      display: block;
+  }
+  
+  /* Result subtext styling */
+  .result-subtext {
+      font-size: 13px;
+      color: var(--result-subtext-color, #64748b); /* fallback default */
+      margin-top: -4px;
+  }
+  
+  /* Result parent info styling */
+  .result-parent {
+      font-size: 0.8em;
+      opacity: 0.8;
+      color: var(--result-subtext-color, #64748b); /* Use same variable */
+  }
+  
+  /* Hide only the group title text when headers are hidden (not the count) */
+  #searchContainer.hide-headers .results-group .group-header .group-title {
+      display: none;
+  }
+  
+  /* When headers are hidden but count is shown, style the count appropriately */
+  #searchContainer.hide-headers .results-group .group-header {
+      justify-content: flex-end;
+      padding-right: 10px;
+      padding-top: 6px;
+      padding-bottom: 4px;
+  }
+  
+  /* Add spacing between groups when headers are hidden */
+  #searchContainer.hide-headers .results-group {
+      margin-top: 5px;
+  }
+  
+  /* ===================================
+     Search History Styling
+     =================================== */
+  
+  /* Search History */
+  /* Styling for the search history section */
+  .search-history {
+      padding: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+  }
+  
+  .history-header h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin: 0;
+  }
+  
+  .clear-history {
+      font-size: 12px;
+      color: #94a3b8;
+      background: none;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+  }
+  
+  /* Change color when hovering over the Clear History button */
+  .clear-history:hover {
+      color: #64748b;
+      background: rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Container for history items */
+  .history-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+  }
+  
+  /* Individual history item */
+  .history-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 6px;
+      border: none;
+      font-size: 13px;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+  }
+  
+  /* Styles when hovering over a history item */
+  .history-item:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #1e293b;
+  }
+  
+  /* ===================================
+     No Results State
+     =================================== */
+  
+  /* No Results State */
+  /* Styling for the "No results" message */
+  .no-results {
+      padding: 32px 16px;
+      text-align: center;
+      color: #94a3b8;
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+  }
+  
+  /* Highlight matches */
+  /* Styling for highlighted text in search results */
+  mark {
+      background-color: rgba(250, 204, 21, 0.2);
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 2px;
+      font-weight: 600;
+  }
+  
+  .search-min-chars {
+      padding: 16px;
+      text-align: center;
+      color: #94a3b8;
+  }
+  
+  .search-min-chars p {
+      margin: 0;
+      font-size: 14px;
+  }
+  
+  /* ===================================
+     Dark Mode Styling
+     =================================== */
+  
+  /* Dark Mode Styles */
+  /* Adjust the colors for dark mode */
+  @media (prefers-color-scheme: dark) {
+      .search-field,
+      .search-results {
+          background: rgba(30, 41, 59, 0.98);
+      }
+  
+      #tourSearch {
+          color: #e2e8f0;
+      }
+  
+      #tourSearch::placeholder {
+          color: #64748b;
+      }
+  
+      .result-text {
+          color: #e2e8f0;
+      }
+  
+      .result-description {
+          color: #94a3b8;
+      }
+  
+      .result-item:hover,
+      .result-item:focus,
+      .result-item.selected {
+          background-color: rgba(59, 130, 246, 0.1);
+      }
+  
+      .history-item {
+          background: rgba(255, 255, 255, 0.06);
+          color: #94a3b8;
+      }
+  
+      .history-item:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #e2e8f0;
+      }
+  
+      kbd {
+          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255, 255, 255, 0.1);
+          color: #94a3b8;
+      }
+  
+      mark {
+          background-color: rgba(250, 204, 21, 0.15);
+      }
+  
+      /* Dark mode specific group title color fallback */
+      .group-title {
+          color: var(--group-header-color, #94a3b8) !important;
+      }
+  }
+  
+  /* Light Mode Styles */
+  body:not(.dark-mode) {
+      /* Override specific colors for light mode */
+      .search-field,
+      .search-results {
+          background: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+  
+      .result-item:hover,
+      .result-item:focus,
+      .result-item.selected {
+          background-color: var(--result-hover);
+      }
+  
+      .history-item {
+          background: #f1f5f9;
+          color: #475569;
+      }
+  
+      .history-item:hover {
+          background: #e2e8f0;
+          color: #1e293b;
+      }
+  
+      mark {
+          background-color: rgba(59, 130, 246, 0.1);
+          color: #1e293b;
+      }
+  }
+  
+  /* ===================================
+     Responsive Design - Media Queries
+     =================================== */
+  
+  /* Mobile devices (768px and below) */
+  @media screen and (max-width: 768px) {
+      #searchContainer {
+          /* Reset all positioning for mobile */
+          left: 20px !important;
+          right: 20px !important;
+          width: calc(100% - 40px) !important;
+          transform: scale(0.95) translateY(-20px) !important;
+          transform-origin: top center !important;
+      }
+      
+      #searchContainer.visible {
+          transform: scale(1) translateY(0) !important;
+      }
+  
+      body:not(.dark-mode) #searchContainer {
+          background: #ffffff;
+      }
+  }
+  
+  /* Tablet Portrait (601px to 767px) */
+  @media screen and (min-width: 601px) and (max-width: 767px) {
+      #searchContainer {
+          top: 90px !important;
+      }
+  
+      #tourSearch {
+          height: 44px;
+          font-size: 15px;
+      }
+  }
+  
+  /* Mobile Landscape (481px to 600px) */
+  @media screen and (min-width: 481px) and (max-width: 600px) {
+      #searchContainer {
+          top: 90px !important;
+      }
+  
+      .history-items {
+          gap: 6px;
+      }
+  }
+  
+  /* Mobile Portrait (480px and below) */
+  @media screen and (max-width: 480px) {
+      #searchContainer {
+          top: 90px !important; /* Changed from 450px for better visibility */
+          max-height: 80vh; /* Limit height to prevent overflow */
+          overflow: auto; /* Allow scrolling within the container */
+      }
+  
+      #tourSearch {
+          height: 40px;
+          font-size: 14px;
+          padding: 0 40px 0 12px;
+      }
+  
+      .search-results {
+          max-height: 70vh; /* Prevent results from overflowing */
+      }
+      
+      .results-section {
+          max-height: 65vh; /* Ensure scrollable area fits */
+      }
+  
+      .result-text {
+          font-size: 13px;
+      }
+  
+      .result-description {
+          font-size: 11px;
+      }
+  
+      .group-header {
+          padding: 10px 12px 6px;
+      }
+  
+      .result-item {
+          padding: 8px 12px;
+          gap: 8px;
+      }
+  
+      .history-items {
+          gap: 4px;
+      }
+  
+      .history-item {
+          padding: 4px 8px;
+          font-size: 12px;
+      }
+  }
+  
+  /* Height-based queries */
+  /* Adjustments for screens with limited height */
+  @media screen and (max-height: 700px) {
+      #searchContainer {
+          max-height: calc(100vh - 120px);
+      }
+  
+      .search-results {
+          max-height: 35vh;
+      }
+  
+      .results-section {
+          max-height: 30vh;
+      }
+  }
+  
+  /* For devices with small height in landscape mode */
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+      #searchContainer {
+          top: 20px !important;
+      }
+  }
+  
+  /* High-specificity selector for result icon color */
+  #searchContainer .result-icon {
+      color: var(--result-icon-color, #6E85F7) !important;
+  }
+  
+  /* Icon visibility control */
+  #searchContainer.hide-icons .result-icon {
+      display: none !important;
+  }
+  
+  /* Hide result icons when hide-icons class is present */
+  #searchContainer.hide-icons .search-result-icon {
+      display: none !important;
+  }
+  
+  /* Ensure icon hiding works with higher specificity */
+  #searchContainer.hide-icons .result-icon,
+  #searchContainer.hide-icons .search-result-icon,
+  #searchContainer.hide-icons svg[class*="result-icon"] {
+      display: none !important;
+  }
+  
+  /* Add transition delay for tooltips */
+  .info-icon .tooltip-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      transition-delay: 0.3s;  /* Delay before showing */
+  }
+  
+  .info-icon:hover .tooltip-content,
+  .info-icon:focus .tooltip-content,
+  .info-icon:focus-within .tooltip-content {
+      opacity: 1;
+      visibility: visible;
+  }
+  
+  /* Add keyboard accessibility styles */
+  .info-icon:focus {
+      outline: 2px solid var(--button-hover-background-color);
+      outline-offset: 2px;
+  }
+  
+  /* Position control via data attributes */
+  [data-position="top"] .tooltip-content {
+      bottom: 125%;
+      top: auto;
+  }
+  
+  [data-position="bottom"] .tooltip-content {
+      top: 125%;
+      bottom: auto;
+  }
+  
+  [data-position="left"] .tooltip-content {
+      right: 125%;
+      left: auto;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+  
+  [data-position="right"] .tooltip-content {
+      left: 125%;
+      right: auto;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+  
+  /* Mobile touch enhancements */
+  @media (hover: none) and (pointer: coarse) {
+      .info-icon .tooltip-content {
+          transition-delay: 0s;  /* Remove delay on touch devices */
+      }
+      
+      .info-icon.active .tooltip-content {
+          opacity: 1;
+          visibility: visible;
+      }
+      
+      /* Increase tap target size */
+      .info-icon {
+          padding: 8px;
+          margin: -8px;
+      }
+  }

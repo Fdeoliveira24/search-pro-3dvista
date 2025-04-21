@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Advanced Search Pro for 3D Vista Tours v2</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" id="metaViewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover" data-tdv-general-scale="0.5"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <script src="lib/tdvplayer.js?v=1744871394270"></script>
+    <link rel="shortcut icon" href="favicon.ico?v=1744871394270">
+	<link rel="icon" sizes="48x48 32x32 16x16" href="favicon.ico?v=1744871394270">
+	<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="misc/icon180.png?v=1744871394270">
+	<link rel="icon" type="image/png" sizes="16x16" href="misc/icon16.png?v=1744871394270">
+	<link rel="icon" type="image/png" sizes="32x32" href="misc/icon32.png?v=1744871394270">
+	<link rel="icon" type="image/png" sizes="192x192" href="misc/icon192.png?v=1744871394270">
+	<link rel="manifest" href="manifest.json?v=1744871394270">
+	<meta name="msapplication-TileColor" content="#FFFFFF">
+	<meta name="msapplication-config" content="browserconfig.xml">
+	<link rel="preload" href="locale/en.txt?v=1744871394270" as="fetch" crossorigin="anonymous"/>
+	<link rel="preload" href="script.js?v=1744871394270" as="script"/>
+	<meta property="og:title" content="Advanced Search Pro for 3D Vista Tours v1" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Login System with Virtual Tour Integration for 3D Vista Software - Demo By 360 Virtual Tour Solutions" />
+	<meta property="og:url" content="https://pxl360.com/client/test/02/index.htm" />
+	<meta property="og:image" content="https://pxl360.com/client/test/02/socialThumbnail.jpg" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="fb:app_id" content="817622095004141" />
+	<link rel="image_src" href="https://pxl360.com/client/test/02/socialThumbnail.jpg?v=1744871394270">
+	<meta property="og:locale" content="en"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:title" content="Advanced Search Pro for 3D Vista Tours v1"/>
+	<meta name="twitter:description" content="Login System with Virtual Tour Integration for 3D Vista Software - Demo By 360 Virtual Tour Solutions"/>
+	<meta name="twitter:url" content="https://pxl360.com/client/test/02/index.htm"/>
+	<meta name="twitter:image" content="https://pxl360.com/client/test/02/socialThumbnail.jpg?v=1744871394270"/>
+	<script src="https://remote.3dvista.com/lib/tdvremote.js?v=1744871394270" type="text/javascript"></script>
+	<meta name="description" content="Login System with Virtual Tour Integration for 3D Vista Software - Demo By 360 Virtual Tour Solutions"/>
+	<meta name="theme-color" content="#FFFFFF"/>
+    <script src="script.js?v=1744871394270"></script>
+    <style type="text/css">
+        html, body { height:100%; width:100%; height:100vh; width:100vw; margin:0; padding:0; overflow:hidden; }
+        .fill-viewport { position:fixed; top:0; left:0; right:0; bottom:0; padding:0; margin:0; overflow: hidden; }
+        
+        #viewer { z-index:1; }
+        
+    </style>
+    <link rel="stylesheet" href="fonts.css?v=1744871394270">
+    <!-- Version 1.0.3 -->
+    <!--<link rel="stylesheet" href="search-pro/search_v4.css"> 
+</head>
+<body>
+  
+    <!-- ✅ Tour container -->
+    <div id="viewer" class="fill-viewport">
+      <div id="searchContainer" class="search-container">
+        <!-- The plugin dynamically injects inner search UI here -->
+      </div>
+    </div>
+  
+    <!-- ✅ Load Fuse.js before anything else -->
+    <script src="search-pro/fuse.js/dist/fuse.min.js"></script>
+  
+    <!-- ✅ Fuse.js CDN fallback -->
+    <script>
+      window.addEventListener('load', function () {
+        if (typeof Fuse === 'undefined') {
+          console.warn('Local Fuse.js failed to load, attempting to load from CDN...');
+          const fallback = document.createElement('script');
+          fallback.src = 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js';
+          fallback.onload = () => console.log('Fuse.js loaded from CDN');
+          fallback.onerror = () => console.error('Failed to load Fuse.js from CDN');
+          document.body.appendChild(fallback);
+        }
+      });
+    </script>
+  
+    <!-- ✅ Load core search functionality first (defines window.tourSearchFunctions) -->
+    <script src="search-pro/search_v4.js"></script>
+  
+    <!-- ✅ Load config loader (applies settings using tourSearchFunctions.updateConfig) -->
+    <script src="search-pro/js/config-loader.js"></script>
+  
+    <!-- ✅ Load the simple loader (just logs and prepares) -->
+    <script src="search-pro/search-loader.js"></script>
+</body>
+</html>
