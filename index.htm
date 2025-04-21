@@ -46,41 +46,42 @@
     </style>
     <link rel="stylesheet" href="fonts.css?v=1744871394270">
     <!-- Version 1.0.3 -->
-    <!--<link rel="stylesheet" href="search-pro/search_v4.css"> 
-</head>
-<body>
-  
-    <!-- ✅ Tour container -->
-    <div id="viewer" class="fill-viewport">
-      <div id="searchContainer" class="search-container">
-        <!-- The plugin dynamically injects inner search UI here -->
-      </div>
-    </div>
-  
-    <!-- ✅ Load Fuse.js before anything else -->
-    <script src="search-pro/fuse.js/dist/fuse.min.js"></script>
-  
-    <!-- ✅ Fuse.js CDN fallback -->
-    <script>
-      window.addEventListener('load', function () {
-        if (typeof Fuse === 'undefined') {
-          console.warn('Local Fuse.js failed to load, attempting to load from CDN...');
-          const fallback = document.createElement('script');
-          fallback.src = 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js';
-          fallback.onload = () => console.log('Fuse.js loaded from CDN');
-          fallback.onerror = () => console.error('Failed to load Fuse.js from CDN');
-          document.body.appendChild(fallback);
-        }
-      });
-    </script>
-  
-    <!-- ✅ Load core search functionality first (defines window.tourSearchFunctions) -->
-    <script src="search-pro/search_v4.js"></script>
-  
-    <!-- ✅ Load config loader (applies settings using tourSearchFunctions.updateConfig) -->
-    <script src="search-pro/js/config-loader.js"></script>
-  
-    <!-- ✅ Load the simple loader (just logs and prepares) -->
-    <script src="search-pro/search-loader.js"></script>
-</body>
-</html>
+        <!-- ✅ Load search styling early -->
+        <link rel="stylesheet" href="search-pro/search_v4.css">
+      </head>
+      <body>
+      
+        <!-- ✅ Tour container -->
+        <div id="viewer" class="fill-viewport">
+          <div id="searchContainer" class="search-container">
+            <!-- The plugin dynamically injects inner search UI here -->
+          </div>
+        </div>
+      
+        <!-- ✅ Load Fuse.js before anything else -->
+        <script src="search-pro/fuse.js/dist/fuse.min.js"></script>
+      
+        <!-- ✅ Fuse.js CDN fallback -->
+        <script>
+          window.addEventListener('load', function () {
+            if (typeof Fuse === 'undefined') {
+              console.warn('Local Fuse.js failed to load, attempting to load from CDN...');
+              const fallback = document.createElement('script');
+              fallback.src = 'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js';
+              fallback.onload = () => console.log('Fuse.js loaded from CDN');
+              fallback.onerror = () => console.error('Failed to load Fuse.js from CDN');
+              document.body.appendChild(fallback);
+            }
+          });
+        </script>
+      
+        <!-- ✅ Load core search functionality first (defines window.tourSearchFunctions) -->
+        <script src="search-pro/search_v4.js"></script>
+      
+        <!-- ✅ Load config loader (applies settings using tourSearchFunctions.updateConfig) -->
+        <script src="search-pro/js/config-loader.js"></script>
+      
+        <!-- ✅ Load the simple loader (just logs and prepares) -->
+        <script src="search-pro/search-loader.js"></script>
+      </body>
+      </html>      

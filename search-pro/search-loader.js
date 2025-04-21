@@ -1,79 +1,79 @@
 /**
- * Search Pro Loader
- * 
- * Handles dynamic loading of resources and initializes the search functionality.
- * This ensures the search CSS is loaded before the search UI is rendered.
+ * Simple Search Pro Loader for 3DVista Tours
+ * Just loads the scripts and doesn't interfere with button functionality
+ * Version: 1.0.0
  */
 
-(function() {
-    console.log('[SearchLoader] Initializing...');
-    
-    // First, inject the CSS stylesheet
-    injectStylesheet();
-    
-    // After resources are loaded, initialize search when the page is ready
-    window.addEventListener('load', function() {
-        initializeSearch();
-    });
-    
-    /**
-     * Injects the search stylesheet into the document head
-     */
-    function injectStylesheet() {
-        // Check if stylesheet is already loaded
-        const existingStylesheet = document.querySelector('link[href*="search_v4.css"]');
-        if (existingStylesheet) {
-            console.log('[SearchLoader] Stylesheet already loaded, skipping injection');
-            return;
-        }
-        
-        // Create link element
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'search-pro/css/search_v4.css'; // Fix: Corrected path to match actual file location
-        link.id = 'search-pro-stylesheet';
-        
-        // Insert at the end of head
-        document.head.appendChild(link);
-        
-        // Monitor for load/error events
-        link.onload = function() {
-            console.log('[SearchLoader] Stylesheet injected');
-        };
-        
-        link.onerror = function() {
-            console.error('[SearchLoader] Failed to load stylesheet: ' + link.href);
-            // Fallback to inline loading as emergency measure
-            const fallbackLink = document.createElement('link');
-            fallbackLink.rel = 'stylesheet';
-            fallbackLink.href = 'search_v4.css'; // Try alternate path
-            document.head.appendChild(fallbackLink);
-        };
-    }
-    
-    /**
-     * Initializes the search functionality when resources are ready
-     */
-    function initializeSearch() {
-        if (window.tourSearchFunctions && typeof window.tourSearchFunctions.initializeSearch === 'function') {
-            console.log('[SearchLoader] Starting search initialization');
-            
-            // Wait a moment to ensure CSS is loaded
-            setTimeout(function() {
-                try {
-                    // Initialize the search with the configuration
-                    window.tourSearchFunctions.initializeSearch({
-                        containerSelector: '#searchContainer',
-                        inputId: 'tourSearch',
-                        debug: true
-                    });
-                    console.log('[SearchLoader] Search initialized successfully');
-                } catch (error) {
-                    console.error('[SearchLoader] Error initializing search:', error);
-                }
-            }, 100);
-        } else {
-            console.error('[SearchLoader] Search functions not available');
+// Keep track of loading state
+let scriptsLoaded = false;
+
+// Helper for debug logging
+function log(...args) {
+    console.log('[SearchLoader]', ...args);
+}
+
+// Load the search stylesheet
+function loadSearchCSS() {
+    // Check if already loaded
+    const existingLinks = document.querySelectorAll('link[rel="stylesheet"]');
+    for (const link of existingLinks) {
+        if (link.href.includes('search-pro/search_v4.css')) {
+            log('Stylesheet already loaded, skipping');
+            return true;
         }
     }
-})();
+
+    log('Loading search stylesheet...');
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'search-pro/search_v4.css';
+    document.head.appendChild(link);
+    return true;
+}
+
+// Load the search JavaScript
+function loadSearchJS() {
+    // Check if already loaded
+    if (typeof window.tourSearchFunctions !== 'undefined') {
+        log('Search functions already loaded, skipping');
+        return true;
+    }
+
+    log('Loading search JavaScript...');
+    const script = document.createElement('script');
+    script.src = 'search-pro/search_v4.js';
+    script.async = false;
+    document.body.appendChild(script);
+    return true;
+}
+
+// Main initialization function
+function loadAndInitialize() {
+    log('Starting...');
+    
+    // Load CSS
+    loadSearchCSS();
+    
+    // Load JS
+    loadSearchJS();
+    
+    // Mark as loaded
+    scriptsLoaded = true;
+    
+    log('Search scripts loaded. The button will handle initialization.');
+    console.log('[SearchLoader] tourSearchFunctions:', window.tourSearchFunctions);
+}
+
+// Run on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadAndInitialize);
+} else {
+    // Page already loaded
+    loadAndInitialize();
+}
+
+// Expose a minimal API (but don't override any functions)
+window.searchLoaderFunctions = {
+    loadCSS: loadSearchCSS,
+    loadJS: loadSearchJS
+};
