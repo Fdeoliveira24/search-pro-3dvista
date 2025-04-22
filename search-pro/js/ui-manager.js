@@ -257,6 +257,29 @@ class UIManager {
                 // Apply state to controls (the basic update)
                 this.applyStateToControls();
                 
+                // ✅ Add this for General Settings Tab
+                const generalSettingsControls = {
+                    'autoHide.mobile': document.querySelector('[data-path="autoHide.mobile"]'),
+                    'autoHide.desktop': document.querySelector('[data-path="autoHide.desktop"]'),
+                    'mobileBreakpoint': document.querySelector('[data-path="mobileBreakpoint"]'),
+                    'minSearchChars': document.querySelector('[data-path="minSearchChars"]')
+                };
+
+                Object.entries(generalSettingsControls).forEach(([path, control]) => {
+                    if (control) {
+                        const defaultValue = this.getValueFromPath(defaults, path);
+                        if (defaultValue !== undefined) {
+                            if (control.type === 'checkbox') {
+                                control.checked = Boolean(defaultValue);
+                                control.dispatchEvent(new Event('change', { bubbles: true }));
+                            } else if (control.type === 'number') {
+                                control.value = defaultValue;
+                                control.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                        }
+                    }
+                });
+                
                 // ADDITIONAL EXPLICIT UPDATES FOR PROBLEMATIC FIELDS
                 
                 // 1. Update border radius inputs
@@ -1038,107 +1061,127 @@ class UIManager {
     }
     
     exportSettings() {
-        const state = this._stateManager.getState();
-        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'search-pro-config.json';
-        document.body.appendChild(a);
-        a.click();
-        
+        if (this._isExporting) return;
+        this._isExporting = true;
+
+        try {
+            const state = this._stateManager.getState();
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'search-pro-config.json';
+            document.body.appendChild(a);
+            a.click();
+
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+
+            this.showNotification('Settings exported to file', 'success');
+        } catch (error) {
+            console.error('Error exporting settings:', error);
+            this.showNotification('Failed to export settings', 'error');
+        }
+
         setTimeout(() => {
-            URL.revokeObjectURL(url);
-        }, 100);
-        
-        this.showNotification('Settings exported to file', 'success');
+            this._isExporting = false;
+        }, 500);
     }
     
     exportForServer() {
+        if (this._isExportingForServer) return;
+        this._isExportingForServer = true;
+
         try {
             const state = this._stateManager.getState();
             const jsonString = JSON.stringify(state, null, 2);
-            
-            // Create a formatted version for display
-            const formattedJson = jsonString.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
-            
+
             const content = `
                 <div class="deployment-modal">
                     <div class="deployment-modal-content">
                         <h3>Server Configuration</h3>
                         <p>Copy this code to your server configuration file:</p>
-                        <pre style="overflow: auto; max-height: 300px; padding: 10px; background: #f5f5f5; border-radius: 4px;">${jsonString}</pre>
-                        <p>Implementation instructions:</p>
+                        <pre>${jsonString}</pre>
                         <ol>
-                            <li>Create a file named <code>search-config.json</code> on your server</li>
-                            <li>Copy the JSON above into this file</li>
-                            <li>Add this line to your tour HTML: <br>
-                            <code>&lt;script&gt;window.SEARCH_PRO_CONFIG_URL = 'path/to/search-config.json';&lt;/script&gt;</code></li>
+                            <li>Save this as <code>search-config.json</code></li>
+                            <li>Upload it to <code>/search-pro/config/</code></li>
+                            <li>Add this to your tour page:
+                            <code>&lt;script&gt;window.SEARCH_PRO_CONFIG_URL = 'search-pro/config/search-config.json';&lt;/script&gt;</code></li>
+                            <li>Click below to download:</li>
+                            <button id="downloadServerConfig" class="secondary-button">Download Config</button>
                         </ol>
                         <button class="primary-button close-modal">Close</button>
                     </div>
                 </div>
             `;
-            
-            // Create and add the modal to the document
-            const modalContainer = document.createElement('div');
-            modalContainer.innerHTML = content;
-            document.body.appendChild(modalContainer);
-            
-            // Add event listener to close button
-            const closeButton = modalContainer.querySelector('.close-modal');
-            if (closeButton) {
-                closeButton.addEventListener('click', () => {
-                    modalContainer.remove();
-                });
-            }
-            
-            // Close when clicking outside the modal content
-            modalContainer.addEventListener('click', (e) => {
-                if (e.target === modalContainer.querySelector('.deployment-modal')) {
-                    modalContainer.remove();
-                }
+
+            const modal = document.createElement('div');
+            modal.innerHTML = content;
+            document.body.appendChild(modal);
+
+            modal.querySelector('.close-modal')?.addEventListener('click', () => modal.remove());
+
+            modal.querySelector('#downloadServerConfig')?.addEventListener('click', () => {
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'search-config.json';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
             });
-        } catch (error) {
-            console.error('Failed to export settings for server:', error);
-            this.showNotification('Failed to export settings', 'error');
+
+        } catch (err) {
+            console.error('Export for server failed:', err);
+            this.showNotification('Failed to export config', 'error');
         }
+
+        setTimeout(() => {
+            this._isExportingForServer = false;
+        }, 500);
     }
     
     importSettings(file) {
+        if (!file) {
+            this.showNotification('No file selected', 'error');
+            return;
+        }
+
+        if (this._isImporting) return;
+        this._isImporting = true;
+
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
                 const data = JSON.parse(e.target.result);
-                
-                // Validate the imported file
-                const validationResult = this._storageManager.validateImport 
-                    ? this._storageManager.validateImport(data) 
-                    : { valid: true, message: 'Validation not available' };
-                
-                if (validationResult.valid) {
-                    // Update state with imported settings
-                    this._stateManager.setState(data);
-                    
-                    // Apply to UI controls
-                    this.applyStateToControls();
-                    
-                    // Update preview
-                    this._updatePreview();
-                    
-                    // Save to storage
-                    this._storageManager.save(data);
-                    
-                    this.showNotification('Settings imported successfully', 'success');
-                } else {
-                    this.showNotification(`Invalid settings file: ${validationResult.message}`, 'error');
-                }
+                this._stateManager.setState(data);
+                this.applyStateToControls();
+                this._updatePreview(true);
+                this._storageManager.save(data);
+                this.showNotification('Settings imported successfully', 'success');
             } catch (error) {
-                console.error('Failed to import settings:', error);
-                this.showNotification('Failed to import settings: Invalid JSON', 'error');
+                console.error('Import failed:', error);
+                this.showNotification('Import failed: Invalid JSON', 'error');
+            } finally {
+                const importFile = document.getElementById('importFile');
+                if (importFile) importFile.value = '';
+                setTimeout(() => {
+                    this._isImporting = false;
+                }, 500);
             }
         };
+
+        reader.onerror = (e) => {
+            this.showNotification('Failed to read import file', 'error');
+            this._isImporting = false;
+        };
+
         reader.readAsText(file);
     }
     
