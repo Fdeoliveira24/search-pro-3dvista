@@ -1125,6 +1125,12 @@ window.tourSearchFunctions = (function() {
                 display: ${_config.showTagsInResults ? 'block' : 'none'};
             }
             
+            /* Subtitles visibility in results */
+            .result-subtitle, 
+            .result-description {
+                display: ${_config.display.showSubtitlesInResults !== false ? 'block' : 'none'};
+            }
+            
             /* NEW: Apply typography settings */
             #searchContainer {
                 font-family: var(--font-family);

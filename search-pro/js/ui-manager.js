@@ -38,40 +38,61 @@ class UIManager {
     }
     
     initialize() {
+        // Prevent double initialization
+        if (this._eventsBound) {
+            console.warn('[UIManager] Events already bound, skipping initialization');
+            return;
+        }
+        
         // Render the UI
         this._renderUI();
         
         // Set up tabs with scroll position preservation
         this._setupTabs();
         
+        // Remove any existing event listeners if possible
+        if (this._abortController) {
+            this._abortController.abort();
+        }
+        this._abortController = new AbortController();
+        const signal = this._abortController.signal;
+        
         // Collect all inputs with data-path attribute
         const inputs = document.querySelectorAll('[data-path]');
         inputs.forEach(input => this._setupControl(input));
         
-        // Streamlined input binding for all data-path elements
-        document.querySelectorAll('[data-path]').forEach(input => {
-            const eventType = input.type === 'range' ? 'input' : 'change';
-            input.addEventListener(eventType, () => this._updatePreview());
-        });
-        
-        // Add specific event bindings
-        document.querySelectorAll('input[type="color"]').forEach(input => {
-            input.addEventListener('input', () => this._updatePreview());
-            input.addEventListener('change', () => this._updatePreview());
-        });
-        
-        document.querySelectorAll('input[type="range"]').forEach(input => {
-            input.addEventListener('input', () => this._updatePreview());
-        });
-        
-        document.querySelectorAll('select').forEach(input => {
-            input.addEventListener('change', () => this._updatePreview());
-            
-            // Special handling for position preset
-            if (input.dataset.path === 'searchBar.positionPreset') {
-                input.addEventListener('change', () => this.handlePositionPresetChange(input.value));
-            }
-        });
+        // Ensure font family changes update preview
+        const fontFamilySelect = document.querySelector('[data-path="theme.typography.fontFamily"]');
+        if (fontFamilySelect) {
+            fontFamilySelect.addEventListener('change', () => {
+                // Force preview update after font family change
+                setTimeout(() => this._updatePreview(true), 10);
+            });
+        }
+
+        // Ensure placeholder text updates preview
+        const placeholderInput = document.querySelector('[data-path="searchBar.placeholder"]');
+        if (placeholderInput) {
+            placeholderInput.addEventListener('input', () => {
+                // Update preview placeholder text immediately
+                const previewInput = this.preview.querySelector('.preview-search-input');
+                if (previewInput) {
+                    previewInput.placeholder = placeholderInput.value || 'Search...';
+                }
+                this._updatePreview();
+            });
+        }
+
+        // Ensure search width updates preview
+        const searchWidthInput = document.querySelector('[data-path="appearance.searchWidth"]');
+        if (searchWidthInput) {
+            searchWidthInput.addEventListener('input', () => {
+                const width = parseInt(searchWidthInput.value, 10) || 350;
+                if (this.preview) {
+                    this.preview.style.width = `${Math.min(width, 500)}px`;
+                }
+            });
+        }
         
         // Set up linked color inputs
         const linkedInputs = document.querySelectorAll('[data-linked]');
@@ -83,8 +104,10 @@ class UIManager {
         // Load and apply initial state
         this._loadState();
         
-        // Initial position preset control setup
-        this.handlePositionPresetChange(this._stateManager.getState().searchBar?.positionPreset || 'top-right');
+        // Mark as initialized to prevent duplicate binding
+        this._eventsBound = true;
+        
+        console.info('[UIManager] Initialization complete');
     }
     
     /**
@@ -239,159 +262,16 @@ class UIManager {
         if (confirm('Reset all settings to defaults?')) {
             try {
                 // Get default settings
-                const defaults = window.getDefaultSettings();
-                if (!defaults) {
-                    throw new Error("Could not load default settings");
-                }
-                
-                // Important: Extract key default values before state update
-                const defaultPlaceholder = defaults.searchBar?.placeholder || 'Search...';
-                const defaultBorderRadius = 35;
-                const defaultFontSize = defaults.theme?.typography?.fontSize || 16;
-                const defaultLetterSpacing = defaults.theme?.typography?.letterSpacing || 0;
-                const defaultFontFamily = defaults.theme?.typography?.fontFamily || 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                const defaults = getDefaultSettings();
                 
                 // Update state with defaults
                 this._stateManager.setState(defaults);
                 
-                // Apply state to controls (the basic update)
-                this.applyStateToControls();
+                // Apply state to controls with proper event dispatching
+                this.applyStateToControls(true); // Pass true to force events
                 
-                // ✅ Add this for General Settings Tab
-                const generalSettingsControls = {
-                    'autoHide.mobile': document.querySelector('[data-path="autoHide.mobile"]'),
-                    'autoHide.desktop': document.querySelector('[data-path="autoHide.desktop"]'),
-                    'mobileBreakpoint': document.querySelector('[data-path="mobileBreakpoint"]'),
-                    'minSearchChars': document.querySelector('[data-path="minSearchChars"]')
-                };
-
-                Object.entries(generalSettingsControls).forEach(([path, control]) => {
-                    if (control) {
-                        const defaultValue = this.getValueFromPath(defaults, path);
-                        if (defaultValue !== undefined) {
-                            if (control.type === 'checkbox') {
-                                control.checked = Boolean(defaultValue);
-                                control.dispatchEvent(new Event('change', { bubbles: true }));
-                            } else if (control.type === 'number') {
-                                control.value = defaultValue;
-                                control.dispatchEvent(new Event('change', { bubbles: true }));
-                            }
-                        }
-                    }
-                });
-                
-                // ADDITIONAL EXPLICIT UPDATES FOR PROBLEMATIC FIELDS
-                
-                // 1. Update border radius inputs
-                const borderRadiusInputs = {
-                    topLeft: document.querySelector('[data-path="appearance.searchField.borderRadius.topLeft"]'),
-                    topRight: document.querySelector('[data-path="appearance.searchField.borderRadius.topRight"]'),
-                    bottomRight: document.querySelector('[data-path="appearance.searchField.borderRadius.bottomRight"]'),
-                    bottomLeft: document.querySelector('[data-path="appearance.searchField.borderRadius.bottomLeft"]')
-                };
-                
-                Object.values(borderRadiusInputs).forEach(input => {
-                    if (input) {
-                        input.value = defaultBorderRadius;
-                        // Force an input event to update any listeners
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                });
-                
-                // 2. Explicitly update font size and letter spacing display values
-                const fontSizeInput = document.querySelector('[data-path="theme.typography.fontSize"]');
-                const fontSizeValue = document.getElementById('fontSizeValue');
-                if (fontSizeInput) {
-                    fontSizeInput.value = defaultFontSize;
-                    fontSizeInput.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                if (fontSizeValue) {
-                    fontSizeValue.textContent = defaultFontSize;
-                }
-                
-                const letterSpacingInput = document.querySelector('[data-path="theme.typography.letterSpacing"]');
-                const letterSpacingValue = document.getElementById('letterSpacingValue');
-                if (letterSpacingInput) {
-                    letterSpacingInput.value = defaultLetterSpacing;
-                    letterSpacingInput.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                if (letterSpacingValue) {
-                    letterSpacingValue.textContent = defaultLetterSpacing;
-                }
-                
-                // 3. Update font family select
-                const fontFamilySelect = document.querySelector('[data-path="theme.typography.fontFamily"]');
-                if (fontFamilySelect) {
-                    fontFamilySelect.value = defaultFontFamily;
-                    fontFamilySelect.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                
-                // 4. Update placeholder text input
-                const placeholderInput = document.querySelector('[data-path="searchBar.placeholder"]');
-                if (placeholderInput) {
-                    placeholderInput.value = defaultPlaceholder;
-                    placeholderInput.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                
-                // 5. Update preview
+                // Update preview
                 this._updatePreview(true);
-                
-                // 6. Apply to tour with explicit style overrides
-                try {
-                    if (window.opener && window.opener.tourSearchFunctions) {
-                        // Apply config update
-                        window.opener.tourSearchFunctions.updateConfig(defaults);
-                        
-                        // Direct DOM updates for critical properties
-                        if (window.opener.document) {
-                            // Create a style element for direct CSS overrides
-                            const styleId = 'search-pro-reset-styles';
-                            let styleEl = window.opener.document.getElementById(styleId);
-                            
-                            if (!styleEl) {
-                                styleEl = window.opener.document.createElement('style');
-                                styleEl.id = styleId;
-                                window.opener.document.head.appendChild(styleEl);
-                            }
-                            
-                            // Apply critical styling with !important to override any existing styles
-                            styleEl.textContent = `
-                                /* Font family fix */
-                                #searchContainer, 
-                                #searchContainer * {
-                                    font-family: ${defaultFontFamily} !important;
-                                }
-                                
-                                /* Border radius fix */
-                                #searchContainer .search-field {
-                                    border-radius: ${defaultBorderRadius}px !important;
-                                }
-                                
-                                /* Font size and letter spacing */
-                                #searchContainer {
-                                    font-size: ${defaultFontSize}px !important;
-                                    letter-spacing: ${defaultLetterSpacing}px !important;
-                                }
-                                
-                                /* Subtitle color fix */
-                                .result-subtitle, 
-                                .result-description, 
-                                .result-subtext {
-                                    color: ${defaults.appearance?.colors?.resultSubtitle || '#64748b'} !important;
-                                }
-                            `;
-                            
-                            // Direct update for placeholder
-                            const tourSearchInput = window.opener.document.querySelector('#tourSearch');
-                            if (tourSearchInput) {
-                                tourSearchInput.placeholder = defaultPlaceholder;
-                            }
-                        }
-                    }
-                } catch (e) {
-                    console.warn('Could not apply direct style updates to tour:', e);
-                }
                 
                 this.showNotification('Settings reset to defaults', 'success');
             } catch (error) {
@@ -725,7 +605,7 @@ class UIManager {
         });
     }
     
-    applyStateToControls() {
+    applyStateToControls(forceEvents = false) {
         const state = this._stateManager.getState();
         
         // Update each control with value from state
@@ -735,6 +615,9 @@ class UIManager {
             if (value !== undefined) {
                 if (control.type === 'checkbox') {
                     control.checked = Boolean(value);
+                    if (forceEvents) {
+                        control.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 } else if (control.type === 'color') {
                     control.value = value;
                     
@@ -743,18 +626,41 @@ class UIManager {
                     if (textInput) {
                         textInput.value = value;
                     }
+                    
+                    if (forceEvents) {
+                        control.dispatchEvent(new Event('input', { bubbles: true }));
+                        control.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 } else if (control.tagName === 'SELECT') {
-                    // For select elements, convert the value to string 
-                    control.value = (value === null) ? 'null' : String(value);
+                    // Handle boolean and null values in selects
+                    if (value === true) control.value = 'true';
+                    else if (value === false) control.value = 'false';
+                    else if (value === null) control.value = '';
+                    else control.value = String(value);
+                    
+                    if (forceEvents) {
+                        control.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                } else if (control.type === 'range') {
+                    control.value = value;
+                    // Update display value if exists
+                    const displayId = control.dataset.valueDisplay;
+                    if (displayId) {
+                        const display = document.getElementById(displayId);
+                        if (display) {
+                            display.textContent = value;
+                        }
+                    }
+                    
+                    if (forceEvents) {
+                        control.dispatchEvent(new Event('input', { bubbles: true }));
+                        control.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 } else {
                     control.value = value;
-                }
-                
-                // Update range value display if configured
-                if (control.type === 'range' && control.dataset.valueDisplay) {
-                    const display = document.getElementById(control.dataset.valueDisplay);
-                    if (display) {
-                        display.textContent = value;
+                    
+                    if (forceEvents) {
+                        control.dispatchEvent(new Event('change', { bubbles: true }));
                     }
                 }
             }
@@ -817,19 +723,34 @@ class UIManager {
             this.preview.classList.add('preview-light-mode');
         }
         
-        // Update typography
-        if (state.theme?.typography) {
-            const typography = state.theme.typography;
-            this.preview.style.fontFamily = typography.fontFamily || '';
-            this.preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}em` : '';
+        // Update typography - ensure font family is applied
+        if (state.theme?.typography || forceFullRefresh) {
+            const typography = state.theme?.typography || {};
+            const fontFamily = typography.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+            
+            // Apply to preview
+            this.preview.style.fontFamily = fontFamily;
+            this.preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}rem` : '';
             this.preview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
             
-            // Update font preview
+            // Update font preview element
             const fontPreview = document.getElementById('fontPreview');
             if (fontPreview) {
-                fontPreview.style.fontFamily = typography.fontFamily || '';
+                fontPreview.style.fontFamily = fontFamily;
                 fontPreview.style.fontSize = typography.fontSize ? `${typography.fontSize}px` : '';
                 fontPreview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
+            }
+            
+            // Ensure dropdown reflects current value
+            const fontFamilyDropdown = document.querySelector('[data-path="theme.typography.fontFamily"]');
+            if (fontFamilyDropdown && fontFamily) {
+                // Find the option that matches the font family
+                const options = Array.from(fontFamilyDropdown.options);
+                const matchingOption = options.find(option => option.value === fontFamily);
+                
+                if (matchingOption) {
+                    fontFamilyDropdown.value = fontFamily;
+                }
             }
         }
         
@@ -1065,7 +986,12 @@ class UIManager {
         this._isExporting = true;
 
         try {
+            // Apply any pending changes to state before exporting
+            this._syncUIToState();
+            
+            // Get the most current state
             const state = this._stateManager.getState();
+            
             const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1089,54 +1015,46 @@ class UIManager {
             this._isExporting = false;
         }, 500);
     }
-    
+
     exportForServer() {
         if (this._isExportingForServer) return;
         this._isExportingForServer = true;
 
         try {
+            // Apply any pending changes to state before exporting
+            this._syncUIToState();
+            
+            // Get the most current state
             const state = this._stateManager.getState();
-            const jsonString = JSON.stringify(state, null, 2);
 
-            const content = `
-                <div class="deployment-modal">
-                    <div class="deployment-modal-content">
-                        <h3>Server Configuration</h3>
-                        <p>Copy this code to your server configuration file:</p>
-                        <pre>${jsonString}</pre>
-                        <ol>
-                            <li>Save this as <code>search-config.json</code></li>
-                            <li>Upload it to <code>/search-pro/config/</code></li>
-                            <li>Add this to your tour page:
-                            <code>&lt;script&gt;window.SEARCH_PRO_CONFIG_URL = 'search-pro/config/search-config.json';&lt;/script&gt;</code></li>
-                            <li>Click below to download:</li>
-                            <button id="downloadServerConfig" class="secondary-button">Download Config</button>
-                        </ol>
-                        <button class="primary-button close-modal">Close</button>
-                    </div>
-                </div>
-            `;
+            // Create a server-ready config object
+            const configForServer = {
+                version: "2.0.0", // Use your actual schema version
+                timestamp: new Date().toISOString(),
+                meta: {
+                    generatedBy: "Search Pro Config Panel",
+                    warning: "DO NOT EDIT THIS FILE MANUALLY"
+                },
+                settings: state
+            };
 
-            const modal = document.createElement('div');
-            modal.innerHTML = content;
-            document.body.appendChild(modal);
+            const jsonString = JSON.stringify(configForServer, null, 2);
+            
+            // Create download or show modal (existing implementation)
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'search-config.json';
+            document.body.appendChild(a);
+            a.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
 
-            modal.querySelector('.close-modal')?.addEventListener('click', () => modal.remove());
-
-            modal.querySelector('#downloadServerConfig')?.addEventListener('click', () => {
-                const blob = new Blob([jsonString], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'search-config.json';
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 100);
-            });
-
+            this.showNotification('Server configuration exported', 'success');
         } catch (err) {
             console.error('Export for server failed:', err);
             this.showNotification('Failed to export config', 'error');
@@ -1145,6 +1063,40 @@ class UIManager {
         setTimeout(() => {
             this._isExportingForServer = false;
         }, 500);
+    }
+
+    // Add this helper method to sync UI values to state before export
+    _syncUIToState() {
+        // Collect all inputs with data-path attribute
+        const inputs = document.querySelectorAll('[data-path]');
+        
+        inputs.forEach(input => {
+            const path = input.dataset.path;
+            if (!path) return;
+            
+            let value;
+            
+            if (input.type === 'checkbox') {
+                value = input.checked;
+            } else if (input.tagName === 'SELECT') {
+                value = input.value;
+                // Convert special values
+                if (value === 'true') value = true;
+                else if (value === 'false') value = false;
+                else if (value === '') value = null;
+            } else if (input.type === 'number') {
+                value = parseFloat(input.value);
+                if (isNaN(value)) value = 0;
+            } else if (input.type === 'range') {
+                value = parseFloat(input.value);
+                if (isNaN(value)) value = 0;
+            } else {
+                value = input.value;
+            }
+            
+            // Update state with current input value
+            this._stateManager.setState(value, path);
+        });
     }
     
     importSettings(file) {
@@ -1160,14 +1112,38 @@ class UIManager {
         reader.onload = (e) => {
             try {
                 const data = JSON.parse(e.target.result);
-                this._stateManager.setState(data);
-                this.applyStateToControls();
+                
+                // Handle different config formats - extract settings object
+                const settingsObj = data.settings || data;
+                
+                if (!settingsObj || typeof settingsObj !== 'object') {
+                    throw new Error('Invalid settings format: no settings object found');
+                }
+                
+                // Validate settings have required sections
+                const requiredSections = ['display', 'appearance', 'includeContent', 'searchBar'];
+                const missingSections = requiredSections.filter(section => !settingsObj[section]);
+                
+                if (missingSections.length > 0) {
+                    this.showNotification(`Warning: Missing sections: ${missingSections.join(', ')}`, 'warning');
+                }
+                
+                // Update state with imported settings
+                this._stateManager.setState(settingsObj);
+                
+                // Apply new state to UI controls - force events to ensure proper updates
+                this.applyStateToControls(true);
+                
+                // Force update preview
                 this._updatePreview(true);
-                this._storageManager.save(data);
+                
+                // Save to localStorage
+                this._storageManager.save(settingsObj);
+                
                 this.showNotification('Settings imported successfully', 'success');
             } catch (error) {
                 console.error('Import failed:', error);
-                this.showNotification('Import failed: Invalid JSON', 'error');
+                this.showNotification('Import failed: ' + error.message, 'error');
             } finally {
                 const importFile = document.getElementById('importFile');
                 if (importFile) importFile.value = '';
