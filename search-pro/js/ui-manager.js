@@ -18,1779 +18,1161 @@ class UIManager {
      * Creates a new UIManager instance
      * @param {Object} options Configuration options
      */
-    constructor(options = {}) {
-        // Default configuration
-        this._options = {
-            container: null,                 // Container element or selector
-            stateManager: null,              // StateManager instance
-            storageManager: null,            // StorageManager instance
-            previewDelay: 300,               // Delay before preview updates (ms)
-            autoSave: false,                 // Automatically save on changes
-            showUnsavedChanges: true,        // Show unsaved changes indicator
-            showPreviewToggle: true,         // Show live preview toggle
-            useColorPickers: true,           // Use color picker for color inputs
-            mobileBreakpoint: 768,           // Mobile breakpoint in pixels
-            ...options
-        };
+    constructor(stateManager, storageManager) {
+        this._stateManager = stateManager;
+        this._storageManager = storageManager;
+        this._controlMap = new Map();
+        this._activeTab = 'general';
         
-        // Internal state
-        this._container = null;              // Container element
-        this._stateManager = null;           // StateManager instance
-        this._storageManager = null;         // StorageManager instance
-        this._previewMode = true;            // Whether preview mode is active
-        this._unsavedChanges = false;        // Whether there are unsaved changes
-        this._previewTimer = null;           // Timer for debounced preview updates
-        this._controlElements = new Map();   // Map of path -> control element
-        this._tabElements = new Map();       // Map of tabId -> tab element
-        this._panelElements = new Map();     // Map of tabId -> panel element
-        this._tabScrollPositions = new Map(); // Map of tabId -> scroll position
-        this._activeTab = null;              // Currently active tab
-        this._isMobile = false;              // Whether mobile layout is active
-        this._preview = null;                // Live preview element
+        // Check for incognito mode
+        this._checkIncognitoMode();
         
-        // UI elements
-        this._saveButton = null;             // Save button element
-        this._resetButton = null;            // Reset button element
-        this._exportButton = null;           // Export button element
-        this._importButton = null;           // Import button element
-        this._applyButton = null;            // Apply button element
-        this._previewToggle = null;          // Preview toggle element
-        this._statusIndicator = null;        // Status indicator element
-        this._incognitoWarning = null;       // Incognito mode warning element
-        
-        // Initialize
-        this._initialize();
-    }
-    
-    /**
-     * Initialize the UI manager
-     * @private
-     */
-    _initialize() {
-        // Get container element
-        if (typeof this._options.container === 'string') {
-            this._container = document.querySelector(this._options.container);
-        } else if (this._options.container instanceof HTMLElement) {
-            this._container = this._options.container;
-        } else {
-            this._container = document.body;
-        }
-        
-        if (!this._container) {
-            console.error('Container element not found');
-            return;
-        }
-        
-        // Set up state manager
-        if (this._options.stateManager instanceof StateManager) {
-            this._stateManager = this._options.stateManager;
-        } else {
-            this._stateManager = new StateManager();
-        }
-        
-        // Set up storage manager
-        if (this._options.storageManager instanceof StorageManager) {
-            this._storageManager = this._options.storageManager;
-        } else {
-            // Ensure we're using the imported StorageManager class
-            // This guarantees we get the full prototype with all methods
-            this._storageManager = new StorageManager();
-            
-            // Debug check to verify the StorageManager instance has the exportForServer method
-            if (typeof this._storageManager.exportForServer !== 'function') {
-                console.error('[UIManager] StorageManager instance is missing exportForServer method', 
-                    this._storageManager,
-                    'Imported class:', StorageManager
-                );
+        // Wait for the preview element to be available in the DOM
+        const waitForPreview = setInterval(() => {
+            const preview = document.querySelector('#layoutPreview');
+            if (preview) {
+                clearInterval(waitForPreview);
+                this._setupPreview();
             }
-        }
-        
-        // Subscribe to state changes
-        this._stateManager.subscribe(this._handleStateChange.bind(this));
-        
-        // Check if in incognito mode
-        if (!this._storageManager.isStorageAvailable()) {
-            this._showIncognitoWarning();
-        }
-        
-        // Check window size for mobile/desktop layout
-        this._checkWindowSize();
-        window.addEventListener('resize', this._handleResize.bind(this));
-        
-        // Add custom styles
-        this._addStyles();
+        }, 100);
     }
     
-    /**
-     * Initialize the UI and render all components
-     * @public
-     */
-    init() {
-        // Load saved settings
-        this._loadSettings();
-        
-        // Render UI
+    initialize() {
+        // Render the UI
         this._renderUI();
         
-        // Set default active tab
-        this._setActiveTab(this._getDefaultActiveTab());
+        // Set up tabs with scroll position preservation
+        this._setupTabs();
         
-        // Setup preview if available
-        this._setupPreview();
+        // Collect all inputs with data-path attribute
+        const inputs = document.querySelectorAll('[data-path]');
+        inputs.forEach(input => this._setupControl(input));
         
-        // Mark as initialized
-        this._initialized = true;
+        // Streamlined input binding for all data-path elements
+        document.querySelectorAll('[data-path]').forEach(input => {
+            const eventType = input.type === 'range' ? 'input' : 'change';
+            input.addEventListener(eventType, () => this._updatePreview());
+        });
         
-        return this;
+        // Add specific event bindings
+        document.querySelectorAll('input[type="color"]').forEach(input => {
+            input.addEventListener('input', () => this._updatePreview());
+            input.addEventListener('change', () => this._updatePreview());
+        });
+        
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', () => this._updatePreview());
+        });
+        
+        document.querySelectorAll('select').forEach(input => {
+            input.addEventListener('change', () => this._updatePreview());
+            
+            // Special handling for position preset
+            if (input.dataset.path === 'searchBar.positionPreset') {
+                input.addEventListener('change', () => this.handlePositionPresetChange(input.value));
+            }
+        });
+        
+        // Set up linked color inputs
+        const linkedInputs = document.querySelectorAll('[data-linked]');
+        linkedInputs.forEach(input => this._setupLinkedControl(input));
+        
+        // Set up action buttons
+        this._setupActionButtons();
+        
+        // Load and apply initial state
+        this._loadState();
+        
+        // Initial position preset control setup
+        this.handlePositionPresetChange(this._stateManager.getState().searchBar?.positionPreset || 'top-right');
     }
     
     /**
-     * Render the complete UI
+     * Renders the main UI components
      * @private
      */
     _renderUI() {
-        // Clear container
-        this._container.innerHTML = '';
+        // Create the header toolbar
+        const toolbar = this._createHeaderToolbar();
         
-        // Create header
-        const header = this._createHeader();
-        
-        // Create tabs
-        const { tabContainer, contentContainer } = this._renderTabs();
-        
-        // Create footer
-        const footer = this._createFooter();
-        
-        // Add to container
-        this._container.appendChild(header);
-        this._container.appendChild(tabContainer);
-        this._container.appendChild(contentContainer);
-        this._container.appendChild(footer);
-        
-        // Setup controls from current state
-        this._updateControlsFromState(this._stateManager.getState());
+        // Get the settings panel
+        const settingsPanel = document.querySelector('.settings-panel');
+        if (settingsPanel) {
+            // Insert the toolbar before the tabs
+            const tabs = settingsPanel.querySelector('.tabs');
+            if (tabs) {
+                settingsPanel.insertBefore(toolbar, tabs);
+            } else {
+                settingsPanel.prepend(toolbar);
+            }
+        }
     }
     
     /**
-     * Create header element
-     * @returns {HTMLElement} Header element
+     * Creates the header toolbar with action buttons
      * @private
+     * @returns {HTMLElement} The toolbar element
      */
-    _createHeader() {
-        const header = document.createElement('header');
-        header.className = 'search-pro-header';
-
-        // Add title
-        const title = document.createElement('h1');
-        title.textContent = 'Search Pro Configuration';
-        header.appendChild(title);
-
-        // Create global action toolbar container
+    _createHeaderToolbar() {
         const toolbar = document.createElement('div');
         toolbar.className = 'global-action-toolbar';
-
-        // Define all global actions and their handlers
-        const actions = [
-            { id: 'applySettings', text: 'Apply Settings', icon: 'check', handler: this._handleApplyClick.bind(this), primary: true },
-            { id: 'saveSettings', text: 'Save Settings', icon: 'save', handler: this._handleSave.bind(this), primary: true },
-            { id: 'resetSettings', text: 'Reset to Defaults', icon: 'refresh', handler: this._handleResetAll.bind(this) },
-            { id: 'exportSettings', text: 'Export Settings', icon: 'download', handler: this._handleExport.bind(this) },
-            { id: 'importSettings', text: 'Import Settings', icon: 'upload', handler: this._handleImport.bind(this) },
-            { id: 'exportForServer', text: 'Export for Server', icon: 'server', handler: this._handleExportForServer.bind(this) }
-        ];
-
-        actions.forEach(action => {
-            const button = document.createElement('button');
-            button.id = action.id;
-            button.className = action.primary ? 'primary-button' : 'secondary-button';
-            button.innerHTML = `<span class="icon-${action.icon}"></span> ${action.text}`;
-            button.addEventListener('click', action.handler);
-            
-            // Store references to important buttons
-            if (action.id === 'saveSettings') {
-                this._saveButton = button;
-            } else if (action.id === 'resetSettings') {
-                this._resetButton = button;
-            } else if (action.id === 'exportSettings') {
-                this._exportButton = button;
-            } else if (action.id === 'importSettings') {
-                this._importButton = button;
-            } else if (action.id === 'applySettings') {
-                this._applyButton = button;
+        
+        // Create and add buttons to the toolbar
+        const buttons = [
+            {
+                id: 'applySettings',
+                text: 'Apply Settings',
+                className: 'primary-button',
+                handler: () => this._handleApplyClick()
+            },
+            {
+                id: 'saveSettings',
+                text: 'Save Settings',
+                className: 'primary-button',
+                handler: () => this._handleSaveClick()
+            },
+            {
+                id: 'resetSettings',
+                text: 'Reset to Defaults',
+                className: 'secondary-button',
+                handler: () => this._handleResetClick()
+            },
+            {
+                id: 'exportSettings',
+                text: 'Export Settings',
+                className: 'secondary-button',
+                handler: () => this.exportSettings()
+            },
+            {
+                id: 'importButton',
+                text: 'Import Settings',
+                className: 'secondary-button',
+                handler: () => document.getElementById('importFile').click()
+            },
+            {
+                id: 'exportForServer',
+                text: 'Export for Server',
+                className: 'secondary-button',
+                handler: () => this.exportForServer()
             }
-            
+        ];
+        
+        // Create each button and add it to the toolbar
+        buttons.forEach(btnConfig => {
+            const button = document.createElement('button');
+            button.id = btnConfig.id;
+            button.textContent = btnConfig.text;
+            button.className = btnConfig.className;
+            button.addEventListener('click', btnConfig.handler);
             toolbar.appendChild(button);
         });
-
-        header.appendChild(toolbar);
-
-        // Preserve the existing incognito warning logic
-        this._incognitoWarning = document.createElement('div');
-        this._incognitoWarning.className = 'incognito-warning';
-        this._incognitoWarning.style.display = 'none';
-        header.appendChild(this._incognitoWarning);
-
-        return header;
+        
+        return toolbar;
     }
     
     /**
-     * Create and render tab navigation and content containers
-     * @returns {Object} Tab container and content container elements
+     * Handle Apply Settings button click
      * @private
      */
-    _renderTabs() {
-        const tabContainer = document.createElement('div');
-        tabContainer.className = 'tabs';
+    _handleApplyClick() {
+        const state = this._stateManager.getState();
+        this._storageManager.save(state);
         
-        const contentContainer = document.createElement('div');
-        contentContainer.className = 'tab-contents';
-        
-        // Get UI schema
-        const schema = getUISchema();
-        
-        // Clear existing maps
-        this._tabElements.clear();
-        this._panelElements.clear();
-        
-        // Create tabs and panels
-        schema.groups.forEach(group => {
-            // Create tab
-            const tab = document.createElement('div');
-            tab.className = 'tab';
-            tab.setAttribute('data-tab', group.id);
-            tab.textContent = group.label;
-            tab.addEventListener('click', () => this._setActiveTab(group.id));
-            
-            // Store reference
-            this._tabElements.set(group.id, tab);
-            
-            // Add to container
-            tabContainer.appendChild(tab);
-            
-            // Create panel
-            const panel = document.createElement('div');
-            panel.className = 'tab-content';
-            panel.id = `${group.id}-tab`;
-            
-            // Add title
-            const title = document.createElement('h2');
-            title.className = 'section-title';
-            title.textContent = `${group.label} Settings`;
-            panel.appendChild(title);
-            
-            // Create settings group
-            const settingsGrid = document.createElement('div');
-            settingsGrid.className = 'settings-grid';
-            
-            // Create controls for settings
-            group.settings.forEach(setting => {
-                const control = this._createControl(setting);
-                settingsGrid.appendChild(control);
-            });
-            
-            panel.appendChild(settingsGrid);
-            
-            // Add to container
-            contentContainer.appendChild(panel);
-            
-            // Store reference
-            this._panelElements.set(group.id, panel);
-            
-            // Add panel footer buttons (save/reset)
-            if (group.settings.length > 0) {
-                const buttonRow = document.createElement('div');
-                buttonRow.className = 'button-row';
+        try {
+            if (window.opener && window.opener.tourSearchFunctions) {
+                // Update config in the parent window
+                window.opener.tourSearchFunctions.updateConfig(state);
                 
-                const resetButton = document.createElement('button');
-                resetButton.className = 'reset-to-defaults secondary-button';
-                resetButton.textContent = 'Reset to Defaults';
-                resetButton.addEventListener('click', this._handleReset.bind(this));
-                buttonRow.appendChild(resetButton);
-                
-                const saveButton = document.createElement('button');
-                saveButton.className = 'save-settings primary-button';
-                saveButton.textContent = 'Save Settings';
-                saveButton.addEventListener('click', this._handleSave.bind(this));
-                buttonRow.appendChild(saveButton);
-                
-                panel.appendChild(buttonRow);
-            }
-        });
-        
-        return { tabContainer, contentContainer };
-    }
-    
-    /**
-     * Create control element for a setting
-     * @param {Object} setting The setting definition
-     * @returns {HTMLElement} The control container element
-     * @private
-     */
-    _createControl(setting) {
-        const container = document.createElement('div');
-        container.className = 'setting-item';
-        container.dataset.path = setting.path;
-
-        // If the setting has a dependency
-        if (setting.dependsOn) {
-            container.dataset.dependsOn = setting.dependsOn.path;
-            container.dataset.dependsValue = String(setting.dependsOn.value);
-            
-            // Hide by default if dependency not currently satisfied
-            const actualValue = this._stateManager.getValue(setting.dependsOn.path);
-            if (actualValue !== setting.dependsOn.value) {
-                container.style.display = 'none';
-            }
-        }
-
-        // Create label
-        const label = document.createElement('label');
-        label.className = 'setting-label';
-        label.textContent = setting.label;
-        label.htmlFor = `input-${setting.path.replace(/\./g, '-')}`;
-        container.appendChild(label);
-        
-        // Create control based on type
-        let control;
-        
-        switch (setting.type) {
-            case 'boolean':
-                control = this._createToggleControl(setting);
-                break;
-                
-            case 'select':
-                control = this._createSelectControl(setting);
-                break;
-                
-            case 'color':
-                control = this._createColorControl(setting);
-                break;
-                
-            case 'number':
-                control = this._createNumberControl(setting);
-                break;
-                
-            case 'text':
-                control = this._createTextControl(setting);
-                break;
-                
-            case 'textarea':
-                control = this._createTextAreaControl(setting);
-                break;
-                
-            default:
-                control = this._createTextControl(setting);
-        }
-        
-        if (control) {
-            container.appendChild(control);
-            
-            // Add to control map for state updates
-            this.controlMap.set(setting.path, control);
-            
-            // Add description if provided
-            if (setting.description) {
-                const desc = document.createElement('div');
-                desc.className = 'setting-description';
-                desc.textContent = setting.description;
-                container.appendChild(desc);
-            }
-        }
-        
-        return container;
-    }
-
-    /**
-     * Update dependent controls based on a setting change
-     * @param {string} path The path of the setting that changed
-     * @param {*} value The new value
-     * @private
-     */
-    _updateDependentControls(path, value) {
-        // Find all settings that depend on this path
-        const dependentElements = document.querySelectorAll(`[data-depends-on="${path}"]`);
-        
-        dependentElements.forEach(element => {
-            const expectedValue = element.dataset.dependsValue;
-            const shouldShow = String(value) === expectedValue;
-            
-            // Toggle visibility
-            element.style.display = shouldShow ? 'block' : 'none';
-            
-            // If hiding, also hide any nested dependent controls
-            if (!shouldShow) {
-                const nestedPath = element.dataset.path;
-                if (nestedPath) {
-                    const nestedDependents = document.querySelectorAll(`[data-depends-on="${nestedPath}"]`);
-                    nestedDependents.forEach(nested => {
-                        nested.style.display = 'none';
-                    });
+                // Force direct updates for key elements
+                if (window.opener.document) {
+                    // Update placeholder text
+                    const tourSearchInput = window.opener.document.querySelector('#tourSearch');
+                    if (tourSearchInput && state.searchBar?.placeholder) {
+                        tourSearchInput.placeholder = state.searchBar.placeholder;
+                    }
+                    
+                    // Force subtitle color update with inline style if needed
+                    if (state.appearance?.colors?.resultSubtitle) {
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            .result-subtitle, .result-description, .result-subtext {
+                                color: ${state.appearance.colors.resultSubtitle} !important;
+                            }
+                        `;
+                        window.opener.document.head.appendChild(style);
+                    }
                 }
+                
+                this.showNotification('Settings applied to active tour', 'success');
+            } else {
+                this.showNotification('Settings saved. They will apply on next reload.', 'info');
             }
-        });
+        } catch (e) {
+            console.error('Error applying settings:', e);
+            this.showNotification('Failed to apply settings to active tour', 'error');
+        }
     }
-
+    
     /**
-     * Set up control and its event listeners
-     * @param {HTMLElement} input The input element
+     * Handle Save Settings button click
      * @private
      */
-    setupControl(input) {
-        // ...existing code...
+    _handleSaveClick() {
+        const state = this._stateManager.getState();
+        const saved = this._storageManager.save(state);
+        
+        if (saved) {
+            this.showNotification('Settings saved successfully', 'success');
+        } else {
+            this.showNotification('Failed to save settings', 'error');
+        }
+    }
+    
+    /**
+     * Handle Reset to Defaults button click with comprehensive UI updates
+     * @private
+     */
+    _handleResetClick() {
+        if (this._isResetting) return;
+        this._isResetting = true;
+        
+        if (confirm('Reset all settings to defaults?')) {
+            try {
+                // Get default settings
+                const defaults = window.getDefaultSettings();
+                if (!defaults) {
+                    throw new Error("Could not load default settings");
+                }
+                
+                // Important: Extract key default values before state update
+                const defaultPlaceholder = defaults.searchBar?.placeholder || 'Search...';
+                const defaultBorderRadius = 35;
+                const defaultFontSize = defaults.theme?.typography?.fontSize || 16;
+                const defaultLetterSpacing = defaults.theme?.typography?.letterSpacing || 0;
+                const defaultFontFamily = defaults.theme?.typography?.fontFamily || 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                
+                // Update state with defaults
+                this._stateManager.setState(defaults);
+                
+                // Apply state to controls (the basic update)
+                this.applyStateToControls();
+                
+                // ADDITIONAL EXPLICIT UPDATES FOR PROBLEMATIC FIELDS
+                
+                // 1. Update border radius inputs
+                const borderRadiusInputs = {
+                    topLeft: document.querySelector('[data-path="appearance.searchField.borderRadius.topLeft"]'),
+                    topRight: document.querySelector('[data-path="appearance.searchField.borderRadius.topRight"]'),
+                    bottomRight: document.querySelector('[data-path="appearance.searchField.borderRadius.bottomRight"]'),
+                    bottomLeft: document.querySelector('[data-path="appearance.searchField.borderRadius.bottomLeft"]')
+                };
+                
+                Object.values(borderRadiusInputs).forEach(input => {
+                    if (input) {
+                        input.value = defaultBorderRadius;
+                        // Force an input event to update any listeners
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                });
+                
+                // 2. Explicitly update font size and letter spacing display values
+                const fontSizeInput = document.querySelector('[data-path="theme.typography.fontSize"]');
+                const fontSizeValue = document.getElementById('fontSizeValue');
+                if (fontSizeInput) {
+                    fontSizeInput.value = defaultFontSize;
+                    fontSizeInput.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                if (fontSizeValue) {
+                    fontSizeValue.textContent = defaultFontSize;
+                }
+                
+                const letterSpacingInput = document.querySelector('[data-path="theme.typography.letterSpacing"]');
+                const letterSpacingValue = document.getElementById('letterSpacingValue');
+                if (letterSpacingInput) {
+                    letterSpacingInput.value = defaultLetterSpacing;
+                    letterSpacingInput.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                if (letterSpacingValue) {
+                    letterSpacingValue.textContent = defaultLetterSpacing;
+                }
+                
+                // 3. Update font family select
+                const fontFamilySelect = document.querySelector('[data-path="theme.typography.fontFamily"]');
+                if (fontFamilySelect) {
+                    fontFamilySelect.value = defaultFontFamily;
+                    fontFamilySelect.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                
+                // 4. Update placeholder text input
+                const placeholderInput = document.querySelector('[data-path="searchBar.placeholder"]');
+                if (placeholderInput) {
+                    placeholderInput.value = defaultPlaceholder;
+                    placeholderInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                
+                // 5. Update preview
+                this._updatePreview(true);
+                
+                // 6. Apply to tour with explicit style overrides
+                try {
+                    if (window.opener && window.opener.tourSearchFunctions) {
+                        // Apply config update
+                        window.opener.tourSearchFunctions.updateConfig(defaults);
+                        
+                        // Direct DOM updates for critical properties
+                        if (window.opener.document) {
+                            // Create a style element for direct CSS overrides
+                            const styleId = 'search-pro-reset-styles';
+                            let styleEl = window.opener.document.getElementById(styleId);
+                            
+                            if (!styleEl) {
+                                styleEl = window.opener.document.createElement('style');
+                                styleEl.id = styleId;
+                                window.opener.document.head.appendChild(styleEl);
+                            }
+                            
+                            // Apply critical styling with !important to override any existing styles
+                            styleEl.textContent = `
+                                /* Font family fix */
+                                #searchContainer, 
+                                #searchContainer * {
+                                    font-family: ${defaultFontFamily} !important;
+                                }
+                                
+                                /* Border radius fix */
+                                #searchContainer .search-field {
+                                    border-radius: ${defaultBorderRadius}px !important;
+                                }
+                                
+                                /* Font size and letter spacing */
+                                #searchContainer {
+                                    font-size: ${defaultFontSize}px !important;
+                                    letter-spacing: ${defaultLetterSpacing}px !important;
+                                }
+                                
+                                /* Subtitle color fix */
+                                .result-subtitle, 
+                                .result-description, 
+                                .result-subtext {
+                                    color: ${defaults.appearance?.colors?.resultSubtitle || '#64748b'} !important;
+                                }
+                            `;
+                            
+                            // Direct update for placeholder
+                            const tourSearchInput = window.opener.document.querySelector('#tourSearch');
+                            if (tourSearchInput) {
+                                tourSearchInput.placeholder = defaultPlaceholder;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Could not apply direct style updates to tour:', e);
+                }
+                
+                this.showNotification('Settings reset to defaults', 'success');
+            } catch (error) {
+                console.error('Error resetting to defaults:', error);
+                this.showNotification('Failed to reset settings: ' + error.message, 'error');
+            }
+        }
+        
+        setTimeout(() => {
+            this._isResetting = false;
+        }, 500);
+    }
+    
+    /**
+     * Handle changes to the position preset dropdown
+     * @param {string} preset The selected position preset
+     */
+    handlePositionPresetChange(preset) {
+        // Get all position controls
+        const topInput = document.querySelector('[data-path="searchBar.position.top"]');
+        const rightInput = document.querySelector('[data-path="searchBar.position.right"]');
+        const leftInput = document.querySelector('[data-path="searchBar.position.left"]');
+        const bottomInput = document.querySelector('[data-path="searchBar.position.bottom"]');
+        
+        // Get the parent elements for positioning
+        const topControl = topInput?.closest('.setting-item');
+        const rightControl = rightInput?.closest('.setting-item');
+        const leftControl = leftInput?.closest('.setting-item');
+        const bottomControl = bottomInput?.closest('.setting-item');
+        
+        // Hide all by default
+        [topControl, rightControl, leftControl, bottomControl].forEach(control => {
+            if (control) control.style.display = 'none';
+        });
+        
+        // Update state based on the preset
+        const state = this._stateManager.getState();
+        if (!state.searchBar) state.searchBar = {};
+        if (!state.searchBar.position) state.searchBar.position = {};
+        
+        // Show relevant controls and update state based on preset
+        switch (preset) {
+            case 'top-left':
+                if (topControl) topControl.style.display = '';
+                if (leftControl) leftControl.style.display = '';
+                
+                state.searchBar.position.top = state.searchBar.position.top || 70;
+                state.searchBar.position.left = state.searchBar.position.left || 70;
+                state.searchBar.position.right = null;
+                state.searchBar.position.bottom = null;
+                break;
+                
+            case 'top-right':
+                if (topControl) topControl.style.display = '';
+                if (rightControl) rightControl.style.display = '';
+                
+                state.searchBar.position.top = state.searchBar.position.top || 70;
+                state.searchBar.position.right = state.searchBar.position.right || 70;
+                state.searchBar.position.left = null;
+                state.searchBar.position.bottom = null;
+                break;
+                
+            case 'top-center':
+                if (topControl) topControl.style.display = '';
+                
+                state.searchBar.position.top = state.searchBar.position.top || 70;
+                state.searchBar.position.left = '50%';
+                state.searchBar.position.right = null;
+                state.searchBar.position.bottom = null;
+                break;
+                
+            case 'bottom-left':
+                if (bottomControl) bottomControl.style.display = '';
+                if (leftControl) leftControl.style.display = '';
+                
+                state.searchBar.position.bottom = state.searchBar.position.bottom || 70;
+                state.searchBar.position.left = state.searchBar.position.left || 70;
+                state.searchBar.position.top = null;
+                state.searchBar.position.right = null;
+                break;
+                
+            case 'bottom-right':
+                if (bottomControl) bottomControl.style.display = '';
+                if (rightControl) rightControl.style.display = '';
+                
+                state.searchBar.position.bottom = state.searchBar.position.bottom || 70;
+                state.searchBar.position.right = state.searchBar.position.right || 70;
+                state.searchBar.position.top = null;
+                state.searchBar.position.left = null;
+                break;
+                
+            case 'center':
+                // No offset controls needed for center
+                state.searchBar.position.top = '50%';
+                state.searchBar.position.left = '50%';
+                state.searchBar.position.right = null;
+                state.searchBar.position.bottom = null;
+                break;
+                
+            case 'custom':
+                // Show all position controls for custom preset
+                [topControl, rightControl, leftControl, bottomControl].forEach(control => {
+                    if (control) control.style.display = '';
+                });
+                
+                // Ensure there are some values set
+                if (state.searchBar.position.top === null && 
+                    state.searchBar.position.bottom === null) {
+                    state.searchBar.position.top = 70;
+                }
+                
+                if (state.searchBar.position.left === null && 
+                    state.searchBar.position.right === null) {
+                    state.searchBar.position.right = 70;
+                }
+                break;
+        }
+        
+        // Update the state manager
+        this._stateManager.setState(state);
+        
+        // Apply state to controls to reflect changes
+        this.applyStateToControls();
+        
+        // Update preview
+        this._updatePreview();
+    }
+    
+    _setupTabs() {
+        const tabs = document.querySelectorAll('.tab');
+        const tabScrollPositions = new Map();
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Save scroll position of current tab
+                const currentTabContent = document.querySelector('.tab-content.active');
+                if (currentTabContent) {
+                    this._stateManager.saveTabScrollPosition(this._activeTab, currentTabContent.scrollTop);
+                }
+                
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Activate clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding tab content
+                const tabId = tab.dataset.tab;
+                const tabContent = document.getElementById(`${tabId}-tab`);
+                
+                if (tabContent) {
+                    tabContent.classList.add('active');
+                    
+                    // Restore scroll position
+                    const savedPosition = this._stateManager.getTabScrollPosition(tabId);
+                    if (savedPosition) {
+                        tabContent.scrollTop = savedPosition;
+                    }
+                    
+                    // Update active tab
+                    this._activeTab = tabId;
+                }
+            });
+        });
+    }
+    
+    _setupControl(input) {
+        const path = input.dataset.path;
+        this._controlMap.set(path, input);
         
         // Set up event listeners based on input type
         if (input.type === 'checkbox') {
             input.addEventListener('change', () => {
-                const value = input.checked;
-                this._stateManager.setValue(path, value);
-                this._updateDependentControls(path, value);
-                this.updatePreview();
+                this._stateManager.setState(input.checked, path);
             });
         } else if (input.type === 'color') {
-            // ...existing code...
+            input.addEventListener('change', () => {
+                this._stateManager.setState(input.value, path);
+            });
         } else if (input.type === 'number') {
-            // ...existing code...
+            input.addEventListener('change', () => {
+                const value = parseFloat(input.value);
+                if (!isNaN(value)) {
+                    this._stateManager.setState(value, path);
+                }
+            });
+        } else if (input.type === 'range') {
+            input.addEventListener('input', () => {
+                const value = parseFloat(input.value);
+                if (!isNaN(value)) {
+                    this._stateManager.setState(value, path);
+                    
+                    // Update display of value if available
+                    const displayId = input.dataset.valueDisplay;
+                    if (displayId) {
+                        const display = document.getElementById(displayId);
+                        if (display) {
+                            display.textContent = value;
+                        }
+                    }
+                }
+            });
         } else if (input.tagName === 'SELECT') {
             input.addEventListener('change', () => {
                 let value = input.value;
                 
-                // Handle null values (represented as "null" string in select)
-                if (value === "null") {
-                    value = null;
-                } else if (!isNaN(Number(value))) {
-                    // Convert numeric strings to numbers
-                    value = Number(value);
-                } else if (value === "true") {
-                    value = true;
-                } else if (value === "false") {
-                    value = false;
+                // Handle special value types
+                if (value === 'true') value = true;
+                else if (value === 'false') value = false;
+                else if (value === 'null') value = null;
+                else if (!isNaN(parseFloat(value)) && value.trim() !== '') {
+                    value = parseFloat(value);
                 }
                 
-                this._stateManager.setValue(path, value);
-                this._updateDependentControls(path, value);
-                this.updatePreview();
+                this._stateManager.setState(value, path);
+                
+                // Special handling for position preset
+                if (path === 'searchBar.positionPreset') {
+                    this.handlePositionPresetChange(value);
+                }
             });
         } else {
-            // Text inputs and other types
-            // ...existing code...
+            input.addEventListener('change', () => {
+                this._stateManager.setState(input.value, path);
+            });
         }
     }
     
-    /**
-     * Update visibility of controls based on their dependencies
-     * @private
-     */
-    _updateDependentControls() {
-        const all = this._container.querySelectorAll('[data-depends-on]');
-        all.forEach(control => {
-            const path = control.dataset.dependsOn;
-            const value = control.dataset.dependsValue;
-            const current = this._stateManager.getValue(path);
-            control.style.display = (String(current) === String(value)) ? '' : 'none';
-        });
-    }
-    
-    /**
-     * Create boolean control (toggle switch)
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createBooleanControl(setting) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'toggle-control-wrapper';
+    _setupLinkedControl(input) {
+        const linkedId = input.dataset.linked;
+        const linkedInput = document.getElementById(linkedId);
         
-        const control = document.createElement('input');
-        control.type = 'checkbox';
-        control.id = `control-${setting.path}`;
-        control.className = 'toggle-control';
-        control.dataset.path = setting.path;
-        
-        // Subscribe to changes
-        control.addEventListener('change', () => {
-            this._handleControlChange(setting.path, control.checked);
-        });
-        
-        wrapper.appendChild(control);
-        
-        // Add toggle slider
-        const slider = document.createElement('span');
-        slider.className = 'toggle-slider';
-        wrapper.appendChild(slider);
-        
-        return wrapper;
-    }
-    
-    /**
-     * Create color control
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createColorControl(setting) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'color-control-wrapper';
-        
-        // Color picker control
-        const control = document.createElement('input');
-        control.type = 'color';
-        control.id = `control-${setting.path}`;
-        control.className = 'color-control';
-        control.dataset.path = setting.path;
-        
-        // Text input for hex value
-        const textInput = document.createElement('input');
-        textInput.type = 'text';
-        textInput.className = 'color-text-input';
-        textInput.placeholder = '#RRGGBB';
-        textInput.id = `${control.id}-text`;
-        
-        // Link color picker and text input
-        control.addEventListener('input', () => {
-            textInput.value = control.value;
-            this._handleControlChange(setting.path, control.value);
-        });
-        
-        textInput.addEventListener('input', () => {
-            // Only update if valid hex color
-            if (/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(textInput.value)) {
-                control.value = textInput.value;
-                this._handleControlChange(setting.path, textInput.value);
-            }
-        });
-        
-        textInput.addEventListener('blur', () => {
-            // Force valid hex color on blur
-            if (!/^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(textInput.value)) {
-                textInput.value = control.value;
-            }
-        });
-        
-        wrapper.appendChild(control);
-        wrapper.appendChild(textInput);
-        
-        return wrapper;
-    }
-    
-    /**
-     * Create number control
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createNumberControl(setting) {
-        // For slider-type controls
-        if (setting.hasOwnProperty('min') && setting.hasOwnProperty('max') && setting.step !== undefined) {
-            return this._createRangeControl(setting);
-        }
-        
-        const control = document.createElement('input');
-        control.type = 'number';
-        control.id = `control-${setting.path}`;
-        control.className = 'number-control';
-        control.dataset.path = setting.path;
-        
-        // Set min/max if available
-        if (setting.min !== undefined) control.min = setting.min;
-        if (setting.max !== undefined) control.max = setting.max;
-        if (setting.step !== undefined) control.step = setting.step;
-        
-        // Handle nullable values
-        if (setting.nullable) {
-            control.placeholder = 'Not set (optional)';
-        }
-        
-        // Subscribe to changes
-        control.addEventListener('change', () => {
-            let value = control.value !== '' ? Number(control.value) : null;
-            
-            // Handle nullable
-            if (value === null && !setting.nullable) {
-                value = setting.min || 0;
-                control.value = value;
-            }
-            
-            this._handleControlChange(setting.path, value);
-        });
-        
-        return control;
-    }
-    
-    /**
-     * Create range slider control with value display
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createRangeControl(setting) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'range-control-wrapper';
-        
-        // Value display
-        const valueDisplay = document.createElement('span');
-        valueDisplay.className = 'range-value-display';
-        valueDisplay.id = `${setting.path}-display`;
-        valueDisplay.textContent = setting.default || (setting.min + setting.max) / 2;
-        
-        // Range input
-        const control = document.createElement('input');
-        control.type = 'range';
-        control.id = `control-${setting.path}`;
-        control.className = 'range-control';
-        control.dataset.path = setting.path;
-        control.min = setting.min;
-        control.max = setting.max;
-        control.step = setting.step || 1;
-        
-        // Update display and trigger change on input
-        control.addEventListener('input', () => {
-            valueDisplay.textContent = control.value;
-            this._handleControlChange(setting.path, Number(control.value));
-        });
-        
-        // Create a label that includes the value display
-        const rangeLabel = document.createElement('label');
-        rangeLabel.className = 'range-label';
-        rangeLabel.textContent = `${setting.label}: `;
-        rangeLabel.appendChild(valueDisplay);
-        
-        wrapper.appendChild(rangeLabel);
-        wrapper.appendChild(control);
-        
-        return wrapper;
-    }
-    
-    /**
-     * Create select control
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createSelectControl(setting) {
-        const control = document.createElement('select');
-        control.id = `control-${setting.path}`;
-        control.className = 'select-control';
-        control.dataset.path = setting.path;
-        
-        // Add options
-        if (setting.options) {
-            setting.options.forEach(option => {
-                const optionElement = document.createElement('option');
+        if (linkedInput) {
+            // Update text input when color changes
+            if (input.type === 'color' && linkedInput.type === 'text') {
+                input.addEventListener('input', () => {
+                    linkedInput.value = input.value;
+                });
                 
-                // Handle different option formats
-                if (typeof option === 'object') {
-                    optionElement.value = option.value !== undefined ? 
-                        (option.value === null ? '' : option.value) : '';
-                    optionElement.textContent = option.label || option.value || '';
+                // Update color when text changes
+                linkedInput.addEventListener('change', () => {
+                    const hexColor = linkedInput.value.trim();
+                    if (/^#[0-9A-Fa-f]{6}$/.test(hexColor)) {
+                        input.value = hexColor;
+                        
+                        // Trigger change event to update state and preview
+                        const event = new Event('change', { bubbles: true });
+                        input.dispatchEvent(event);
+                    }
+                });
+            }
+        }
+    }
+    
+    _setupActionButtons() {
+        // Save Settings
+        const saveButton = document.getElementById('saveSettings');
+        if (saveButton) {
+            saveButton.addEventListener('click', () => this._handleSaveClick());
+        }
+        
+        // Apply Settings
+        const applyButton = document.getElementById('applySettings');
+        if (applyButton) {
+            applyButton.addEventListener('click', () => this._handleApplyClick());
+        }
+        
+        // Reset Settings
+        const resetButton = document.getElementById('resetSettings');
+        if (resetButton) {
+            resetButton.addEventListener('click', () => this._handleResetClick());
+        }
+        
+        // Export Settings
+        const exportButton = document.getElementById('exportSettings');
+        if (exportButton) {
+            exportButton.addEventListener('click', () => this.exportSettings());
+        }
+        
+        // Export for Server
+        const exportServerButton = document.getElementById('exportForServer');
+        if (exportServerButton) {
+            exportServerButton.addEventListener('click', () => this.exportForServer());
+        }
+        
+        // Import Settings
+        const importButton = document.getElementById('importButton');
+        const importFile = document.getElementById('importFile');
+        if (importButton && importFile) {
+            importButton.addEventListener('click', () => {
+                importFile.click();
+            });
+            
+            importFile.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    this.importSettings(file);
+                }
+            });
+        }
+    }
+    
+    _loadState() {
+        // Try to load from localStorage
+        const savedState = this._storageManager.load();
+        
+        if (savedState) {
+            this._stateManager.setState(savedState);
+        } else {
+            // If no saved state, try to load default settings
+            if (typeof window.getDefaultSettings === 'function') {
+                const defaults = window.getDefaultSettings();
+                this._stateManager.setState(defaults);
+            }
+        }
+        
+        // Apply state to UI controls
+        this.applyStateToControls();
+        
+        // Update preview with initial state
+        this._updatePreview();
+        
+        // Subscribe to state changes
+        this._stateManager.subscribe(() => {
+            // Nothing needed here since controls are updated directly
+        });
+    }
+    
+    applyStateToControls() {
+        const state = this._stateManager.getState();
+        
+        // Update each control with value from state
+        this._controlMap.forEach((control, path) => {
+            const value = this.getValueFromPath(state, path);
+            
+            if (value !== undefined) {
+                if (control.type === 'checkbox') {
+                    control.checked = Boolean(value);
+                } else if (control.type === 'color') {
+                    control.value = value;
+                    
+                    // Update linked text input if exists
+                    const textInput = document.getElementById(`${control.id}Text`);
+                    if (textInput) {
+                        textInput.value = value;
+                    }
+                } else if (control.tagName === 'SELECT') {
+                    // For select elements, convert the value to string 
+                    control.value = (value === null) ? 'null' : String(value);
                 } else {
-                    optionElement.value = option;
-                    optionElement.textContent = option;
+                    control.value = value;
                 }
                 
-                control.appendChild(optionElement);
-            });
-        }
-        
-        // Subscribe to changes
-        control.addEventListener('change', () => {
-            // Handle special case for null values
-            let value = control.value;
-            
-            if (value === '') {
-                value = null;
-            } else if (value === 'true') {
-                value = true;
-            } else if (value === 'false') {
-                value = false;
-            } else if (!isNaN(Number(value)) && value !== '') {
-                // Convert numeric strings to numbers
-                value = Number(value);
-            }
-            
-            this._handleControlChange(setting.path, value);
-        });
-        
-        return control;
-    }
-    
-    /**
-     * Create text control
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control element
-     * @private
-     */
-    _createTextControl(setting) {
-        const control = document.createElement('input');
-        control.type = 'text';
-        control.id = `control-${setting.path}`;
-        control.className = 'text-control';
-        control.dataset.path = setting.path;
-        
-        // Handle nullable values
-        if (setting.nullable) {
-            control.placeholder = 'Not set (optional)';
-        }
-        
-        // Subscribe to changes
-        control.addEventListener('input', () => {
-            this._handleControlChange(setting.path, control.value);
-        });
-        
-        return control;
-    }
-    
-    /**
-     * Create footer element with action buttons
-     * @returns {HTMLElement} Footer element
-     * @private
-     */
-    _createFooter() {
-        const footer = document.createElement('footer');
-        footer.className = 'search-pro-footer';
-        
-        // Main action buttons
-        const actionButtons = document.createElement('div');
-        actionButtons.className = 'action-buttons';
-        
-        // Reset All button - new global reset button
-        const resetAllButton = document.createElement('button');
-        resetAllButton.id = 'resetAllSettings';
-        resetAllButton.className = 'reset-all-button secondary-button';
-        resetAllButton.textContent = 'Reset All Settings';
-        resetAllButton.addEventListener('click', this._handleResetAll.bind(this));
-        actionButtons.appendChild(resetAllButton);
-        
-        // Spacer
-        const buttonSpacer = document.createElement('div');
-        buttonSpacer.className = 'button-spacer';
-        actionButtons.appendChild(buttonSpacer);
-        
-        // Reset button
-        this._resetButton = document.createElement('button');
-        this._resetButton.id = 'resetSettings';
-        this._resetButton.className = 'reset-button secondary-button';
-        this._resetButton.textContent = 'Reset to Defaults';
-        this._resetButton.addEventListener('click', this._handleReset.bind(this));
-        actionButtons.appendChild(this._resetButton);
-        
-        // Save button
-        this._saveButton = document.createElement('button');
-        this._saveButton.id = 'saveSettings';
-        this._saveButton.className = 'save-button primary-button';
-        this._saveButton.textContent = 'Save Settings';
-        this._saveButton.addEventListener('click', this._handleSave.bind(this));
-        actionButtons.appendChild(this._saveButton);
-        
-        footer.appendChild(actionButtons);
-        
-        // Import/Export section
-        const importExport = document.createElement('div');
-        importExport.className = 'import-export-section';
-        
-        const importExportTitle = document.createElement('h3');
-        importExportTitle.textContent = 'Import/Export Settings';
-        importExport.appendChild(importExportTitle);
-        
-        const importExportDescription = document.createElement('p');
-        importExportDescription.textContent = 'Export your settings to a file for backup or import them on another device. You can also export a configuration for server-side deployment.';
-        importExport.appendChild(importExportDescription);
-        
-        const importExportButtons = document.createElement('div');
-        importExportButtons.className = 'import-export-buttons';
-        
-        // Export button
-        this._exportButton = document.createElement('button');
-        this._exportButton.id = 'exportSettings';
-        this._exportButton.className = 'export-button secondary-button';
-        this._exportButton.textContent = 'Export Settings';
-        this._exportButton.addEventListener('click', this._handleExport.bind(this));
-        importExportButtons.appendChild(this._exportButton);
-        
-        // Export for Server button
-        const exportServerButton = document.createElement('button');
-        exportServerButton.id = 'exportForServer';
-        exportServerButton.className = 'export-server-button primary-button';
-        exportServerButton.textContent = 'Export for Server';
-        exportServerButton.addEventListener('click', this._handleExportForServer.bind(this));
-        importExportButtons.appendChild(exportServerButton);
-        
-        // Import button and file input
-        this._importButton = document.createElement('button');
-        this._importButton.id = 'importButton';
-        this._importButton.className = 'import-button secondary-button';
-        this._importButton.textContent = 'Import Settings';
-        
-        const importFile = document.createElement('input');
-        importFile.type = 'file';
-        importFile.id = 'importFile';
-        importFile.accept = '.json';
-        importFile.style.display = 'none';
-        importFile.addEventListener('change', this._handleImportFile.bind(this));
-        
-        this._importButton.addEventListener('click', () => {
-            importFile.click();
-        });
-        
-        importExportButtons.appendChild(this._importButton);
-        importExportButtons.appendChild(importFile);
-        
-        importExport.appendChild(importExportButtons);
-        footer.appendChild(importExport);
-        
-        // Server configuration section
-        const serverConfig = document.createElement('div');
-        serverConfig.className = 'server-config-section';
-        
-        const serverConfigTitle = document.createElement('h3');
-        serverConfigTitle.textContent = 'Server Configuration';
-        serverConfig.appendChild(serverConfigTitle);
-        
-        const serverConfigDescription = document.createElement('p');
-        serverConfigDescription.textContent = 'To make your settings persistent across all browsers and tours, export to a server configuration file.';
-        serverConfig.appendChild(serverConfigDescription);
-        
-        const serverConfigInstructions = document.createElement('div');
-        serverConfigInstructions.className = 'server-config-instructions';
-        serverConfigInstructions.innerHTML = `
-            <ol>
-                <li>Click "Export for Server" to download the configuration file</li>
-                <li>Upload the file to <code>/search-pro/config/search-config.json</code> on your server</li>
-                <li>The configuration will automatically load for all users</li>
-            </ol>
-            <p><strong>Note:</strong> After setting up your permanent configuration, you can remove or restrict access to this settings page.</p>
-        `;
-        serverConfig.appendChild(serverConfigInstructions);
-        
-        footer.appendChild(serverConfig);
-        
-        return footer;
-    }
-    
-    /**
-     * Handle Reset All button click
-     * @private
-     */
-    _handleResetAll() {
-        if (confirm('Reset ALL settings to defaults? This will reset settings in all tabs and cannot be undone.')) {
-            this._performReset();
-        }
-    }
-    
-    /**
-     * Perform reset to defaults
-     * @private
-     */
-    _performReset() {
-        try {
-            // Get default settings
-            const defaultSettings = getDefaultSettings();
-            
-            // Update state
-            this._stateManager.setState(defaultSettings);
-            
-            // Force update ALL controls regardless of active tab
-            // This ensures controls in inactive tabs are also reset
-            this._updateControlsFromState(defaultSettings);
-            
-            // Mark as having unsaved changes
-            this._unsavedChanges = true;
-            
-            // Show notification
-            this._showNotification('Settings reset to defaults', 'info');
-            
-            return true;
-        } catch (error) {
-            console.error('[UIManager] Error resetting settings:', error);
-            this._showNotification(`Error resetting settings: ${error.message}`, 'error');
-            return false;
-        }
-    }
-    
-    /**
-     * Set active tab
-     * @param {string} tabId Tab ID to activate
-     * @private
-     */
-    _setActiveTab(tabId) {
-        // Save current tab scroll position
-        if (this._activeTab) {
-            const activePanel = this._panelElements.get(this._activeTab);
-            if (activePanel) {
-                this._tabScrollPositions.set(this._activeTab, activePanel.scrollTop);
-            }
-        }
-        
-        // Update active tab
-        this._activeTab = tabId;
-        
-        // Update tab appearance
-        this._tabElements.forEach((tab, id) => {
-            if (id === tabId) {
-                tab.classList.add('active');
-            } else {
-                tab.classList.remove('active');
-            }
-        });
-        
-        // Update panel visibility
-        this._panelElements.forEach((panel, id) => {
-            if (id === tabId) {
-                panel.style.display = 'block';
-                
-                // Restore scroll position
-                const savedPos = this._tabScrollPositions.get(id);
-                if (savedPos) {
-                    panel.scrollTop = savedPos;
-                }
-            } else {
-                panel.style.display = 'none';
-            }
-        });
-        
-        // Update preview if tab is appearance
-        if (tabId === 'appearance' && this._preview) {
-            this._updatePreview();
-        }
-    }
-    
-    /**
-     * Get default active tab ID
-     * @returns {string} Default tab ID
-     * @private
-     */
-    _getDefaultActiveTab() {
-        // Use first tab as default
-        const tabs = Array.from(this._tabElements.keys());
-        return tabs.length > 0 ? tabs[0] : 'general';
-    }
-    
-    /**
-     * Load settings from storage
-     * @private
-     */
-    _loadSettings() {
-        // Try to load settings from storage
-        const storedSettings = this._storageManager.load();
-        
-        if (storedSettings) {
-            console.log('[UIManager] Loaded settings from storage');
-            this._stateManager.setState(storedSettings);
-            this._unsavedChanges = false;
-        } else {
-            // Fall back to defaults
-            console.log('[UIManager] No stored settings found, using defaults');
-            this._stateManager.setState(getDefaultSettings());
-            this._unsavedChanges = false;
-        }
-    }
-
-    /**
-     * Handle control value change
-     * @param {string} path Setting path
-     * @param {*} value New value
-     * @private
-     */
-    _handleControlChange(path, value) {
-        // Update state
-        this._stateManager.setValue(path, value);
-        
-        // Mark as having unsaved changes
-        this._unsavedChanges = true;
-        
-        // Update dependent controls that might need to show/hide
-        this._updateDependentControls();
-        
-        // Update preview if in appearance tab
-        if (this._activeTab === 'appearance' && this._preview) {
-            this._schedulePreviewUpdate();
-        }
-        
-        // Auto-save if configured
-        if (this._options.autoSave) {
-            this._saveSettings();
-        }
-    }
-    
-    /**
-     * Handle state change
-     * @param {Object} state Current state
-     * @private
-     */
-    _handleStateChange(state) {
-        // Update controls to reflect state changes
-        this._updateControlsFromState(state);
-        
-        // Update visibility of dependent controls
-        this._updateDependentControls();
-    }
-    
-    /**
-     * Update visibility of controls that depend on other settings
-     * @private
-     */
-    _updateDependentControls() {
-        const all = this._container.querySelectorAll('[data-depends-on]');
-        
-        all.forEach(el => {
-            const dependsOnPath = el.dataset.dependsOn;
-            const expectedValue = el.dataset.dependsValue;
-            const actualValue = this._stateManager.getValue(dependsOnPath);
-            
-            if (String(actualValue) === expectedValue) {
-                el.style.display = '';
-            } else {
-                el.style.display = 'none';
-            }
-        });
-    }
-    
-    /**
-     * Update all controls to reflect current state
-     * @param {Object} state Current state
-     * @private
-     */
-    _updateControlsFromState(state) {
-        console.log('[UIManager] Updating all controls from state');
-        
-        // Update each control
-        this._controlElements.forEach((control, path) => {
-            const value = getValueFromPath(state, path);
-            this._updateControlValue(control, path, value);
-        });
-        
-        // Update dependent controls visibility
-        this._updateDependentControls();
-        
-        // Update preview if in appearance tab
-        if (this._activeTab === 'appearance' && this._preview) {
-            this._updatePreview();
-        }
-    }
-    
-    /**
-     * Update specific control's value
-     * @param {HTMLElement} control Control element
-     * @param {string} path Setting path
-     * @param {*} value New value
-     * @private
-     */
-    _updateControlValue(control, path, value) {
-        if (!control) return;
-        
-        // Handle different control types
-        if (control.classList.contains('toggle-control-wrapper')) {
-            // Boolean toggle switch
-            const checkbox = control.querySelector('input[type="checkbox"]');
-            if (checkbox) checkbox.checked = Boolean(value);
-        } else if (control.classList.contains('color-control-wrapper')) {
-            // Color picker with text input
-            const colorInput = control.querySelector('input[type="color"]');
-            const textInput = control.querySelector('input[type="text"]');
-            
-            if (colorInput && value) colorInput.value = value;
-            if (textInput && value) textInput.value = value;
-        } else if (control.classList.contains('range-control-wrapper')) {
-            // Range slider with display
-            const rangeInput = control.querySelector('input[type="range"]');
-            const display = control.querySelector('.range-value-display');
-            
-            if (rangeInput && value !== null && value !== undefined) {
-                rangeInput.value = value;
-            }
-            
-            if (display && value !== null && value !== undefined) {
-                display.textContent = value;
-            }
-        } else if (control.tagName === 'SELECT') {
-            // Select dropdown
-            // Convert null to empty string for select
-            const selectValue = value === null ? '' : 
-                               (typeof value === 'boolean' ? value.toString() : value);
-            control.value = selectValue;
-        } else if (control.type === 'number') {
-            // Number input
-            control.value = value !== null && value !== undefined ? value : '';
-        } else if (control.type === 'text') {
-            // Text input
-            control.value = value !== null && value !== undefined ? value : '';
-        } else if (control.type === 'range') {
-            // Range input (direct)
-            control.value = value !== null && value !== undefined ? value : '';
-            
-            // Update display if exists
-            const displayId = `${path}-display`;
-            const display = document.getElementById(displayId);
-            if (display) display.textContent = value;
-        }
-    }
-    
-    /**
-     * Handle Apply button click
-     * @private
-     */
-    _handleApplyClick() {
-        this._applySettings();
-    }
-    
-    /**
-     * Apply settings to tour
-     * @returns {boolean} Success
-     * @private
-     */
-    _applySettings() {
-        try {
-            // Get current state
-            const state = this._stateManager.getState();
-            
-            // Validate settings
-            const validation = validateSettings(state);
-            if (!validation.isValid) {
-                const errorMessage = `Validation failed: ${validation.errors[0].message}`;
-                this._showNotification(errorMessage, 'error');
-                console.error('[UIManager] ' + errorMessage);
-                return false;
-            }
-            
-            // Save to localStorage
-            this._storageManager.save(state);
-            
-            let applied = false;
-            
-            // Try to apply to tour via different contexts
-            // First try opener window (when opened as popup)
-            if (window.opener && window.opener.tourSearchFunctions && 
-                typeof window.opener.tourSearchFunctions.updateConfig === 'function') {
-                window.opener.tourSearchFunctions.updateConfig(state);
-                applied = true;
-                console.log('[UIManager] Applied settings to opener window');
-            }
-            // Then try parent frame (when embedded)
-            else if (window.parent !== window && window.parent.tourSearchFunctions && 
-                     typeof window.parent.tourSearchFunctions.updateConfig === 'function') {
-                window.parent.tourSearchFunctions.updateConfig(state);
-                applied = true;
-                console.log('[UIManager] Applied settings to parent frame');
-            }
-            // Finally try same window (standalone mode)
-            else if (window.tourSearchFunctions && 
-                     typeof window.tourSearchFunctions.updateConfig === 'function') {
-                window.tourSearchFunctions.updateConfig(state);
-                applied = true;
-                console.log('[UIManager] Applied settings to current window');
-            }
-            
-            // Display appropriate notification
-            if (applied) {
-                this._showNotification('Settings applied successfully', 'success');
-                this._unsavedChanges = false;
-            } else {
-                this._showNotification('Settings saved but no tour found to apply to', 'info');
-            }
-            
-            return applied;
-        } catch (error) {
-            console.error('[UIManager] Error applying settings:', error);
-            this._showNotification(`Error applying settings: ${error.message}`, 'error');
-            return false;
-        }
-    }
-    
-    /**
-     * Handle Reset button click
-     * @private
-     */
-    _handleReset() {
-        if (confirm('Reset all settings to defaults? This cannot be undone.')) {
-            this._performReset();
-        }
-    }
-    
-    /**
-     * Handle Save button click
-     * @private
-     */
-    _handleSave() {
-        try {
-            // Get current state
-            const state = this._stateManager.getState();
-            
-            // Validate settings
-            const validation = validateSettings(state);
-            if (!validation.isValid) {
-                const errorMessage = `Validation failed: ${validation.errors[0].message}`;
-                this._showNotification(errorMessage, 'error');
-                console.error('[UIManager] ' + errorMessage);
-                return false;
-            }
-            
-            // Save to localStorage
-            const success = this._storageManager.save(state);
-            
-            if (success) {
-                this._unsavedChanges = false;
-                this._showNotification('Settings saved successfully', 'success');
-                return true;
-            } else {
-                this._showNotification('Failed to save settings. Try exporting to a file instead.', 'error');
-                return false;
-            }
-        } catch (error) {
-            console.error('[UIManager] Error saving settings:', error);
-            this._showNotification(`Error saving settings: ${error.message}`, 'error');
-            return false;
-        }
-    }
-    
-    /**
-     * Handle Export button click
-     * @private
-     */
-    _handleExport() {
-        try {
-            // Get current state
-            const state = this._stateManager.getState();
-            
-            // Export as file
-            const success = this._storageManager.exportToFile(state);
-            
-            if (success) {
-                this._showNotification('Settings exported to file', 'success');
-            } else {
-                this._showNotification('Failed to export settings', 'error');
-            }
-        } catch (error) {
-            console.error('[UIManager] Error exporting settings:', error);
-            this._showNotification(`Error exporting settings: ${error.message}`, 'error');
-        }
-    }
-    
-    /**
-     * Handle Export for Server button click
-     * @private
-     */
-    _handleExportForServer() {
-        try {
-            // Get current state
-            const state = this._stateManager.getState();
-            
-            // Verify StorageManager has exportForServer method before calling
-            if (typeof this._storageManager.exportForServer !== 'function') {
-                console.error('[UIManager] StorageManager.exportForServer is not a function', this._storageManager);
-                
-                // Fallback implementation in case the method is missing
-                this._exportForServerFallback(state);
-                return;
-            }
-            
-            // Use storage manager to export for server
-            const success = this._storageManager.exportForServer(state);
-            
-            if (success) {
-                // Show notification
-                this._showNotification('Server configuration exported', 'success');
-                
-                // Show deployment instructions
-                this._showDeploymentInstructions();
-            } else {
-                this._showNotification('Failed to export server configuration', 'error');
-            }
-        } catch (error) {
-            console.error('[UIManager] Error exporting server configuration:', error);
-            this._showNotification(`Error exporting server configuration: ${error.message}`, 'error');
-        }
-    }
-
-    /**
-     * Fallback implementation for exportForServer in case the StorageManager method is unavailable
-     * @param {Object} state Current settings state
-     * @private
-     */
-    _exportForServerFallback(state) {
-        try {
-            const data = {
-                version: "1.0.0", // Fallback version since we can't access getSchemaVersion
-                timestamp: new Date().toISOString(),
-                meta: {
-                    warning: 'DO NOT EDIT THIS FILE MANUALLY. Use the Search Pro Settings Panel.',
-                    source: 'settings-panel',
-                    target: 'server-config',
-                    generatedBy: 'Search Pro Config Panel v2.0',
-                    generatedAt: new Date().toISOString()
-                },
-                settings: state
-            };
-
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'search-config.json';
-            document.body.appendChild(a);
-            a.click();
-
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
-
-            // Show notification
-            this._showNotification('Server configuration exported (fallback method)', 'success');
-            
-            // Show deployment instructions
-            this._showDeploymentInstructions();
-            
-            return true;
-        } catch (error) {
-            console.error('[UIManager] Error in exportForServerFallback:', error);
-            this._showNotification(`Error exporting server configuration: ${error.message}`, 'error');
-            return false;
-        }
-    }
-    
-    /**
-     * Handle Import File input change
-     * @param {Event} event Change event
-     * @private
-     */
-    _handleImportFile(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        // Check file type
-        if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
-            this._showNotification('Invalid file type. Please select a JSON file.', 'error');
-            return;
-        }
-        
-        // Read file
-        const reader = new FileReader();
-        reader.onload = () => {
-            try {
-                // Parse JSON
-                let importedData = JSON.parse(reader.result);
-                
-                // Extract settings from wrapper if needed
-                let settings = importedData;
-                if (importedData.settings) {
-                    settings = importedData.settings;
-                }
-                
-                // Validate settings
-                const validation = validateSettings(settings);
-                if (!validation.isValid) {
-                    // Create warning message with first error
-                    const errorMessage = `Validation issues found: ${validation.errors[0].message}`;
-                    
-                    // Get default settings to fill in missing values
-                    const defaults = getDefaultSettings();
-                    
-                    // Merge imported settings with defaults for any missing fields
-                    const mergedSettings = this._mergeWithDefaults(settings, defaults);
-                    
-                    // Update state with merged settings
-                    this._stateManager.setState(mergedSettings);
-                    this._updateControlsFromState(mergedSettings);
-                    this._unsavedChanges = true;
-                    
-                    // Show warning
-                    this._showNotification(`${errorMessage}. Default values have been applied where needed.`, 'warning');
-                    return;
-                }
-                
-                // Update state with valid settings
-                this._stateManager.setState(settings);
-                this._updateControlsFromState(settings);
-                this._unsavedChanges = true;
-                this._showNotification('Settings imported successfully', 'success');
-            } catch (error) {
-                console.error('[UIManager] Error importing settings:', error);
-                this._showNotification(`Error importing settings: ${error.message}`, 'error');
-            }
-            
-            // Reset file input
-            event.target.value = '';
-        };
-        
-        reader.onerror = () => {
-            this._showNotification('Error reading file', 'error');
-        };
-        
-        reader.readAsText(file);
-    }
-    
-    /**
-     * Deep merge imported settings with defaults
-     * @param {Object} imported Imported settings 
-     * @param {Object} defaults Default settings
-     * @returns {Object} Merged settings
-     * @private
-     */
-    _mergeWithDefaults(imported, defaults) {
-        const merged = JSON.parse(JSON.stringify(defaults));
-        
-        // Deep merge function
-        const deepMerge = (target, source) => {
-            for (const key in source) {
-                if (source.hasOwnProperty(key)) {
-                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-                        if (!target[key] || typeof target[key] !== 'object') {
-                            target[key] = {};
-                        }
-                        deepMerge(target[key], source[key]);
-                    } else if (source[key] !== undefined) {
-                        target[key] = source[key];
+                // Update range value display if configured
+                if (control.type === 'range' && control.dataset.valueDisplay) {
+                    const display = document.getElementById(control.dataset.valueDisplay);
+                    if (display) {
+                        display.textContent = value;
                     }
                 }
             }
-        };
+        });
         
-        deepMerge(merged, imported);
-        return merged;
-    }
-    
-    /**
-     * Setup live preview functionality for appearance tab
-     * @private
-     */
-    _setupPreview() {
-        // Find appearance tab panel
-        const appearancePanel = this._panelElements.get('appearance');
-        if (!appearancePanel) return;
-        
-        // Check if preview already exists
-        if (appearancePanel.querySelector('.preview-container')) return;
-        
-        // Create preview container
-        const previewContainer = document.createElement('div');
-        previewContainer.className = 'preview-container';
-        
-        // Create preview title
-        const previewTitle = document.createElement('h3');
-        previewTitle.textContent = 'Live Preview';
-        previewContainer.appendChild(previewTitle);
-        
-        // Create preview content
-        this._preview = document.createElement('div');
-        this._preview.className = 'search-preview';
-        this._preview.innerHTML = `
-            <!-- Search Field -->
-            <div class="preview-search-field">
-                <div class="preview-search-input">Search...</div>
-                <div class="preview-search-icon">
-                    <svg viewBox="0 0 24 24" width="16" height="16">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </div>
-            </div>
-            
-            <!-- Results Panel -->
-            <div class="preview-results-panel">
-                <!-- Group Header -->
-                <div class="preview-group-header">
-                    <span class="preview-group-title">Panorama</span>
-                    <span class="preview-group-count">2</span>
-                </div>
-                
-                <!-- Result Items -->
-                <div class="preview-result-item">
-                    <div class="preview-result-icon"></div>
-                    <div class="preview-result-content">
-                        <div class="preview-result-text">Living Room</div>
-                        <div class="preview-result-description">First floor panorama</div>
-                    </div>
-                </div>
-                <div class="preview-result-item">
-                    <div class="preview-result-icon"></div>
-                    <div class="preview-result-content">
-                        <div class="preview-result-text">Kitchen</div>
-                        <div class="preview-result-description">Main area</div>
-                    </div>
-                </div>
-                
-                <!-- Another Group -->
-                <div class="preview-group-header">
-                    <span class="preview-group-title">Hotspot</span>
-                    <span class="preview-group-count">1</span>
-                </div>
-                <div class="preview-result-item">
-                    <div class="preview-result-icon"></div>
-                    <div class="preview-result-content">
-                        <div class="preview-result-text">Dining Room</div>
-                        <div class="preview-result-description">In Living Room</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Add preview to container
-        previewContainer.appendChild(this._preview);
-        
-        // Add container to panel
-        appearancePanel.appendChild(previewContainer);
-        
-        // Initial update
+        // Force update of preview to ensure all visual elements are updated
         this._updatePreview();
     }
     
-    /**
-     * Schedule a debounced preview update
-     * @private
-     */
-    _schedulePreviewUpdate() {
-        // Clear existing timer
-        if (this._previewTimer) {
-            clearTimeout(this._previewTimer);
+    getValueFromPath(obj, path) {
+        const parts = path.split('.');
+        let current = obj;
+        
+        for (const part of parts) {
+            if (current === undefined || current === null) {
+                return undefined;
+            }
+            current = current[part];
         }
         
-        // Schedule update
-        this._previewTimer = setTimeout(() => {
-            this._updatePreview();
-        }, this._options.previewDelay);
+        return current;
     }
     
-    /**
-     * Update preview with current settings
-     * @private
-     */
-    _updatePreview() {
-        if (!this._preview) return;
+    _setupPreview() {
+        const previewRoot = document.querySelector('#layoutPreview');
+        this.preview = previewRoot;
+        this.previewSearchField = previewRoot.querySelector('.preview-search-field');
+        this.previewSearchInput = previewRoot.querySelector('.preview-search-input');
+        this.previewResultsPanel = previewRoot.querySelector('.preview-results-panel');
+        this.previewResultItems = Array.from(previewRoot.querySelectorAll('.preview-result-item'));
+        this.previewGroupHeaders = Array.from(previewRoot.querySelectorAll('.preview-group-header'));
+        
+        // Update with initial placeholder if available
+        const state = this._stateManager.getState();
+        if (state.searchBar?.placeholder && this.previewSearchInput) {
+            this.previewSearchInput.placeholder = state.searchBar.placeholder;
+        }
+    }
+    
+    _updatePreview(forceFullRefresh = false) {
+        if (!this.preview) return;
         
         const state = this._stateManager.getState();
         
-        // Get preview elements
-        const searchField = this._preview.querySelector('.preview-search-field');
-        const searchInput = this._preview.querySelector('.preview-search-input');
-        const searchIcon = this._preview.querySelector('.preview-search-icon');
-        const resultsPanel = this._preview.querySelector('.preview-results-panel');
-        const resultItems = this._preview.querySelectorAll('.preview-result-item');
-        const groupHeaders = this._preview.querySelectorAll('.preview-group-header');
-        
-        // Update theme (dark/light mode)
-        this._preview.classList.remove('preview-dark-mode', 'preview-light-mode');
-        if (state.theme?.useDarkMode === true) {
-            this._preview.classList.add('preview-dark-mode');
-        } else if (state.theme?.useDarkMode === false) {
-            this._preview.classList.add('preview-light-mode');
-        }
-        
-        // Apply display settings toggles to preview
-        if (this._preview) {
-            const preview = this._preview;
-            const display = state.display || {};
-
-            preview.classList.toggle('hide-tags', !display.showTagsInResults);
-            preview.classList.toggle('hide-subtitles', !display.showSubtitlesInResults);
-            preview.classList.toggle('only-subtitles', !!display.onlySubtitles);
-            preview.classList.toggle('hide-icons', !display.showIconsInResults);
-            preview.classList.toggle('hide-group-headers', !display.showGroupHeaders);
-            preview.classList.toggle('hide-group-count', !display.showGroupCount);
-            
-            // Clear previous positioning
-            preview.classList.remove(
-              'position-top-left',
-              'position-top-right',
-              'position-bottom-left',
-              'position-bottom-right',
-              'position-center-top'
-            );
-
-            // Apply preset position or custom offsets
-            const preset = state.position?.preset;
-            const offsets = state.position?.offsets;
-
-            if (preset && preset !== 'custom') {
-              preview.classList.add(`position-${preset}`);
-              
-              // Reset inline styles when using presets
-              preview.style.top = '';
-              preview.style.left = '';
-              preview.style.right = '';
-              preview.style.bottom = '';
-              preview.style.position = 'relative'; // Default position
-            } else if (preset === 'custom' && offsets) {
-              // Custom offsets (scaled for preview)
-              const px = (val) => val !== null && val !== undefined ? `${val / 2}px` : '';
-
-              preview.style.top = px(offsets.top);
-              preview.style.left = px(offsets.left);
-              preview.style.right = px(offsets.right);
-              preview.style.bottom = px(offsets.bottom);
-              preview.style.position = 'absolute';
-            } else {
-              // Reset if no value
-              preview.style.top = '';
-              preview.style.left = '';
-              preview.style.right = '';
-              preview.style.bottom = '';
-              preview.style.position = 'relative'; // Default position
-            }
-        }
-        
         // Update search width
         const searchWidth = state.appearance?.searchWidth || 350;
-        this._preview.style.width = `${Math.min(searchWidth, 500)}px`; // Limit preview width
+        this.preview.style.width = `${Math.min(searchWidth, 500)}px`;
         
-        // Update results max height
+        // Update max height for results
         const maxHeight = state.appearance?.searchResults?.maxHeight || 500;
-        if (resultsPanel) {
-            resultsPanel.style.maxHeight = `${Math.min(maxHeight / 2, 200)}px`; // Scale down for preview
+        if (this.previewResultsPanel) {
+            this.previewResultsPanel.style.maxHeight = `${Math.min(maxHeight / 2, 200)}px`;
         }
         
-        // Update typography if available
+        // Update theme (light/dark)
+        this.preview.classList.remove('preview-dark-mode', 'preview-light-mode');
+        if (state.theme?.useDarkMode === true) {
+            this.preview.classList.add('preview-dark-mode');
+        } else if (state.theme?.useDarkMode === false) {
+            this.preview.classList.add('preview-light-mode');
+        }
+        
+        // Update typography
         if (state.theme?.typography) {
             const typography = state.theme.typography;
-            this._preview.style.fontFamily = typography.fontFamily || '';
-            this._preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}em` : '';
-            this._preview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
-        }
-        
-        // Update search field border radius
-        if (searchField && state.appearance?.searchField?.borderRadius) {
-            const radius = state.appearance.searchField.borderRadius;
-            searchField.style.borderRadius = `${radius.topLeft}px ${radius.topRight}px ${radius.bottomRight}px ${radius.bottomLeft}px`;
-        }
-        
-        // Update results panel radius
-        if (resultsPanel && state.appearance?.searchResults?.borderRadius) {
-            const radius = state.appearance.searchResults.borderRadius;
-            resultsPanel.style.borderRadius = `${radius.topLeft}px ${radius.topRight}px ${radius.bottomRight}px ${radius.bottomLeft}px`;
-        }
-        
-        // Update placeholder preview text
-        if (searchInput && state.searchBar?.placeholder) {
-            searchInput.textContent = state.searchBar.placeholder;
-            searchInput.style.opacity = '0.6'; // Make it look like a placeholder
-        }
-        
-        // Update colors if available
-        if (state.appearance?.colors) {
-            const colors = state.appearance.colors;
+            this.preview.style.fontFamily = typography.fontFamily || '';
+            this.preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}em` : '';
+            this.preview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
             
-            // Update search field colors
-            if (searchField) {
-                searchField.style.backgroundColor = colors.searchBackground || '';
+            // Update font preview
+            const fontPreview = document.getElementById('fontPreview');
+            if (fontPreview) {
+                fontPreview.style.fontFamily = typography.fontFamily || '';
+                fontPreview.style.fontSize = typography.fontSize ? `${typography.fontSize}px` : '';
+                fontPreview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
+            }
+        }
+        
+        // Update placeholder text
+        if (this.previewSearchInput) {
+            this.previewSearchInput.placeholder = state.searchBar?.placeholder || 'Search...';
+        }
+        
+        // Update border radius with explicit defaults if not present
+        if (this.previewSearchField) {
+            const border = state.appearance?.searchField?.borderRadius || { topLeft: 35, topRight: 35, bottomRight: 35, bottomLeft: 35 };
+            
+            this.previewSearchField.style.borderTopLeftRadius = `${border.topLeft || 35}px`;
+            this.previewSearchField.style.borderTopRightRadius = `${border.topRight || 35}px`;
+            this.previewSearchField.style.borderBottomRightRadius = `${border.bottomRight || 35}px`;
+            this.previewSearchField.style.borderBottomLeftRadius = `${border.bottomLeft || 35}px`;
+            
+            // Make border visible to properly show radius
+            this.previewSearchField.style.border = '1px solid rgba(0,0,0,0.2)';
+            this.previewSearchField.style.overflow = 'hidden';
+        }
+        
+        // Update colors - more thorough with fallbacks
+        if (state.appearance?.colors || forceFullRefresh) {
+            const colors = state.appearance?.colors || {};
+            
+            // Search field background
+            if (this.previewSearchField) {
+                this.previewSearchField.style.backgroundColor = colors.searchBackground || '#ffffff';
             }
             
-            if (searchInput) {
-                searchInput.style.color = colors.searchText || '';
+            // Search text color
+            if (this.previewSearchInput) {
+                this.previewSearchInput.style.color = colors.searchText || '#1a1a1a';
             }
             
+            // Search icon color
+            const searchIcon = this.preview.querySelector('.preview-search-icon');
             if (searchIcon) {
-                searchIcon.style.color = colors.searchIcon || '';
+                searchIcon.style.color = colors.searchIcon || '#64748b';
             }
             
-            // Update results panel colors
-            if (resultsPanel) {
-                resultsPanel.style.backgroundColor = colors.resultsBackground || '';
+            // Results background
+            if (this.previewResultsPanel) {
+                this.previewResultsPanel.style.backgroundColor = colors.resultsBackground || '#ffffff';
             }
             
-            // Update result items
-            resultItems.forEach(item => {
-                item.style.borderLeftColor = colors.resultBorderLeft || '';
-                
-                // Update text colors
-                const text = item.querySelector('.preview-result-text');
-                if (text) {
-                    text.style.color = colors.resultText || '';
-                }
-                
-                const description = item.querySelector('.preview-result-description');
-                if (description) {
-                    description.style.color = colors.resultSubtitle || '';
-                }
-                
-                // Add hover effect
-                item.addEventListener('mouseenter', () => {
-                    item.style.backgroundColor = colors.resultHover || '';
-                    item.style.borderLeftColor = colors.resultBorderLeft || '';
+            // Result items styling
+            if (this.previewResultItems && this.previewResultItems.length) {
+                this.previewResultItems.forEach(item => {
+                    // Result text color
+                    const textElement = item.querySelector('.preview-result-text');
+                    if (textElement) {
+                        textElement.style.color = colors.resultText || '#1e293b';
+                    }
+                    
+                    // Result subtitle color
+                    const subtitleElement = item.querySelector('.preview-result-description');
+                    if (subtitleElement) {
+                        subtitleElement.style.color = colors.resultSubtitle || '#64748b';
+                    }
+                    
+                    // Hover state colors
+                    item.style.setProperty('--result-hover-color', colors.resultHover || '#f1f5f9');
+                    item.style.setProperty('--result-border-left-color', colors.resultBorderLeft || '#3b82f6');
                 });
-                
-                item.addEventListener('mouseleave', () => {
-                    item.style.backgroundColor = '';
-                });
-            });
+            }
             
-            // Update group headers
-            groupHeaders.forEach(header => {
-                const title = header.querySelector('.preview-group-title');
-                if (title) {
-                    title.style.color = colors.groupHeaderColor || '';
-                }
-                
-                const count = header.querySelector('.preview-group-count');
-                if (count) {
-                    count.style.color = colors.groupCountColor || '';
-                }
-            });
+            // Group headers styling
+            if (this.previewGroupHeaders && this.previewGroupHeaders.length) {
+                this.previewGroupHeaders.forEach(header => {
+                    // Group title color
+                    const titleElement = header.querySelector('.preview-group-title');
+                    if (titleElement) {
+                        titleElement.style.color = colors.groupHeaderColor || '#475569';
+                        titleElement.style.display = state.display?.showGroupHeaders !== false ? '' : 'none';
+                    }
+                    
+                    // Group count color
+                    const countElement = header.querySelector('.preview-group-count');
+                    if (countElement) {
+                        countElement.style.color = colors.groupCountColor || '#94a3b8';
+                        countElement.style.display = state.display?.showGroupCount !== false ? '' : 'none';
+                    }
+                });
+            }
         }
-        
-        // Update display options
-        const showGroupHeaders = state.display?.showGroupHeaders !== false;
-        const showGroupCount = state.display?.showGroupCount !== false;
-        const showIcons = state.display?.showIconsInResults !== false;
-        
-        // Apply display settings
-        groupHeaders.forEach(header => {
-            header.style.display = showGroupHeaders ? '' : 'none';
-            
-            const count = header.querySelector('.preview-group-count');
-            if (count) {
-                count.style.display = showGroupCount ? '' : 'none';
-            }
-        });
-        
-        // Show/hide icons
-        const resultIcons = this._preview.querySelectorAll('.preview-result-icon');
-        resultIcons.forEach(icon => {
-            icon.style.display = showIcons ? '' : 'none';
-        });
     }
     
     /**
-     * Show notification message
-     * @param {string} message Message to display
-     * @param {string} type Notification type (success, error, warning, info)
-     * @private
+     * Updates the position preview based on the current state
+     * @param {Object} state - The current state
      */
-    _showNotification(message, type = 'info') {
-        // Track active notifications
-        if (!this._activeNotifications) {
-            this._activeNotifications = [];
+    updatePositionPreview(state) {
+        // Get layout preview container in Font Preview section
+        const fontPreview = document.getElementById('fontPreview');
+        if (!fontPreview) return;
+        
+        // Create or get position preview
+        let positionPreview = document.getElementById('positionPreview');
+        if (!positionPreview) {
+            positionPreview = document.createElement('div');
+            positionPreview.id = 'positionPreview';
+            positionPreview.style.marginTop = '15px';
+            positionPreview.style.padding = '10px';
+            positionPreview.style.border = '1px solid var(--border-color)';
+            positionPreview.style.borderRadius = '4px';
+            positionPreview.style.position = 'relative';
+            positionPreview.style.height = '200px';
+            positionPreview.style.backgroundColor = 'rgba(0,0,0,0.1)';
+            positionPreview.innerHTML = '<h3 style="margin-top:0;text-align:center;">Position Preview</h3>';
+            
+            // Create viewport representation
+            const viewport = document.createElement('div');
+            viewport.className = 'position-viewport';
+            viewport.style.position = 'absolute';
+            viewport.style.left = '5%';
+            viewport.style.top = '40px';
+            viewport.style.width = '90%';
+            viewport.style.height = 'calc(100% - 50px)';
+            viewport.style.border = '2px dashed rgba(0,0,0,0.2)';
+            viewport.style.boxSizing = 'border-box';
+            
+            // Create search indicator
+            const searchIndicator = document.createElement('div');
+            searchIndicator.className = 'position-search-indicator';
+            searchIndicator.style.position = 'absolute';
+            searchIndicator.style.width = '60px';
+            searchIndicator.style.height = '25px';
+            searchIndicator.style.backgroundColor = 'var(--primary-color)';
+            searchIndicator.style.borderRadius = '12px';
+            searchIndicator.style.zIndex = '2';
+            searchIndicator.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            
+            viewport.appendChild(searchIndicator);
+            positionPreview.appendChild(viewport);
+            fontPreview.appendChild(positionPreview);
         }
         
-        // Remove outdated notifications
-        const currentTime = Date.now();
-        this._activeNotifications = this._activeNotifications.filter(n => {
-            const isExpired = currentTime > n.expireTime;
-            if (isExpired && n.element.parentNode) {
-                document.body.removeChild(n.element);
-            }
-            return !isExpired;
-        });
+        // Get the viewport and search indicator elements
+        const viewport = positionPreview.querySelector('.position-viewport');
+        const searchIndicator = positionPreview.querySelector('.position-search-indicator');
         
-        // Limit to 3 active notifications
-        if (this._activeNotifications.length >= 3) {
-            const oldest = this._activeNotifications.shift();
-            if (oldest.element.parentNode) {
-                document.body.removeChild(oldest.element);
+        if (!viewport || !searchIndicator) return;
+        
+        // Get viewport dimensions
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportWidth = viewportRect.width;
+        const viewportHeight = viewportRect.height;
+        
+        // Get position based on preset
+        const preset = state.searchBar?.positionPreset || 'top-right';
+        const position = state.searchBar?.position || {};
+        
+        // Reset transform
+        searchIndicator.style.transform = 'none';
+        
+        // Position indicator based on preset
+        switch (preset) {
+            case 'top-left':
+                searchIndicator.style.top = `${Math.min((position.top || 10) / 5, 50)}px`;
+                searchIndicator.style.left = `${Math.min((position.left || 10) / 5, 50)}px`;
+                searchIndicator.style.right = 'auto';
+                searchIndicator.style.bottom = 'auto';
+                break;
+                
+            case 'top-right':
+                searchIndicator.style.top = `${Math.min((position.top || 10) / 5, 50)}px`;
+                searchIndicator.style.right = `${Math.min((position.right || 10) / 5, 50)}px`;
+                searchIndicator.style.left = 'auto';
+                searchIndicator.style.bottom = 'auto';
+                break;
+                
+            case 'top-center':
+                searchIndicator.style.top = `${Math.min((position.top || 10) / 5, 50)}px`;
+                searchIndicator.style.left = '50%';
+                searchIndicator.style.right = 'auto';
+                searchIndicator.style.bottom = 'auto';
+                searchIndicator.style.transform = 'translateX(-50%)';
+                break;
+                
+            case 'bottom-left':
+                searchIndicator.style.bottom = `${Math.min((position.bottom || 10) / 5, 50)}px`;
+                searchIndicator.style.left = `${Math.min((position.left || 10) / 5, 50)}px`;
+                searchIndicator.style.right = 'auto';
+                searchIndicator.style.top = 'auto';
+                break;
+                
+            case 'bottom-right':
+                searchIndicator.style.bottom = `${Math.min((position.bottom || 10) / 5, 50)}px`;
+                searchIndicator.style.right = `${Math.min((position.right || 10) / 5, 50)}px`;
+                searchIndicator.style.left = 'auto';
+                searchIndicator.style.top = 'auto';
+                break;
+                
+            case 'center':
+                searchIndicator.style.top = '50%';
+                searchIndicator.style.left = '50%';
+                searchIndicator.style.right = 'auto';
+                searchIndicator.style.bottom = 'auto';
+                searchIndicator.style.transform = 'translate(-50%, -50%)';
+                break;
+                
+            case 'custom':
+                // For custom, use whatever values are provided
+                if (position.top !== null && position.top !== undefined) {
+                    searchIndicator.style.top = `${Math.min((position.top) / 5, 80)}px`;
+                    searchIndicator.style.bottom = 'auto';
+                } else if (position.bottom !== null && position.bottom !== undefined) {
+                    searchIndicator.style.bottom = `${Math.min((position.bottom) / 5, 80)}px`;
+                    searchIndicator.style.top = 'auto';
+                } else {
+                    searchIndicator.style.top = '10px';
+                    searchIndicator.style.bottom = 'auto';
+                }
+                
+                if (position.left !== null && position.left !== undefined) {
+                    searchIndicator.style.left = `${Math.min((position.left) / 5, 80)}px`;
+                    searchIndicator.style.right = 'auto';
+                } else if (position.right !== null && position.right !== undefined) {
+                    searchIndicator.style.right = `${Math.min((position.right) / 5, 80)}px`;
+                    searchIndicator.style.left = 'auto';
+                } else {
+                    searchIndicator.style.right = '10px';
+                    searchIndicator.style.left = 'auto';
+                }
+                break;
+        }
+    }
+    
+    exportSettings() {
+        const state = this._stateManager.getState();
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'search-pro-config.json';
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+        this.showNotification('Settings exported to file', 'success');
+    }
+    
+    exportForServer() {
+        try {
+            const state = this._stateManager.getState();
+            const jsonString = JSON.stringify(state, null, 2);
+            
+            // Create a formatted version for display
+            const formattedJson = jsonString.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+            
+            const content = `
+                <div class="deployment-modal">
+                    <div class="deployment-modal-content">
+                        <h3>Server Configuration</h3>
+                        <p>Copy this code to your server configuration file:</p>
+                        <pre style="overflow: auto; max-height: 300px; padding: 10px; background: #f5f5f5; border-radius: 4px;">${jsonString}</pre>
+                        <p>Implementation instructions:</p>
+                        <ol>
+                            <li>Create a file named <code>search-config.json</code> on your server</li>
+                            <li>Copy the JSON above into this file</li>
+                            <li>Add this line to your tour HTML: <br>
+                            <code>&lt;script&gt;window.SEARCH_PRO_CONFIG_URL = 'path/to/search-config.json';&lt;/script&gt;</code></li>
+                        </ol>
+                        <button class="primary-button close-modal">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            // Create and add the modal to the document
+            const modalContainer = document.createElement('div');
+            modalContainer.innerHTML = content;
+            document.body.appendChild(modalContainer);
+            
+            // Add event listener to close button
+            const closeButton = modalContainer.querySelector('.close-modal');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    modalContainer.remove();
+                });
+            }
+            
+            // Close when clicking outside the modal content
+            modalContainer.addEventListener('click', (e) => {
+                if (e.target === modalContainer.querySelector('.deployment-modal')) {
+                    modalContainer.remove();
+                }
+            });
+        } catch (error) {
+            console.error('Failed to export settings for server:', error);
+            this.showNotification('Failed to export settings', 'error');
+        }
+    }
+    
+    importSettings(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Validate the imported file
+                const validationResult = this._storageManager.validateImport 
+                    ? this._storageManager.validateImport(data) 
+                    : { valid: true, message: 'Validation not available' };
+                
+                if (validationResult.valid) {
+                    // Update state with imported settings
+                    this._stateManager.setState(data);
+                    
+                    // Apply to UI controls
+                    this.applyStateToControls();
+                    
+                    // Update preview
+                    this._updatePreview();
+                    
+                    // Save to storage
+                    this._storageManager.save(data);
+                    
+                    this.showNotification('Settings imported successfully', 'success');
+                } else {
+                    this.showNotification(`Invalid settings file: ${validationResult.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Failed to import settings:', error);
+                this.showNotification('Failed to import settings: Invalid JSON', 'error');
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    _checkIncognitoMode() {
+        try {
+            localStorage.setItem('testIncognito', '1');
+            localStorage.removeItem('testIncognito');
+            
+            // Not in incognito mode
+            const warning = document.getElementById('incognitoWarning');
+            if (warning) {
+                warning.style.display = 'none';
+            }
+        } catch (e) {
+            // In incognito mode
+            const warning = document.getElementById('incognitoWarning');
+            if (warning) {
+                warning.style.display = 'block';
             }
         }
-        
+    }
+    
+    showNotification(message, type = 'info') {
         // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
-        
-        // Style notification
         notification.style.position = 'fixed';
-        notification.style.bottom = `${20 + (this._activeNotifications.length * 70)}px`;
+        notification.style.bottom = '20px';
         notification.style.right = '20px';
-        notification.style.padding = '12px 20px';
+        notification.style.padding = '10px 20px';
         notification.style.backgroundColor = type === 'success' ? '#10b981' : 
-                                           type === 'error' ? '#ef4444' :
-                                           type === 'warning' ? '#f59e0b' : '#3b82f6';
+                                           type === 'warning' ? '#f59e0b' : 
+                                           type === 'error' ? '#ef4444' : '#3b82f6';
         notification.style.color = 'white';
         notification.style.borderRadius = '4px';
         notification.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
@@ -1801,13 +1183,6 @@ class UIManager {
         
         // Add to document
         document.body.appendChild(notification);
-        
-        // Track this notification
-        const expireTime = currentTime + 3000;
-        this._activeNotifications.push({
-            element: notification,
-            expireTime: expireTime
-        });
         
         // Show notification
         setTimeout(() => {
@@ -1820,714 +1195,11 @@ class UIManager {
             notification.style.opacity = '0';
             notification.style.transform = 'translateY(20px)';
             
-            // Remove from DOM after animation
             setTimeout(() => {
-                if (notification.parentNode) {
-                    document.body.removeChild(notification);
-                }
+                notification.remove();
             }, 300);
         }, 3000);
     }
-    
-    /**
-     * Show incognito mode warning
-     * @private
-     */
-    _showIncognitoWarning() {
-        if (!this._incognitoWarning) return;
-        
-        this._incognitoWarning.innerHTML = `
-            <div class="warning-icon">⚠️</div>
-            <div class="warning-content">
-                <strong>Private Browsing Detected:</strong> 
-                Your settings will not persist after closing this session. 
-                Please export your settings to a file after making changes.
-            </div>
-        `;
-        
-        this._incognitoWarning.style.display = 'flex';
-    }
-    
-    /**
-     * Handle window resize
-     * @private
-     */
-    _handleResize() {
-        clearTimeout(this._resizeTimer);
-        this._resizeTimer = setTimeout(() => {
-            this._checkWindowSize();
-        }, 200);
-    }
-    
-    /**
-     * Check window size for mobile/desktop layout
-     * @private
-     */
-    _checkWindowSize() {
-        const wasMobile = this._isMobile;
-        this._isMobile = window.innerWidth < this._options.mobileBreakpoint;
-        
-        // Update layout class if changed
-        if (wasMobile !== this._isMobile) {
-            this._container.classList.toggle('mobile-layout', this._isMobile);
-            this._container.classList.toggle('desktop-layout', !this._isMobile);
-        }
-    }
-    
-    /**
-     * Add required styles to document
-     * @private
-     */
-    _addStyles() {
-        if (document.getElementById('search-pro-settings-styles')) {
-            return;
-        }
-        
-        const style = document.createElement('style');
-        style.id = 'search-pro-settings-styles';
-        
-        style.textContent = `
-            /* Base styles */
-            .search-pro-container {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                color: #1e293b;
-                max-width: 1000px;
-                margin: 0 auto;
-                padding: 20px;
-                box-sizing: border-box;
-            }
-            
-            /* Header */
-            .search-pro-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                border-bottom: 1px solid #e2e8f0;
-                padding-bottom: 15px;
-            }
-            
-            .search-pro-header h1 {
-                margin: 0;
-                font-size: 1.8rem;
-                font-weight: 500;
-            }
-            
-            .header-controls {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-            }
-            
-            /* Tabs */
-            .tabs {
-                display: flex;
-                border-bottom: 1px solid #e2e8f0;
-                margin-bottom: 20px;
-                overflow-x: auto;
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE and Edge */
-            }
-            
-            .tabs::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
-            }
-            
-            .tab {
-                padding: 10px 20px;
-                cursor: pointer;
-                border-bottom: 2px solid transparent;
-                color: #64748b;
-                font-weight: 500;
-                white-space: nowrap;
-            }
-            
-            .tab.active {
-                color: #3b82f6;
-                border-bottom-color: #3b82f6;
-            }
-            
-            /* Tab content */
-            .tab-content {
-                background-color: #ffffff;
-                border-radius: 8px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                padding: 20px;
-                margin-bottom: 20px;
-                display: none;
-            }
-            
-            .tab-content.active {
-                display: block;
-            }
-            
-            /* Section titles */
-            .section-title {
-                font-size: 1.2rem;
-                font-weight: 600;
-                margin-top: 0;
-                margin-bottom: 15px;
-                border-bottom: 1px solid #e2e8f0;
-                padding-bottom: 5px;
-                color: #1e293b;
-            }
-            
-            /* Settings grid */
-            .settings-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
-                margin-bottom: 20px;
-            }
-            
-            /* Setting item */
-            .setting-item {
-                margin-bottom: 5px;
-            }
-            
-            .setting-label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: 500;
-                font-size: 14px;
-                color: #334155;
-            }
-            
-            .setting-description {
-                font-size: 12px;
-                color: #64748b;
-                margin-top: 4px;
-            }
-            
-            /* Controls */
-            input[type="text"],
-            input[type="number"],
-            select {
-                width: 100%;
-                padding: 8px 10px;
-                border: 1px solid #cbd5e1;
-                border-radius: 4px;
-                font-size: 14px;
-                background-color: #ffffff;
-                color: #1e293b;
-            }
-            
-            input[type="text"]:focus,
-            input[type="number"]:focus,
-            select:focus {
-                border-color: #3b82f6;
-                outline: none;
-                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-            }
-            
-            /* Range input */
-            input[type="range"] {
-                width: 100%;
-                height: 6px;
-                -webkit-appearance: none;
-                background: #e2e8f0;
-                border-radius: 3px;
-                outline: none;
-            }
-            
-            input[type="range"]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                width: 16px;
-                height: 16px;
-                border-radius: 50%;
-                background: #3b82f6;
-                cursor: pointer;
-            }
-            
-            input[type="range"]::-moz-range-thumb {
-                width: 16px;
-                height: 16px;
-                border-radius: 50%;
-                background: #3b82f6;
-                cursor: pointer;
-                border: none;
-            }
-            
-            .range-control-wrapper {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .range-label {
-                display: flex;
-                justify-content: space-between;
-                font-size: 14px;
-            }
-            
-            .range-value-display {
-                font-weight: 600;
-            }
-            
-            /* Color control */
-            .color-control-wrapper {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .color-control {
-                width: 40px;
-                height: 30px;
-                padding: 0;
-                border: 1px solid #cbd5e1;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            
-            .color-text-input {
-                flex: 1;
-            }
-            
-            /* Toggle switch */
-            .toggle-control-wrapper {
-                position: relative;
-                display: inline-block;
-                width: 46px;
-                height: 24px;
-            }
-            
-            .toggle-control {
-                opacity: 0;
-                width: 0;
-                height: 0;
-                margin: 0;
-            }
-            
-            .toggle-slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #cbd5e1;
-                border-radius: 24px;
-                transition: background-color 0.3s;
-            }
-            
-            .toggle-slider:before {
-                position: absolute;
-                content: "";
-                height: 18px;
-                width: 18px;
-                left: 3px;
-                bottom: 3px;
-                background-color: white;
-                border-radius: 50%;
-                transition: transform 0.3s;
-            }
-            
-            .toggle-control:checked + .toggle-slider {
-                background-color: #3b82f6;
-            }
-            
-            .toggle-control:checked + .toggle-slider:before {
-                transform: translateX(22px);
-            }
-            
-            /* Button styles */
-            .button-row {
-                display: flex;
-                justify-content: flex-end;
-                gap: 10px;
-                margin-top: 20px;
-            }
-            
-            button {
-                padding: 8px 16px;
-                border: none;
-                border-radius: 4px;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: background-color 0.2s;
-            }
-            
-            .primary-button {
-                background-color: #3b82f6;
-                color: white;
-            }
-            
-            .primary-button:hover {
-                background-color: #2563eb;
-            }
-            
-            .secondary-button {
-                background-color: #e2e8f0;
-                color: #475569;
-            }
-            
-            .secondary-button:hover {
-                background-color: #cbd5e1;
-            }
-            
-            /* Footer */
-            .search-pro-footer {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            /* Import/Export section */
-            .import-export-section, 
-            .server-config-section {
-                background-color: #ffffff;
-                border-radius: 8px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .import-export-section h3,
-            .server-config-section h3 {
-                margin-top: 0;
-                font-size: 1.1rem;
-                font-weight: 600;
-                color: #1e293b;
-            }
-            
-            .import-export-buttons {
-                display: flex;
-                gap: 10px;
-                margin-top: 15px;
-            }
-            
-            /* Server config instructions */
-            .server-config-instructions {
-                background-color: #f8fafc;
-                border-left: 4px solid #3b82f6;
-                padding: 15px;
-                margin-top: 15px;
-                border-radius: 0 4px 4px 0;
-            }
-            
-            .server-config-instructions ol {
-                margin: 15px 0;
-                padding-left: 20px;
-            }
-            
-            .server-config-instructions li {
-                margin-bottom: 8px;
-            }
-            
-            .server-config-instructions code {
-                background-color: #e2e8f0;
-                padding: 2px 4px;
-                border-radius: 3px;
-                font-family: monospace;
-            }
-            
-            /* Preview styles */
-            .preview-container {
-                margin-top: 30px;
-                border: 1px solid #e2e8f0;
-                border-radius: 8px;
-                padding: 15px;
-                background-color: #f8fafc;
-            }
-            
-            .preview-title {
-                font-size: 1rem;
-                font-weight: 600;
-                margin-top: 0;
-                margin-bottom: 15px;
-                color: #475569;
-            }
-            
-            .search-preview {
-                max-width: 400px;
-                margin: 0 auto;
-                font-size: 14px;
-            }
-            
-            .preview-search-field {
-                position: relative;
-                background: #ffffff;
-                border-radius: 35px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-                padding: 10px 15px;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .preview-search-input {
-                flex: 1;
-                color: #1a1a1a;
-                opacity: 0.6;
-            }
-            
-            .preview-search-icon {
-                width: 24px;
-                height: 24px;
-                color: #64748b;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .preview-search-icon svg {
-                width: 16px;
-                height: 16px;
-                stroke: currentColor;
-                fill: none;
-                stroke-width: 2;
-            }
-            
-            .preview-results-panel {
-                background: #ffffff;
-                border-radius: 8px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-                overflow-y: auto;
-                max-height: 200px;
-            }
-            
-            .preview-group-header {
-                padding: 8px 12px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .preview-group-title {
-                font-size: 11px;
-                font-weight: 600;
-                text-transform: uppercase;
-                color: #475569;
-            }
-            
-            .preview-group-count {
-                font-size: 11px;
-                color: #94a3b8;
-            }
-            
-            .preview-result-item {
-                padding: 8px 12px;
-                display: flex;
-                align-items: flex-start;
-                gap: 8px;
-                border-left: 3px solid transparent;
-            }
-            
-            .preview-result-item:hover {
-                background-color: #f1f5f9;
-                border-left-color: #3b82f6;
-            }
-            
-            .preview-result-icon {
-                width: 14px;
-                height: 14px;
-                background-color: #6E85F7;
-                border-radius: 50%;
-                flex-shrink: 0;
-            }
-            
-            .preview-result-content {
-                flex: 1;
-                min-width: 0;
-            }
-            
-            .preview-result-text {
-                font-size: 13px;
-                font-weight: 500;
-                color: #1e293b;
-                margin-bottom: 2px;
-            }
-            
-            .preview-result-description {
-                font-size: 11px;
-                color: #64748b;
-            }
-            
-            /* Dark mode preview styles */
-            .preview-dark-mode .preview-search-field {
-                background: rgba(30, 41, 59, 0.98);
-            }
-            
-            .preview-dark-mode .preview-search-input {
-                color: #e2e8f0;
-            }
-            
-            .preview-dark-mode .preview-results-panel {
-                background: rgba(30, 41, 59, 0.98);
-            }
-            
-            .preview-dark-mode .preview-group-title {
-                color: #94a3b8;
-            }
-            
-            .preview-dark-mode .preview-result-text {
-                color: #e2e8f0;
-            }
-            
-            .preview-dark-mode .preview-result-description {
-                color: #94a3b8;
-            }
-            
-            .preview-dark-mode .preview-result-item:hover {
-                background-color: rgba(59, 130, 246, 0.1);
-            }
-            
-            /* Incognito warning */
-            .incognito-warning {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                background-color: #fef2f2;
-                border-left: 4px solid #ef4444;
-                color: #b91c1c;
-                padding: 12px 15px;
-                border-radius: 0 4px 4px 0;
-                margin-bottom: 20px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            .warning-icon {
-                font-size: 1.5rem;
-            }
-            
-            /* Mobile adjustments */
-            @media (max-width: 768px) {
-                .settings-grid {
-                    grid-template-columns: 1fr;
-                }
-                
-                .button-row {
-                    flex-direction: column;
-                }
-                
-                .button-row button {
-                    width: 100%;
-                }
-                
-                .import-export-buttons {
-                    flex-direction: column;
-                }
-                
-                .import-export-buttons button {
-                    width: 100%;
-                }
-                
-                .tab {
-                    padding: 10px 15px;
-                    font-size: 14px;
-                }
-            }
-
-            /* Position preset styles for preview */
-            .position-top-left { top: 10px; left: 10px; position: absolute; }
-            .position-top-right { top: 10px; right: 10px; position: absolute; }
-            .position-bottom-left { bottom: 10px; left: 10px; position: absolute; }
-            .position-bottom-right { bottom: 10px; right: 10px; position: absolute; }
-            .position-center-top { top: 10px; left: 50%; transform: translateX(-50%); position: absolute; }
-            
-            /* Preview container with proper positioning context */
-            .preview-container {
-                margin-top: 30px;
-                border: 1px solid #e2e8f0;
-                border-radius: 8px;
-                padding: 15px;
-                background-color: #f8fafc;
-                position: relative;
-                min-height: 300px;
-            }
-            
-            /* Make sure preview elements have proper positioning */
-            .search-preview {
-                max-width: 400px;
-                position: relative;
-            }
-            
-            /* Ensure proper styling for preview elements */
-            .preview-search-field,
-            .preview-results-panel {
-                transition: border-radius 0.2s ease;
-            }
-        `;
-        
-        document.head.appendChild(style);
-    }
-
-    /**
-     * Handle input value change
-     * @param {HTMLElement} input Input element that was changed
-     * @private
-     */
-    _handleInputChange(input) {
-        const path = input.dataset.path;
-        if (!path) return;
-        
-        let value = this._extractValueFromInput(input);
-
-        // Update state
-        this._stateManager.setValue(path, value);
-        this._unsavedChanges = true;
-        this._updateStatusIndicator();
-
-        // Update controls that depend on this input
-        this._updateDependentControls();
-
-        // Live preview
-        this._applySettingsToPreview?.();
-    }
-    
-    /**
-     * Extract value from input element based on type
-     * @param {HTMLElement} input Input element
-     * @returns {*} Value from input
-     * @private
-     */
-    _extractValueFromInput(input) {
-        // Different handling based on input type
-        if (input.type === 'checkbox') {
-            return input.checked;
-        } else if (input.type === 'number') {
-            return input.value === '' ? null : Number(input.value);
-        } else if (input.type === 'color') {
-            return input.value;
-        } else if (input.tagName.toLowerCase() === 'select') {
-            // Handle special values in selects
-            const value = input.value;
-            if (value === 'true') return true;
-            if (value === 'false') return false;
-            if (value === 'null') return null;
-            if (value === '' && input.dataset.nullable === 'true') return null;
-            if (!isNaN(Number(value)) && value !== '') return Number(value);
-            return value;
-        } else {
-            // Default for text inputs and others
-            return input.value;
-        }
-    }
-    
-    /**
-     * Update status indicator to show unsaved changes
-     * @private
-     */
-    _updateStatusIndicator() {
-        if (!this._statusIndicator) return;
-        
-        if (this._unsavedChanges) {
-            this._statusIndicator.classList.add('unsaved');
-            this._statusIndicator.textContent = 'Unsaved Changes';
-        } else {
-            this._statusIndicator.classList.remove('unsaved');
-            this._statusIndicator.textContent = 'Saved';
-        }
-    }
 }
 
-// For CommonJS environments
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = UIManager;
-}
-
-// For ES modules environments
 export default UIManager;

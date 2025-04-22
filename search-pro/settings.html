@@ -519,78 +519,28 @@
             margin-top: 20px;
         }
 
-        /* Global Action Toolbar Styles */
+        /* Global action toolbar styles */
         .global-action-toolbar {
             display: flex;
+            justify-content: flex-end;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color, #e2e8f0);
+            margin-bottom: 20px;
         }
         
-        .toolbar-button {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
+        .global-action-toolbar button {
             font-size: 14px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            background-color: #1e293b;
-            color: white;
-            transition: background-color 0.2s ease;
-        }
-        
-        .toolbar-button:hover {
-            background-color: #334155;
-        }
-        
-        .button-icon {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .button-text {
             font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 4px;
         }
-        
-        /* Mobile optimization for toolbar */
-        @media (max-width: 768px) {
-            .global-action-toolbar {
-                flex-direction: column;
-            }
-            
-            .toolbar-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        /* Dark mode adjustments for toolbar */
-        @media (prefers-color-scheme: dark) {
-            .toolbar-button {
-                background-color: #60a5fa;
-            }
-            
-            .toolbar-button:hover {
-                background-color: #3b82f6;
-            }
-        }
-        
-        /* ===================================
-           Comprehensive Fixes for Search Icons and Positioning
-           =================================== */
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Search Pro Configuration</h1>
-            <div>
-                <button id="applySettings" class="primary-button">Apply Settings</button>
-            </div>
+            <!-- Removed Apply Settings button from here -->
         </header>
         
         <div id="incognitoWarning" class="incognito-warning">
@@ -599,6 +549,8 @@
         </div>
         
         <div class="settings-panel">
+            <!-- Toolbar will be inserted here by JavaScript -->
+            
             <div class="tabs">
                 <div class="tab active" data-tab="general">General</div>
                 <div class="tab" data-tab="appearance">Appearance</div>
@@ -672,6 +624,48 @@
                     </div>
                 </div>
                 
+                <div class="section">
+                    <h2 class="section-title">Search Bar Appearance</h2>
+                    <div class="settings-grid">
+                        <!-- Add Placeholder Text Input -->
+                        <div class="setting-item">
+                            <label class="setting-label" for="searchPlaceholder">Search Placeholder Text</label>
+                            <input type="text" id="searchPlaceholder" data-path="searchBar.placeholder" 
+                                   placeholder="Enter placeholder text...">
+                            <small>Text shown in the search field when empty</small>
+                        </div>
+                        
+                        <!-- Add Border Radius Inputs -->
+                        <div class="setting-item">
+                            <label class="setting-label" for="borderRadiusTopLeft">Border Radius Top-Left</label>
+                            <input type="number" id="borderRadiusTopLeft" data-path="appearance.searchField.borderRadius.topLeft" 
+                                   min="0" max="100" step="1">
+                            <small>Radius for top-left corner (0-100px)</small>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label" for="borderRadiusTopRight">Border Radius Top-Right</label>
+                            <input type="number" id="borderRadiusTopRight" data-path="appearance.searchField.borderRadius.topRight" 
+                                   min="0" max="100" step="1">
+                            <small>Radius for top-right corner (0-100px)</small>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label" for="borderRadiusBottomRight">Border Radius Bottom-Right</label>
+                            <input type="number" id="borderRadiusBottomRight" data-path="appearance.searchField.borderRadius.bottomRight" 
+                                   min="0" max="100" step="1">
+                            <small>Radius for bottom-right corner (0-100px)</small>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label" for="borderRadiusBottomLeft">Border Radius Bottom-Left</label>
+                            <input type="number" id="borderRadiusBottomLeft" data-path="appearance.searchField.borderRadius.bottomLeft" 
+                                   min="0" max="100" step="1">
+                            <small>Radius for bottom-left corner (0-100px)</small>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- NEW: Typography Section -->
                 <div class="section">
                     <h2 class="section-title">Typography</h2>
@@ -727,6 +721,14 @@
                         </div>
                         
                         <div class="setting-item">
+                            <label class="setting-label">Search Icon Color</label>
+                            <div class="color-input">
+                                <input type="color" id="searchIcon" data-path="appearance.colors.searchIcon" value="#94a3b8">
+                                <input type="text" id="searchIconText" data-linked="searchIcon" value="#94a3b8">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
                             <label class="setting-label">Results Background Color</label>
                             <div class="color-input">
                                 <input type="color" id="resultsBackground" data-path="appearance.colors.resultsBackground" value="#ffffff">
@@ -741,6 +743,46 @@
                                 <input type="text" id="resultHoverText" data-linked="resultHover" value="#f1f5f9">
                             </div>
                         </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Result Accent Color</label>
+                            <div class="color-input">
+                                <input type="color" id="resultBorderLeft" data-path="appearance.colors.resultBorderLeft" value="#3b82f6">
+                                <input type="text" id="resultBorderLeftText" data-linked="resultBorderLeft" value="#3b82f6">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Result Text Color</label>
+                            <div class="color-input">
+                                <input type="color" id="resultText" data-path="appearance.colors.resultText" value="#1e293b">
+                                <input type="text" id="resultTextText" data-linked="resultText" value="#1e293b">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Result Subtitle Color</label>
+                            <div class="color-input">
+                                <input type="color" id="resultSubtitle" data-path="appearance.colors.resultSubtitle" value="#64748b">
+                                <input type="text" id="resultSubtitleText" data-linked="resultSubtitle" value="#64748b">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Group Header Color</label>
+                            <div class="color-input">
+                                <input type="color" id="groupHeaderColor" data-path="appearance.colors.groupHeaderColor" value="#20293A">
+                                <input type="text" id="groupHeaderColorText" data-linked="groupHeaderColor" value="#20293A">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label class="setting-label">Group Count Color</label>
+                            <div class="color-input">
+                                <input type="color" id="groupCountColor" data-path="appearance.colors.groupCountColor" value="#94a3b8">
+                                <input type="text" id="groupCountColorText" data-linked="groupCountColor" value="#94a3b8">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -750,21 +792,26 @@
                     <div class="search-preview" id="layoutPreview">
                         <!-- Search Field -->
                         <div class="preview-search-field">
-                            <div class="preview-search-input">Search...</div>
                             <div class="preview-search-icon">
-                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                 </svg>
                             </div>
+                            <input
+                              class="preview-search-input"
+                              type="text"
+                              placeholder="Search..."
+                              readonly
+                            />
                         </div>
                         
                         <!-- Results Panel -->
                         <div class="preview-results-panel">
                             <!-- Group Header -->
                             <div class="preview-group-header">
-                                <span class="preview-group-title">Panorama</span>
-                                <span class="preview-group-count">3</span>
+                                <span class="preview-group-title">Panoramas</span>
+                                <span class="preview-group-count">3 results</span>
                             </div>
                             
                             <!-- Result Items -->
@@ -772,7 +819,7 @@
                                 <div class="preview-result-icon"></div>
                                 <div class="preview-result-content">
                                     <div class="preview-result-text">Living Room</div>
-                                    <div class="preview-result-description">First floor panorama</div>
+                                    <div class="preview-result-description">Main floor</div>
                                 </div>
                             </div>
                             
@@ -780,21 +827,21 @@
                                 <div class="preview-result-icon"></div>
                                 <div class="preview-result-content">
                                     <div class="preview-result-text">Kitchen</div>
-                                    <div class="preview-result-description">Main area</div>
+                                    <div class="preview-result-description">Main floor</div>
                                 </div>
                             </div>
                             
                             <!-- Another Group -->
                             <div class="preview-group-header">
-                                <span class="preview-group-title">Hotspot</span>
-                                <span class="preview-group-count">2</span>
+                                <span class="preview-group-title">Hotspots</span>
+                                <span class="preview-group-count">1 result</span>
                             </div>
                             
                             <div class="preview-result-item">
                                 <div class="preview-result-icon"></div>
                                 <div class="preview-result-content">
-                                    <div class="preview-result-text">Dining Room</div>
-                                    <div class="preview-result-description">In Living Room</div>
+                                    <div class="preview-result-text">Stairs</div>
+                                    <div class="preview-result-description">To second floor</div>
                                 </div>
                             </div>
                         </div>
@@ -962,12 +1009,7 @@
                     <h2 class="section-title">Settings Management</h2>
                     <p>Export your settings to a file for backup or import them on another device. You can also reset all settings to their default values.</p>
                     
-                    <div class="button-row">
-                        <button id="resetSettings" class="secondary-button">Reset to Defaults</button>
-                        <button id="exportSettings" class="secondary-button">Export Settings</button>
-                        <button id="importButton" class="secondary-button">Import Settings</button>
-                        <input type="file" id="importFile" accept=".json">
-                    </div>
+                    <!-- Removed button row from here as these are now in the toolbar -->
                 </div>
                 
                 <!-- Server Configuration Section -->
@@ -990,16 +1032,11 @@
                         </div>
                     </div>
                     
-                    <div class="button-row">
-                        <button id="exportForServer" class="primary-button">Export for Server</button>
-                    </div>
+                    <!-- Removed Export for Server button from here -->
                 </div>
             </div>
             
-            <div class="button-row">
-                <button id="resetSettings" class="secondary-button">Reset to Defaults</button>
-                <button id="saveSettings" class="primary-button">Save Settings</button>
-            </div>
+            <!-- Removed bottom button row -->
         </div>
     </div>
     
@@ -1018,20 +1055,21 @@
             
             setState(newState, path = null) {
                 if (path) {
-                    // Set value at specific path
                     const parts = path.split('.');
                     let current = this.state;
                     
+                    // Navigate to the parent object
                     for (let i = 0; i < parts.length - 1; i++) {
-                        const part = parts[i];
-                        if (!current[part]) current[part] = {};
-                        current = current[part];
+                        if (!current[parts[i]]) {
+                            current[parts[i]] = {};
+                        }
+                        current = current[parts[i]];
                     }
                     
+                    // Set the value at the final path
                     current[parts[parts.length - 1]] = newState;
                 } else {
-                    // Replace entire state
-                    this.state = newState;
+                    this.state = {...this.state, ...newState};
                 }
                 
                 this.notifyListeners();
@@ -1789,5 +1827,44 @@
         });
     </script>
     <script src="../js/debug-export.js"></script>
+    
+    <!-- Single consolidated script for UIManager initialization -->
+    <script type="module">
+        import UIManager from './js/ui-manager.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Only initialize once
+            if (window.uiManagerInstance) return;
+            
+            try {
+                // Create state and storage managers
+                const stateManager = new StateManager();
+                const storageManager = new StorageManager('searchPro.config');
+                
+                // Create and initialize the UI manager
+                const uiManager = new UIManager(stateManager, storageManager);
+                uiManager.initialize();
+                
+                // Mark as initialized to prevent duplicate initialization
+                window.uiManagerInstance = uiManager;
+                
+                console.log('Search Pro settings initialized successfully');
+            } catch (error) {
+                console.error('Error initializing UI Manager:', error);
+                
+                // Try again after a short delay if StateManager or StorageManager aren't ready
+                setTimeout(() => {
+                    if (!window.uiManagerInstance && typeof StateManager !== 'undefined' && typeof StorageManager !== 'undefined') {
+                        const stateManager = new StateManager();
+                        const storageManager = new StorageManager('searchPro.config');
+                        const uiManager = new UIManager(stateManager, storageManager);
+                        uiManager.initialize();
+                        window.uiManagerInstance = uiManager;
+                    }
+                }, 500);
+            }
+        });
+    </script>
+
 </body>
 </html>

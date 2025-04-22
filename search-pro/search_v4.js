@@ -860,7 +860,7 @@ window.tourSearchFunctions = (function() {
         setTimeout(attemptTrigger, config.initialDelay);
     }
 
-    // Enhanced styling application with theme support
+    // Enhanced styling application with theme support and position presets
     function _applySearchStyling() {
         const searchContainer = document.getElementById('searchContainer');
         if (!searchContainer) {
@@ -868,17 +868,79 @@ window.tourSearchFunctions = (function() {
             return;
         }
         
-        // Apply container position based on device
-        const position = _config.searchBar.position;
+        // Apply container position based on device and position preset
         const isMobile = window.innerWidth <= _config.mobileBreakpoint;
         
-        // Set positioning attribute for CSS targeting
-        if (position.left !== null && position.right === null) {
-            searchContainer.setAttribute('data-position', 'left');
-        } else if (position.left !== null && position.left === '50%') {
-            searchContainer.setAttribute('data-position', 'center');
+        // If mobile and responsive mode is enabled, use mobile position
+        if (isMobile && _config.searchBar.useResponsive) {
+            const mobilePos = _config.searchBar.mobilePosition;
+            searchContainer.style.top = mobilePos.top !== null ? `${mobilePos.top}px` : null;
+            searchContainer.style.right = mobilePos.right !== null ? `${mobilePos.right}px` : null;
+            searchContainer.style.left = mobilePos.left !== null ? `${mobilePos.left}px` : null;
+            searchContainer.style.bottom = mobilePos.bottom !== null ? `${mobilePos.bottom}px` : null;
+            searchContainer.style.transform = 'none';
+            
+            // For mobile, we calculate the width based on screen size
+            searchContainer.style.width = null; // Reset any previously set width
         } else {
-            searchContainer.setAttribute('data-position', 'right');
+            // Desktop - use position presets with detailed positioning
+            const preset = _config.searchBar?.positionPreset;
+            const pos = _config.searchBar?.position || {};
+            
+            // Reset all position values first
+            searchContainer.style.top = null;
+            searchContainer.style.left = null;
+            searchContainer.style.right = null;
+            searchContainer.style.bottom = null;
+            searchContainer.style.transform = 'none';
+            
+            // Apply position based on preset
+            if (preset === 'top-left') {
+                searchContainer.style.top = `${pos.top}px`;
+                searchContainer.style.left = `${pos.left}px`;
+                searchContainer.setAttribute('data-position', 'left');
+            } else if (preset === 'top-right') {
+                searchContainer.style.top = `${pos.top}px`;
+                searchContainer.style.right = `${pos.right}px`;
+                searchContainer.setAttribute('data-position', 'right');
+            } else if (preset === 'top-center') {
+                searchContainer.style.top = `${pos.top}px`;
+                searchContainer.style.left = '50%';
+                searchContainer.style.transform = 'translateX(-50%)';
+                searchContainer.setAttribute('data-position', 'center');
+            } else if (preset === 'bottom-left') {
+                searchContainer.style.bottom = `${pos.bottom}px`;
+                searchContainer.style.left = `${pos.left}px`;
+                searchContainer.setAttribute('data-position', 'left');
+            } else if (preset === 'bottom-right') {
+                searchContainer.style.bottom = `${pos.bottom}px`;
+                searchContainer.style.right = `${pos.right}px`;
+                searchContainer.setAttribute('data-position', 'right');
+            } else if (preset === 'center') {
+                searchContainer.style.top = '50%';
+                searchContainer.style.left = '50%';
+                searchContainer.style.transform = 'translate(-50%, -50%)';
+                searchContainer.setAttribute('data-position', 'center');
+            } else {
+                // Custom position - use whatever values are provided
+                searchContainer.style.top = pos.top !== null ? `${pos.top}px` : null;
+                searchContainer.style.right = pos.right !== null ? `${pos.right}px` : null;
+                searchContainer.style.left = pos.left !== null ? `${pos.left}px` : null;
+                searchContainer.style.bottom = pos.bottom !== null ? `${pos.bottom}px` : null;
+                
+                // Set position attribute based on provided values
+                if (pos.left !== null && pos.right === null) {
+                    searchContainer.setAttribute('data-position', 'left');
+                } else if (pos.left !== null && pos.left === '50%') {
+                    searchContainer.setAttribute('data-position', 'center');
+                } else {
+                    searchContainer.setAttribute('data-position', 'right');
+                }
+            }
+            
+            // Set width from config
+            const searchWidth = _config.appearance.searchWidth || _config.searchBar.width || 350;
+            searchContainer.style.width = `${searchWidth}px`;
         }
         
         // Apply theme customization if configured
@@ -954,6 +1016,9 @@ window.tourSearchFunctions = (function() {
         const searchWidth = _config.appearance.searchWidth || _config.searchBar.width || 350;
         const resultsMaxHeight = _config.appearance.searchResults?.maxHeight || 500;
         
+        // Ensure subtitle color is applied via CSS variable
+        const subtitleColor = _config.appearance?.colors?.resultSubtitle || '#64748b';
+        
         const cssVars = `
             :root {
                 --search-background: ${colors.searchBackground};
@@ -967,7 +1032,8 @@ window.tourSearchFunctions = (function() {
                 --result-hover: ${colors.resultHover};
                 --result-border-left: ${colors.resultBorderLeft};
                 --result-text: ${colors.resultText};
-                --result-subtitle: ${colors.resultSubtitle};
+                --result-subtitle: ${subtitleColor};
+                --result-subtitle-color: ${subtitleColor};
                 --result-icon-color: ${colors.resultIconColor};
                 --result-subtext-color: ${colors.resultSubtextColor};
                 
@@ -979,6 +1045,16 @@ window.tourSearchFunctions = (function() {
                 /* NEW: Size variables */
                 --search-width: ${searchWidth}px;
                 --results-max-height: ${resultsMaxHeight}px;
+            }
+            
+            /* Force subtitle color with higher specificity */
+            .result-subtitle, 
+            .result-description,
+            .result-subtext,
+            #searchContainer .result-subtitle,
+            #searchContainer .result-description,
+            #searchContainer .result-subtext {
+                color: var(--result-subtitle) !important;
             }
         `;
         
@@ -999,11 +1075,11 @@ window.tourSearchFunctions = (function() {
                 /* Desktop positioning */
                 #searchContainer {
                     position: fixed;
-                    ${position.top !== null ? `top: ${position.top}px;` : ''}
-                    ${position.right !== null ? `right: ${position.right}px;` : ''}
-                    ${position.left !== null ? `left: ${position.left}px;` : ''}
-                    ${position.bottom !== null ? `bottom: ${position.bottom}px;` : ''}
-                    width: ${searchWidth}px;
+                    ${_config.searchBar.position.top !== null ? `top: ${_config.searchBar.position.top}px;` : ''}
+                    ${_config.searchBar.position.right !== null ? `right: ${_config.searchBar.position.right}px;` : ''}
+                    ${_config.searchBar.position.left !== null ? `left: ${_config.searchBar.position.left}px;` : ''}
+                    ${_config.searchBar.position.bottom !== null ? `bottom: ${_config.searchBar.position.bottom}px;` : ''}
+                    width: ${_config.appearance.searchWidth || _config.searchBar.width || 350}px;
                     z-index: 9999;
                 }
             `;

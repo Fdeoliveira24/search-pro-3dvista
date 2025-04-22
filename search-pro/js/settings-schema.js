@@ -22,8 +22,7 @@ const SETTINGS_SCHEMA = {
                 'theme.typography',
                 'appearance.searchWidth',
                 'appearance.searchResults.maxHeight',
-                'position.preset',
-                'position.offsets'
+                'searchBar.positionPreset' // Added new position preset path
             ],
             transformPaths: {
                 // Define any path transformations like:
@@ -46,17 +45,6 @@ const SETTINGS_SCHEMA = {
         minSearchChars: 2,
         showTagsInResults: true,
         
-        // Position settings
-        position: {
-            preset: 'top-right', // Can be 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'center-top', or 'custom'
-            offsets: {
-                top: 70,
-                left: null,
-                right: 70,
-                bottom: null
-            }
-        },
-        
         // Display settings
         display: {
             showGroupHeaders: true,
@@ -67,8 +55,7 @@ const SETTINGS_SCHEMA = {
             showParentLabel: true,
             showParentInfo: true,
             showParentTags: true,
-            showParentType: true,
-            hideEmptyLabels: false
+            showParentType: true
         },
         
         // Content inclusion settings
@@ -77,7 +64,6 @@ const SETTINGS_SCHEMA = {
             unlabeledWithTags: true,
             completelyBlank: false,
             elements: {
-                includeOverlays: true,
                 includeHotspots: true,
                 includePolygons: true,
                 includeVideos: true,
@@ -115,15 +101,6 @@ const SETTINGS_SCHEMA = {
             }
         },
         
-        // Fallback label logic
-        useAsLabel: {
-            subtitles: true,
-            tags: true,
-            elementType: true,
-            parentWithType: true,
-            customText: '[Unnamed Item]'
-        },
-        
         // Appearance settings
         appearance: {
             searchField: {
@@ -152,7 +129,7 @@ const SETTINGS_SCHEMA = {
                 resultsBackground: '#ffffff',
                 groupHeaderColor: '#20293A',
                 groupCountColor: '#94a3b8',
-                resultHover: '#f0f0f0',
+                resultHover: '#f1f5f9',
                 resultBorderLeft: '#3b82f6',
                 resultText: '#1e293b',
                 resultSubtitle: '#64748b',
@@ -166,6 +143,13 @@ const SETTINGS_SCHEMA = {
         searchBar: {
             placeholder: 'Search...',
             width: 350,
+            borderRadius: {
+                topLeft: 35,
+                topRight: 35,
+                bottomRight: 35,
+                bottomLeft: 35
+            },
+            positionPreset: 'top-right', // New position preset property
             position: {
                 top: 70,
                 right: 70,
@@ -277,12 +261,71 @@ const SETTINGS_SCHEMA = {
                         ],
                         description: 'Choose the theme mode for the search interface'
                     },
-                    // Add placeholder text control
+                    // Position preset selection
                     {
-                        path: 'searchBar.placeholder',
-                        label: 'Search Field Placeholder',
-                        type: 'text',
-                        description: 'Text that appears in the search bar before a user types'
+                        path: 'searchBar.positionPreset',
+                        label: 'Position Preset',
+                        type: 'select',
+                        options: [
+                            { value: 'top-left', label: 'Top Left' },
+                            { value: 'top-right', label: 'Top Right' },
+                            { value: 'top-center', label: 'Top Center' },
+                            { value: 'bottom-left', label: 'Bottom Left' },
+                            { value: 'bottom-right', label: 'Bottom Right' },
+                            { value: 'center', label: 'Center' },
+                            { value: 'custom', label: 'Custom Position' }
+                        ],
+                        description: 'Predefined position for the search panel'
+                    },
+                    // Position offset controls
+                    {
+                        path: 'searchBar.position.top',
+                        label: 'Top Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 2000,
+                        description: 'Distance from the top edge of the screen',
+                        dependsOn: 'searchBar.positionPreset',
+                        showWhen: (value) => value === 'custom' || 
+                                             value === 'top-left' || 
+                                             value === 'top-right' || 
+                                             value === 'top-center'
+                    },
+                    {
+                        path: 'searchBar.position.bottom',
+                        label: 'Bottom Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 2000,
+                        description: 'Distance from the bottom edge of the screen',
+                        dependsOn: 'searchBar.positionPreset',
+                        showWhen: (value) => value === 'custom' || 
+                                             value === 'bottom-left' || 
+                                             value === 'bottom-right'
+                    },
+                    {
+                        path: 'searchBar.position.left',
+                        label: 'Left Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 2000,
+                        description: 'Distance from the left edge of the screen',
+                        dependsOn: 'searchBar.positionPreset',
+                        showWhen: (value) => value === 'custom' || 
+                                             value === 'top-left' || 
+                                             value === 'bottom-left'
+                    },
+                    {
+                        path: 'searchBar.position.right',
+                        label: 'Right Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 2000,
+                        description: 'Distance from the right edge of the screen',
+                        dependsOn: 'searchBar.positionPreset',
+                        showWhen: (value) => value === 'custom' || 
+                                             value === 'top-right' || 
+                                             value === 'bottom-right'
                     },
                     // NEW: Typography settings
                     {
@@ -335,178 +378,98 @@ const SETTINGS_SCHEMA = {
                         max: 1000,
                         description: 'Maximum height of the results panel in pixels'
                     },
-                    // Add border radius sections
-                    {
-                        type: 'section',
-                        label: 'Search Field Border Radius'
-                    },
-                    {
-                        path: 'appearance.searchField.borderRadius.topLeft',
-                        label: 'Top Left Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50,
-                        description: 'Top-left corner radius for the search field (px)'
-                    },
-                    {
-                        path: 'appearance.searchField.borderRadius.topRight',
-                        label: 'Top Right Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
-                    {
-                        path: 'appearance.searchField.borderRadius.bottomRight',
-                        label: 'Bottom Right Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
-                    {
-                        path: 'appearance.searchField.borderRadius.bottomLeft',
-                        label: 'Bottom Left Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
-                    {
-                        type: 'section',
-                        label: 'Results Panel Border Radius'
-                    },
-                    {
-                        path: 'appearance.searchResults.borderRadius.topLeft',
-                        label: 'Top Left Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50,
-                        description: 'Top-left corner radius for the results panel'
-                    },
-                    {
-                        path: 'appearance.searchResults.borderRadius.topRight',
-                        label: 'Top Right Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
-                    {
-                        path: 'appearance.searchResults.borderRadius.bottomRight',
-                        label: 'Bottom Right Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
-                    {
-                        path: 'appearance.searchResults.borderRadius.bottomLeft',
-                        label: 'Bottom Left Radius',
-                        type: 'number',
-                        min: 0,
-                        max: 50
-                    },
                     // Existing color settings
                     {
                         path: 'appearance.colors.searchBackground',
                         label: 'Search Background Color',
                         type: 'color',
-                        description: 'Background color of the search field'
+                        description: 'Background color of the search input field'
                     },
                     {
                         path: 'appearance.colors.searchText',
                         label: 'Search Text Color',
                         type: 'color',
-                        description: 'Text color in the search field'
+                        description: 'Text color of the input field'
                     },
                     {
-                        path: 'appearance.colors.resultsBackground',
-                        label: 'Results Background Color',
+                        path: 'appearance.colors.searchIcon',
+                        label: 'Search Icon Color',
                         type: 'color',
-                        description: 'Background color of the search results container'
+                        description: 'Magnifying glass icon color'
                     },
                     {
                         path: 'appearance.colors.resultHover',
                         label: 'Result Hover Color',
                         type: 'color',
-                        description: 'Background color when hovering over a result item'
+                        description: 'Background color when hovering over a result'
                     },
                     {
                         path: 'appearance.colors.resultBorderLeft',
                         label: 'Result Accent Color',
                         type: 'color',
-                        description: 'Left border color for result items on hover'
+                        description: 'Left border highlight color on active result'
                     },
                     {
                         path: 'appearance.colors.resultText',
                         label: 'Result Text Color',
                         type: 'color',
-                        description: 'Color of result item text'
-                    }
-                ]
-            },
-            {
-                id: 'position',
-                label: 'Position',
-                icon: 'move',
-                settings: [
-                    {
-                        path: 'position.preset',
-                        label: 'Position Preset',
-                        type: 'select',
-                        options: [
-                            { value: 'top-left', label: 'Top Left' },
-                            { value: 'top-right', label: 'Top Right' },
-                            { value: 'bottom-left', label: 'Bottom Left' },
-                            { value: 'bottom-right', label: 'Bottom Right' },
-                            { value: 'center-top', label: 'Center Top' },
-                            { value: 'custom', label: 'Manual (Custom)' }
-                        ],
-                        description: 'Choose a predefined position or define custom offsets'
+                        description: 'Color of the primary label in results'
                     },
                     {
-                        path: 'position.offsets.top',
-                        label: 'Top Offset (px)',
-                        type: 'number',
-                        min: 0,
-                        max: 1000,
-                        description: 'Distance from top edge (applies only in custom mode)',
-                        dependsOn: {
-                            path: 'position.preset',
-                            value: 'custom'
-                        }
+                        path: 'appearance.colors.resultSubtitle',
+                        label: 'Result Subtitle Color',
+                        type: 'color',
+                        description: 'Color of the subtitle/description in results'
                     },
                     {
-                        path: 'position.offsets.left',
-                        label: 'Left Offset (px)',
-                        type: 'number',
-                        min: 0,
-                        max: 1000,
-                        description: 'Distance from left edge (applies only in custom mode)',
-                        dependsOn: {
-                            path: 'position.preset',
-                            value: 'custom'
-                        }
+                        path: 'appearance.colors.groupHeaderColor',
+                        label: 'Group Header Color',
+                        type: 'color',
+                        description: 'Color of group section titles'
                     },
                     {
-                        path: 'position.offsets.right',
-                        label: 'Right Offset (px)',
-                        type: 'number',
-                        min: 0,
-                        max: 1000,
-                        description: 'Distance from right edge (applies only in custom mode)',
-                        dependsOn: {
-                            path: 'position.preset',
-                            value: 'custom'
-                        }
+                        path: 'appearance.colors.groupCountColor',
+                        label: 'Group Count Color',
+                        type: 'color',
+                        description: 'Color of result counts next to groups'
                     },
                     {
-                        path: 'position.offsets.bottom',
-                        label: 'Bottom Offset (px)',
+                        path: 'searchBar.placeholder',
+                        label: 'Search Placeholder Text',
+                        type: 'text',
+                        description: 'Placeholder text displayed in the search input field'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.topLeft',
+                        label: 'Border Radius Top-Left',
                         type: 'number',
                         min: 0,
-                        max: 1000,
-                        description: 'Distance from bottom edge (applies only in custom mode)',
-                        dependsOn: {
-                            path: 'position.preset',
-                            value: 'custom'
-                        }
+                        max: 100,
+                        description: 'Border radius for top-left corner'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.topRight',
+                        label: 'Border Radius Top-Right',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for top-right corner'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.bottomRight',
+                        label: 'Border Radius Bottom-Right',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for bottom-right corner'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.bottomLeft',
+                        label: 'Border Radius Bottom-Left',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for bottom-left corner'
                     }
                 ]
             },
@@ -550,61 +513,6 @@ const SETTINGS_SCHEMA = {
                         label: 'Only Show Subtitles',
                         type: 'boolean',
                         description: 'Use subtitles instead of labels when available'
-                    },
-                    {
-                        path: 'display.showTagsInResults',
-                        label: 'Show Tags in Results',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showSubtitlesInResults',
-                        label: 'Show Subtitles',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.onlySubtitles',
-                        label: 'Only Show Subtitles',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showParentLabel',
-                        label: 'Show Parent Label',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showParentInfo',
-                        label: 'Show Parent Info',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showParentTags',
-                        label: 'Show Parent Tags',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showParentType',
-                        label: 'Show Parent Type',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showIconsInResults',
-                        label: 'Show Icons in Results',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showGroupHeaders',
-                        label: 'Show Category Headers',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.showGroupCount',
-                        label: 'Show Results Count',
-                        type: 'boolean'
-                    },
-                    {
-                        path: 'display.hideEmptyLabels',
-                        label: 'Hide Empty Labels',
-                        type: 'boolean'
                     }
                 ]
             },
@@ -644,60 +552,6 @@ const SETTINGS_SCHEMA = {
                         min: 0,
                         max: 10,
                         description: 'Minimum required length for element labels to be included'
-                    },
-                    {
-                        path: 'includeContent.elements.includeOverlays',
-                        label: 'Include Overlays',
-                        type: 'boolean',
-                        description: 'Include all overlay elements in search results'
-                    },
-                    {
-                        path: 'includeContent.elements.includeHotspots',
-                        label: 'Include Hotspots',
-                        type: 'boolean',
-                        description: 'Include hotspot elements (clickable triggers)'
-                    },
-                    {
-                        path: 'includeContent.elements.includePolygons',
-                        label: 'Include Polygons',
-                        type: 'boolean',
-                        description: 'Include polygon overlays in the search index'
-                    },
-                    {
-                        path: 'includeContent.elements.includeVideos',
-                        label: 'Include Videos',
-                        type: 'boolean',
-                        description: 'Include embedded videos in the search results'
-                    },
-                    {
-                        path: 'includeContent.elements.includeWebframes',
-                        label: 'Include Webframes',
-                        type: 'boolean',
-                        description: 'Include iFrame-based web overlays'
-                    },
-                    {
-                        path: 'includeContent.elements.includeImages',
-                        label: 'Include Images',
-                        type: 'boolean',
-                        description: 'Include still image overlays'
-                    },
-                    {
-                        path: 'includeContent.elements.includeText',
-                        label: 'Include Text Elements',
-                        type: 'boolean',
-                        description: 'Include rich text overlays'
-                    },
-                    {
-                        path: 'includeContent.elements.includeProjectedImages',
-                        label: 'Include Projected Images',
-                        type: 'boolean',
-                        description: 'Include 3D projected image overlays'
-                    },
-                    {
-                        path: 'includeContent.elements.includeElements',
-                        label: 'Include Generic Elements',
-                        type: 'boolean',
-                        description: 'Include other element types not listed above'
                     }
                 ]
             },
@@ -706,11 +560,6 @@ const SETTINGS_SCHEMA = {
                 label: 'Filtering',
                 icon: 'filter',
                 settings: [
-                    // 🧹 Content Filtering
-                    {
-                        type: 'section',
-                        label: 'Content Filtering'
-                    },
                     {
                         path: 'filter.mode',
                         label: 'Filter Mode',
@@ -720,33 +569,18 @@ const SETTINGS_SCHEMA = {
                             { value: 'whitelist', label: 'Whitelist' },
                             { value: 'blacklist', label: 'Blacklist' }
                         ],
-                        description: 'Filter items based on labels and subtitles'
+                        description: 'General filtering mode for content'
                     },
                     {
-                        path: 'filter.allowedValues',
-                        label: 'Allowed Labels/Subtitles',
-                        type: 'textarea',
-                        description: 'Comma-separated labels or subtitles to include (only used in Whitelist mode)',
-                        dependsOn: {
-                            path: 'filter.mode',
-                            value: 'whitelist'
-                        }
-                    },
-                    {
-                        path: 'filter.blacklistedValues',
-                        label: 'Blacklisted Labels/Subtitles',
-                        type: 'textarea',
-                        description: 'Comma-separated labels or subtitles to exclude (Blacklist mode only)',
-                        dependsOn: {
-                            path: 'filter.mode',
-                            value: 'blacklist'
-                        }
-                    },
-
-                    // 🏷️ Tag Filtering
-                    {
-                        type: 'section',
-                        label: 'Tag Filtering'
+                        path: 'filter.elementTypes.mode',
+                        label: 'Element Types Filter Mode',
+                        type: 'select',
+                        options: [
+                            { value: 'none', label: 'None' },
+                            { value: 'whitelist', label: 'Whitelist' },
+                            { value: 'blacklist', label: 'Blacklist' }
+                        ],
+                        description: 'Filtering mode for element types'
                     },
                     {
                         path: 'filter.tagFiltering.mode',
@@ -757,107 +591,7 @@ const SETTINGS_SCHEMA = {
                             { value: 'whitelist', label: 'Whitelist' },
                             { value: 'blacklist', label: 'Blacklist' }
                         ],
-                        description: 'Filter based on tag values (case-insensitive)'
-                    },
-                    {
-                        path: 'filter.tagFiltering.allowedTags',
-                        label: 'Allowed Tags',
-                        type: 'textarea',
-                        description: 'Comma-separated list of tags to allow'
-                    },
-                    {
-                        path: 'filter.tagFiltering.blacklistedTags',
-                        label: 'Blacklisted Tags',
-                        type: 'textarea',
-                        description: 'Comma-separated list of tags to exclude'
-                    },
-
-                    // 🧱 Element Type Filtering
-                    {
-                        type: 'section',
-                        label: 'Element Type Filtering'
-                    },
-                    {
-                        path: 'filter.elementTypes.mode',
-                        label: 'Type Filter Mode',
-                        type: 'select',
-                        options: [
-                            { value: 'none', label: 'None' },
-                            { value: 'whitelist', label: 'Whitelist' },
-                            { value: 'blacklist', label: 'Blacklist' }
-                        ],
-                        description: 'Filter by type of element (Hotspot, Polygon, etc.)'
-                    },
-                    {
-                        path: 'filter.elementTypes.allowedTypes',
-                        label: 'Allowed Types',
-                        type: 'textarea',
-                        description: 'Comma-separated list of types to include (e.g., Hotspot, Polygon)'
-                    },
-                    {
-                        path: 'filter.elementTypes.blacklistedTypes',
-                        label: 'Blacklisted Types',
-                        type: 'textarea',
-                        description: 'Comma-separated list of types to exclude'
-                    },
-
-                    // 🎯 Media Index Filtering
-                    {
-                        type: 'section',
-                        label: 'Media Index Filtering'
-                    },
-                    {
-                        path: 'filter.allowedMediaIndexes',
-                        label: 'Allowed Media Indexes',
-                        type: 'textarea',
-                        description: 'Comma-separated scene indexes to include (Whitelist)'
-                    },
-                    {
-                        path: 'filter.blacklistedMediaIndexes',
-                        label: 'Blacklisted Media Indexes',
-                        type: 'textarea',
-                        description: 'Comma-separated scene indexes to exclude (Blacklist)'
-                    }
-                ]
-            },
-            {
-                id: 'fallbacks',
-                label: 'Fallbacks',
-                icon: 'lifebuoy',
-                settings: [
-                    {
-                        type: 'section',
-                        label: 'Label Fallback Strategy'
-                    },
-                    {
-                        path: 'useAsLabel.subtitles',
-                        label: 'Use Subtitles as Fallback',
-                        type: 'boolean',
-                        description: 'Use the item\'s subtitle as label if no label is defined'
-                    },
-                    {
-                        path: 'useAsLabel.tags',
-                        label: 'Use Tags as Fallback',
-                        type: 'boolean',
-                        description: 'Use the first tag as label if no label or subtitle exists'
-                    },
-                    {
-                        path: 'useAsLabel.elementType',
-                        label: 'Use Element Type as Fallback',
-                        type: 'boolean',
-                        description: 'Use the overlay or media type (e.g. Hotspot, Image) as label if others are missing'
-                    },
-                    {
-                        path: 'useAsLabel.parentWithType',
-                        label: 'Use Parent Name with Type',
-                        type: 'boolean',
-                        description: 'Combine parent scene name and element type as a fallback (e.g., "Room 3 – Hotspot")'
-                    },
-                    {
-                        path: 'useAsLabel.customText',
-                        label: 'Custom Fallback Text',
-                        type: 'text',
-                        description: 'Default fallback when no label, subtitle, tag, or type is found'
+                        description: 'Filtering mode for tags'
                     }
                 ]
             },
@@ -915,19 +649,10 @@ const SETTINGS_SCHEMA = {
             'theme.typography.letterSpacing': (value) => {
                 return typeof value === 'number' && value >= -5 && value <= 10;
             },
-            'position.offsets.top': (value) => {
-                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
-            },
-            'position.offsets.left': (value) => {
-                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
-            },
-            'position.offsets.right': (value) => {
-                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
-            },
-            'position.offsets.bottom': (value) => {
-                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
-            },
-            'includeContent.elements.minLabelLength': (value) => typeof value === 'number' && value >= 0 && value <= 20
+            'searchBar.positionPreset': (value) => {
+                const validPresets = ['top-left', 'top-right', 'top-center', 'bottom-left', 'bottom-right', 'center', 'custom'];
+                return validPresets.includes(value);
+            }
         },
         
         // Type validators for different setting types
@@ -995,21 +720,32 @@ const SETTINGS_SCHEMA = {
                 dependsOn: 'theme.typography',
                 validWhen: (typography) => typography !== null
             },
-            'position.offsets.top': { 
-                dependsOn: 'position.preset', 
-                validWhen: (preset) => preset === 'custom' 
+            'searchBar.position.top': { 
+                dependsOn: 'searchBar.positionPreset', 
+                validWhen: (preset) => preset === 'custom' || 
+                                      preset === 'top-left' || 
+                                      preset === 'top-right' || 
+                                      preset === 'top-center' 
             },
-            'position.offsets.left': { 
-                dependsOn: 'position.preset', 
-                validWhen: (preset) => preset === 'custom' 
+            'searchBar.position.bottom': { 
+                dependsOn: 'searchBar.positionPreset', 
+                validWhen: (preset) => preset === 'custom' || 
+                                      preset === 'bottom-left' || 
+                                      preset === 'bottom-right' 
             },
-            'position.offsets.right': { 
-                dependsOn: 'position.preset', 
-                validWhen: (preset) => preset === 'custom' 
+            'searchBar.position.left': { 
+                dependsOn: 'searchBar.positionPreset', 
+                validWhen: (preset) => preset === 'custom' || 
+                                      preset === 'top-left' || 
+                                      preset === 'bottom-left' ||
+                                      (preset === 'top-center' && false) // Special case, actually set by JS
             },
-            'position.offsets.bottom': { 
-                dependsOn: 'position.preset', 
-                validWhen: (preset) => preset === 'custom' 
+            'searchBar.position.right': { 
+                dependsOn: 'searchBar.positionPreset', 
+                validWhen: (preset) => preset === 'custom' || 
+                                      preset === 'top-right' || 
+                                      preset === 'bottom-right' ||
+                                      (preset === 'top-center' && false) // Special case, actually set by JS
             }
         }
     }
@@ -1210,6 +946,31 @@ function migrateSettings(settings, fromVersion = '1.0.0') {
                 delete parent[property];
             }
         });
+    }
+    
+    // Handle position preset migration - add preset based on existing position values
+    if (!migratedSettings.searchBar?.positionPreset && migratedSettings.searchBar?.position) {
+        const pos = migratedSettings.searchBar.position;
+        
+        // Try to deduce the preset from position values
+        if (pos.top !== null && pos.left !== null && pos.right === null && pos.bottom === null) {
+            migratedSettings.searchBar.positionPreset = 'top-left';
+        } else if (pos.top !== null && pos.right !== null && pos.left === null && pos.bottom === null) {
+            migratedSettings.searchBar.positionPreset = 'top-right';
+        } else if (pos.top !== null && pos.left === '50%' && pos.right === null && pos.bottom === null) {
+            migratedSettings.searchBar.positionPreset = 'top-center';
+        } else if (pos.bottom !== null && pos.left !== null && pos.right === null && pos.top === null) {
+            migratedSettings.searchBar.positionPreset = 'bottom-left';
+        } else if (pos.bottom !== null && pos.right !== null && pos.left === null && pos.top === null) {
+            migratedSettings.searchBar.positionPreset = 'bottom-right';
+        } else if (pos.top === '50%' && pos.left === '50%' && pos.right === null && pos.bottom === null) {
+            migratedSettings.searchBar.positionPreset = 'center';
+        } else {
+            migratedSettings.searchBar.positionPreset = 'custom';
+        }
+    } else if (!migratedSettings.searchBar?.positionPreset) {
+        migratedSettings.searchBar = migratedSettings.searchBar || {};
+        migratedSettings.searchBar.positionPreset = defaults.searchBar.positionPreset;
     }
     
     // Ensure all required paths exist by merging with defaults
