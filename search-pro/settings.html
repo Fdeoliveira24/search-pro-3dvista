@@ -518,6 +518,70 @@
         .close-modal {
             margin-top: 20px;
         }
+
+        /* Global Action Toolbar Styles */
+        .global-action-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color, #e2e8f0);
+        }
+        
+        .toolbar-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background-color: #1e293b;
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+        
+        .toolbar-button:hover {
+            background-color: #334155;
+        }
+        
+        .button-icon {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .button-text {
+            font-weight: 500;
+        }
+        
+        /* Mobile optimization for toolbar */
+        @media (max-width: 768px) {
+            .global-action-toolbar {
+                flex-direction: column;
+            }
+            
+            .toolbar-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Dark mode adjustments for toolbar */
+        @media (prefers-color-scheme: dark) {
+            .toolbar-button {
+                background-color: #60a5fa;
+            }
+            
+            .toolbar-button:hover {
+                background-color: #3b82f6;
+            }
+        }
+        
+        /* ===================================
+           Comprehensive Fixes for Search Icons and Positioning
+           =================================== */
     </style>
 </head>
 <body>

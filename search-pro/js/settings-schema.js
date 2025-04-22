@@ -10,7 +10,30 @@
 
 const SETTINGS_SCHEMA = {
     // Schema metadata
-    version: '1.0.0',
+    version: '2.0.0', // Updated schema version
+    
+    // Previous versions for migration mapping
+    previousVersions: ['1.0.0'],
+    
+    // Schema changes between versions for migration
+    versionChanges: {
+        '1.0.0': {
+            addedPaths: [
+                'theme.typography',
+                'appearance.searchWidth',
+                'appearance.searchResults.maxHeight',
+                'position.preset',
+                'position.offsets'
+            ],
+            transformPaths: {
+                // Define any path transformations like:
+                // 'old.path': 'new.path'
+            },
+            removedPaths: [
+                // List paths that were removed
+            ]
+        }
+    },
     
     // Default values for all configurable settings
     defaults: {
@@ -23,6 +46,17 @@ const SETTINGS_SCHEMA = {
         minSearchChars: 2,
         showTagsInResults: true,
         
+        // Position settings
+        position: {
+            preset: 'top-right', // Can be 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'center-top', or 'custom'
+            offsets: {
+                top: 70,
+                left: null,
+                right: 70,
+                bottom: null
+            }
+        },
+        
         // Display settings
         display: {
             showGroupHeaders: true,
@@ -33,7 +67,8 @@ const SETTINGS_SCHEMA = {
             showParentLabel: true,
             showParentInfo: true,
             showParentTags: true,
-            showParentType: true
+            showParentType: true,
+            hideEmptyLabels: false
         },
         
         // Content inclusion settings
@@ -42,6 +77,7 @@ const SETTINGS_SCHEMA = {
             unlabeledWithTags: true,
             completelyBlank: false,
             elements: {
+                includeOverlays: true,
                 includeHotspots: true,
                 includePolygons: true,
                 includeVideos: true,
@@ -77,6 +113,15 @@ const SETTINGS_SCHEMA = {
                 allowedTags: [],
                 blacklistedTags: []
             }
+        },
+        
+        // Fallback label logic
+        useAsLabel: {
+            subtitles: true,
+            tags: true,
+            elementType: true,
+            parentWithType: true,
+            customText: '[Unnamed Item]'
         },
         
         // Appearance settings
@@ -232,6 +277,13 @@ const SETTINGS_SCHEMA = {
                         ],
                         description: 'Choose the theme mode for the search interface'
                     },
+                    // Add placeholder text control
+                    {
+                        path: 'searchBar.placeholder',
+                        label: 'Search Field Placeholder',
+                        type: 'text',
+                        description: 'Text that appears in the search bar before a user types'
+                    },
                     // NEW: Typography settings
                     {
                         path: 'theme.typography.fontFamily',
@@ -283,6 +335,73 @@ const SETTINGS_SCHEMA = {
                         max: 1000,
                         description: 'Maximum height of the results panel in pixels'
                     },
+                    // Add border radius sections
+                    {
+                        type: 'section',
+                        label: 'Search Field Border Radius'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.topLeft',
+                        label: 'Top Left Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50,
+                        description: 'Top-left corner radius for the search field (px)'
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.topRight',
+                        label: 'Top Right Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.bottomRight',
+                        label: 'Bottom Right Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
+                    {
+                        path: 'appearance.searchField.borderRadius.bottomLeft',
+                        label: 'Bottom Left Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
+                    {
+                        type: 'section',
+                        label: 'Results Panel Border Radius'
+                    },
+                    {
+                        path: 'appearance.searchResults.borderRadius.topLeft',
+                        label: 'Top Left Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50,
+                        description: 'Top-left corner radius for the results panel'
+                    },
+                    {
+                        path: 'appearance.searchResults.borderRadius.topRight',
+                        label: 'Top Right Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
+                    {
+                        path: 'appearance.searchResults.borderRadius.bottomRight',
+                        label: 'Bottom Right Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
+                    {
+                        path: 'appearance.searchResults.borderRadius.bottomLeft',
+                        label: 'Bottom Left Radius',
+                        type: 'number',
+                        min: 0,
+                        max: 50
+                    },
                     // Existing color settings
                     {
                         path: 'appearance.colors.searchBackground',
@@ -319,6 +438,75 @@ const SETTINGS_SCHEMA = {
                         label: 'Result Text Color',
                         type: 'color',
                         description: 'Color of result item text'
+                    }
+                ]
+            },
+            {
+                id: 'position',
+                label: 'Position',
+                icon: 'move',
+                settings: [
+                    {
+                        path: 'position.preset',
+                        label: 'Position Preset',
+                        type: 'select',
+                        options: [
+                            { value: 'top-left', label: 'Top Left' },
+                            { value: 'top-right', label: 'Top Right' },
+                            { value: 'bottom-left', label: 'Bottom Left' },
+                            { value: 'bottom-right', label: 'Bottom Right' },
+                            { value: 'center-top', label: 'Center Top' },
+                            { value: 'custom', label: 'Manual (Custom)' }
+                        ],
+                        description: 'Choose a predefined position or define custom offsets'
+                    },
+                    {
+                        path: 'position.offsets.top',
+                        label: 'Top Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 1000,
+                        description: 'Distance from top edge (applies only in custom mode)',
+                        dependsOn: {
+                            path: 'position.preset',
+                            value: 'custom'
+                        }
+                    },
+                    {
+                        path: 'position.offsets.left',
+                        label: 'Left Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 1000,
+                        description: 'Distance from left edge (applies only in custom mode)',
+                        dependsOn: {
+                            path: 'position.preset',
+                            value: 'custom'
+                        }
+                    },
+                    {
+                        path: 'position.offsets.right',
+                        label: 'Right Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 1000,
+                        description: 'Distance from right edge (applies only in custom mode)',
+                        dependsOn: {
+                            path: 'position.preset',
+                            value: 'custom'
+                        }
+                    },
+                    {
+                        path: 'position.offsets.bottom',
+                        label: 'Bottom Offset (px)',
+                        type: 'number',
+                        min: 0,
+                        max: 1000,
+                        description: 'Distance from bottom edge (applies only in custom mode)',
+                        dependsOn: {
+                            path: 'position.preset',
+                            value: 'custom'
+                        }
                     }
                 ]
             },
@@ -362,6 +550,61 @@ const SETTINGS_SCHEMA = {
                         label: 'Only Show Subtitles',
                         type: 'boolean',
                         description: 'Use subtitles instead of labels when available'
+                    },
+                    {
+                        path: 'display.showTagsInResults',
+                        label: 'Show Tags in Results',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showSubtitlesInResults',
+                        label: 'Show Subtitles',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.onlySubtitles',
+                        label: 'Only Show Subtitles',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showParentLabel',
+                        label: 'Show Parent Label',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showParentInfo',
+                        label: 'Show Parent Info',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showParentTags',
+                        label: 'Show Parent Tags',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showParentType',
+                        label: 'Show Parent Type',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showIconsInResults',
+                        label: 'Show Icons in Results',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showGroupHeaders',
+                        label: 'Show Category Headers',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.showGroupCount',
+                        label: 'Show Results Count',
+                        type: 'boolean'
+                    },
+                    {
+                        path: 'display.hideEmptyLabels',
+                        label: 'Hide Empty Labels',
+                        type: 'boolean'
                     }
                 ]
             },
@@ -401,6 +644,60 @@ const SETTINGS_SCHEMA = {
                         min: 0,
                         max: 10,
                         description: 'Minimum required length for element labels to be included'
+                    },
+                    {
+                        path: 'includeContent.elements.includeOverlays',
+                        label: 'Include Overlays',
+                        type: 'boolean',
+                        description: 'Include all overlay elements in search results'
+                    },
+                    {
+                        path: 'includeContent.elements.includeHotspots',
+                        label: 'Include Hotspots',
+                        type: 'boolean',
+                        description: 'Include hotspot elements (clickable triggers)'
+                    },
+                    {
+                        path: 'includeContent.elements.includePolygons',
+                        label: 'Include Polygons',
+                        type: 'boolean',
+                        description: 'Include polygon overlays in the search index'
+                    },
+                    {
+                        path: 'includeContent.elements.includeVideos',
+                        label: 'Include Videos',
+                        type: 'boolean',
+                        description: 'Include embedded videos in the search results'
+                    },
+                    {
+                        path: 'includeContent.elements.includeWebframes',
+                        label: 'Include Webframes',
+                        type: 'boolean',
+                        description: 'Include iFrame-based web overlays'
+                    },
+                    {
+                        path: 'includeContent.elements.includeImages',
+                        label: 'Include Images',
+                        type: 'boolean',
+                        description: 'Include still image overlays'
+                    },
+                    {
+                        path: 'includeContent.elements.includeText',
+                        label: 'Include Text Elements',
+                        type: 'boolean',
+                        description: 'Include rich text overlays'
+                    },
+                    {
+                        path: 'includeContent.elements.includeProjectedImages',
+                        label: 'Include Projected Images',
+                        type: 'boolean',
+                        description: 'Include 3D projected image overlays'
+                    },
+                    {
+                        path: 'includeContent.elements.includeElements',
+                        label: 'Include Generic Elements',
+                        type: 'boolean',
+                        description: 'Include other element types not listed above'
                     }
                 ]
             },
@@ -409,6 +706,11 @@ const SETTINGS_SCHEMA = {
                 label: 'Filtering',
                 icon: 'filter',
                 settings: [
+                    // 🧹 Content Filtering
+                    {
+                        type: 'section',
+                        label: 'Content Filtering'
+                    },
                     {
                         path: 'filter.mode',
                         label: 'Filter Mode',
@@ -418,18 +720,33 @@ const SETTINGS_SCHEMA = {
                             { value: 'whitelist', label: 'Whitelist' },
                             { value: 'blacklist', label: 'Blacklist' }
                         ],
-                        description: 'General filtering mode for content'
+                        description: 'Filter items based on labels and subtitles'
                     },
                     {
-                        path: 'filter.elementTypes.mode',
-                        label: 'Element Types Filter Mode',
-                        type: 'select',
-                        options: [
-                            { value: 'none', label: 'None' },
-                            { value: 'whitelist', label: 'Whitelist' },
-                            { value: 'blacklist', label: 'Blacklist' }
-                        ],
-                        description: 'Filtering mode for element types'
+                        path: 'filter.allowedValues',
+                        label: 'Allowed Labels/Subtitles',
+                        type: 'textarea',
+                        description: 'Comma-separated labels or subtitles to include (only used in Whitelist mode)',
+                        dependsOn: {
+                            path: 'filter.mode',
+                            value: 'whitelist'
+                        }
+                    },
+                    {
+                        path: 'filter.blacklistedValues',
+                        label: 'Blacklisted Labels/Subtitles',
+                        type: 'textarea',
+                        description: 'Comma-separated labels or subtitles to exclude (Blacklist mode only)',
+                        dependsOn: {
+                            path: 'filter.mode',
+                            value: 'blacklist'
+                        }
+                    },
+
+                    // 🏷️ Tag Filtering
+                    {
+                        type: 'section',
+                        label: 'Tag Filtering'
                     },
                     {
                         path: 'filter.tagFiltering.mode',
@@ -440,7 +757,107 @@ const SETTINGS_SCHEMA = {
                             { value: 'whitelist', label: 'Whitelist' },
                             { value: 'blacklist', label: 'Blacklist' }
                         ],
-                        description: 'Filtering mode for tags'
+                        description: 'Filter based on tag values (case-insensitive)'
+                    },
+                    {
+                        path: 'filter.tagFiltering.allowedTags',
+                        label: 'Allowed Tags',
+                        type: 'textarea',
+                        description: 'Comma-separated list of tags to allow'
+                    },
+                    {
+                        path: 'filter.tagFiltering.blacklistedTags',
+                        label: 'Blacklisted Tags',
+                        type: 'textarea',
+                        description: 'Comma-separated list of tags to exclude'
+                    },
+
+                    // 🧱 Element Type Filtering
+                    {
+                        type: 'section',
+                        label: 'Element Type Filtering'
+                    },
+                    {
+                        path: 'filter.elementTypes.mode',
+                        label: 'Type Filter Mode',
+                        type: 'select',
+                        options: [
+                            { value: 'none', label: 'None' },
+                            { value: 'whitelist', label: 'Whitelist' },
+                            { value: 'blacklist', label: 'Blacklist' }
+                        ],
+                        description: 'Filter by type of element (Hotspot, Polygon, etc.)'
+                    },
+                    {
+                        path: 'filter.elementTypes.allowedTypes',
+                        label: 'Allowed Types',
+                        type: 'textarea',
+                        description: 'Comma-separated list of types to include (e.g., Hotspot, Polygon)'
+                    },
+                    {
+                        path: 'filter.elementTypes.blacklistedTypes',
+                        label: 'Blacklisted Types',
+                        type: 'textarea',
+                        description: 'Comma-separated list of types to exclude'
+                    },
+
+                    // 🎯 Media Index Filtering
+                    {
+                        type: 'section',
+                        label: 'Media Index Filtering'
+                    },
+                    {
+                        path: 'filter.allowedMediaIndexes',
+                        label: 'Allowed Media Indexes',
+                        type: 'textarea',
+                        description: 'Comma-separated scene indexes to include (Whitelist)'
+                    },
+                    {
+                        path: 'filter.blacklistedMediaIndexes',
+                        label: 'Blacklisted Media Indexes',
+                        type: 'textarea',
+                        description: 'Comma-separated scene indexes to exclude (Blacklist)'
+                    }
+                ]
+            },
+            {
+                id: 'fallbacks',
+                label: 'Fallbacks',
+                icon: 'lifebuoy',
+                settings: [
+                    {
+                        type: 'section',
+                        label: 'Label Fallback Strategy'
+                    },
+                    {
+                        path: 'useAsLabel.subtitles',
+                        label: 'Use Subtitles as Fallback',
+                        type: 'boolean',
+                        description: 'Use the item\'s subtitle as label if no label is defined'
+                    },
+                    {
+                        path: 'useAsLabel.tags',
+                        label: 'Use Tags as Fallback',
+                        type: 'boolean',
+                        description: 'Use the first tag as label if no label or subtitle exists'
+                    },
+                    {
+                        path: 'useAsLabel.elementType',
+                        label: 'Use Element Type as Fallback',
+                        type: 'boolean',
+                        description: 'Use the overlay or media type (e.g. Hotspot, Image) as label if others are missing'
+                    },
+                    {
+                        path: 'useAsLabel.parentWithType',
+                        label: 'Use Parent Name with Type',
+                        type: 'boolean',
+                        description: 'Combine parent scene name and element type as a fallback (e.g., "Room 3 – Hotspot")'
+                    },
+                    {
+                        path: 'useAsLabel.customText',
+                        label: 'Custom Fallback Text',
+                        type: 'text',
+                        description: 'Default fallback when no label, subtitle, tag, or type is found'
                     }
                 ]
             },
@@ -497,7 +914,20 @@ const SETTINGS_SCHEMA = {
             },
             'theme.typography.letterSpacing': (value) => {
                 return typeof value === 'number' && value >= -5 && value <= 10;
-            }
+            },
+            'position.offsets.top': (value) => {
+                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
+            },
+            'position.offsets.left': (value) => {
+                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
+            },
+            'position.offsets.right': (value) => {
+                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
+            },
+            'position.offsets.bottom': (value) => {
+                return value === null || (typeof value === 'number' && value >= 0 && value <= 1000);
+            },
+            'includeContent.elements.minLabelLength': (value) => typeof value === 'number' && value >= 0 && value <= 20
         },
         
         // Type validators for different setting types
@@ -524,6 +954,62 @@ const SETTINGS_SCHEMA = {
                 }
                 
                 return true;
+            }
+        },
+        
+        // Dependency rules for conditional validation
+        dependencies: {
+            'filter.allowedValues': { 
+                dependsOn: 'filter.mode', 
+                validWhen: (mode) => mode === 'whitelist' 
+            },
+            'filter.blacklistedValues': { 
+                dependsOn: 'filter.mode', 
+                validWhen: (mode) => mode === 'blacklist' 
+            },
+            'filter.elementTypes.allowedTypes': { 
+                dependsOn: 'filter.elementTypes.mode', 
+                validWhen: (mode) => mode === 'whitelist' 
+            },
+            'filter.elementTypes.blacklistedTypes': { 
+                dependsOn: 'filter.elementTypes.mode', 
+                validWhen: (mode) => mode === 'blacklist' 
+            },
+            'filter.tagFiltering.allowedTags': { 
+                dependsOn: 'filter.tagFiltering.mode', 
+                validWhen: (mode) => mode === 'whitelist' 
+            },
+            'filter.tagFiltering.blacklistedTags': { 
+                dependsOn: 'filter.tagFiltering.mode', 
+                validWhen: (mode) => mode === 'blacklist' 
+            },
+            'theme.typography.fontFamily': {
+                dependsOn: 'theme.typography',
+                validWhen: (typography) => typography !== null
+            },
+            'theme.typography.fontSize': {
+                dependsOn: 'theme.typography',
+                validWhen: (typography) => typography !== null
+            },
+            'theme.typography.letterSpacing': {
+                dependsOn: 'theme.typography',
+                validWhen: (typography) => typography !== null
+            },
+            'position.offsets.top': { 
+                dependsOn: 'position.preset', 
+                validWhen: (preset) => preset === 'custom' 
+            },
+            'position.offsets.left': { 
+                dependsOn: 'position.preset', 
+                validWhen: (preset) => preset === 'custom' 
+            },
+            'position.offsets.right': { 
+                dependsOn: 'position.preset', 
+                validWhen: (preset) => preset === 'custom' 
+            },
+            'position.offsets.bottom': { 
+                dependsOn: 'position.preset', 
+                validWhen: (preset) => preset === 'custom' 
             }
         }
     }
@@ -582,6 +1068,17 @@ function validateSettings(settings) {
             return;
         }
         
+        // Check if this field should be validated based on dependencies
+        if (SETTINGS_SCHEMA.validation.dependencies && SETTINGS_SCHEMA.validation.dependencies[path]) {
+            const dependency = SETTINGS_SCHEMA.validation.dependencies[path];
+            const dependentValue = getValueFromPath(settings, dependency.dependsOn);
+            
+            // Skip validation if the dependent value doesn't meet the condition
+            if (!dependency.validWhen(dependentValue)) {
+                return;
+            }
+        }
+        
         // Check custom validator if exists
         if (SETTINGS_SCHEMA.validation.validators[path]) {
             const isValid = SETTINGS_SCHEMA.validation.validators[path](value);
@@ -634,6 +1131,121 @@ function validateSettings(settings) {
     });
     
     return result;
+}
+
+/**
+ * Migrate settings from an older schema version to the current version
+ * @param {Object} settings Settings object to migrate
+ * @param {string} fromVersion Version of the settings object (defaults to '1.0.0')
+ * @returns {Object} Migrated settings object
+ */
+function migrateSettings(settings, fromVersion = '1.0.0') {
+    // If already current version, return as is
+    if (fromVersion === SETTINGS_SCHEMA.version) {
+        return JSON.parse(JSON.stringify(settings));
+    }
+    
+    // If version not recognized, use basic migration
+    if (!SETTINGS_SCHEMA.previousVersions.includes(fromVersion)) {
+        console.warn(`Unknown settings version: ${fromVersion}, applying basic migration`);
+        return mergeWithDefaults(settings);
+    }
+    
+    // Get the changes needed for this migration
+    const versionChanges = SETTINGS_SCHEMA.versionChanges[fromVersion];
+    if (!versionChanges) {
+        console.warn(`No version changes defined for migration from ${fromVersion}`);
+        return mergeWithDefaults(settings);
+    }
+    
+    // Create a deep clone to avoid modifying the input
+    let migratedSettings = JSON.parse(JSON.stringify(settings));
+    
+    // Get current defaults
+    const defaults = getDefaultSettings();
+    
+    // Add new paths from defaults
+    if (versionChanges.addedPaths && versionChanges.addedPaths.length > 0) {
+        versionChanges.addedPaths.forEach(path => {
+            const defaultValue = getValueFromPath(defaults, path);
+            
+            // Only add if the path doesn't already exist
+            if (getValueFromPath(migratedSettings, path) === undefined && defaultValue !== undefined) {
+                setValueAtPath(migratedSettings, path, defaultValue);
+            }
+        });
+    }
+    
+    // Transform paths if needed
+    if (versionChanges.transformPaths) {
+        Object.entries(versionChanges.transformPaths).forEach(([oldPath, newPath]) => {
+            const oldValue = getValueFromPath(migratedSettings, oldPath);
+            
+            // Only transform if the old path has a value
+            if (oldValue !== undefined) {
+                setValueAtPath(migratedSettings, newPath, oldValue);
+                
+                // Remove the old path by finding its parent object and property name
+                const oldPathParts = oldPath.split('.');
+                const oldProperty = oldPathParts.pop();
+                const oldParentPath = oldPathParts.join('.');
+                const oldParent = oldParentPath ? getValueFromPath(migratedSettings, oldParentPath) : migratedSettings;
+                
+                if (oldParent && oldProperty in oldParent) {
+                    delete oldParent[oldProperty];
+                }
+            }
+        });
+    }
+    
+    // Remove deprecated paths
+    if (versionChanges.removedPaths && versionChanges.removedPaths.length > 0) {
+        versionChanges.removedPaths.forEach(path => {
+            const pathParts = path.split('.');
+            const property = pathParts.pop();
+            const parentPath = pathParts.join('.');
+            const parent = parentPath ? getValueFromPath(migratedSettings, parentPath) : migratedSettings;
+            
+            if (parent && property in parent) {
+                delete parent[property];
+            }
+        });
+    }
+    
+    // Ensure all required paths exist by merging with defaults
+    return mergeWithDefaults(migratedSettings);
+}
+
+/**
+ * Merge settings with defaults to ensure all required properties exist
+ * @param {Object} settings Settings object to merge with defaults
+ * @returns {Object} Merged settings object
+ * @private
+ */
+function mergeWithDefaults(settings) {
+    const defaults = getDefaultSettings();
+    
+    // Helper function to perform a deep merge
+    function deepMerge(target, source) {
+        for (const key in source) {
+            if (source.hasOwnProperty(key)) {
+                if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                    // Create key if it doesn't exist in target
+                    if (!target[key] || typeof target[key] !== 'object') {
+                        target[key] = {};
+                    }
+                    deepMerge(target[key], source[key]);
+                } else if (target[key] === undefined) {
+                    // Only copy if target doesn't have this key
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    }
+    
+    // Merge settings with defaults, preserving existing values
+    return deepMerge(JSON.parse(JSON.stringify(settings)), defaults);
 }
 
 /**
@@ -697,6 +1309,7 @@ if (typeof module !== 'undefined' && module.exports) {
         getUISchema,
         getSchemaVersion,
         validateSettings,
+        migrateSettings,
         getValueFromPath,
         setValueAtPath
     };
@@ -709,6 +1322,7 @@ export {
     getUISchema,
     getSchemaVersion,
     validateSettings,
+    migrateSettings,
     getValueFromPath,
     setValueAtPath
 };

@@ -179,32 +179,57 @@ class UIManager {
     _createHeader() {
         const header = document.createElement('header');
         header.className = 'search-pro-header';
-        
-        // Title
+
+        // Add title
         const title = document.createElement('h1');
         title.textContent = 'Search Pro Configuration';
         header.appendChild(title);
-        
-        // Controls
-        const controls = document.createElement('div');
-        controls.className = 'header-controls';
-        
-        // Apply button
-        this._applyButton = document.createElement('button');
-        this._applyButton.id = 'applySettings';
-        this._applyButton.className = 'primary-button';
-        this._applyButton.textContent = 'Apply Settings';
-        this._applyButton.addEventListener('click', this._handleApplyClick.bind(this));
-        controls.appendChild(this._applyButton);
-        
-        header.appendChild(controls);
-        
-        // Incognito warning placeholder
+
+        // Create global action toolbar container
+        const toolbar = document.createElement('div');
+        toolbar.className = 'global-action-toolbar';
+
+        // Define all global actions and their handlers
+        const actions = [
+            { id: 'applySettings', text: 'Apply Settings', icon: 'check', handler: this._handleApplyClick.bind(this), primary: true },
+            { id: 'saveSettings', text: 'Save Settings', icon: 'save', handler: this._handleSave.bind(this), primary: true },
+            { id: 'resetSettings', text: 'Reset to Defaults', icon: 'refresh', handler: this._handleResetAll.bind(this) },
+            { id: 'exportSettings', text: 'Export Settings', icon: 'download', handler: this._handleExport.bind(this) },
+            { id: 'importSettings', text: 'Import Settings', icon: 'upload', handler: this._handleImport.bind(this) },
+            { id: 'exportForServer', text: 'Export for Server', icon: 'server', handler: this._handleExportForServer.bind(this) }
+        ];
+
+        actions.forEach(action => {
+            const button = document.createElement('button');
+            button.id = action.id;
+            button.className = action.primary ? 'primary-button' : 'secondary-button';
+            button.innerHTML = `<span class="icon-${action.icon}"></span> ${action.text}`;
+            button.addEventListener('click', action.handler);
+            
+            // Store references to important buttons
+            if (action.id === 'saveSettings') {
+                this._saveButton = button;
+            } else if (action.id === 'resetSettings') {
+                this._resetButton = button;
+            } else if (action.id === 'exportSettings') {
+                this._exportButton = button;
+            } else if (action.id === 'importSettings') {
+                this._importButton = button;
+            } else if (action.id === 'applySettings') {
+                this._applyButton = button;
+            }
+            
+            toolbar.appendChild(button);
+        });
+
+        header.appendChild(toolbar);
+
+        // Preserve the existing incognito warning logic
         this._incognitoWarning = document.createElement('div');
         this._incognitoWarning.className = 'incognito-warning';
         this._incognitoWarning.style.display = 'none';
         header.appendChild(this._incognitoWarning);
-        
+
         return header;
     }
     
@@ -297,58 +322,172 @@ class UIManager {
     
     /**
      * Create control element for a setting
-     * @param {Object} setting Setting schema
-     * @returns {HTMLElement} Control container element
+     * @param {Object} setting The setting definition
+     * @returns {HTMLElement} The control container element
      * @private
      */
     _createControl(setting) {
         const container = document.createElement('div');
         container.className = 'setting-item';
         container.dataset.path = setting.path;
-        
-        // Label
+
+        // If the setting has a dependency
+        if (setting.dependsOn) {
+            container.dataset.dependsOn = setting.dependsOn.path;
+            container.dataset.dependsValue = String(setting.dependsOn.value);
+            
+            // Hide by default if dependency not currently satisfied
+            const actualValue = this._stateManager.getValue(setting.dependsOn.path);
+            if (actualValue !== setting.dependsOn.value) {
+                container.style.display = 'none';
+            }
+        }
+
+        // Create label
         const label = document.createElement('label');
         label.className = 'setting-label';
         label.textContent = setting.label;
-        label.setAttribute('for', `control-${setting.path}`);
+        label.htmlFor = `input-${setting.path.replace(/\./g, '-')}`;
         container.appendChild(label);
         
-        // Control element based on setting type
+        // Create control based on type
         let control;
         
         switch (setting.type) {
             case 'boolean':
-                control = this._createBooleanControl(setting);
+                control = this._createToggleControl(setting);
                 break;
-            case 'color':
-                control = this._createColorControl(setting);
-                break;
-            case 'number':
-                control = this._createNumberControl(setting);
-                break;
+                
             case 'select':
                 control = this._createSelectControl(setting);
                 break;
+                
+            case 'color':
+                control = this._createColorControl(setting);
+                break;
+                
+            case 'number':
+                control = this._createNumberControl(setting);
+                break;
+                
             case 'text':
+                control = this._createTextControl(setting);
+                break;
+                
+            case 'textarea':
+                control = this._createTextAreaControl(setting);
+                break;
+                
             default:
                 control = this._createTextControl(setting);
         }
         
-        // Add control to container
-        container.appendChild(control);
-        
-        // Description if available
-        if (setting.description) {
-            const description = document.createElement('div');
-            description.className = 'setting-description';
-            description.textContent = setting.description;
-            container.appendChild(description);
+        if (control) {
+            container.appendChild(control);
+            
+            // Add to control map for state updates
+            this.controlMap.set(setting.path, control);
+            
+            // Add description if provided
+            if (setting.description) {
+                const desc = document.createElement('div');
+                desc.className = 'setting-description';
+                desc.textContent = setting.description;
+                container.appendChild(desc);
+            }
         }
         
-        // Store reference to control
-        this._controlElements.set(setting.path, control);
-        
         return container;
+    }
+
+    /**
+     * Update dependent controls based on a setting change
+     * @param {string} path The path of the setting that changed
+     * @param {*} value The new value
+     * @private
+     */
+    _updateDependentControls(path, value) {
+        // Find all settings that depend on this path
+        const dependentElements = document.querySelectorAll(`[data-depends-on="${path}"]`);
+        
+        dependentElements.forEach(element => {
+            const expectedValue = element.dataset.dependsValue;
+            const shouldShow = String(value) === expectedValue;
+            
+            // Toggle visibility
+            element.style.display = shouldShow ? 'block' : 'none';
+            
+            // If hiding, also hide any nested dependent controls
+            if (!shouldShow) {
+                const nestedPath = element.dataset.path;
+                if (nestedPath) {
+                    const nestedDependents = document.querySelectorAll(`[data-depends-on="${nestedPath}"]`);
+                    nestedDependents.forEach(nested => {
+                        nested.style.display = 'none';
+                    });
+                }
+            }
+        });
+    }
+
+    /**
+     * Set up control and its event listeners
+     * @param {HTMLElement} input The input element
+     * @private
+     */
+    setupControl(input) {
+        // ...existing code...
+        
+        // Set up event listeners based on input type
+        if (input.type === 'checkbox') {
+            input.addEventListener('change', () => {
+                const value = input.checked;
+                this._stateManager.setValue(path, value);
+                this._updateDependentControls(path, value);
+                this.updatePreview();
+            });
+        } else if (input.type === 'color') {
+            // ...existing code...
+        } else if (input.type === 'number') {
+            // ...existing code...
+        } else if (input.tagName === 'SELECT') {
+            input.addEventListener('change', () => {
+                let value = input.value;
+                
+                // Handle null values (represented as "null" string in select)
+                if (value === "null") {
+                    value = null;
+                } else if (!isNaN(Number(value))) {
+                    // Convert numeric strings to numbers
+                    value = Number(value);
+                } else if (value === "true") {
+                    value = true;
+                } else if (value === "false") {
+                    value = false;
+                }
+                
+                this._stateManager.setValue(path, value);
+                this._updateDependentControls(path, value);
+                this.updatePreview();
+            });
+        } else {
+            // Text inputs and other types
+            // ...existing code...
+        }
+    }
+    
+    /**
+     * Update visibility of controls based on their dependencies
+     * @private
+     */
+    _updateDependentControls() {
+        const all = this._container.querySelectorAll('[data-depends-on]');
+        all.forEach(control => {
+            const path = control.dataset.dependsOn;
+            const value = control.dataset.dependsValue;
+            const current = this._stateManager.getValue(path);
+            control.style.display = (String(current) === String(value)) ? '' : 'none';
+        });
     }
     
     /**
@@ -858,6 +997,9 @@ class UIManager {
         // Mark as having unsaved changes
         this._unsavedChanges = true;
         
+        // Update dependent controls that might need to show/hide
+        this._updateDependentControls();
+        
         // Update preview if in appearance tab
         if (this._activeTab === 'appearance' && this._preview) {
             this._schedulePreviewUpdate();
@@ -875,7 +1017,31 @@ class UIManager {
      * @private
      */
     _handleStateChange(state) {
-        // Nothing needed here as we directly update controls
+        // Update controls to reflect state changes
+        this._updateControlsFromState(state);
+        
+        // Update visibility of dependent controls
+        this._updateDependentControls();
+    }
+    
+    /**
+     * Update visibility of controls that depend on other settings
+     * @private
+     */
+    _updateDependentControls() {
+        const all = this._container.querySelectorAll('[data-depends-on]');
+        
+        all.forEach(el => {
+            const dependsOnPath = el.dataset.dependsOn;
+            const expectedValue = el.dataset.dependsValue;
+            const actualValue = this._stateManager.getValue(dependsOnPath);
+            
+            if (String(actualValue) === expectedValue) {
+                el.style.display = '';
+            } else {
+                el.style.display = 'none';
+            }
+        });
     }
     
     /**
@@ -891,6 +1057,9 @@ class UIManager {
             const value = getValueFromPath(state, path);
             this._updateControlValue(control, path, value);
         });
+        
+        // Update dependent controls visibility
+        this._updateDependentControls();
         
         // Update preview if in appearance tab
         if (this._activeTab === 'appearance' && this._preview) {
@@ -1406,6 +1575,59 @@ class UIManager {
             this._preview.classList.add('preview-light-mode');
         }
         
+        // Apply display settings toggles to preview
+        if (this._preview) {
+            const preview = this._preview;
+            const display = state.display || {};
+
+            preview.classList.toggle('hide-tags', !display.showTagsInResults);
+            preview.classList.toggle('hide-subtitles', !display.showSubtitlesInResults);
+            preview.classList.toggle('only-subtitles', !!display.onlySubtitles);
+            preview.classList.toggle('hide-icons', !display.showIconsInResults);
+            preview.classList.toggle('hide-group-headers', !display.showGroupHeaders);
+            preview.classList.toggle('hide-group-count', !display.showGroupCount);
+            
+            // Clear previous positioning
+            preview.classList.remove(
+              'position-top-left',
+              'position-top-right',
+              'position-bottom-left',
+              'position-bottom-right',
+              'position-center-top'
+            );
+
+            // Apply preset position or custom offsets
+            const preset = state.position?.preset;
+            const offsets = state.position?.offsets;
+
+            if (preset && preset !== 'custom') {
+              preview.classList.add(`position-${preset}`);
+              
+              // Reset inline styles when using presets
+              preview.style.top = '';
+              preview.style.left = '';
+              preview.style.right = '';
+              preview.style.bottom = '';
+              preview.style.position = 'relative'; // Default position
+            } else if (preset === 'custom' && offsets) {
+              // Custom offsets (scaled for preview)
+              const px = (val) => val !== null && val !== undefined ? `${val / 2}px` : '';
+
+              preview.style.top = px(offsets.top);
+              preview.style.left = px(offsets.left);
+              preview.style.right = px(offsets.right);
+              preview.style.bottom = px(offsets.bottom);
+              preview.style.position = 'absolute';
+            } else {
+              // Reset if no value
+              preview.style.top = '';
+              preview.style.left = '';
+              preview.style.right = '';
+              preview.style.bottom = '';
+              preview.style.position = 'relative'; // Default position
+            }
+        }
+        
         // Update search width
         const searchWidth = state.appearance?.searchWidth || 350;
         this._preview.style.width = `${Math.min(searchWidth, 500)}px`; // Limit preview width
@@ -1422,6 +1644,24 @@ class UIManager {
             this._preview.style.fontFamily = typography.fontFamily || '';
             this._preview.style.fontSize = typography.fontSize ? `${typography.fontSize / 16}em` : '';
             this._preview.style.letterSpacing = typography.letterSpacing ? `${typography.letterSpacing}px` : '';
+        }
+        
+        // Update search field border radius
+        if (searchField && state.appearance?.searchField?.borderRadius) {
+            const radius = state.appearance.searchField.borderRadius;
+            searchField.style.borderRadius = `${radius.topLeft}px ${radius.topRight}px ${radius.bottomRight}px ${radius.bottomLeft}px`;
+        }
+        
+        // Update results panel radius
+        if (resultsPanel && state.appearance?.searchResults?.borderRadius) {
+            const radius = state.appearance.searchResults.borderRadius;
+            resultsPanel.style.borderRadius = `${radius.topLeft}px ${radius.topRight}px ${radius.bottomRight}px ${radius.bottomLeft}px`;
+        }
+        
+        // Update placeholder preview text
+        if (searchInput && state.searchBar?.placeholder) {
+            searchInput.textContent = state.searchBar.placeholder;
+            searchInput.style.opacity = '0.6'; // Make it look like a placeholder
         }
         
         // Update colors if available
@@ -2180,9 +2420,107 @@ class UIManager {
                     font-size: 14px;
                 }
             }
+
+            /* Position preset styles for preview */
+            .position-top-left { top: 10px; left: 10px; position: absolute; }
+            .position-top-right { top: 10px; right: 10px; position: absolute; }
+            .position-bottom-left { bottom: 10px; left: 10px; position: absolute; }
+            .position-bottom-right { bottom: 10px; right: 10px; position: absolute; }
+            .position-center-top { top: 10px; left: 50%; transform: translateX(-50%); position: absolute; }
+            
+            /* Preview container with proper positioning context */
+            .preview-container {
+                margin-top: 30px;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 15px;
+                background-color: #f8fafc;
+                position: relative;
+                min-height: 300px;
+            }
+            
+            /* Make sure preview elements have proper positioning */
+            .search-preview {
+                max-width: 400px;
+                position: relative;
+            }
+            
+            /* Ensure proper styling for preview elements */
+            .preview-search-field,
+            .preview-results-panel {
+                transition: border-radius 0.2s ease;
+            }
         `;
         
         document.head.appendChild(style);
+    }
+
+    /**
+     * Handle input value change
+     * @param {HTMLElement} input Input element that was changed
+     * @private
+     */
+    _handleInputChange(input) {
+        const path = input.dataset.path;
+        if (!path) return;
+        
+        let value = this._extractValueFromInput(input);
+
+        // Update state
+        this._stateManager.setValue(path, value);
+        this._unsavedChanges = true;
+        this._updateStatusIndicator();
+
+        // Update controls that depend on this input
+        this._updateDependentControls();
+
+        // Live preview
+        this._applySettingsToPreview?.();
+    }
+    
+    /**
+     * Extract value from input element based on type
+     * @param {HTMLElement} input Input element
+     * @returns {*} Value from input
+     * @private
+     */
+    _extractValueFromInput(input) {
+        // Different handling based on input type
+        if (input.type === 'checkbox') {
+            return input.checked;
+        } else if (input.type === 'number') {
+            return input.value === '' ? null : Number(input.value);
+        } else if (input.type === 'color') {
+            return input.value;
+        } else if (input.tagName.toLowerCase() === 'select') {
+            // Handle special values in selects
+            const value = input.value;
+            if (value === 'true') return true;
+            if (value === 'false') return false;
+            if (value === 'null') return null;
+            if (value === '' && input.dataset.nullable === 'true') return null;
+            if (!isNaN(Number(value)) && value !== '') return Number(value);
+            return value;
+        } else {
+            // Default for text inputs and others
+            return input.value;
+        }
+    }
+    
+    /**
+     * Update status indicator to show unsaved changes
+     * @private
+     */
+    _updateStatusIndicator() {
+        if (!this._statusIndicator) return;
+        
+        if (this._unsavedChanges) {
+            this._statusIndicator.classList.add('unsaved');
+            this._statusIndicator.textContent = 'Unsaved Changes';
+        } else {
+            this._statusIndicator.classList.remove('unsaved');
+            this._statusIndicator.textContent = 'Saved';
+        }
     }
 }
 

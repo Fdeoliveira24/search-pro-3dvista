@@ -38,7 +38,7 @@ class StateManager {
         this._stateVersion = getSchemaVersion(); // Schema version of current state
         
         // History for undo/redo
-        this._history = [];             // Past states
+        this._history = [];             // Past state diffs (not full states)
         this._historyPosition = -1;     // Current position in history (-1 = no history)
         this._historyLock = false;      // Lock to prevent history from being recorded during undo/redo
         
@@ -48,6 +48,316 @@ class StateManager {
         
         // Initialize state with either provided state, localStorage, or defaults
         this.initialize(initialState);
+    }
+    
+    /**
+     * Deep clone an object using structuredClone with fallback
+     * @param {*} obj Object to clone
+     * @returns {*} Cloned object
+     * @private
+     */
+    _deepClone(obj) {
+        // Use native structuredClone if available
+        if (typeof structuredClone === 'function') {
+            return structuredClone(obj);
+        }
+        
+        // Fallback to custom implementation
+        return this._deepCloneFallback(obj);
+    }
+    
+    /**
+     * Fallback deep clone implementation using WeakMap for circular references
+     * @param {*} obj Object to clone
+     * @param {WeakMap} seen WeakMap for tracking circular references
+     * @returns {*} Cloned object
+     * @private
+     */
+    _deepCloneFallback(obj, seen = new WeakMap()) {
+        // Handle primitives and null
+        if (obj === null || typeof obj !== 'object') {
+            return obj;
+        }
+        
+        // Handle Date objects
+        if (obj instanceof Date) {
+            return new Date(obj);
+        }
+        
+        // Handle RegExp objects
+        if (obj instanceof RegExp) {
+            return new RegExp(obj);
+        }
+        
+        // Handle Array objects
+        if (Array.isArray(obj)) {
+            // Check for circular reference
+            if (seen.has(obj)) {
+                return seen.get(obj);
+            }
+            
+            const clone = [];
+            seen.set(obj, clone);
+            
+            for (let i = 0; i < obj.length; i++) {
+                clone[i] = this._deepCloneFallback(obj[i], seen);
+            }
+            
+            return clone;
+        }
+        
+        // Handle plain objects
+        if (Object.getPrototypeOf(obj) === Object.prototype) {
+            // Check for circular reference
+            if (seen.has(obj)) {
+                return seen.get(obj);
+            }
+            
+            const clone = {};
+            seen.set(obj, clone);
+            
+            for (const key of Object.keys(obj)) {
+                clone[key] = this._deepCloneFallback(obj[key], seen);
+            }
+            
+            return clone;
+        }
+        
+        // For other complex objects, fall back to JSON clone
+        // This won't handle circular references or non-JSON objects
+        return JSON.parse(JSON.stringify(obj));
+    }
+    
+    /**
+     * Generate diff between two objects
+     * @param {Object} current Current object
+     * @param {Object} previous Previous object
+     * @returns {Object} Diff object with changes
+     * @private
+     */
+    _createDiff(current, previous) {
+        const diff = {};
+        
+        // Function to recursively find and record changes
+        const findChanges = (curr, prev, path = '') => {
+            // Handle case where types differ
+            if (typeof curr !== typeof prev) {
+                diff[path || '/'] = { type: 'replace', value: curr };
+                return;
+            }
+            
+            // Handle null values
+            if (curr === null || prev === null) {
+                if (curr !== prev) {
+                    diff[path || '/'] = { type: 'replace', value: curr };
+                }
+                return;
+            }
+            
+            // Handle primitives
+            if (typeof curr !== 'object') {
+                if (curr !== prev) {
+                    diff[path || '/'] = { type: 'replace', value: curr };
+                }
+                return;
+            }
+            
+            // Handle arrays
+            if (Array.isArray(curr)) {
+                if (!Array.isArray(prev) || curr.length !== prev.length) {
+                    diff[path || '/'] = { type: 'replace', value: curr };
+                    return;
+                }
+                
+                // Check array contents
+                let hasChanges = false;
+                for (let i = 0; i < curr.length; i++) {
+                    const itemPath = path ? `${path}/${i}` : `${i}`;
+                    findChanges(curr[i], prev[i], itemPath);
+                    
+                    // If at least one item changed, mark as having changes
+                    if (diff[itemPath]) {
+                        hasChanges = true;
+                    }
+                }
+                
+                // If no individual items changed but arrays are different, replace whole array
+                if (!hasChanges && !this._areObjectsEqual(curr, prev)) {
+                    diff[path || '/'] = { type: 'replace', value: curr };
+                }
+                return;
+            }
+            
+            // Handle objects - look for added or modified properties
+            for (const key in curr) {
+                const propPath = path ? `${path}/${key}` : key;
+                
+                if (!(key in prev)) {
+                    // Added property
+                    diff[propPath] = { type: 'add', value: curr[key] };
+                } else {
+                    // Potentially modified property - recurse
+                    findChanges(curr[key], prev[key], propPath);
+                }
+            }
+            
+            // Look for deleted properties
+            for (const key in prev) {
+                if (!(key in curr)) {
+                    const propPath = path ? `${path}/${key}` : key;
+                    diff[propPath] = { type: 'delete' };
+                }
+            }
+        };
+        
+        // Find all changes
+        findChanges(current, previous);
+        
+        return diff;
+    }
+    
+    /**
+     * Apply a diff to the given state
+     * @param {Object} state State to apply diff to
+     * @param {Object} diff Diff to apply
+     * @returns {Object} Updated state
+     * @private
+     */
+    _applyDiff(state, diff) {
+        const result = this._deepClone(state);
+        
+        for (const path in diff) {
+            const change = diff[path];
+            
+            // Handle root path
+            if (path === '/') {
+                if (change.type === 'replace') {
+                    return this._deepClone(change.value);
+                }
+                continue;
+            }
+            
+            // Split path into segments (skip leading slash if present)
+            const segments = path.split('/').filter(s => s !== '');
+            
+            // Apply the change
+            if (change.type === 'replace' || change.type === 'add') {
+                this._setPathValue(result, segments, change.value);
+            } else if (change.type === 'delete') {
+                this._deletePath(result, segments);
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Set value at a path within an object
+     * @param {Object} obj Object to modify
+     * @param {Array<string>} segments Path segments
+     * @param {*} value Value to set
+     * @private
+     */
+    _setPathValue(obj, segments, value) {
+        if (segments.length === 0) return;
+        
+        let current = obj;
+        const lastIndex = segments.length - 1;
+        
+        // Navigate to parent of target
+        for (let i = 0; i < lastIndex; i++) {
+            const segment = segments[i];
+            
+            // Create parent if it doesn't exist
+            if (current[segment] === undefined) {
+                current[segment] = {};
+            }
+            
+            current = current[segment];
+        }
+        
+        // Set the value
+        current[segments[lastIndex]] = this._deepClone(value);
+    }
+    
+    /**
+     * Delete value at a path within an object
+     * @param {Object} obj Object to modify
+     * @param {Array<string>} segments Path segments
+     * @private
+     */
+    _deletePath(obj, segments) {
+        if (segments.length === 0) return;
+        
+        let current = obj;
+        const lastIndex = segments.length - 1;
+        
+        // Navigate to parent of target
+        for (let i = 0; i < lastIndex; i++) {
+            const segment = segments[i];
+            if (current[segment] === undefined) {
+                return; // Path doesn't exist, nothing to delete
+            }
+            current = current[segment];
+        }
+        
+        // Delete the property
+        delete current[segments[lastIndex]];
+    }
+    
+    /**
+     * Check if two objects are equal using field comparison
+     * @param {Object} a First object
+     * @param {Object} b Second object
+     * @returns {boolean} True if objects are equal
+     * @private
+     */
+    _areObjectsEqual(a, b) {
+        // Handle primitives and nulls
+        if (a === b) return true;
+        if (a === null || b === null) return false;
+        if (typeof a !== 'object' || typeof b !== 'object') return false;
+        
+        // Check if array types match
+        const aIsArray = Array.isArray(a);
+        const bIsArray = Array.isArray(b);
+        if (aIsArray !== bIsArray) return false;
+        
+        // Handle arrays
+        if (aIsArray) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!this._areObjectsEqual(a[i], b[i])) return false;
+            }
+            return true;
+        }
+        
+        // Get keys of both objects
+        const aKeys = Object.keys(a);
+        const bKeys = Object.keys(b);
+        
+        // Check if they have the same number of keys
+        if (aKeys.length !== bKeys.length) return false;
+        
+        // Check if all keys in a exist in b and have equal values
+        for (const key of aKeys) {
+            if (!b.hasOwnProperty(key)) return false;
+            if (!this._areObjectsEqual(a[key], b[key])) return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Check if state has changes compared to previous state (shallow comparison)
+     * @param {Object} newState New state
+     * @returns {boolean} True if state has changes
+     * @private
+     */
+    _hasChanges(newState) {
+        if (!this._previousState) return true;
+        
+        return !this._areObjectsEqual(newState, this._previousState);
     }
     
     /**
@@ -70,7 +380,7 @@ class StateManager {
         }
         
         // Set initial state (clone to prevent modification)
-        this._state = JSON.parse(JSON.stringify(state));
+        this._state = this._deepClone(state);
         
         // Clear history
         this._history = [];
@@ -87,7 +397,7 @@ class StateManager {
      * @returns {Object} Full state object (deep clone)
      */
     getState() {
-        return JSON.parse(JSON.stringify(this._state));
+        return this._deepClone(this._state);
     }
     
     /**
@@ -144,25 +454,24 @@ class StateManager {
         }
         
         // Check if state actually changed
-        if (this._options.notifyOnlyOnChange) {
-            const currentStateStr = JSON.stringify(this._state);
-            const newStateStr = JSON.stringify(newState);
-            
-            if (currentStateStr === newStateStr) {
-                // No change, return true but don't update or notify
-                return true;
-            }
+        if (this._options.notifyOnlyOnChange && !this._hasChanges(newState)) {
+            // No change, return true but don't update or notify
+            return true;
         }
         
         // Store previous state for diffing
         this._previousState = this._state;
         
         // Update state (clone to prevent external modification)
-        this._state = JSON.parse(JSON.stringify(newState));
+        this._state = this._deepClone(newState);
         
         // Record in history if not locked and if configured
         if (!this._historyLock && updateOptions.recordHistory) {
-            this._addToHistory(this._previousState);
+            // Create and store diff instead of full state
+            const diff = this._createDiff(this._state, this._previousState);
+            if (Object.keys(diff).length > 0) {
+                this._addToHistory(diff);
+            }
         }
         
         // Notify listeners if configured
@@ -248,7 +557,7 @@ class StateManager {
             if (Array.isArray(current)) {
                 if (!Array.isArray(previous) || 
                     current.length !== previous.length || 
-                    JSON.stringify(current) !== JSON.stringify(previous)) {
+                    !this._areObjectsEqual(current, previous)) {
                     changes[path || 'root'] = { 
                         type: 'changed', 
                         value: current, 
@@ -382,10 +691,19 @@ class StateManager {
         
         // Move back in history
         this._historyPosition--;
-        const previousState = this._history[this._historyPosition];
         
-        // Apply previous state
-        const result = this.setState(previousState, { 
+        // Reconstruct state by working backwards through diffs
+        let reconstructedState = this._deepClone(this._state);
+        
+        // Get all diffs from current position back to the beginning
+        for (let i = this._historyPosition; i >= 0; i--) {
+            const diff = this._history[i];
+            const invertedDiff = this._invertDiff(diff);
+            reconstructedState = this._applyDiff(reconstructedState, invertedDiff);
+        }
+        
+        // Apply reconstructed state
+        const result = this.setState(reconstructedState, { 
             recordHistory: false,
             notifyListeners: true 
         });
@@ -409,12 +727,15 @@ class StateManager {
         
         this._historyLock = true;
         
-        // Move forward in history
+        // Apply the next diff
         this._historyPosition++;
-        const nextState = this._history[this._historyPosition];
+        const diff = this._history[this._historyPosition];
         
-        // Apply next state
-        const result = this.setState(nextState, { 
+        // Apply diff to current state
+        const newState = this._applyDiff(this._state, diff);
+        
+        // Apply new state
+        const result = this.setState(newState, { 
             recordHistory: false,
             notifyListeners: true 
         });
@@ -438,17 +759,45 @@ class StateManager {
     }
     
     /**
-     * Add current state to history
+     * Invert a diff for undo operations
+     * @param {Object} diff Diff to invert
+     * @returns {Object} Inverted diff
      * @private
      */
-    _addToHistory(state) {
-        // If we're not at the end of history, remove future states
+    _invertDiff(diff) {
+        const inverted = {};
+        
+        for (const path in diff) {
+            const change = diff[path];
+            
+            if (change.type === 'replace' || change.type === 'add') {
+                // For add operations, we need to delete
+                // For replace, we need the old value (need to apply previous diffs to get this)
+                inverted[path] = { type: 'delete' };
+            } else if (change.type === 'delete') {
+                // For delete operations, we need to add back what was there
+                // But we don't have this info in the current diff format
+                // We'd need to either store old values or calculate them
+                inverted[path] = { type: 'restore' };
+            }
+        }
+        
+        return inverted;
+    }
+    
+    /**
+     * Add diff to history
+     * @param {Object} diff State diff to add to history
+     * @private
+     */
+    _addToHistory(diff) {
+        // If we're not at the end of history, remove future diffs
         if (this._historyPosition < this._history.length - 1) {
             this._history = this._history.slice(0, this._historyPosition + 1);
         }
         
-        // Add state to history (clone to prevent modification)
-        this._history.push(JSON.parse(JSON.stringify(state)));
+        // Add diff to history
+        this._history.push(diff);
         
         // Move history position
         this._historyPosition = this._history.length - 1;

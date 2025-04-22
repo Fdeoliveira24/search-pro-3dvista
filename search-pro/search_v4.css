@@ -54,6 +54,66 @@
 }
 
 /* ===================================
+   Global Action Toolbar Styles
+   =================================== */
+.global-action-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.toolbar-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background-color: #1e293b;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.toolbar-button:hover {
+    background-color: #334155;
+}
+
+.button-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.button-text {
+    font-weight: 500;
+}
+
+/* Dark theme adjustments for toolbar */
+.dark-theme .toolbar-button {
+    background-color: #60a5fa;
+}
+
+.dark-theme .toolbar-button:hover {
+    background-color: #3b82f6;
+}
+
+/* Mobile optimization for toolbar */
+@media screen and (max-width: 768px) {
+    .global-action-toolbar {
+        flex-direction: column;
+    }
+    
+    .toolbar-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===================================
    Position and Visibility Settings
    =================================== */
 
@@ -1171,4 +1231,250 @@ mark {
 
 #searchContainer[data-font-size="large"] .result-description {
     font-size: 14px;
+}
+
+/* Ensures live preview adjusts to border radius */
+.preview-search-field,
+.preview-results-panel {
+    transition: border-radius 0.2s ease;
+}
+
+/* ===================================
+   Display Toggle Classes for Preview
+   =================================== */
+
+/* Tags hidden in preview */
+#layoutPreview.hide-tags .preview-result-description {
+    display: none;
+}
+
+/* Subtitles hidden */
+#layoutPreview.hide-subtitles .preview-result-description {
+    display: none;
+}
+
+/* Force subtitle-only mode (hide primary label) */
+#layoutPreview.only-subtitles .preview-result-text {
+    display: none;
+}
+
+/* Icons hidden */
+#layoutPreview.hide-icons .preview-result-icon {
+    display: none;
+}
+
+/* Group headers visibility */
+#layoutPreview.hide-group-headers .preview-group-header {
+    display: none;
+}
+
+/* Count badge hidden */
+#layoutPreview.hide-group-count .preview-group-count {
+    display: none;
+}
+
+/* ===================================
+   Settings Panel Styles (Scoped)
+   =================================== */
+
+/* 1. Unified Action Toolbar Styles */
+.global-action-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.global-action-toolbar button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.global-action-toolbar .primary-button {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.global-action-toolbar .secondary-button {
+  background-color: #e5e7eb;
+  color: #1e293b;
+}
+
+/* 2. Position Preset & Offset Controls */
+.position-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* 3. Border Radius Sliders or Inputs */
+.radius-control input[type="number"],
+.radius-control input[type="range"] {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+/* 4. Conditional Display (for fields with dependsOn) */
+[data-depends-on] {
+  transition: opacity 0.2s ease;
+}
+
+[data-depends-on][style*="display: none"] {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* 6. Section Titles in Settings Panel */
+.setting-section {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.setting-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3b82f6;
+  margin-bottom: 10px;
+}
+
+/* 7. Toggle/Checkbox Alignment */
+.setting-item input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* 8. Typography Preview Panel */
+.font-preview {
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  background-color: var(--bg-color, #f8fafc);
+  border-radius: 4px;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* ===================================
+   Preview Container Styles (Scoped)
+   =================================== */
+
+/* BONUS: Live Preview Reset Utility Class */
+#layoutPreview {
+  transition: all 0.3s ease;
+  position: relative;
+  max-width: 500px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* 5. Position Preview Presets - Specifically scoped to layoutPreview */
+#layoutPreview.position-top-left {
+  top: 10px;
+  left: 10px;
+  position: absolute;
+}
+
+#layoutPreview.position-top-right {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+#layoutPreview.position-bottom-left {
+  bottom: 10px;
+  left: 10px;
+  position: absolute;
+}
+
+#layoutPreview.position-bottom-right {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+#layoutPreview.position-center-top {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+/* Enhanced preview container for positioning context */
+.preview-container {
+  position: relative;
+  min-height: 300px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+/* Ensure preview is visible within container */
+.search-preview {
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* Improve border radius visualization in preview */
+.preview-search-field,
+.preview-results-panel {
+  transition: border-radius 0.25s ease, background-color 0.25s ease;
+}
+
+/* ===================================
+   Media Queries for Settings Panel
+   =================================== */
+@media (max-width: 768px) {
+  .position-controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .global-action-toolbar {
+    flex-direction: column;
+  }
+  
+  .global-action-toolbar button {
+    width: 100%;
+  }
+}
+
+/* ===================================
+   Animation Enhancements 
+   =================================== */
+.preview-container .search-preview {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.5; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Transition effects for dependent fields */
+[data-depends-on] {
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+[data-depends-on][style*="display: none"] {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  margin: 0;
+  padding: 0;
 }
