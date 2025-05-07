@@ -1,0 +1,12 @@
+@media (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  .button-row,
+  .import-export-buttons {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+  }
+}

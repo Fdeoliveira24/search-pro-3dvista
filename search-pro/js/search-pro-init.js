@@ -3,189 +3,153 @@
  * 
  * This script initializes the Search Pro configuration panel and exposes
  * the managers to the global window object for debugging and external access.
+ * 
+ * IMPORTANT: Maintains backward compatibility with 3DVista tours that use:
+ * window.tourSearchFunctions.initializeSearch(this);
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Import required modules
-    import('./settings-schema.js')
-        .then(module => {
-            // Create the main managers
-            const stateManager = new StateManager();
-            const storageManager = new StorageManager('searchPro.config');
-            const uiManager = new UIManager(stateManager, storageManager);
-            
-            // Initialize the UI
-            uiManager.initialize();
-            
-            // Expose the managers globally for external access
-            window.searchProManagers = { stateManager, uiManager, storageManager };
-            
-            console.log('[SearchPro] Initialization complete, managers exposed to window.searchProManagers');
-        })
-        .catch(error => {
-            console.error('[SearchPro] Failed to initialize:', error);
-        });
-});
+// Import with correct paths (no '/js/' prefix)
+import StateManager from './state-manager.js';
+import StorageManager from './storage-manager.js';
+import UIManager from './ui-manager.js';
 
-/**
- * The StateManager handles application state and notifies listeners of changes
- */
-class StateManager {
-    constructor(initialState = {}) {
-        this.state = initialState;
-        this.listeners = [];
-        this._tabScrollPositions = new Map();
-    }
-    
-    getState() {
-        return JSON.parse(JSON.stringify(this.state));
-    }
-    
-    setState(newState, path = null) {
-        if (path) {
-            const parts = path.split('.');
-            let current = this.state;
-            
-            // Navigate to the parent object
-            for (let i = 0; i < parts.length - 1; i++) {
-                if (!current[parts[i]]) {
-                    current[parts[i]] = {};
-                }
-                current = current[parts[i]];
-            }
-            
-            // Set the value at the final path
-            current[parts[parts.length - 1]] = newState;
-        } else {
-            this.state = {...this.state, ...newState};
-        }
-        
-        this.notifyListeners();
-    }
-    
-    subscribe(listener) {
-        this.listeners.push(listener);
-        return () => this.listeners = this.listeners.filter(l => l !== listener);
-    }
-    
-    notifyListeners() {
-        this.listeners.forEach(listener => listener(this.state));
-    }
-    
-    saveTabScrollPosition(tabId, position) {
-        this._tabScrollPositions.set(tabId, position);
-    }
-    
-    getTabScrollPosition(tabId) {
-        return this._tabScrollPositions.get(tabId) || 0;
-    }
-}
+// Set global class references ONCE, immediately after import
+window.StateManager = StateManager;
+window.StorageManager = StorageManager;
 
-/**
- * The StorageManager handles persistence of settings
- */
-class StorageManager {
-    constructor(key = 'searchPro.config') {
-        this.storageKey = key;
+// Centralized initializer for Search Pro
+class SearchProInitializer {
+    constructor() {
+        this._initialized = false;
+        this.stateManager = null;
+        this.storageManager = null;
+        this.uiManager = null;
     }
-    
-    save(data) {
-        try {
-            localStorage.setItem(this.storageKey, JSON.stringify(data));
-            return true;
-        } catch (e) {
-            console.error('[SearchPro] Failed to save settings:', e);
-            return false;
+
+    initialize(tourInstance) {
+        if (this._initialized) {
+            console.info('[SearchProInitializer] Already initialized.');
+            return;
         }
-    }
-    
-    load() {
-        try {
-            const saved = localStorage.getItem(this.storageKey);
-            return saved ? JSON.parse(saved) : null;
-        } catch (e) {
-            console.error('[SearchPro] Failed to load settings:', e);
-            return null;
-        }
-    }
-    
-    clear() {
-        try {
-            localStorage.removeItem(this.storageKey);
-            return true;
-        } catch (e) {
-            console.error('[SearchPro] Failed to clear settings:', e);
-            return false;
-        }
-    }
-    
-    exportForServer(data) {
-        try {
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'search-config.json';
-            document.body.appendChild(a);
-            a.click();
-            
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
-            
-            return true;
-        } catch (e) {
-            console.error('[SearchPro] Failed to export server configuration:', e);
-            return false;
-        }
-    }
-    
-    validateImport(data) {
-        const result = {
-            valid: false,
-            settings: null,
-            warnings: [],
-            errors: []
+        this._initialized = true;
+        console.info('[SearchProInitializer] Initializing Search Pro...');
+
+        // Create managers
+        this.stateManager = new StateManager();
+        this.storageManager = new StorageManager('searchPro.config');
+        this.uiManager = new UIManager(this.stateManager, this.storageManager);
+
+        // Store instances globally for debug and legacy compatibility
+        window.searchProManagers = {
+            stateManager: this.stateManager,
+            uiManager: this.uiManager,
+            storageManager: this.storageManager
         };
-        
-        try {
-            // Check basic structure
-            if (!data) {
-                result.errors.push('Import data is empty or null');
-                return result;
-            }
-            
-            // If data is directly a settings object (no wrapper)
-            const settingsObj = data.settings || data;
-            
-            // Check for required top-level sections
-            const requiredSections = ['display', 'appearance', 'includeContent', 'searchBar'];
-            const missingSections = requiredSections.filter(section => !settingsObj[section]);
-            
-            if (missingSections.length > 0) {
-                result.warnings.push(`Missing required sections: ${missingSections.join(', ')}`);
-            }
-            
-            // Simple validation
-            if (settingsObj.minSearchChars !== undefined && 
-                (typeof settingsObj.minSearchChars !== 'number' || 
-                 settingsObj.minSearchChars < 1 || 
-                 settingsObj.minSearchChars > 10)) {
-                result.warnings.push('minSearchChars should be a number between 1 and 10');
-            }
-            
-            // If we have settings and no critical errors, mark as valid
-            if (settingsObj) {
-                result.valid = true;
-                result.settings = settingsObj;
-            }
-            
-            return result;
-        } catch (error) {
-            result.errors.push(`Validation error: ${error.message}`);
-            return result;
+
+        // Initialize the UI (settings panel or tour)
+        this.uiManager.initialize();
+
+        // Run debug diagnostics if available
+        if (window.searchProDebugTools) {
+            setTimeout(() => window.searchProDebugTools.runDiagnostics(), 1000);
         }
+
+        // Any additional DOM event handlers or global assignments
+        this._setupDomEventHandlers();
+
+        // For backward compatibility, expose tourSearchFunctions if needed
+        if (!window.tourSearchFunctions) {
+            window.tourSearchFunctions = {};
+        }
+
+        // Provide all required functions for compatibility
+        window.tourSearchFunctions.initializeSearch = this.initialize.bind(this);
+        window.tourSearchFunctions.toggleSearch = (show) => {
+            if (this.uiManager && typeof this.uiManager.toggleSearch === 'function') {
+                return this.uiManager.toggleSearch(show);
+            }
+        };
+        window.tourSearchFunctions.getConfig = () => {
+            if (this.stateManager && typeof this.stateManager.getState === 'function') {
+                return this.stateManager.getState();
+            }
+            return null;
+        };
+        window.tourSearchFunctions.updateConfig = (config) => {
+            if (this.stateManager && typeof this.stateManager.setState === 'function') {
+                this.stateManager.setState(config);
+                if (this.uiManager && typeof this.uiManager.applyStateToControls === 'function') {
+                    this.uiManager.applyStateToControls(true);
+                }
+            }
+        };
+
+        // Handle legacy flag for searchListInitiinitialized
+        if (typeof window.searchListInitiinitialized === 'undefined') {
+            window.searchListInitiinitialized = true;
+        }
+
+        // Logging for tracking
+        console.info('[SearchProInitializer] Initialization complete.');
+    }
+
+    _setupDomEventHandlers() {
+        // Move any DOMContentLoaded or other event logic here if needed
+        // Example: Incognito warning, import/export, etc.
+        // ...existing code from settings.html event listeners...
     }
 }
+
+// Singleton instance for global access
+window.SearchProInitializer = window.SearchProInitializer || new SearchProInitializer();
+
+// Auto-initialize on DOMContentLoaded for settings panel
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.SearchProInitializer.initialize();
+    });
+} else {
+    window.SearchProInitializer.initialize();
+}
+
+// Ensure we don't overwrite existing tourSearchFunctions if they exist
+if (!window.tourSearchFunctions) {
+  console.warn('[SearchPro] tourSearchFunctions not found, search functionality may be limited');
+}
+
+// Make sure the proper window interfaces for 3DVista are maintained
+// These MUST remain for compatibility with 3DVista tour buttons
+SearchProInitializer.ensureTourFunctionsExist = function() {
+  if (!window.tourSearchFunctions || !window.tourSearchFunctions.initializeSearch) {
+    console.info('[SearchPro] Setting up tourSearchFunctions interface');
+    // We're creating a reference, not replacing existing functions
+    window.tourSearchFunctions = window.tourSearchFunctions || {};
+    
+    // Only add methods if they don't already exist
+    if (!window.tourSearchFunctions.initializeSearch) {
+      window.tourSearchFunctions.initializeSearch = function(tour) {
+        console.info('[SearchPro] initializeSearch called with tour object');
+        window.tourInstance = tour;
+        return true;
+      };
+    }
+    
+    if (!window.tourSearchFunctions.toggleSearch) {
+      window.tourSearchFunctions.toggleSearch = function(show) {
+        console.info('[SearchPro] toggleSearch called with show:', show);
+        const searchContainer = document.getElementById('searchContainer');
+        if (searchContainer) {
+          searchContainer.style.display = show ? 'block' : 'none';
+          searchContainer.classList.toggle('visible', show);
+        }
+        return true;
+      };
+    }
+  }
+};
+
+// Call this function to ensure the interface exists
+SearchProInitializer.ensureTourFunctionsExist();
+
+// Export the initializer for ES modules
+export default SearchProInitializer;

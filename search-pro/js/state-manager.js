@@ -434,52 +434,57 @@ class StateManager {
      * @param {Object} options Options for this specific update
      * @returns {boolean} True if state was updated, false if invalid
      */
-    setState(newState, options = {}) {
-        if (!newState) return false;
-        
-        const updateOptions = {
-            validate: this._options.validateOnChange,
-            recordHistory: true,
-            notifyListeners: true,
-            ...options
-        };
-        
-        // Validate new state if configured
-        if (updateOptions.validate) {
-            const validation = validateSettings(newState);
-            if (!validation.isValid) {
-                console.error('[StateManager] Invalid state:', validation.errors);
-                return false;
-            }
+    setState(newState, path = null) {
+        // Enhanced validation guard - reject Arrays, validate error arrays
+        // CRITICAL FIX: Reject arrays entirely and log detailed info
+        if (Array.isArray(newState)) {
+            console.error('[StateManager] Invalid state: Array passed to setState()', newState);
+            return false;
         }
         
-        // Check if state actually changed
-        if (this._options.notifyOnlyOnChange && !this._hasChanges(newState)) {
-            // No change, return true but don't update or notify
+        // Reject objects that might be validation error objects
+        if (newState && typeof newState === 'object' && 
+            newState.hasOwnProperty('errors') && Array.isArray(newState.errors) && 
+            newState.hasOwnProperty('isValid')) {
+            console.error('[StateManager] Invalid state: Validation result object passed directly to setState()', newState);
+            return false;
+        }
+        
+        try {
+            // Store the previous state before making changes
+            this._previousState = this._deepClone(this._state);
+            
+            if (path) {
+                const parts = path.split('.');
+                let current = this._state;
+                
+                // Navigate to the parent object
+                for (let i = 0; i < parts.length - 1; i++) {
+                    if (!current[parts[i]]) {
+                        current[parts[i]] = {};
+                    }
+                    current = current[parts[i]];
+                }
+                
+                // Set the value at the final path
+                current[parts[parts.length - 1]] = newState;
+            } else {
+                // For full state updates, use deep merge if available
+                if (this._deepMerge) {
+                    this._state = this._deepMerge({...this._state}, newState);
+                } else {
+                    this._state = {...this._state, ...newState};
+                }
+            }
+            
+            // Notify listeners of state change with correct method and parameters
+            this._notifyListeners(this._previousState, { type: 'setState' });
+            
             return true;
+        } catch (error) {
+            console.error('[StateManager] Error updating state:', error);
+            return false;
         }
-        
-        // Store previous state for diffing
-        this._previousState = this._state;
-        
-        // Update state (clone to prevent external modification)
-        this._state = this._deepClone(newState);
-        
-        // Record in history if not locked and if configured
-        if (!this._historyLock && updateOptions.recordHistory) {
-            // Create and store diff instead of full state
-            const diff = this._createDiff(this._state, this._previousState);
-            if (Object.keys(diff).length > 0) {
-                this._addToHistory(diff);
-            }
-        }
-        
-        // Notify listeners if configured
-        if (updateOptions.notifyListeners) {
-            this._notifyListeners(this._previousState);
-        }
-        
-        return true;
     }
     
     /**

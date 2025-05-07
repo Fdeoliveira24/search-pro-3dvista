@@ -1,0 +1,220 @@
+.preview-container {
+  margin-top: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  background-color: var(--bg-color);
+}
+
+.preview-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.search-preview {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.preview-search-field {
+  position: relative;
+  background: #ffffff;
+  border-radius: 35px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  gap: 12px;
+  height: 25px;
+}
+
+.preview-search-input {
+  flex: 1;
+  color: #1a1a1a;
+  opacity: 0.6;
+  border-color: rgba(255, 255, 255, 0);
+  min-height: 12px;
+  padding-top: 24px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.preview-search-icon {
+  order: 2;
+  width: 24px;
+  height: 24px;
+  color: #64748b;
+}
+
+.preview-search-icon svg {
+  width: 22px;
+  min-height: 28px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  display: inline-block;
+}
+
+.preview-results-panel {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.preview-result-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-left: 3px solid transparent;
+}
+
+.preview-result-item:hover {
+  background-color: var(--result-hover-color, #f1f5f9);
+  border-left-color: var(--result-border-left-color, #3b82f6);
+}
+
+.preview-result-icon {
+  width: 14px;
+  height: 14px;
+  background-color: var(--result-icon-color, #6e85f7);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.preview-result-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-result-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.preview-result-description {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.preview-result-tags {
+    color: var(--tag-text-color, #64748b) !important; /* Use consistent fallback */
+    font-size: 0.85em;
+    margin-top: 2px;
+  }
+
+/* If using Shadow DOM, scope it like this */
+#previewContainer .preview-result-tags {
+  color: var(--tag-text-color, #facc15);
+}
+
+.preview-group-header {
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-group-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.preview-group-count {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Dark mode specific preview overrides */
+.preview-dark-mode .preview-search-field {
+  background: #1e293b;
+}
+
+.preview-dark-mode .preview-search-input {
+  color: #e2e8f0;
+}
+
+.preview-dark-mode .preview-results-panel {
+  background: #1e293b;
+}
+
+.preview-dark-mode .preview-result-text {
+  color: #e2e8f0;
+}
+
+.preview-dark-mode .preview-result-description {
+  color: #94a3b8;
+}
+
+.preview-dark-mode .preview-group-title {
+  color: #94a3b8;
+}
+
+.preview-dark-mode .preview-result-item:hover {
+  background-color: var(--result-hover-color, rgba(59, 130, 246, 0.1));
+}
+
+/* Specific overrides for #layoutPreview in dark mode */
+#layoutPreview.preview-dark-mode .preview-search-field {
+  background: rgba(30, 41, 59, 0.98) !important;
+}
+#layoutPreview.preview-dark-mode .preview-search-input {
+  color: #e2e8f0 !important;
+}
+#layoutPreview.preview-dark-mode .preview-results-panel {
+  background: rgba(30, 41, 59, 0.98) !important;
+}
+
+/* Preview search field styling refinements */
+#layoutPreview .preview-search-field input[type="text"] {
+  border-color: rgba(255, 255, 255, 0);
+  min-height: 12px;
+  padding-top: 24px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+/* Preview container sizing */
+#layoutPreview .preview-search-field {
+  height: 25px;
+}
+
+/* SVG icon sizing and positioning */
+.preview-search-field .preview-search-icon svg {
+  display: inline-block;
+  min-height: 28px;
+  width: 22px;
+}
+
+.mobile-preview-label {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #e0e7ff;
+  border-radius: 18px 18px 0 0;
+  padding: 8px 0 6px 0;
+  margin-bottom: 8px;
+  letter-spacing: 0.03em;
+}
+
+.preview-container.mobile-preview {
+  border: 2px solid #bbb;
+  border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  max-width: 375px;
+  min-width: 320px;
+  width: 100%;
+  position: relative;
+  padding-top: 0;
+}

@@ -35,7 +35,7 @@ const SETTINGS_SCHEMA = {
     },
     
     // Default values for all configurable settings
-    defaults: {
+defaults: {
         // General settings
         autoHide: {
             mobile: false,
@@ -134,6 +134,7 @@ const SETTINGS_SCHEMA = {
                 resultText: '#1e293b',
                 resultSubtitle: '#64748b',
                 resultIconColor: '#6e85f7',
+                tagTextColor: '#64748b',
                 resultSubtextColor: '#64748b'
             },
             searchWidth: 350 // NEW: Add default search width
@@ -162,6 +163,27 @@ const SETTINGS_SCHEMA = {
                 left: 20,
                 right: 20,
                 bottom: null
+            },
+            // Add mobile overrides configuration
+            mobileOverrides: {
+                enabled: false,
+                width: null,
+                placeholder: null,
+                searchField: { 
+                    borderRadius: { 
+                        topLeft: null, 
+                        topRight: null, 
+                        bottomRight: null, 
+                        bottomLeft: null 
+                    } 
+                },
+                colors: { 
+                    searchBackground: null, 
+                    searchText: null,
+                    placeholderText: null,
+                    searchIcon: null,
+                    clearIcon: null 
+                }
             }
         },
         
@@ -241,6 +263,112 @@ const SETTINGS_SCHEMA = {
                         min: 320,
                         max: 1200,
                         description: 'Screen width (in pixels) below which mobile layout is used'
+                    },
+                    
+                    // Add mobile overrides UI controls
+                    {
+                        path: 'searchBar.mobileOverrides.enabled',
+                        label: 'Enhanced Mobile Customization',
+                        type: 'boolean',
+                        description: 'Enable separate customization for mobile devices'
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.width',
+                        label: 'Mobile Search Width',
+                        type: 'number',
+                        min: 100,
+                        max: 500,
+                        description: 'Width of search on mobile (null = auto)',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.placeholder',
+                        label: 'Mobile Placeholder Text',
+                        type: 'text',
+                        description: 'Custom placeholder for mobile (null = use desktop)',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.searchField.borderRadius.topLeft',
+                        label: 'Mobile Border Radius Top-Left',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for top-left corner on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.searchField.borderRadius.topRight',
+                        label: 'Mobile Border Radius Top-Right',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for top-right corner on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.searchField.borderRadius.bottomRight',
+                        label: 'Mobile Border Radius Bottom-Right',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for bottom-right corner on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.searchField.borderRadius.bottomLeft',
+                        label: 'Mobile Border Radius Bottom-Left',
+                        type: 'number',
+                        min: 0,
+                        max: 100,
+                        description: 'Border radius for bottom-left corner on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.colors.searchBackground',
+                        label: 'Mobile Search Background',
+                        type: 'color',
+                        description: 'Background color for search on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.colors.searchText',
+                        label: 'Mobile Search Text Color',
+                        type: 'color',
+                        description: 'Text color for search on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.colors.placeholderText',
+                        label: 'Mobile Placeholder Color',
+                        type: 'color',
+                        description: 'Placeholder text color on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.colors.searchIcon',
+                        label: 'Mobile Search Icon Color',
+                        type: 'color',
+                        description: 'Search icon color on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
+                    },
+                    {
+                        path: 'searchBar.mobileOverrides.colors.clearIcon',
+                        label: 'Mobile Clear Icon Color',
+                        type: 'color',
+                        description: 'Clear button icon color on mobile',
+                        dependsOn: 'searchBar.mobileOverrides.enabled',
+                        showWhen: (value) => value === true
                     }
                 ]
             },
@@ -434,6 +562,18 @@ const SETTINGS_SCHEMA = {
                         description: 'Color of result counts next to groups'
                     },
                     {
+                        path: 'appearance.colors.resultIconColor',
+                        label: 'Result Icon Color',
+                        type: 'color',
+                        description: 'Color of icons shown next to search results'
+                    },
+                    {
+                        path: 'appearance.colors.resultSubtextColor',
+                        label: 'Result Subtext Color',
+                        type: 'color',
+                        description: 'Color of subtitle or secondary lines in search results (e.g. "in Room-1")'
+                    },
+                    {
                         path: 'searchBar.placeholder',
                         label: 'Search Placeholder Text',
                         type: 'text',
@@ -513,6 +653,12 @@ const SETTINGS_SCHEMA = {
                         label: 'Only Show Subtitles',
                         type: 'boolean',
                         description: 'Use subtitles instead of labels when available'
+                    },
+                    {
+                        path: 'appearance.colors.tagTextColor',
+                        label: 'Tag Text Color',
+                        type: 'color',
+                        description: 'Color of tags shown in search results'
                     }
                 ]
             },
@@ -746,6 +892,51 @@ const SETTINGS_SCHEMA = {
                                       preset === 'top-right' || 
                                       preset === 'bottom-right' ||
                                       (preset === 'top-center' && false) // Special case, actually set by JS
+            },
+            // Add dependency rules for mobile overrides
+            'searchBar.mobileOverrides.width': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.placeholder': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.searchField.borderRadius.topLeft': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.searchField.borderRadius.topRight': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.searchField.borderRadius.bottomRight': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.searchField.borderRadius.bottomLeft': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.colors.searchBackground': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.colors.searchText': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.colors.placeholderText': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.colors.searchIcon': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
+            },
+            'searchBar.mobileOverrides.colors.clearIcon': {
+                dependsOn: 'searchBar.mobileOverrides.enabled',
+                validWhen: (enabled) => enabled === true
             }
         }
     }
@@ -783,7 +974,8 @@ function getSchemaVersion() {
 function validateSettings(settings) {
     const result = {
         isValid: true,
-        errors: []
+        errors: [],
+        settings: settings // Add this line to include the original settings
     };
     
     // Extract all settings from the UI schema

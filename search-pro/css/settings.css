@@ -1,0 +1,20 @@
+@import url("base.css");
+@import url("buttons.css");
+@import url("tabs.css");
+@import url("preview.css");
+@import url("responsive.css");
+
+/* Additional settings-specific styles (if any) can go here. */
+
+.subsection-title {
+  font-size: 1rem;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.mobile-position-settings {
+  margin-top: 15px;
+  padding-top: 5px;
+  border-top: 1px solid var(--border-color);
+}
