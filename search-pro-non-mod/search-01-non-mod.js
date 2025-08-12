@@ -2,7 +2,7 @@
 ====================================
 3DVista Enhanced Search Script
 Version: 2.0.14
-Last Updated: 07/17/2025
+Last Updated: 08/12/2025
 Description: 
 ====================================
 */
@@ -2942,6 +2942,14 @@ window.tourSearchFunctions = (function () {
           return "3DHotspot";
         }
       }
+      // **PRIORITY 3: Check for 3D Model Objects first (before general class mapping)**
+      if (overlay.class && 
+          (overlay.class.includes("SpriteModel3DObject") || 
+           overlay.class.includes("InnerModel3DObject"))) {
+        console.log(`[ELEMENT TYPE DEBUG] Detected 3DModelObject: ${overlay.class}`);
+        return "3DModelObject";
+      }
+
       const classNameMap = {
         FramePanoramaOverlay: "Webframe",
         QuadVideoPanoramaOverlay: "Video",
@@ -2949,7 +2957,8 @@ window.tourSearchFunctions = (function () {
         TextPanoramaOverlay: "Text",
         HotspotPanoramaOverlay: "Hotspot",
         Model3DObject: "3DModelObject", // Static 3D objects
-        SpriteModel3DObject: "3DHotspot", // Interactive 3D sprites
+        SpriteModel3DObject: "3DModelObject", // Interactive 3D sprites - Updated to return 3DModelObject
+        InnerModel3DObject: "3DModelObject", // Inner 3D model objects
         SpriteHotspotObject: "3DHotspot",
         Sprite3DObject: "3DHotspot",
         Model3D: "3DModel", // 3D model containers
@@ -7048,6 +7057,17 @@ window.tourSearchFunctions = (function () {
             resultItem.camera = cam;
           }
 
+          // [6.6.8.1] Add modelSpot for 3DModelObject elements
+          if (elementType === "3DModelObject") {
+            const overlayData = _safeGetData(overlay);
+            resultItem.modelSpot = {
+              x: overlay.x ?? overlay.translationX ?? overlay.tx ?? overlayData?.x ?? overlayData?.translationX ?? overlayData?.tx ?? null,
+              y: overlay.y ?? overlay.translationY ?? overlay.ty ?? overlayData?.y ?? overlayData?.translationY ?? overlayData?.ty ?? null,
+              z: overlay.z ?? overlay.translationZ ?? overlay.tz ?? overlayData?.z ?? overlayData?.translationZ ?? overlayData?.tz ?? null,
+            };
+            Logger.debug(`Added modelSpot for 3DModelObject ${elementId}:`, resultItem.modelSpot);
+          }
+
           fuseData.push(resultItem);
         } catch (overlayError) {
           Logger.warn(
@@ -7072,21 +7092,50 @@ window.tourSearchFunctions = (function () {
               result.item.camera.pitch !== null && result.item.camera.pitch !== undefined &&
               Number.isFinite(result.item.camera.yaw) && Number.isFinite(result.item.camera.pitch)) {
             
-            // Build hash string for camera navigation
-            const parts = [];
-            parts.push('media-index=' + encodeURIComponent(result.item.mediaIndex));
-            parts.push('focus-overlay-name=' + encodeURIComponent(result.item.label || result.item.displayLabel || ''));
-            parts.push('yaw=' + result.item.camera.yaw);
-            parts.push('pitch=' + result.item.camera.pitch);
-            
-            if (result.item.camera.fov !== null && result.item.camera.fov !== undefined && Number.isFinite(result.item.camera.fov)) {
-              parts.push('fov=' + result.item.camera.fov);
+            // [6.7.0.1] Determine target playlist based on source
+            let targetPlaylist = null;
+
+            if (result.item.source === "main") {
+              targetPlaylist = tour.mainPlayList;
+            } else if (result.item.source === "root") {
+              if (
+                tour.locManager &&
+                tour.locManager.rootPlayer &&
+                tour.locManager.rootPlayer.mainPlayList
+              ) {
+                targetPlaylist = tour.locManager.rootPlayer.mainPlayList;
+              } else {
+                targetPlaylist = tour.mainPlayList;
+              }
             }
+
+            if (!targetPlaylist) {
+              Logger.error("No valid playlist found for camera navigation");
+              return;
+            }
+
+            // [6.7.0.2] Get playlist items using official API
+            const items = tour.getPlayListItems(targetPlaylist);
+            const itemObj = items && items[result.item.mediaIndex];
+
+            if (!itemObj) {
+              Logger.error(`No playlist item found at mediaIndex ${result.item.mediaIndex}, falling back to old behavior`);
+              return;
+            }
+
+            // [6.7.0.3] Use 3DVista API for camera navigation
+            const fovValue = Number.isFinite(result.item.camera.fov) ? result.item.camera.fov : TDV.Player.DEFAULT_PANORAMA_HFOV;
             
-            const newHash = '#' + parts.join('&');
+            tour.setPanoramaCameraWithSpot(targetPlaylist, itemObj, result.item.camera.yaw, result.item.camera.pitch, fovValue);
+            tour.setPlayListSelectedIndex(targetPlaylist, result.item.mediaIndex);
+
+            Logger.info('[NAV] setPanoramaCameraWithSpot + setPlayListSelectedIndex', {
+              mediaIndex: result.item.mediaIndex, 
+              yaw: result.item.camera.yaw, 
+              pitch: result.item.camera.pitch,
+              fov: fovValue
+            });
             
-            Logger.info(`Navigating with camera to: ${newHash}`);
-            window.location.hash = newHash;
             return; // Early return - don't run existing navigation logic
           }
 
@@ -7139,38 +7188,91 @@ window.tourSearchFunctions = (function () {
               }
             }
           } else if (result.item.type === "3DModelObject") {
-            // [6.7.2.2] Navigate to parent, then trigger 3D model objects
-            if (
-              result.item.parentIndex !== undefined &&
-              result.item.parentItem
-            ) {
+            // [6.7.2.2] Enhanced 3D Model Object handling with modelSpot support
+            if (result.item.parentIndex !== undefined) {
               try {
-                // [6.7.2.2.1] Navigate to parent 3D model
-                targetPlaylist.set("selectedIndex", result.item.parentIndex);
-                Logger.info(
-                  `Navigated to parent 3D model at index ${result.item.parentIndex}`,
-                );
+                // [6.7.2.2.1] Resolve target playlist for 3D model navigation
+                let targetPlaylist = null;
 
-                // [6.7.2.2.2] Trigger the specific object after a delay
-                setTimeout(() => {
-                  if (result.item.id) {
-                    _triggerElement(tour, result.item.id, (success) => {
-                      if (success) {
-                        Logger.info(
-                          `Successfully triggered 3D object ${result.item.id}`,
-                        );
-                      } else {
-                        Logger.warn(
-                          `Failed to trigger 3D object ${result.item.id}`,
-                        );
-                      }
-                    });
+                if (result.item.source === "main") {
+                  targetPlaylist = tour.mainPlayList;
+                } else if (result.item.source === "root") {
+                  if (
+                    tour.locManager &&
+                    tour.locManager.rootPlayer &&
+                    tour.locManager.rootPlayer.mainPlayList
+                  ) {
+                    targetPlaylist = tour.locManager.rootPlayer.mainPlayList;
+                  } else {
+                    targetPlaylist = tour.mainPlayList;
                   }
-                }, 500); // Delay for 3D model loading
+                }
+
+                if (!targetPlaylist) {
+                  Logger.error("No valid playlist found for 3DModelObject navigation");
+                  return;
+                }
+
+                // [6.7.2.2.2] Get parent item from playlist
+                const parentItem = targetPlaylist.get('items')[result.item.parentIndex];
+                if (!parentItem) {
+                  Logger.error(`No parent item found at index ${result.item.parentIndex}`);
+                  return;
+                }
+
+                Logger.debug(`[3D MODEL OBJECT] Navigating to 3DModelObject`, {
+                  playlistSource: result.item.source,
+                  parentIndex: result.item.parentIndex,
+                  modelSpot: result.item.modelSpot,
+                  elementId: result.item.id
+                });
+
+                // [6.7.2.2.3] Use setModel3DCameraSpot if modelSpot has position data
+                if (result.item.modelSpot && 
+                    (result.item.modelSpot.x !== null || 
+                     result.item.modelSpot.y !== null || 
+                     result.item.modelSpot.z !== null)) {
+                  
+                  tour.setModel3DCameraSpot(targetPlaylist, parentItem, result.item.modelSpot);
+                  tour.setPlayListSelectedIndex(targetPlaylist, result.item.parentIndex);
+                  
+                  Logger.info(`[3D MODEL OBJECT] Used setModel3DCameraSpot with modelSpot:`, {
+                    parentIndex: result.item.parentIndex,
+                    modelSpot: result.item.modelSpot
+                  });
+
+                  // [6.7.2.2.4] Fallback element trigger after short delay
+                  if (result.item.id) {
+                    setTimeout(() => {
+                      _triggerElement(tour, result.item.id, (success) => {
+                        Logger.debug(`[3D MODEL OBJECT] Fallback trigger ${success ? 'succeeded' : 'failed'} for ${result.item.id}`);
+                      });
+                    }, 500);
+                  }
+                  
+                } else {
+                  // [6.7.2.2.5] Fallback to original behavior if no modelSpot
+                  Logger.debug(`[3D MODEL OBJECT] No modelSpot data, using fallback navigation`);
+                  
+                  targetPlaylist.set("selectedIndex", result.item.parentIndex);
+                  Logger.info(`Navigated to parent 3D model at index ${result.item.parentIndex}`);
+
+                  // Trigger the specific object after a delay
+                  setTimeout(() => {
+                    if (result.item.id) {
+                      _triggerElement(tour, result.item.id, (success) => {
+                        if (success) {
+                          Logger.info(`Successfully triggered 3D object ${result.item.id}`);
+                        } else {
+                          Logger.warn(`Failed to trigger 3D object ${result.item.id}`);
+                        }
+                      });
+                    }
+                  }, 500); // Delay for 3D model loading
+                }
+
               } catch (e) {
-                Logger.error(
-                  `Error navigating to parent 3D model: ${e.message}`,
-                );
+                Logger.error(`Error navigating to 3D model object: ${e.message}`);
               }
             }
           } else if (result.item.parentIndex !== undefined) {
