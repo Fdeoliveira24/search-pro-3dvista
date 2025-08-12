@@ -1,4 +1,4 @@
-// Simple control panel - Placeholder text only
+// Simple control panel bridge between tour and control panel- Placeholder text only Template. Create everyhing else from here
 
 let currentPlaceholder = "Search... Type * for all";
 

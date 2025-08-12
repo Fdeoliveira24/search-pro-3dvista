@@ -1,12 +1,12 @@
 export default {
   root: true,
-  extends: ['eslint:recommended'],
+  extends: ["eslint:recommended"],
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
-  }
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
 };

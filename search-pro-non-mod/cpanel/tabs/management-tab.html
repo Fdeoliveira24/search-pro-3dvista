@@ -1,0 +1,178 @@
+<div class="panel-content">
+  <!-- Configuration File Management Section -->
+  <section class="config-section" aria-labelledby="config-file-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="config-file-heading">
+        <i class="fas fa-file-code section-icon" aria-hidden="true"></i>
+        Configuration File Management
+      </h3>
+      <p class="section-description">How your settings are stored and managed</p>
+    </div>
+
+    <div class="management-info-card info-card">
+      <div class="info-card-header">
+        <i class="fas fa-info-circle info-icon" aria-hidden="true"></i>
+        <h4>Settings Storage Information</h4>
+      </div>
+      <div class="info-card-content">
+        <p>Settings are stored in your browser's localStorage and persist until you refresh the page, clear browser data or use private browsing.</p>
+        <p>Use the "Download Config" export options in the toolbar to save your settings to a file for backup or transfer to another device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Server Configuration Section -->
+  <section class="config-section" aria-labelledby="server-config-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="server-config-heading">
+        <i class="fas fa-server section-icon" aria-hidden="true"></i>
+        Server Configuration
+      </h3>
+      <p class="section-description">Deploy configuration for all users</p>
+    </div>
+
+    <div class="permanent-config-card">
+      <div class="permanent-config-header">
+        <i class="fas fa-globe permanent-config-icon" aria-hidden="true"></i>
+        <h4>Permanent Configuration</h4>
+      </div>
+      <div class="permanent-config-content">
+        <p>Export your settings to a JSON file that can be used for persistent configuration across all browsers and devices.</p>
+        <ol class="setup-steps">
+          <li>Click "Download Config" in the toolbar to download the configuration file</li>
+          <li>Upload the file to <code>/search-pro-config/config/search-config.js</code> on your server</li>
+          <li>The configuration will automatically load for all users</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Import/Export Options Section -->
+  <section class="config-section" aria-labelledby="import-export-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="import-export-heading">
+        <i class="fas fa-exchange-alt section-icon" aria-hidden="true"></i>
+        Import/Export Options
+      </h3>
+      <p class="section-description">Understanding the different export formats</p>
+    </div>
+
+    <div class="export-options-grid">
+      <div class="export-option">
+        <div class="export-option-header">
+          <i class="fas fa-download export-option-icon" aria-hidden="true"></i>
+          <h4>Download Config</h4>
+        </div>
+        <div class="export-option-content">
+          <p>Saves all current settings to a JavaScript file that can be imported later or on another device.</p>
+          <ul class="export-features">
+            <li>Creates a portable settings file</li>
+            <li>Preserves all customizations including colors, layouts, and content settings</li>
+            <li>Can be shared with team members for consistent configuration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="export-option">
+        <div class="export-option-header">
+          <i class="fas fa-upload export-option-icon" aria-hidden="true"></i>
+          <h4>Load Config</h4>
+        </div>
+        <div class="export-option-content">
+          <p>Import a previously saved configuration file to restore all settings.</p>
+          <ul class="export-features">
+            <li>Supports both .js and .json configuration files</li>
+            <li>Instantly applies all saved settings</li>
+            <li>Perfect for transferring settings between devices</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Setup Instructions Section -->
+  <section class="config-section" aria-labelledby="setup-instructions-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="setup-instructions-heading">
+        <i class="fas fa-list-ol section-icon" aria-hidden="true"></i>
+        Setup Instructions
+      </h3>
+      <p class="section-description">Step-by-step integration guide</p>
+    </div>
+
+    <div class="setup-section">
+      <h4 class="setup-section-title">File Loading Sequence</h4>
+      <div class="loading-sequence">
+        <div class="sequence-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h5>Load Core Search Engine:</h5>
+            <code class="file-path">search-pro-non-mod/search-01-non-mod.js</code>
+          </div>
+        </div>
+        <div class="sequence-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h5>Load Configuration File:</h5>
+            <code class="file-path">search-pro-non-mod/config/search-pro-config.js</code>
+          </div>
+        </div>
+        <div class="sequence-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h5>Tour Integration:</h5>
+            <p>Add scripts to your tour's index.html file</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pro Tips Section -->
+  <section class="config-section" aria-labelledby="pro-tips-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="pro-tips-heading">
+        <i class="fas fa-lightbulb section-icon" aria-hidden="true"></i>
+        Pro Tips
+      </h3>
+      <p class="section-description">Best practices for configuration management</p>
+    </div>
+
+    <div class="pro-tips-section">
+      <h4 class="tips-section-title">Configuration Best Practices</h4>
+      <ul class="pro-tips-list">
+        <li>Keep a backup of your settings file in a secure location</li>
+        <li>Test configuration changes in a development environment first</li>
+        <li>Use descriptive names when saving multiple configuration variants</li>
+        <li>Document any custom CSS or advanced settings for your team</li>
+        <li>Regularly export your configuration after making significant changes</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Troubleshooting Section -->
+  <section class="config-section" aria-labelledby="troubleshooting-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="troubleshooting-heading">
+        <i class="fas fa-wrench section-icon" aria-hidden="true"></i>
+        Troubleshooting
+      </h3>
+      <p class="section-description">Common issues and solutions</p>
+    </div>
+
+    <div class="troubleshooting-grid">
+      <div class="troubleshooting-item">
+        <h4 class="trouble-title">Settings not applying to tour</h4>
+        <p class="trouble-description">Make sure the search engine is loaded before applying configuration. Try refreshing the tour page after applying settings.</p>
+      </div>
+      <div class="troubleshooting-item">
+        <h4 class="trouble-title">Configuration file not loading</h4>
+        <p class="trouble-description">Verify the file path is correct and the server has proper permissions. Check browser console for any loading errors.</p>
+      </div>
+      <div class="troubleshooting-item">
+        <h4 class="trouble-title">Settings lost after browser restart</h4>
+        <p class="trouble-description">This is normal behavior for localStorage. Export your configuration to a file for permanent storage or deploy to server.</p>
+      </div>
+    </div>
+  </section>
+</div>

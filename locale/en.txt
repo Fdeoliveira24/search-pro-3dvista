@@ -11,10 +11,23 @@ WebFrame_977B41E3_D070_0DD2_41D9_BD25691ED690.url = https://pxl360.com/client/pa
 ## Hotspot
 
 ### Text
-HotspotPanoramaOverlayTextImage_97B187F5_D070_15B6_41E8_6CC9838593AE.text = MyHotspotCoolText
+HotspotPanoramaOverlayTextImage_97B187F5_D070_15B6_41E8_6CC9838593AE.text = My Cool Hotspot Text
+HotspotPanoramaOverlayTextImage_856AF867_BC3F_FCD4_41E4_F1DEA22B5F70.text = Projected Image
+HotspotPanoramaOverlayTextImage_872FD501_BC26_944C_41DD_BA942839128B.text = This panorama has no Title, Subtitle or Tags. It will be classified as "Unnamed Item" in the search results.
+
+### Tooltip
+HotspotPanoramaOverlayArea_F0761A93_CA7B_AC2A_41E9_FA284102B2C6.toolTip = Go-To-Room-2-Hotspot
+HotspotPanoramaOverlayArea_F046B82E_CA7D_6C7A_41B6_E0F31FBFC049.toolTip = GoToRoom-1-Hotspot
+HotspotPanoramaOverlayArea_F008688E_CA7D_6C3A_41C1_13D541BAA34F.toolTip = GoToRoom-2-Hotspot
+HotspotPanoramaOverlayArea_F1BCA2C3_CA7C_9C2A_41DD_9B66BD907CB6.toolTip = GoToRoom-4-Hotspot
+HotspotPanoramaOverlayArea_8B0110C2_AC3E_EDCC_41BC_1CDC465E82FD.toolTip = MyPlaceholder-Image
+HotspotPanoramaOverlayArea_8162A135_D070_0AB6_41E2_F1CE04D2C07B.toolTip = P
+HotspotPanoramaOverlayArea_98E1EB42_D070_1ED2_41A9_BAD5BDC5B015.toolTip = Polygon-03-Hotspot
+HotspotPanoramaOverlayArea_D00B3FAB_F3DF_6F9B_41D6_0D94CBBA0E10.toolTip = Polygon-04-Hotspot
+HotspotPanoramaOverlayArea_8AA153FB_ADE2_93BC_41C4_6559662E17BF.toolTip = Regular-Image-01-Hotstpot
 
 ### URL
-FramePanoramaOverlay_925837FC_D070_75B6_41B3_F77883C2C479.url = https://business.google.com/
+FramePanoramaOverlay_925837FC_D070_75B6_41B3_F77883C2C479.url = https://market.3dvista.com/
 
 ## Media
 
@@ -29,25 +42,31 @@ audiores_EF1C2CD6_CA95_642A_41D6_9A00F9C79982.mp3Url = media/audio_ECE9AD5B_CA95
 ### Floorplan
 
 ### Image
-imlevel_96829A30_8B38_97BD_41B2_F47878AC0BFE.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_0.jpg
-imlevel_96828A30_8B38_97BD_41C1_D3E7B193E3AA.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_1.jpg
-imlevel_9682AA30_8B38_97BD_41D9_6E1122B5B106.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_2.jpg
-imlevel_9682DA30_8B38_97BD_41C9_F9A6FEFC72C7.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_3.jpg
-imlevel_D7039FA8_F3DD_EF85_41D6_9675F1CCE168.url = media/panorama_F151638B_CA7D_BC3A_4175_209ED67A3320_HS_tcyexs8n_en.png
+imlevel_BF3D958C_9CB9_A0A1_41DC_16BDE0117EF7.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_0.jpg
+imlevel_BF3DA58C_9CB9_A0A1_41E3_514CB8CCEBD5.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_1.jpg
+imlevel_BF3DC58C_9CB9_A0A1_41CC_6B55237D4BA0.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_2.jpg
+imlevel_BF3DD58D_9CB9_A0A3_4194_744D4D71082C.url = media/map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA_en_3.jpg
+imlevel_8F552E4F_BC6E_94D4_41C8_F1A2D6E82240.url = media/panorama_F151638B_CA7D_BC3A_4175_209ED67A3320_HS_tcyexs8n_en.png
+imlevel_8F51EFC9_BC6E_93DC_41BC_17F92AED3CEB.url = media/panorama_F289242C_D090_0A56_41E5_7B2C79291A3C_HS_3vt3l7mq_en.png
+imlevel_8FF26C98_BC6E_947C_41E0_DB787669E0B5.url = media/panorama_FD134B42_CA7D_AC2A_41E0_59846BC1318E_HS_hx9s1s55_en.png
 
 ### Subtitle
+panorama_1F4F3504_1693_C368_4155_CD0C98E5CBB4.subtitle = Facility-1
+panorama_FD134B42_CA7D_AC2A_41E0_59846BC1318E.subtitle = Facility-2
 panorama_F15D7F82_CA7D_A42A_41C6_927DF9112683.subtitle = Facility-3
 panorama_F151638B_CA7D_BC3A_4175_209ED67A3320.subtitle = Facility-4
 video_E7DE24EC_D070_0BD6_41E6_DF11410992CB.subtitle = Placeholder-video-Subtitle-01
 album_4E859ECB_6AE7_F763_41D3_199737EB562D.subtitle = Subtitle-Photo-Album-01
 
 ### Title
-model_F0D1EB78_CA94_ACE6_41D0_A952164CC22E.label = Model-01
+media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B.label = 360-video-sample
+model_F0D1EB78_CA94_ACE6_41D0_A952164CC22E.label = 3DModel-Sample-01
 album_4E859ECB_6AE7_F763_41D3_199737EB562D.label = Photo-Album-01
 video_E7DE24EC_D070_0BD6_41E6_DF11410992CB.label = Placeholder-video-01
 panorama_1F4F3504_1693_C368_4155_CD0C98E5CBB4.label = Room-1
+panorama_FD134B42_CA7D_AC2A_41E0_59846BC1318E.label = Room-2
 panorama_F15D7F82_CA7D_A42A_41C6_927DF9112683.label = Room-3
-media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B.label = Technimark-360-video-sample
+panorama_F151638B_CA7D_BC3A_4175_209ED67A3320.label = Room-4
 map_FAB39D0B_CAB7_A43A_41C1_9698BC3C84DA.label = background-stars
 album_4E859ECB_6AE7_F763_41D3_199737EB562D_0.label = placeholder-image-1
 album_4E859ECB_6AE7_F763_41D3_199737EB562D_1.label = placeholder-image-2
@@ -56,43 +75,35 @@ album_4E859ECB_6AE7_F763_41D3_199737EB562D_3.label = placeholder-image-4
 album_4E859ECB_6AE7_F763_41D3_199737EB562D_4.label = placeholder-image-5
 
 ### Video
-videores_9687B971_8B38_95BF_41D3_08428C0816D2.url = media/media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B_en.mp4
-videores_9687B971_8B38_95BF_41D3_08428C0816D2.posterURL = media/media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B_poster_en.jpg
-videolevel_96838A10_8B38_977D_41C6_07D209D48F1A.url = media/video_E7DE24EC_D070_0BD6_41E6_DF11410992CB_en.mp4
-videolevel_96838A10_8B38_977D_41C6_07D209D48F1A.posterURL = media/video_E7DE24EC_D070_0BD6_41E6_DF11410992CB_poster_en.jpg
+videores_BF33A4D6_9CB9_A0A1_4137_2E90D4238BE4.url = media/media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B_en.mp4
+videores_BF33A4D6_9CB9_A0A1_4137_2E90D4238BE4.posterURL = media/media_9EAA4B28_D090_1E5E_41D1_B73F7FE1363B_poster_en.jpg
+videolevel_BF3BA577_9CB9_A06F_41D7_3A70AC7DF19F.url = media/video_E7DE24EC_D070_0BD6_41E6_DF11410992CB_en.mp4
+videolevel_BF3BA577_9CB9_A06F_41D7_3A70AC7DF19F.posterURL = media/video_E7DE24EC_D070_0BD6_41E6_DF11410992CB_poster_en.jpg
 
 ### Video Subtitles
 
 ## Skin
 
 ### Image
-Image_42AAC18F_6AFE_6DE3_41D0_20CB2D1863F8.url = skin/Image_42AAC18F_6AFE_6DE3_41D0_20CB2D1863F8_en.png
-Image_4CAE05BE_6AFA_3525_41D0_2763DF767482.url = skin/Image_4CAE05BE_6AFA_3525_41D0_2763DF767482_en.png
 Image_7D9DAB9B_4960_8F76_41A6_277E95F9B398.url = skin/Image_7D9DAB9B_4960_8F76_41A6_277E95F9B398_en.jpg
-Image_95114092_D070_0A72_41E8_2676D56742F3.url = skin/Image_95114092_D070_0A72_41E8_2676D56742F3_en.png
 Image_B4F84BE8_A7BA_37F9_41E2_2AE1C421F119.url = skin/Image_B4F84BE8_A7BA_37F9_41E2_2AE1C421F119_en.png
 Image_B4F84BE8_A7BA_37F9_41E2_2AE1C421F119_mobile.url = skin/Image_B4F84BE8_A7BA_37F9_41E2_2AE1C421F119_mobile_en.png
 
 ### Label
 Label_AA9CF34D_A78E_103B_41D4_AAFFCCDFBB6F_mobile.text = All Rooms
 Label_AA9CF34D_A78E_103B_41D4_AAFFCCDFBB6F.text = All Rooms
-Label_39475BA6_2327_5B05_41AD_CE180167AA27.text = Click
-Label_39475BA6_2327_5B05_41AD_CE180167AA27_mobile.text = Click
-Label_390C0C87_2321_DD03_41AF_C8ACC8FE8064_mobile.text = Hover
-Label_390C0C87_2321_DD03_41AF_C8ACC8FE8064.text = Hover
-Label_94480E13_D070_1672_41C2_8DAA6BE43512.text = MyBoringLabel
-Label_A43C8FDD_AABA_99C7_41E0_76E49970CB94_mobile.text = Share
 Label_A43C8FDD_AABA_99C7_41E0_76E49970CB94.text = Share
-Label_395ECF5B_2321_7B03_41AD_5984915F87D0.text = Toggle
-Label_395ECF5B_2321_7B03_41AD_5984915F87D0_mobile.text = Toggle
+Label_A43C8FDD_AABA_99C7_41E0_76E49970CB94_mobile.text = Share
 
 ### Multiline Text
-HTMLText_7D9A6B9B_4960_8F76_41D2_07806B5A9E3C.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:2.83vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="color:#99bb1b;font-size:2.83vh;font-family:'Antonio';"><B>LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. MAECENAS CONGHE EROS MAGNA.</B></SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:Arial, Helvetica, sans-serif;"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Proin sit amet pharetra magna. Donec varius eu nisi at facilisis. Vivamus nibh magna, fermentum ac nibh sit amet, euismod efficitur sem. Fusce blandit, purus sed gravida vulputate, justo quam laoreet quam, et dictum mauris arcu vitae justo. Vivamus euismod condimentum ligula quis feugiat. Cras imperdiet tortor mi, a posuere velit tempus et. Maecenas et scelerisque turpis. Quisque in gravida leo, sed dapibus nibh. Ut at consequat turpis.</SPAN></SPAN></DIV></div>
-HTMLText_7D9A2B9B_4960_8F76_41CE_CA3A474E0990.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Mauris aliquet neque quis libero consequat vest</SPAN><SPAN STYLE="font-size:1.74vh;font-family:'Open Sans Semibold';">i</SPAN><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">bulum. Donec lacinia consequat dolor viverra sagittis. Praesent consequat porttitor risus, eu condimentum nunc. Proin et velit ac sapien luctus efficitur egestas ac augue.</SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:Arial, Helvetica, sans-serif;"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Nunc dictum, augue eget eleifend interdum, quam libero imperdiet lectus, vel scelerisque turpis lectus vel ligula. Duis a porta sem. Maecenas sollicitudin nunc id risus fringilla, a pharetra orci iaculis. Aliquam turpis ligula, tincidunt sit amet consequat ac, imperdiet non dolor.</SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:Arial, Helvetica, sans-serif;"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Vivamus vitae iaculis turpis. Aliquam imperdiet, elit sed rutrum mollis, neque lacus aliquam lectus.</SPAN></SPAN></DIV></div>
-HTMLText_7D9B2B9B_4960_8F76_41BE_9E0DF75D9585.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:6.199999999999999vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="font-size:6.2vh;font-family:'Otama.ep';">HOUSE</SPAN><SPAN STYLE="font-size:6.2vh;font-family:'Otama.ep';"><B>/</B></SPAN></SPAN></DIV><DIV STYLE="text-align:left;font-size:11.09vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="font-size:11.09vh;font-family:'Otama.ep';"><B>INFO</B></SPAN></SPAN></DIV></div>
-HTMLText_939A1251_D070_0ECE_41E6_DA2AFFAC54D0.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:21px;"><SPAN STYLE="display:inline-block; letter-spacing:0px; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="font-size:21px;"><B>Title</B></SPAN></SPAN></DIV><DIV STYLE="text-align:left;font-size:17px;"><SPAN STYLE="display:inline-block; letter-spacing:0px; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="font-size:17px;"><B>Subtitle</B></SPAN></SPAN></DIV><p STYLE="margin:0; line-height:17px;"><BR STYLE="display:inline-block; letter-spacing:0px; white-space:pre-wrap;color:#000000;font-size:12px;font-family:Arial, Helvetica, sans-serif;"/></p><DIV STYLE="text-align:left;font-size:14px;"><SPAN STYLE="display:inline-block; letter-spacing:0px; white-space:pre-wrap;color:#000000;font-family:Arial, Helvetica, sans-serif;"><SPAN STYLE="font-size:14px;">Normal text</SPAN></SPAN></DIV></div>
-HTMLText_72890553_49A1_FBF6_41AC_88F2D405D1FF.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:2.4399999999999995vmin;"><SPAN STYLE="display:inline-block; letter-spacing:0vmin; white-space:pre-wrap;color:#000000;font-size:2.44vmin;font-family:Arial, Helvetica, sans-serif;">Left</SPAN></DIV></div>
-HTMLText_728B0555_49A1_FBF2_41A5_B80B959E3BE2.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:right;font-size:2.4399999999999995vmin;"><SPAN STYLE="display:inline-block; letter-spacing:0vmin; white-space:pre-wrap;color:#000000;font-size:2.44vmin;font-family:Arial, Helvetica, sans-serif;">Right</SPAN></DIV></div>
+HTMLText_7D9A6B9B_4960_8F76_41D2_07806B5A9E3C.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:2.83vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#99bb1b;font-size:2.83vh;font-family:'Antonio';"><B>LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. MAECENAS CONGHE EROS MAGNA.</B></SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:'Arial, Helvetica, sans-serif';"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Proin sit amet pharetra magna. Donec varius eu nisi at facilisis. Vivamus nibh magna, fermentum ac nibh sit amet, euismod efficitur sem. Fusce blandit, purus sed gravida vulputate, justo quam laoreet quam, et dictum mauris arcu vitae justo. Vivamus euismod condimentum ligula quis feugiat. Cras imperdiet tortor mi, a posuere velit tempus et. Maecenas et scelerisque turpis. Quisque in gravida leo, sed dapibus nibh. Ut at consequat turpis.</SPAN></SPAN></DIV></div>
+HTMLText_B77C22AB_ACE1_EC5C_4189_F46F1BB0B22E_mobile.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:5.329999999999999vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#04a3e1;font-size:5.33vh;font-family:'Bebas Neue Bold';">___</SPAN></SPAN></DIV><DIV STYLE="text-align:left;font-size:5.65vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="font-size:5.65vh;font-family:'Bebas Neue Bold';">PHOTOALBUM:</SPAN></SPAN></DIV></div>
+HTMLText_B77C22AB_ACE1_EC5C_4189_F46F1BB0B22E.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:5.329999999999999vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#04a3e1;font-size:5.33vh;font-family:'Bebas Neue Bold';">___</SPAN></SPAN></DIV><DIV STYLE="text-align:left;font-size:5.65vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="font-size:5.65vh;font-family:'Bebas Neue Bold';">PHOTOALBUM:</SPAN></SPAN></DIV></div>
+HTMLText_7D9A2B9B_4960_8F76_41CE_CA3A474E0990.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Mauris aliquet neque quis libero consequat vest</SPAN><SPAN STYLE="font-size:1.74vh;font-family:'Open Sans Semibold';">i</SPAN><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">bulum. Donec lacinia consequat dolor viverra sagittis. Praesent consequat porttitor risus, eu condimentum nunc. Proin et velit ac sapien luctus efficitur egestas ac augue.</SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:'Arial, Helvetica, sans-serif';"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Nunc dictum, augue eget eleifend interdum, quam libero imperdiet lectus, vel scelerisque turpis lectus vel ligula. Duis a porta sem. Maecenas sollicitudin nunc id risus fringilla, a pharetra orci iaculis. Aliquam turpis ligula, tincidunt sit amet consequat ac, imperdiet non dolor.</SPAN></SPAN></DIV><p STYLE="margin:0; line-height:1.74vh;"><BR STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-size:1.2vh;font-family:'Arial, Helvetica, sans-serif';"/></p><DIV STYLE="text-align:left;font-size:1.74vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="color:#999999;font-size:1.74vh;font-family:'Open Sans Semibold';">Vivamus vitae iaculis turpis. Aliquam imperdiet, elit sed rutrum mollis, neque lacus aliquam lectus.</SPAN></SPAN></DIV></div>
+HTMLText_B1B486E8_ACE1_B5DC_41C6_C8270B504E86.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:3.91vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="font-size:3.91vh;font-family:'Otama.ep';"><B>PANORAMA LIST/</B></SPAN></SPAN></DIV></div>
+HTMLText_7D9B2B9B_4960_8F76_41BE_9E0DF75D9585.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:6.199999999999998vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="font-size:6.2vh;font-family:'Otama.ep';">HOUSE</SPAN><SPAN STYLE="font-size:6.2vh;font-family:'Otama.ep';"><B>/</B></SPAN></SPAN></DIV><DIV STYLE="text-align:left;font-size:11.09vh;"><SPAN STYLE="display:inline-block; letter-spacing:0vh; white-space:pre-wrap;color:#000000;font-family:'Arial, Helvetica, sans-serif';"><SPAN STYLE="font-size:11.09vh;font-family:'Otama.ep';"><B>INFO</B></SPAN></SPAN></DIV></div>
+HTMLText_72890553_49A1_FBF6_41AC_88F2D405D1FF.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:left;font-size:2.4399999999999995vmin;"><SPAN STYLE="display:inline-block; letter-spacing:0vmin; white-space:pre-wrap;color:#000000;font-size:2.44vmin;font-family:'Arial, Helvetica, sans-serif';">Left</SPAN></DIV></div>
+HTMLText_728B0555_49A1_FBF2_41A5_B80B959E3BE2.html = <div style="text-align:left; color:#000; "><DIV STYLE="text-align:right;font-size:2.4399999999999995vmin;"><SPAN STYLE="display:inline-block; letter-spacing:0vmin; white-space:pre-wrap;color:#000000;font-size:2.44vmin;font-family:'Arial, Helvetica, sans-serif';">Right</SPAN></DIV></div>
 
 ## Tour
 
@@ -105,8 +116,11 @@ tour.name = Advanced Search Pro for 3D Vista Tours - Non-Mod
 ## VR Menu
 
 ### Text
+MenuItem_8042A809_D090_1A5E_41E1_7576D474FBF5.label = 360-video-sample
+MenuItem_75C0C589_49A0_7B52_41AC_F9A88C4DD630.label = 3DModel-Sample-01
 Menu_EF378122_CA94_9C6A_41DF_6569D4BE9173.label = Media
-MenuItem_75C0C589_49A0_7B52_41AC_F9A88C4DD630.label = Model-01
+MenuItem_88930E7A_BC6F_94BC_41E0_39742E3D58AA.label = Red-Car
 MenuItem_EF2A1145_CA94_9C2E_41E6_A9EDB98A8132.label = Room-1
+MenuItem_EF2A0145_CA94_9C2E_41C1_A3B6232F9C9A.label = Room-2
 MenuItem_EF2A3145_CA94_9C2E_41A7_9A5E1473FAA0.label = Room-3
-MenuItem_8042A809_D090_1A5E_41E1_7576D474FBF5.label = Technimark-360-video-sample
+MenuItem_EF2A2145_CA94_9C2E_41D0_21DE40984257.label = Room-4

@@ -1,45 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Pro Control Panel</title>
-    <link rel="stylesheet" href="css/control-panel.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/control-panel.css" />
+  </head>
+  <body>
     <div class="container">
-        <header class="header">
-            <h1 class="header__title">🔍 Search Pro Control Panel</h1>
-            <p class="header__subtitle">Configure your search placeholder text</p>
-        </header>
+      <header class="header">
+        <h1 class="header__title">🔍 Search Pro Control Panel</h1>
+        <p class="header__subtitle">Configure your search placeholder text</p>
+      </header>
 
-        <main class="card">
-            <div id="statusMessage" class="status-message"></div>
+      <main class="card">
+        <div id="statusMessage" class="status-message"></div>
 
-            <div class="form-group">
-                <label for="placeholder" class="form-label">Placeholder Text</label>
-                <input 
-                    type="text" 
-                    id="placeholder" 
-                    class="form-input" 
-                    value="Search... Type * for all"
-                    placeholder="Enter placeholder text..."
-                    aria-describedby="placeholder-help"
-                >
-                <p id="placeholder-help" class="form-help">Text displayed in the search input field</p>
-            </div>
+        <div class="form-group">
+          <label for="placeholder" class="form-label">Placeholder Text</label>
+          <input
+            type="text"
+            id="placeholder"
+            class="form-input"
+            value="Search... Type * for all"
+            placeholder="Enter placeholder text..."
+            aria-describedby="placeholder-help"
+          />
+          <p id="placeholder-help" class="form-help">
+            Text displayed in the search input field
+          </p>
+        </div>
 
-            <div class="actions">
-                <button type="button" class="btn btn--primary" onclick="applySettings()">
-                    Apply Changes
-                </button>
-                <button type="button" class="btn btn--success" onclick="saveSettings()">
-                    Save Config
-                </button>
-            </div>
-        </main>
+        <div class="actions">
+          <button
+            type="button"
+            class="btn btn--primary"
+            onclick="applySettings()"
+          >
+            Apply Changes
+          </button>
+          <button
+            type="button"
+            class="btn btn--success"
+            onclick="saveSettings()"
+          >
+            Save Config
+          </button>
+        </div>
+      </main>
     </div>
 
     <script src="js/control-panel.js"></script>
-</body>
+  </body>
 </html>

@@ -20,5 +20,8 @@
     "eslint-plugin-prettier": "^5.4.0",
     "globals": "^16.1.0",
     "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "strip-comments": "^2.0.1"
   }
 }

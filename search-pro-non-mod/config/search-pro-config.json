@@ -1,0 +1,272 @@
+{
+  "autoHide": {
+    "mobile": false,
+    "desktop": true
+  },
+  "mobileBreakpoint": 768,
+  "minSearchChars": 2,
+  "showTagsInResults": true,
+  "elementTriggering": {
+    "initialDelay": 300,
+    "maxRetries": 3,
+    "retryInterval": 300,
+    "maxRetryInterval": 1000,
+    "baseRetryInterval": 300
+  },
+  "searchBar": {
+    "placeholder": "Search... Type * for",
+    "width": 550,
+    "position": {
+      "top": 170,
+      "right": 70,
+      "left": null,
+      "bottom": null
+    },
+    "useResponsive": true,
+    "mobilePosition": {
+      "top": 160,
+      "left": 20,
+      "right": 20,
+      "bottom": "auto"
+    },
+    "mobileOverrides": {
+      "enabled": true,
+      "breakpoint": 768,
+      "width": "90%",
+      "maxWidth": 350,
+      "visibility": {
+        "behavior": "dynamic",
+        "showOnScroll": true,
+        "hideThreshold": 100
+      }
+    }
+  },
+  "appearance": {
+    "searchField": {
+      "borderRadius": {
+        "topLeft": 1,
+        "topRight": 10,
+        "bottomRight": 25,
+        "bottomLeft": 5
+      },
+      "typography": {
+        "fontSize": "48px",
+        "fontFamily": "'Comic Sans MS', cursive",
+        "fontWeight": "900",
+        "fontStyle": "normal",
+        "lineHeight": "1.5",
+        "letterSpacing": "10px",
+        "textTransform": "capitalize",
+        "placeholder": {
+          "fontSize": "48px",
+          "fontFamily": "Impact, Arial, sans-serif",
+          "fontWeight": "900",
+          "fontStyle": "normal",
+          "opacity": 0.7,
+          "letterSpacing": "0px",
+          "textTransform": "lowercase"
+        },
+        "focus": {
+          "fontSize": "28px",
+          "fontWeight": "900",
+          "letterSpacing": "1.25px"
+        }
+      }
+    },
+    "searchResults": {
+      "borderRadius": {
+        "topLeft": 1,
+        "topRight": 1,
+        "bottomRight": 5,
+        "bottomLeft": 5
+      }
+    },
+    "colors": {
+      "searchBackground": "#f17d09",
+      "searchText": "#e70404",
+      "placeholderText": "#fbff00",
+      "searchIcon": "#7cf915",
+      "clearIcon": "#579dff",
+      "resultsBackground": "#e8e8e8",
+      "groupHeaderColor": "#6de5ee",
+      "groupCountColor": "#66ffed",
+      "resultHover": "#85e595",
+      "resultBorderLeft": "#ff9ee5",
+      "resultText": "#d1d1d1",
+      "resultSubtitle": "#ff8800",
+      "resultIconColor": "#d4ff38",
+      "resultSubtextColor": "#753500",
+      "tagBackground": "#6bffbf",
+      "tagText": "#8a14ff",
+      "tagBorder": "#8c7388",
+      "highlightBackground": "#8ae8ff",
+      "highlightBackgroundOpacity": 0.9,
+      "highlightText": "#ff00dd",
+      "highlightWeight": "300"
+    },
+    "tags": {
+      "borderRadius": 5,
+      "fontSize": "14px",
+      "padding": "3px 10px",
+      "margin": "4px",
+      "fontWeight": "900",
+      "textTransform": "lowercase",
+      "showBorder": true,
+      "borderWidth": "1px"
+    },
+    "groupHeaderAlignment": "right"
+  },
+  "display": {
+    "showGroupHeaders": true,
+    "showGroupCount": true,
+    "showIconsInResults": true,
+    "onlySubtitles": false,
+    "showSubtitlesInResults": true,
+    "showParentLabel": true,
+    "showParentInfo": true,
+    "showParentTags": true,
+    "showParentType": true
+  },
+  "thumbnailSettings": {
+    "enableThumbnails": false,
+    "thumbnailSize": "medium",
+    "thumbnailSizePx": 120,
+    "borderRadius": 4,
+    "borderWidth": 4,
+    "borderColor": "#9cbbff",
+    "defaultImagePath": "./search-pro-non-mod/assets/default-thumbnail.jpg",
+    "defaultImages": {
+      "Panorama": "./search-pro-non-mod/assets/default-thumbnail.jpg",
+      "Hotspot": "./search-pro-non-mod/assets/hotspot-default.jpg",
+      "Polygon": "./search-pro-non-mod/assets/polygon-default.jpg",
+      "Video": "./search-pro-non-mod/assets/video-default.jpg",
+      "Webframe": "./search-pro-non-mod/assets/webframe-default.jpg",
+      "Image": "./search-pro-non-mod/assets/image-default.jpg",
+      "Text": "./search-pro-non-mod/assets/text-default.jpg",
+      "ProjectedImage": "./search-pro-non-mod/assets/projected-image-default.jpg",
+      "Element": "./search-pro-non-mod/assets/element-default.jpg",
+      "Business": "./search-pro-non-mod/assets/business-default.jpg",
+      "3DModel": "./search-pro-non-mod/assets/3d-model-default.jpg",
+      "3DHotspot": "./search-pro-non-mod/assets/3d-hotspot-default.jpg",
+      "3DModelObject": "./search-pro-non-mod/assets/3d-model-object-default.jpg",
+      "default": "./search-pro-non-mod/assets/default-thumbnail.jpg"
+    },
+    "iconSettings": {
+      "enableCustomIcons": true,
+      "enableFontAwesome": false,
+      "fontAwesomeUrl": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+      "iconSize": "medium",
+      "iconSizePx": 20,
+      "iconColor": "#3b82f6",
+      "iconOpacity": 0.9,
+      "iconAlignment": "left",
+      "iconMargin": 12,
+      "iconBorderRadius": 6,
+      "enableIconHover": true,
+      "iconHoverScale": 1.15,
+      "iconHoverOpacity": 1,
+      "customIcons": {
+        "Panorama": "fas fa-home",
+        "Hotspot": "fas fa-laptop",
+        "Polygon": "fas fa-diamond",
+        "Video": "fas fa-video",
+        "Webframe": "fas fa-laptop",
+        "Image": "fas fa-image",
+        "Text": "fas fa-file-alt",
+        "ProjectedImage": "fas fa-desktop",
+        "Element": "fas fa-circle",
+        "Business": "fas fa-building",
+        "3DHotspot": "fas fa-gamepad",
+        "Container": "fas fa-window-restore",
+        "3DModel": "fas fa-cube",
+        "3DModelObject": "fas fa-wrench",
+        "default": "fas fa-circle"
+      },
+      "showIconFor": {
+        "panorama": true,
+        "hotspot": true,
+        "polygon": true,
+        "video": true,
+        "webframe": true,
+        "image": true,
+        "text": true,
+        "projectedImage": true,
+        "element": true,
+        "business": true,
+        "3dmodel": true,
+        "3dhotspot": true,
+        "3dmodelobject": true,
+        "container": true,
+        "other": true
+      },
+      "fallbackSettings": {
+        "useDefaultOnError": true,
+        "hideIconOnError": false,
+        "showTypeLabel": false
+      }
+    },
+    "groupHeaderPosition": "top"
+  },
+  "displayLabels": {
+    "Panorama": "Panoramas",
+    "Hotspot": "Hotspots",
+    "Polygon": "Polygons",
+    "Video": "Videos",
+    "Webframe": "Webframes",
+    "Image": "Images",
+    "Text": "Texts",
+    "ProjectedImage": "Projected Images",
+    "Element": "Element",
+    "Business": "Business",
+    "3DHotspot": "3D Hotspot",
+    "3DModel": "3D Model",
+    "3DModelObject": "3D Model Object",
+    "Container": "Container"
+  },
+  "useAsLabel": {
+    "subtitles": true,
+    "tags": true,
+    "elementType": true,
+    "parentWithType": true,
+    "customText": "",
+    "parentLabel": true
+  },
+  "thumbnails": {
+    "defaults": {
+      "panorama": "assets/default-thumbnail.jpg",
+      "hotspot": "assets/hotspot-default.jpg",
+      "polygon": "assets/polygon-default.jpg",
+      "video": "assets/video-default.jpg",
+      "webframe": "assets/webframe-default.jpg",
+      "image": "assets/image-default.jpg",
+      "text": "assets/text-default.jpg",
+      "projectedImage": "assets/projected-image-default.jpg",
+      "element": "assets/element-default.jpg",
+      "business": "assets/business-default.jpg",
+      "container": "assets/container-default.jpg",
+      "3dModel": "assets/3d-model-default.jpg",
+      "3dHotspot": "assets/3d-hotspot-default.jpg",
+      "3dModelObject": "assets/3d-model-object-default.jpg",
+      "other": "assets/default-thumbnail.jpg"
+    }
+  },
+  "displayElements": {
+    "showFor": {
+      "panorama": true,
+      "hotspot": true,
+      "polygon": true,
+      "video": true,
+      "webframe": true,
+      "image": true,
+      "text": true,
+      "projectedImage": true,
+      "element": true,
+      "business": true,
+      "container": true,
+      "3dmodel": true,
+      "3dhotspot": true,
+      "3dmodelobject": true,
+      "other": true
+    }
+  }
+}

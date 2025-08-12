@@ -1,8 +1,8 @@
 /*
 ====================================
-3DVista Enhanced Search Script
+3DVista Enhanced Search Script - debug-core-non-mod.js
 Version: 2.0.1
-Last Updated: 06/03/2025 (Non-Modular working)
+Last Updated: 06/26/2025 (Non-Modular working)
 Description: Search Pro Debug Utilities
  * Comprehensive diagnostics for search features including business data and Google Sheets integration
  */

@@ -42,7 +42,7 @@
   {
     "id": "Model-01",
     "name": "##  3D Model Mansion",
-    "description": "3D model showcase area",  
+    "description": "3D model showcase area",
     "matchTags": ["Model-01"],
     "imageUrl": "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?w=400&h=400&fit=crop",
     "localImage": "./search-pro-non-mod/assets/element-default.jpg",
