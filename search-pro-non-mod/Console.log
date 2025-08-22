@@ -1,38 +1,1141 @@
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83', overlayClass: undefined, label: 'Projected-Image-01-Hotspot', hasVertices: 'none'}
+tdvplayer.js?v=1754974817768:29 [Violation] 'setTimeout' handler took 66ms
+tdvremote.js?v=1754974817768:1 🎬 Animation options set: {enabled: true, duration: {…}, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', searchBar: {…}, results: {…}, …}
+tdvremote.js?v=1754974817768:1 [CONFIG] Set thumbnailSettings.iconSettings.enableCustomIcons to: false
+tdvremote.js?v=1754974817768:1 [CONFIG] Original value passed: undefined (type: undefined)
+tdvremote.js?v=1754974817768:1 🔥 CACHE BUST: Search engine reloaded at Sun Aug  3 11:34:37 PM UTC 2025
+tdvremote.js?v=1754974817768:1 [Search] Logger not properly initialized, using console fallback
+d.warn @ tdvremote.js?v=1754974817768:1
+(anonymous) @ search-01-non-mod.js?v=1752343991000:10384
+setTimeout
+(anonymous) @ search-01-non-mod.js?v=1752343991000:10382
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [CFG.UPDATE] Updated keys: autoHide, mobileBreakpoint, minSearchChars, showTagsInResults, elementTriggering, searchBar, appearance, thumbnailSettings, display, displayLabels, useAsLabel, includeContent, filter, animations, searchSettings, businessData, googleSheets
+tdvremote.js?v=1754974817768:1 [Search] WARN: [STYLE] Skipping styling; #searchContainer not mounted yet
+d.warn @ tdvremote.js?v=1754974817768:1
+window.Logger.warn @ search-01-non-mod.js?v=1752343991000:10424
+_applySearchStyling @ search-01-non-mod.js?v=1752343991000:4546
+updateConfig @ search-01-non-mod.js?v=1752343991000:10192
+(anonymous) @ search-01-non-mod.js?v=1752343991000:10474
+setTimeout
+(anonymous) @ search-01-non-mod.js?v=1752343991000:10382
+tdvremote.js?v=1754974817768:1 🎬 Setting animation CSS variables: {enabled: false, duration: {…}, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', searchBar: {…}, results: {…}, …}
+tdvremote.js?v=1754974817768:1 🎬 Animations enabled: false
+tdvremote.js?v=1754974817768:1 🎬 Prefers reduced motion: false
+tdvremote.js?v=1754974817768:1 🎬 Animation CSS variables applied
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Reindex deferred; initializeSearch not completed yet.
+search-01-non-mod.js?v=1752343991000:10411 [Search] INFO: Config patch applied without re-init [{…}]
+tdvremote.js?v=1754974817768:1 Thumbnail settings: {enableThumbnails: false, thumbnailSize: '48px', borderRadius: 4, borderColor: '#9CBBFF', borderWidth: 4, …}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Google Sheets Config Applied: [{…}]
+tdvremote.js?v=1754974817768:1 PXL 360 Player v:2195
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Local Fuse.js loaded successfully
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Font Awesome loading disabled
+tdvplayer.js?v=1754974817768:256 [Violation] 'setTimeout' handler took 57ms
+tdvplayer.js?v=1754974817768:159 Unrecognized feature: 'vr'.
+attr @ tdvplayer.js?v=1754974817768:159
+$ @ tdvplayer.js?v=1754974817768:94
+attr @ tdvplayer.js?v=1754974817768:158
+a.Hb @ tdvplayer.js?v=1754974817768:3958
+e.y1a @ tdvplayer.js?v=1754974817768:3702
+e.oa @ tdvplayer.js?v=1754974817768:3702
+e.c_ @ tdvplayer.js?v=1754974817768:3703
+m @ tdvplayer.js?v=1754974817768:511
+Promise.then
+$B @ tdvplayer.js?v=1754974817768:511
+e.ux @ tdvplayer.js?v=1754974817768:3703
+e.AT @ tdvplayer.js?v=1754974817768:3701
+q.AT @ tdvplayer.js?v=1754974817768:599
+q.tba @ tdvplayer.js?v=1754974817768:598
+q.Kt @ tdvplayer.js?v=1754974817768:582
+q.Kt @ tdvplayer.js?v=1754974817768:675
+(anonymous) @ tdvplayer.js?v=1754974817768:3705
+(anonymous) @ tdvplayer.js?v=1754974817768:3718
+(anonymous) @ tdvplayer.js?v=1754974817768:491
+(anonymous) @ tdvplayer.js?v=1754974817768:487
+e.Cm @ tdvplayer.js?v=1754974817768:487
+l.OQa @ tdvplayer.js?v=1754974817768:4012
+l.X8a @ tdvplayer.js?v=1754974817768:4009
+(anonymous) @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:256
+setTimeout
+r.delay @ tdvplayer.js?v=1754974817768:256
+c @ tdvplayer.js?v=1754974817768:241
+P @ tdvplayer.js?v=1754974817768:255
+e.DXa @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:3661
+h.Iz @ tdvplayer.js?v=1754974817768:516
+h.trigger @ tdvplayer.js?v=1754974817768:515
+t.load @ tdvplayer.js?v=1754974817768:3662
+r.l9a @ tdvplayer.js?v=1754974817768:3661
+e @ tdvplayer.js?v=1754974817768:4020
+l.defineScript @ tdvplayer.js?v=1754974817768:211
+(anonymous) @ script_general.js:230
+(anonymous) @ script_general.js:232
+tdvplayer.js?v=1754974817768:159 Allow attribute will take precedence over 'allowfullscreen'.
+attr @ tdvplayer.js?v=1754974817768:159
+$ @ tdvplayer.js?v=1754974817768:94
+attr @ tdvplayer.js?v=1754974817768:158
+a.Hb @ tdvplayer.js?v=1754974817768:3958
+e.y1a @ tdvplayer.js?v=1754974817768:3702
+e.oa @ tdvplayer.js?v=1754974817768:3702
+e.c_ @ tdvplayer.js?v=1754974817768:3703
+m @ tdvplayer.js?v=1754974817768:511
+Promise.then
+$B @ tdvplayer.js?v=1754974817768:511
+e.ux @ tdvplayer.js?v=1754974817768:3703
+e.AT @ tdvplayer.js?v=1754974817768:3701
+q.AT @ tdvplayer.js?v=1754974817768:599
+q.tba @ tdvplayer.js?v=1754974817768:598
+q.Kt @ tdvplayer.js?v=1754974817768:582
+q.Kt @ tdvplayer.js?v=1754974817768:675
+(anonymous) @ tdvplayer.js?v=1754974817768:3705
+(anonymous) @ tdvplayer.js?v=1754974817768:3718
+(anonymous) @ tdvplayer.js?v=1754974817768:491
+(anonymous) @ tdvplayer.js?v=1754974817768:487
+e.Cm @ tdvplayer.js?v=1754974817768:487
+l.OQa @ tdvplayer.js?v=1754974817768:4012
+l.X8a @ tdvplayer.js?v=1754974817768:4009
+(anonymous) @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:256
+setTimeout
+r.delay @ tdvplayer.js?v=1754974817768:256
+c @ tdvplayer.js?v=1754974817768:241
+P @ tdvplayer.js?v=1754974817768:255
+e.DXa @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:4020
+(anonymous) @ tdvplayer.js?v=1754974817768:3661
+h.Iz @ tdvplayer.js?v=1754974817768:516
+h.trigger @ tdvplayer.js?v=1754974817768:515
+t.load @ tdvplayer.js?v=1754974817768:3662
+r.l9a @ tdvplayer.js?v=1754974817768:3661
+e @ tdvplayer.js?v=1754974817768:4020
+l.defineScript @ tdvplayer.js?v=1754974817768:211
+(anonymous) @ script_general.js:230
+(anonymous) @ script_general.js:232
+tdvremote.js?v=1754974817768:1 change callState disconnected
+tdvremote.js?v=1754974817768:1 initialize call [{…}]
+tdvremote.js?v=1754974817768:1 change channelId ym8qhy2gkv0u
+tdvremote.js?v=1754974817768:1 change channelState checking
+tdvremote.js?v=1754974817768:1 fetchJSON call (2) [URL, 'GET']
+tdvremote.js?v=1754974817768:1 initialize call [{…}]
+tdvremote.js?v=1754974817768:1 change bugReportVisible false
+tdvremote.js?v=1754974817768:1 setPlayer call [a]
+tdvremote.js?v=1754974817768:1 change player a {Kp: e, At: e, Rc: {…}}
+tdvremote.js?v=1754974817768:1 setPlayer call [a]
+tdvremote.js?v=1754974817768:1 change player a {Kp: e, At: e, Rc: {…}}
+index.htm:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input class=​"password" type=​"password" placeholder=​"Enter password..." required>​
+index.htm:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
+tdvremote.js?v=1754974817768:1 fetch response {response: {…}, request: {…}}
+tdvremote.js?v=1754974817768:1 change channelState offline
+tdvremote.js?v=1754974817768:1 change channelSilent true
+jquery-migrate.min.js:2 JQMIGRATE: Migrate is installed, version 3.4.1
+(index):1 [DOM] Found 2 elements with non-unique id #product_cat: (More info: https://goo.gl/9p2vKq) <select name=​"product_cat" id=​"product_cat" class=​"form-control1" style=​"display:​ none;​">​…​</select>​ <select name=​"product_cat" id=​"product_cat" class=​"form-control1" style=​"display:​ none;​">​…​</select>​
+tdvremote.js?v=1754974817768:1 🔍 ALL SEARCH KEYS in localStorage: (3) ['searchProConfigUpdate', 'searchPro_logoSrc', 'searchPro_brandText']
+tdvremote.js?v=1754974817768:1 🔍 LIVE CONFIG CHECK: {hasLiveConfig: false, configSize: undefined, timestamp: '1752343589176', configPreview: 'none'}
+index.htm:1 The resource http://127.0.0.1:5501/script_general.js?v=1754974817768 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+tdvremote.js?v=1754974817768:1 🔍 ALL SEARCH KEYS in localStorage: (3) ['searchProConfigUpdate', 'searchPro_logoSrc', 'searchPro_brandText']
+tdvremote.js?v=1754974817768:1 🔍 LIVE CONFIG CHECK: {hasLiveConfig: false, configSize: undefined, timestamp: '1752343589176', configPreview: 'none'}
+ 🔍 ALL SEARCH KEYS in localStorage: (3) ['searchProConfigUpdate', 'searchPro_logoSrc', 'searchPro_brandText']
+ 🔍 LIVE CONFIG CHECK: {hasLiveConfig: false, configSize: undefined, timestamp: '1752343589176', configPreview: 'none'}
+ [Search] INFO: Initializing enhanced search v2.0...
+ [Search] INFO: Tour initialized successfully with 8 panoramas
+ [Search] INFO: BroadcastChannel initialized for cross-window communication
+ [Search] INFO: 🎯 Data Source Priority: TOUR (+ tour data)
+ [Search] DEBUG: Search event listeners cleaned up
+ [Search] DEBUG: Binding search event listeners...
+ [Search] DEBUG: Search event listeners bound successfully
+ [Search] INFO: Starting hybrid search index preparation...
+ [Search] DEBUG: Found mainPlayList via direct access
+ [Search] INFO: Found playlists - Main: 8, Root: 0
+ [Search] INFO: Processing 8 main playlist items...
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 0, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 0, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 0: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-1" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: Overlay detection method found 3 overlays
+ [Search] INFO: Total overlays found for panorama: 3
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1, label: gotoroom-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479, label: webframe-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "WebFrame-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e, label: info-icon-360-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-360-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 1, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 1, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 1: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-2" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTag_01"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 7 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 7
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c, label: gotoroom-1-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-1-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626, label: gotoroom-4-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-4-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69, label: gotoroom-3-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-3-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1, label: polygon-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc, label: regular-image-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-01-Hotspot', displayLabel: 'Projected-Image-01-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_85685869_BC3F_FCDC_41B7_E2B28AF858D2', overlayClass: undefined, label: 'Text-Projected-Image-01-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2, label: text-projected-image-01-hotspot
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Text-Projected-Image-01-Hotspot', displayLabel: 'Text-Projected-Image-01-Hotspot', elementType: 'Image', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_880A460B_ADE7_B45C_41CB_0EB995ADC51C', overlayClass: undefined, label: 'Projected-Image-02-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 2, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 2, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 2: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-3" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 5 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 5
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8, label: gotoroom-2-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_8161a12c_d070_0a56_41e6_9af4a6262526, label: polygon-02-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-02-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e, label: regular-image-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["Regular-Image"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_880A460B_ADE7_B45C_41CB_0EB995ADC51C
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-02-Hotspot', displayLabel: 'Projected-Image-02-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-02-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_88506EDA_ADE1_B5FC_41DC_31E2903EC932', overlayClass: undefined, label: 'Projected-Image-02-1-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-02-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_88506EDA_ADE1_B5FC_41DC_31E2903EC932
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-02-1-Hotspot', displayLabel: 'Projected-Image-02-1-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-02-1-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83', overlayClass: undefined, label: 'Projected-Image-01-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-02-1-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 3, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 3, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 3: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-4" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4","MyCoolTag_04"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(2)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 5 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 5
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf, label: go-to-room-2-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Go-To-Room-2-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339, label: info-icon-floorplan-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-FloorPlan-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning Video polygon for: overlay_EC367CFE_D070_FBB2_41E8_B9623EAFF82E
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Video-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_97b447f6_d070_15b2_41e7_3f131b16635c, label: text-hotspot-02-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_97b447f6_d070_15b2_41e7_3f131b16635c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_97b447f6_d070_15b2_41e7_3f131b16635c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Hotspot-02-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_98f8eb39_d070_1ebe_41c7_6901a9686898, label: polygon-03-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_98f8eb39_d070_1ebe_41c7_6901a9686898
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_98f8eb39_d070_1ebe_41c7_6901a9686898
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-03-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 4, class: Model3DPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 4, class: ['Model3DPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Found 3D Model at index 4
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing 3D model at index 4
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D MODEL DEBUG] Starting 3D model processing for index 4 [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [CACHE BUSTER] 3D MODEL PROCESSING - TIMESTAMP: 1755884337759
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "3DModel-Sample-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Added 3D model to index: 3DModel-Sample-01
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Media object structure: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Media has get method: [true]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Raw objects via get(): [Array(103)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Raw objects via direct access: [Array(103)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Media keys: [Array(3)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('wr'): [undefined]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('Qc'): [undefined]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('data'): [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Final objects variable: [Array(103)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Objects is array: [true]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECTS DEBUG] Objects length: [103]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Found objects: [Array(103)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Objects is array: [true]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing 103 objects
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 0: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 1: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-2']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-2" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-2']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 2: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-3']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-3" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-3']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 3: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-4']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-4" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-4']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 4: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-5']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-5" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-5']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 5: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-6']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-6" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-6']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 6: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-7']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-7" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-7']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 7: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-8']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-8" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-8']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 8: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-9']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-9" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-9']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 9: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-10']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-10" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-10']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 10: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 11: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 12: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 13: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 14: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 15: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 16: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 17: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 18: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 19: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 20: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 21: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 22: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 23: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 24: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 25: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 26: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 27: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 28: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 29: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 30: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 31: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 32: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 33: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 34: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 35: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 36: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 37: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 38: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 39: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 40: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 41: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 42: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 43: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 44: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 45: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 46: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 47: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 48: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 49: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-1']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-1" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-1']
+ [Search] DEBUG: [3D DEBUG] Processing object 50: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 51: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 52: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 53: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 54: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 55: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 56: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 57: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 58: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 59: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 60: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 61: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 62: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 63: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-11']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-11" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-11']
+ [Search] DEBUG: [3D DEBUG] Processing object 64: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-12']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-12" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-12']
+ [Search] DEBUG: [3D DEBUG] Processing object 65: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-13']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-13" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-13']
+ [Search] DEBUG: [3D DEBUG] Processing object 66: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-14']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-14" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-14']
+ [Search] DEBUG: [3D DEBUG] Processing object 67: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-15']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-15" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-15']
+ [Search] DEBUG: [3D DEBUG] Processing object 68: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-16']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-16" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-16']
+ [Search] DEBUG: [3D DEBUG] Processing object 69: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-17']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-17" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-17']
+ [Search] DEBUG: [3D DEBUG] Processing object 70: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-18']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-18" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-18']
+ [Search] DEBUG: [3D DEBUG] Processing object 71: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-19']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-19" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-19']
+ [Search] DEBUG: [3D DEBUG] Processing object 72: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-20']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-20" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-20']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 73: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-21']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-21" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-21']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 74: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-22']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-22" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-22']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 75: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-23']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-23" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-23']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 76: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-24']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-24" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-24']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 77: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-25']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-25" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-25']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 78: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-26']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-26" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-26']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 79: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-27']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-27" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-27']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 80: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-28']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-28" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-28']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 81: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-29']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-29" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-29']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 82: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-30']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-30" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-30']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 83: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-31']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-31" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-31']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 84: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-32']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-32" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-32']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 85: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-33']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-33" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-33']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 86: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-34']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-34" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-34']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 87: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-35']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-35" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-35']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 88: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 89: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 90: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 91: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 92: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 93: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 94: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 95: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 96: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 97: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 98: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-20']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-20" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-20']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 99: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Hotspot-01
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Hotspot-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 100: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Bed-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Bed-Hotspot-01
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Bed-Hotspot-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["3D-Hotel-Bed-Tag"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Bed-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 101: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Education-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Education-01
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Education-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Education-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Processing object 102: [h]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Door-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Door-Hotspot-01
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Door-Hotspot-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Door-Hotspot-01']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 5, class: Video360PlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 5, class: ['Video360PlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 5: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "360-video-sample" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 0
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 6, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 6, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 6: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "[Unnamed Item]" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 2 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 2
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6, label: polygon-04-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-04-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_872d5508_bc26_945c_41e5_8507a2f3965b, label: text-sample
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_872d5508_bc26_945c_41e5_8507a2f3965b
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_872d5508_bc26_945c_41e5_8507a2f3965b
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Sample" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 7, class: VideoPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 7, class: ['VideoPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 7: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Placeholder-video-01" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["Placeholder-video-01-tag"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 0
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Processing 1 container search entries
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Hybrid search index created with 70 total items
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Hybrid search index created with 70 total items
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Main playlist contributed: 8 items
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Root playlist contributed: 0 items
+tdvremote.js?v=1754974817768:1 Thumbnail settings: {enableThumbnails: false, thumbnailSize: '48px', borderRadius: 4, borderColor: '#9CBBFF', borderWidth: 4, …}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ICON CSS] Applied icon variables: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ICON] Font Awesome loading disabled
+tdvremote.js?v=1754974817768:1 🎯 TYPOGRAPHY CSS VARS: Applying typography variables: {searchTypography: {…}, hasTypography: true, configStructure: {…}}
+tdvremote.js?v=1754974817768:1 🎯 TYPOGRAPHY CSS VARS: Setting input text variables: {fontSize: '16px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif", fontWeight: '400', fontStyle: 'normal', lineHeight: '1.5', …}
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Search styling applied successfully
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Search event listeners cleaned up
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Binding search event listeners...
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Search event listeners bound successfully
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Enhanced search initialized successfully
+tdvremote.js?v=1754974817768:1 🎬 Animation config: {enabled: false, duration: {…}, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', searchBar: {…}, results: {…}, …}
+tdvremote.js?v=1754974817768:1 🎬 Animations enabled: false
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [toggleSearch] Showing search UI
+tdvremote.js?v=1754974817768:1 🎬 Animations disabled - showing immediately
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: All external data sources loaded successfully
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Starting hybrid search index preparation...
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Found mainPlayList via direct access
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Found playlists - Main: 8, Root: 0
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Processing 8 main playlist items...
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 0, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 0, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 0: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-1" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 3 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 3
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1, label: gotoroom-2-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479, label: webframe-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "WebFrame-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e, label: info-icon-360-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-360-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 1, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 1, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 1: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-2" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTag_01"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 7 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 7
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c, label: gotoroom-1-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-1-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626, label: gotoroom-4-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-4-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69, label: gotoroom-3-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-3-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1, label: polygon-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc, label: regular-image-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-01-Hotspot', displayLabel: 'Projected-Image-01-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_85685869_BC3F_FCDC_41B7_E2B28AF858D2', overlayClass: undefined, label: 'Text-Projected-Image-01-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2, label: text-projected-image-01-hotspot
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Text-Projected-Image-01-Hotspot', displayLabel: 'Text-Projected-Image-01-Hotspot', elementType: 'Image', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_880A460B_ADE7_B45C_41CB_0EB995ADC51C', overlayClass: undefined, label: 'Projected-Image-02-Hotspot', hasVertices: 'none'}
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 2, class: PanoramaPlayListItem
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PLAYLIST DEBUG] Processing item 2, class: ['PanoramaPlayListItem']
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 2: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [MEDIA-INDEX] [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-3" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: Overlay detection method found 5 overlays
+search-01-non-mod.js?v=1752343991000:10413 [Search] INFO: Total overlays found for panorama: 5
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8, label: gotoroom-2-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_8161a12c_d070_0a56_41e6_9af4a6262526, label: polygon-02-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [DEBUG] Checking ID: overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-02-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e, label: regular-image-01-hotspot
+tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+tdvremote.js?v=1754974817768:1 [DEBUG] Reclassifying as Image based on ID/label: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["Regular-Image"] (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
 tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_880A460B_ADE7_B45C_41CB_0EB995ADC51C
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-02-Hotspot', displayLabel: 'Projected-Image-02-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-02-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Called with: {overlayId: 'overlay_88506EDA_ADE1_B5FC_41DC_31E2903EC932', overlayClass: undefined, label: 'Projected-Image-02-1-Hotspot', hasVertices: 'none'}
-tdvremote.js?v=1754974817768:1 [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_88506EDA_ADE1_B5FC_41DC_31E2903EC932
-tdvremote.js?v=1754974817768:1 [OVERLAY DEBUG] Processing overlay: {overlayLabel: 'Projected-Image-02-1-Hotspot', displayLabel: 'Projected-Image-02-1-Hotspot', elementType: 'ProjectedImage', overlayClass: undefined, overlaySubtitle: '', …}
-tdvremote.js?v=1754974817768:1 [ELEMENT-LABELS] Checking element "Projected-Image-02-1-Hotspot" (mode: none)
-tdvremote.js?v=1754974817768:1 [ICON DEBUG] Processing type: ProjectedImage
-tdvremote.js?v=1754974817768:1 [ICON] Custom icons DISABLED, using default SVG for: ProjectedImage
-tdvremote.js?v=1754974817768:1 [ICON DEBUG] Processing type: ProjectedImage
-tdvremote.js?v=1754974817768:1 [ICON] Custom icons DISABLED, using default SVG for: ProjectedImage
-tdvremote.js?v=1754974817768:1 [ICON DEBUG] Processing type: ProjectedImage
-tdvremote.js?v=1754974817768:1 [ICON] Custom icons DISABLED, using default SVG for: ProjectedImage
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-02-Hotspot" (mode: none)
+tdvremote.js?v=1754974817768:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)

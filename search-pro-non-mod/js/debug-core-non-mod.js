@@ -124,6 +124,12 @@ window.Logger = {
     }
   },
 
+  groupCollapsed: function (label) {
+    if (this.level >= 3) {
+      console.groupCollapsed(label);
+    }
+  },
+
   groupEnd: function () {
     if (this.level >= 3) {
       console.groupEnd();
@@ -185,8 +191,8 @@ window.Logger = {
       dom: {
         searchContainer: !!container,
         searchContainerVisible: container?.style.display === "block",
-        resultsContainer: !!document.getElementById("searchResults"),
-        searchInput: !!document.getElementById("searchInput"),
+        resultsContainer: !!container?.querySelector(".search-results"),
+        searchInput: !!document.getElementById("tourSearch"),
         resultCount: container
           ? container.querySelectorAll(".result-item").length
           : 0,
@@ -689,11 +695,11 @@ window.Logger = {
     console.log("💢 Search panel observer active");
 
     // Also observe the results container for changes
-    const resultsContainer = document.getElementById("searchResults");
+    const resultsContainer = container?.querySelector(".search-results");
     if (resultsContainer) {
       const resultsObserver = new MutationObserver((mutations) => {
         // When results are updated
-        const searchInput = document.getElementById("searchInput");
+        const searchInput = document.getElementById("tourSearch");
         const searchTerm = searchInput ? searchInput.value : "";
         const totalResults = container.querySelectorAll(".result-item").length;
 

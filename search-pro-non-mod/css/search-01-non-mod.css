@@ -250,6 +250,7 @@
    Position and Visibility Settings
    =================================== */
 
+/* Base styles that always apply regardless of animation state */
 #searchContainer {
   position: fixed;
   top: 90px;
@@ -263,38 +264,53 @@
   border-radius: var(--radius-sm);
   box-shadow: none;
   z-index: 9999;
+  display: none;
+  max-height: calc(100vh - 200px);
+  overflow: hidden;
+}
+
+/* Animation-specific styles only when animations are enabled */
+.sp-anim-on #searchContainer {
   opacity: 0;
   transform-origin: top right;
   transform: scale(0.95) translateY(-20px);
   transition:
     opacity var(--transition-normal),
     transform var(--transition-normal);
-  display: none;
-  max-height: calc(100vh - 200px);
-  overflow: hidden;
   will-change: transform, opacity;
 }
 
 #searchContainer[data-position="left"] {
   left: 40px;
   right: auto;
+}
+
+.sp-anim-on #searchContainer[data-position="left"] {
   transform-origin: top left;
 }
 
 #searchContainer[data-position="center"] {
   left: 50%;
   right: auto;
+}
+
+.sp-anim-on #searchContainer[data-position="center"] {
   transform-origin: top center;
   transform: translateX(-50%) scale(0.95) translateY(-20px);
 }
 
+/* Visible state - base */
 #searchContainer.visible {
-  opacity: 1;
   display: block;
+}
+
+/* Visible state - with animations */
+.sp-anim-on #searchContainer.visible {
+  opacity: 1;
   transform: scale(1) translateY(0);
 }
 
-#searchContainer[data-position="center"].visible {
+.sp-anim-on #searchContainer[data-position="center"].visible {
   transform: translateX(-50%) scale(1) translateY(0);
 }
 
@@ -356,6 +372,7 @@
     var(--search-field-radius-bottom-left, var(--search-field-radius-default));
 }
 
+/* Base search input styles that always apply */
 #tourSearch {
   width: 100%;
   height: 48px;
@@ -368,11 +385,6 @@
   background: transparent;
   font-size: var(--font-size-base);
   color: var(--search-text);
-  transition: all 0.2s ease;
-}
-
-/* Enhanced Search Input Typography */
-#tourSearch {
   font-size: var(--search-input-font-size, 16px);
   font-family: var(--search-input-font-family, inherit);
   font-weight: var(--search-input-font-weight, 400);
@@ -380,6 +392,15 @@
   line-height: var(--search-input-line-height, 1.5);
   letter-spacing: var(--search-input-letter-spacing, 0px);
   text-transform: var(--search-input-text-transform, none);
+}
+
+/* Animation-specific styles only when animations are enabled */
+.sp-anim-on #tourSearch {
+  transition: all 0.2s ease;
+}
+
+/* Enhanced Search Input Typography - Animations only */
+.sp-anim-on #tourSearch {
   transition:
     font-size 0.2s ease,
     font-weight 0.2s ease,
@@ -495,7 +516,7 @@
   pointer-events: auto;
 }
 
-.clear-button:hover {
+.sp-anim-on .clear-button:hover {
   color: #64748b;
   transition: var(--transition-colors);
 }
@@ -516,7 +537,7 @@
    Results Styling
    =================================== */
 
-.search-results {
+.sp-anim-on .search-results {
   margin-top: 8px;
   background: var(--results-background, #fff);
   color: var(--result-text, #1a1a1a);
@@ -537,7 +558,7 @@
   width: 100%;
 }
 
-.search-results.visible {
+.sp-anim-on .search-results.visible {
   opacity: 1;
   transform: translateY(0);
   display: block;
@@ -745,7 +766,7 @@
    Result Items - CONSOLIDATED
    =================================== */
 
-.result-item {
+.sp-anim-on .result-item {
   font-size: var(--result-font-size, var(--font-size-result));
   color: var(--result-text-color, var(--color-text));
   background: var(--result-bg, transparent);
@@ -802,7 +823,7 @@
    Result Icons - CONSOLIDATED AND CLEANED
    =================================== */
 
-.result-icon {
+.sp-anim-on .result-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -819,7 +840,7 @@
   z-index: 1;
 }
 
-.result-item:hover .result-icon {
+.sp-anim-on .result-item:hover .result-icon {
   opacity: var(--icon-hover-opacity);
   transform: scale(var(--icon-hover-scale));
 }
@@ -1122,7 +1143,7 @@
   gap: var(--tag-margin);
 }
 
-.result-tags .tag-item {
+.sp-anim-on .result-tags .tag-item {
   display: inline-block;
   background-color: var(--tag-background);
   color: var(--tag-text);
@@ -1397,7 +1418,7 @@ button:focus,
    Animation System - CONSOLIDATED
    =================================== */
 
-#searchContainer {
+.sp-anim-on #searchContainer {
   transition-property: opacity, transform, visibility;
   transition-timing-function: var(--animation-easing);
   transition-duration: var(
@@ -1406,13 +1427,13 @@ button:focus,
   );
 }
 
-#searchContainer.opening {
+.sp-anim-on #searchContainer.opening {
   --current-duration: var(--animation-open-duration);
   opacity: 1;
   visibility: visible;
 }
 
-#searchContainer.closing {
+.sp-anim-on #searchContainer.closing {
   --current-duration: var(--animation-close-duration);
   opacity: 0;
   visibility: hidden;
@@ -1423,28 +1444,28 @@ button:focus,
   visibility: hidden;
 }
 
-#searchContainer.scale-effect.opening {
+.sp-anim-on #searchContainer.scale-effect.opening {
   transform: scale(1) translateY(0);
 }
 
-#searchContainer.scale-effect.closing {
+.sp-anim-on #searchContainer.scale-effect.closing {
   transform: scale(0.95) translateY(-5px);
 }
 
-#searchContainer.scale-effect.hiding {
+.sp-anim-on #searchContainer.scale-effect.hiding {
   transform: scale(0.9) translateY(-10px);
 }
 
-#searchContainer[data-position="left"].scale-effect {
+.sp-anim-on #searchContainer[data-position="left"].scale-effect {
   transform-origin: top left;
 }
 
-#searchContainer[data-position="center"].scale-effect {
+.sp-anim-on #searchContainer[data-position="center"].scale-effect {
   transform-origin: top center;
 }
 
-#searchContainer[data-position="right"].scale-effect,
-#searchContainer.scale-effect {
+.sp-anim-on #searchContainer[data-position="right"].scale-effect,
+.sp-anim-on #searchContainer.scale-effect {
   transform-origin: top right;
 }
 
@@ -1502,12 +1523,12 @@ button:focus,
 @media (prefers-reduced-motion: reduce) {
   #searchContainer,
   .search-results,
-  .result-item {
+  .sp-anim-on .result-item {
     transition-duration: var(--animation-reduced-duration, 100ms) !important;
     animation-duration: var(--animation-reduced-duration, 100ms) !important;
   }
 
-  #searchContainer.scale-effect {
+  .sp-anim-on #searchContainer.scale-effect {
     transform: none !important;
   }
 }
@@ -1774,15 +1795,15 @@ button:focus,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .result-icon {
+  .sp-anim-on .result-icon {
     transition: none;
   }
 
-  .result-item:hover .result-icon {
+  .sp-anim-on .result-item:hover .result-icon {
     transform: none;
   }
 
-  .result-icon.pulse {
+  .sp-anim-on .result-icon.pulse {
     animation: none;
   }
 }
@@ -1805,12 +1826,12 @@ body[data-icon-alignment="left"] .result-icon {
   margin-left: 0;
 }
 
-body[data-icon-hover-enabled="false"] .result-item:hover .result-icon {
+.sp-anim-on body[data-icon-hover-enabled="false"] .result-item:hover .result-icon {
   transform: none;
   opacity: var(--icon-opacity);
 }
 
-body[data-icon-hover-enabled="true"] .result-item:hover .result-icon {
+.sp-anim-on body[data-icon-hover-enabled="true"] .result-item:hover .result-icon {
   transform: scale(var(--icon-hover-scale));
   opacity: var(--icon-hover-opacity);
 }

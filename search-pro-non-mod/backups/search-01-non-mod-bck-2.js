@@ -1,270 +1,11 @@
-/* BACKUP TIMESTAMP 2025-08-15T00:00:00Z — start of file snapshot */
 /*
 ====================================
 3DVista Enhanced Search Script
 Version: 2.0.14
-Last Updated: 08/15/2025
+Last Updated: 08/12/2025
 Description: 
 ====================================
 */
-/* BACKUP END */
-
-/* === SEARCH PRO – TABLE OF CONTENTS (auto) ===
- [1.0] Global/Module Scope Variables
- [1.1] Logger Shim (fallback, replaced by debug-core-non-mod.js)
- [1.1.1] Method: setLevel()
- [1.1.2] Method: Compatibility stubs for Logger
- [1.2] Cross-Window Communication Channel
- [2.0] Core Initialization Function
- [2.1] Method: internalInit()
- [2.1.1] Logic Block: Ensure idempotent DOM creation
- [2.1.2] Logic Block: Bind events and set up UI
- [3.0] Script Loader and Initialization
- [3.1] Default Configuration - Legacy config now removed in favor of _config
- [3.2] Utility: Wait for Tour Readiness
- [3.3] Function: initializeSearchWhenTourReady()
- [3.4] Simple Logger Definition
- [3.5] Check if Script is Already Loaded
- [3.6] Mark as Loaded
- [3.7] Define search markup template
- [3.8] Dependency Loader
- [3.9] Function: loadDependencies()
- [3.10] Optional Debug Tools Loader
- [3.11] Function: loadDebugTools()
- [3.12] Font Awesome Loader
- [3.13] Function: loadFontAwesome()
- [3.14] CSS Loader
- [3.15] Function: loadCSS()
- [3.16] DOM Initialization
- [3.17] Function: initializeDom()
- [3.17.1] Step: Find the main viewer element, which is required for injection.
- [3.17.2] Step: Check if the search container already exists to prevent duplication.
- [3.17.3] Step: Create a temporary container to safely build the markup.
- [3.17.4] Step: Append the new search container to the viewer.
- [3.18] Main Initialization Function
- [3.19] Function: initialize()
- [3.20] Module: Tour Lifecycle Binding
- [3.20.1] Method: bindLifecycle()
- [3.20.2] Method: cleanup()
- [3.21] Execution: Initialize Lifecycle Binding
- [3.22] Execution: Start initialization when the DOM is ready
- [3.23] Utility: Lightweight CSV Parser (Papa)
- [3.24] Method: parse()
- [3.24.1] Step: Skip empty lines if requested
- [3.24.2] Step: Parse header row if requested
- [3.24.3] Step: Parse data rows
- [3.24.4] Step: Return final parsed data object
- [4.0] Main Search Module Definition
- [4.1] Centralized Module-Level Variables
- [4.2] Submodule: PlaylistUtils - Enhanced playlist detection utilities
- [4.2.1] Method: getRootPlayerPlayList()
- [4.2.2] Method: getAllPlayLists()
- [4.3] Submodule: keyboardManager - Manages keyboard navigation for search results
- [4.3.1] Method: init()
- [4.4] Module: Constants and Configuration
- [4.5] Helper Function: isMobileDevice()
- [4.6] Class: ConfigBuilder - For creating and managing search configurations
- [4.6.1] Method: constructor()
- [4.6.2] Method: setDisplayOptions()
- [4.6.3] Method: setContentOptions()
- [4.6.4] Method: setFilterOptions()
- [4.6.5] Method: setLabelOptions()
- [4.6.6] Method: setAppearanceOptions()
- [4.6.7] Method: setSearchBarOptions()
- [4.6.8] Method: setGeneralOptions()
- [4.6.9] Method: setDisplayLabels()
- [4.6.10] Method: setBusinessDataOptions()
- [4.6.11] Method: setThumbnailSettings()
- [4.6.12] Method: setIconSettings()
- [4.6.13] Method: setGoogleSheetsOptions()
- [4.6.14] Method: setAnimationOptions()
- [4.6.15] Method: setSearchOptions()
- [4.6.16] Method: build()
- [4.7] Logic Block: Create Default Configuration
- [4.8] Submodule: LOGGING UTILITIES
- [4.9] Logic Block: Module State Variables
- [4.10] Logic Block: DOM ELEMENT CACHE
- [4.11] Submodule: CROSS-WINDOW COMMUNICATION
- [4.11.1] Method: init()
- [4.11.2] Method: send()
- [4.11.3] Method: listen()
- [4.11.4] Method: close()
- [4.12] Submodule: Utility Functions
- [4.13] Method: _debounce()
- [4.14] Method: _getThumbnailUrl() - Centralized thumbnail selection with config respect
- [4.15] Method: _preprocessSearchTerm()
- [4.16] Submodule: ARIA and Accessibility Helpers
- [4.17] Method: _convertHexToRGBA()
- [4.18] Helper: _normalizeForFilter() - Normalize strings for consistent filtering
- [4.19] Method: _getOverlayCamera() - Extract camera angles from overlay
- [4.20] Submodule: Element Detection and Filtering
- [4.21] Method: _getElementType()
- [4.22] Method: _validateElementType() - Validate and Normalize Element Types
- [4.23] Submodule: Element Interaction
- [4.24] Method: _triggerElement()
- [4.24.1] Helper to find element by ID using multiple methods
- [4.25] Method: _triggerStandaloneElement() - Enhanced Element Trigger Function
- [4.25.1] If it's a regular tour item, use the standard trigger
- [4.25.2] For standalone Google Sheets entries, try to find a matching tour element
- [4.26] Helper: find a 3D sprite (hotspot) by label within the current model
- [4.27] Method: _triggerElementRetry() - Enhanced Trigger Element Interaction Based on Item Type
- [4.28] Method: attemptTrigger() - Helper Function for Attempting to Trigger Elements
- [4.29] Submodule: UI Management
- [4.30] Method: _applySearchStyling()
- [4.30.1] Clean up any existing style elements
- [4.30.2] Create new style element
- [4.30.3] Generate responsive positioning CSS
- [4.30.4] Width calculation based on device type
- [4.30.5] Maximum width for mobile if specified
- [4.30.6] Base mobile positioning
- [4.30.7] Apply display-related classes and CSS variables
- [4.30.8] Set CSS variables for result tags visibility
- [4.30.9] Apply class-based styling for visibility control
- [4.30.10] Set icon color variable
- [4.30.11] Set border radius CSS variables
- [4.30.12] Set CSS variables for border radius
- [4.30.13] Set thumbnail border properties
- [4.30.14] Handle border width of 0 properly
- [4.30.15] Set thumbnail size properties
- [4.30.16] Extract pixel value from size name (e.g., "48px" -> 48)
- [4.30.17] Always set the current size
- [4.30.18] Update all predefined sizes for backward compatibility
- [4.30.19] Load Font Awesome if enabled
- [4.30.20] Set color variables for search
- [4.30.21] NEW: Set typography variables for search field
- [4.30.22] Set highlight color variables
- [4.30.23] Create background color with opacity
- [4.30.24] Set tag colors
- [4.30.25] Set tag styling variables
- [4.30.26] Handle thumbnail alignment from config
- [4.30.27] Apply thumbnail alignment to the document body as a data attribute
- [4.30.28] Apply styles to the DOM
- [4.30.29] Add or update highlight styles
- [4.30.30] Cache frequently used elements and apply placeholder text
- [4.31] Submodule: Business Data Matching
- [4.32] Method: findBusinessMatch()
- [4.32.1] Skip if no business data or invalid element
- [4.32.2] PRIORITY 1: Check subtitle matches FIRST
- [4.32.3] PRIORITY 2: Check element name matches
- [4.32.4] PRIORITY 3: Check tag matches (lowest priority)
- [4.32.5] No match found
- [4.32.6] Helper function to process business match
- [4.33] Submodule: Event Binding
- [4.34] Method: _bindSearchEventListeners()
- [4.34.1] First clean up any existing event listeners
- [4.34.2] Create a cleanup registry for this session
- [4.34.3] Bind input event with device-appropriate debounce
- [4.34.4] Bind clear button
- [4.34.5] Bind search icon
- [4.34.6] Document click handler for closing search
- [4.34.7] Touch handler for mobile
- [4.34.8] Keyboard navigation
- [4.34.9] Store cleanup functions for later use
- [4.35] Method: _unbindSearchEventListeners()
- [5.0] Module: Data Loading
- [5.1] Method: _loadGoogleSheetsData()
- [5.1.1] Skip if Google Sheets data is not enabled
- [5.1.2] Determine data source (local CSV vs. Google Sheets URL)
- [5.1.3] Check cache first if enabled (online only)
- [5.1.4] Process URL for Google Sheets (online only)
- [5.1.5] Add authentication if enabled (online only)
- [5.1.6] Fetch the data
- [5.2] Method: processGoogleSheetsData()
- [5.2.1] Enhanced tracking for duplicate prevention
- [5.2.2] Track existing items with better context
- [5.2.3] Log potential duplicate scenarios
- [5.2.4] Iterate through Google Sheets entries and match with tour data
- [5.3] Method: _loadBusinessData()
- [5.3.1] Check if business data is enabled
- [5.3.2] Determine the data path for business data
- [5.3.3] Fetch the business data
- [6.0] Module: Search Functionality
- [6.1] Method: _initializeSearch()
- [6.1.1] Log initialization start
- [6.1.2] Resolve the correct tour instance
- [6.1.3] Attempt to get tour from rootPlayer context
- [6.1.4] Apply fallback detection to find a valid tour instance
- [6.1.5] Validate the resolved tour instance
- [6.1.6] Store the validated tour reference globally
- [6.1.7] Reset module-level state
- [6.1.8] Prevent re-initialization
- [6.1.9] Set initialization flags
- [6.1.10] Initialize cross-window communication channel
- [6.1.11] Sub-function: validateDataSourceConfiguration()
- [6.1.12] Validate data source configuration
- [6.1.13] Load external data sources
- [6.1.14] Add business data promise
- [6.1.15] Add Google Sheets data promise
- [6.1.16] Prepare search index after data loading
- [6.1.17] Set up listener for cross-window communication
- [6.1.18] Apply ARIA attributes to the main container
- [6.1.19] Create search UI components
- [6.1.20] Reset state variables (redundant, but safe)
- [6.1.21] Sub-function: _prepareSearchIndex()
- [6.1.22] Sub-function: processPlaylistItem()
- [6.1.23] Sub-function: process3DModel()
- [6.1.24] Sub-function: processPanorama()
- [6.1.25] Sub-function: _processOverlaysWithSource()
- [6.1.26] Sub-function: createHybridClickHandler()
- [6.1.27] Sub-function: getBusinessMatch()
- [6.1.28] Sub-function: getSheetsMatch()
- [6.1.29] Sub-function: getResultLabel()
- [6.1.30] Sub-function: getResultDescription()
- [6.1.31] Sub-function: prepareFuse()
- [6.1.32] Sub-function: _safeGetData()
- [6.1.33] Sub-function: _shouldIncludePanorama()
- [6.1.34] Sub-function: _getDisplayLabel()
- [6.1.35] Sub-function: _getOverlays()
- [6.1.36] Sub-function: _processOverlays()
- [6.1.37] Submodule: UI Building Functions
- [6.1.38] Sub-function: _buildSearchField()
- [6.1.39] Sub-function: _buildNoResultsMessage()
- [6.1.40] Sub-function: _buildResultsContainer()
- [6.1.41] Sub-function: _createSearchInterface()
- [6.1.42] Submodule: UI Helpers
- [6.1.43] Sub-function: highlightMatch()
- [6.1.44] Sub-function: getIconSizeClass() - Get CSS class for icon size
- [6.1.45] Sub-function: getTypeIcon() - FIXED VERSION
- [6.1.46] Sub-function: groupAndSortResults()
- [6.1.47] Sub-function: _resolveDisplayType()
- [6.1.48] Sub-function: performSearch()
- [6.1.49] Set up keyboard navigation
- [6.1.50] Bind search event listeners for UI interactions
- [6.1.51] Prepare the search index
- [6.1.52] Apply search styling
- [6.1.53] Apply custom CSS for showing/hiding tags
- [6.1.54] Get key elements
- [6.1.55] Bind all event listeners
- [6.1.56] Mark initialization as complete
- [7.0] Search Visibility Toggle
- [7.1] Toggle Search Function to Handle Rapid Toggles
- [8.0] Toggle search visibility
- [8.0.1] If 'show' is explicitly specified and matches current state, debounce it
- [8.0.2] Debounce logic for double-calls from 3DVista toggle button
- [8.0.3] Enable proper toggle functionality without modifying 3DVista button code
- [8.0.4] Validate container exists
- [8.0.5] Get animation configuration - FIX: Correct the logic
- [8.1] Update the ARIA state
- [9.0] Public API
- [9.0.1] DOM Elements Cache
- [9.0.2] Initialize Search Functionality
- [10.0] Toggle Search Visibility
- [10.0.1] Get Current Configuration
- [10.0.2] Search History Management
- [10.0.3] Logging Control
- [10.0.4] Utility Functions
- [10.0.5] Expose Google Sheets Data Accessor
- [10.0.6] Expose Business Data Accessor
- [10.0.7] Expose Search Index Accessor
- [10.0.8] Expose Business Matching Function
- [10.1] Method: ensurePlaylistsReady() - Combined Playlist Readiness Detection Utility
- [10.2] Wait for a short time to ensure DOM is stable
- [10.2.1] Logic Block: Find the search container in DOM
- [10.2.2] Logic Block: If container exists in DOM but not in cache, update the cache
- [10.2.3] Now update the config
- [10.2.4] Check for live configuration updates from control panel - External File
- [10.2.5] Show configuration update notification
-=== END TOC === */
 
 // [1.0] Global/Module Scope Variables
 // [1.1] Logger Shim (fallback, replaced by debug-core-non-mod.js)
@@ -340,40 +81,19 @@ if (!window.Logger) {
     "[Search] Using fallback Logger shim until debug-core-non-mod.js loads",
   );
 }
-
-// [1.1.3] Safe logging helper that gracefully handles missing Logger methods
-function _log(type, ...args) {
-  try {
-    if (window.Logger && typeof window.Logger[type] === 'function') {
-      window.Logger[type](...args);
-    } else if (typeof console[type] === 'function') {
-      console[type](...args);
-    } else {
-      console.log(...args);
-    }
-  } catch (e) {
-    console.log(...args); // Ultimate fallback
-  }
-}
-
+const SEARCH_MARKUP = '<div id="searchContainer"></div>';
 // [1.2] Cross-Window Communication Channel
 let selectedIndex = -1;
-
-// [1.x] Expose a safe rebuild hook for Fuse index to public API
-let _rebuildIndex = null;
-
-// [1.x] Guards for async close delay
-let _pendingHideToken = 0;
 
 // [2.0] Core Initialization Function
 function init() {
   if (window.searchListInitialized) {
     return;
   }
-  // [2.1] Method: internalInit()
+  // [2.0.1] Method: internalInit()
   function internalInit() {
     if (window.searchListInitialized) return;
-    // [2.1.1] Logic Block: Ensure idempotent DOM creation
+    // [2.0.1.1] Logic Block: Ensure idempotent DOM creation
     if (!document.getElementById("searchContainer")) {
       // Try to find the viewer element
       var viewer = document.getElementById("viewer");
@@ -384,16 +104,10 @@ function init() {
         return;
       }
       var temp = document.createElement("div");
-      temp.innerHTML = SEARCH_MARKUP; // Use full template, not minimal placeholder
+      temp.innerHTML = SEARCH_MARKUP.trim();
       viewer.appendChild(temp.firstChild);
-    } else {
-      // Upgrade existing placeholder if it doesn't contain .search-field
-      var el = document.getElementById("searchContainer");
-      if (el && !el.querySelector(".search-field")) {
-        el.outerHTML = SEARCH_MARKUP; // Replace with full template
-      }
     }
-    // [2.1.2] Logic Block: Bind events and set up UI
+    // [2.0.1.2] Logic Block: Bind events and set up UI
     if (
       typeof window.tourSearchFunctions === "object" &&
       window.tourSearchFunctions._bindSearchEventListeners
@@ -423,15 +137,33 @@ window.tourSearchInit = init;
 
 // [3.0] Script Loader and Initialization
 (function () {
-  // [3.1] Default Configuration - Legacy config now removed in favor of _config
-  // The configuration is now managed through the _config object
+  // [3.2] Default Configuration
+  let _config = {
+    debugMode: true, // *** Master debug switch
+    maxResults: 20,
+    minSearchLength: 2,
+    showHotspots: true,
+    showMedia: true,
+    showPanoramas: true,
+    searchInHotspotTitles: true,
+    searchInMediaTitles: true,
+    searchInPanoramaTitles: true,
+    searchInHotspotDescriptions: false,
+    searchInMediaDescriptions: false,
+    mobileBreakpoint: 768,
+    autoHide: {
+      // [3.2.1] Step: Auto-hide search on mobile after selection
+      mobile: true,
+      desktop: false,
+    },
+  };
 
-  // [3.2] Utility: Wait for Tour Readiness
-  // [3.3] Function: initializeSearchWhenTourReady()
+  // [3.3] Utility: Wait for Tour Readiness
+  // [3.3.1] Function: initializeSearchWhenTourReady()
   function initializeSearchWhenTourReady(callback, timeoutMs = 15000) {
     const start = Date.now();
     (function poll() {
-      // [3.3.0.1] Step: Check if tour is fully loaded
+      // [3.3.1.1] Step: Check if tour is fully loaded
       if (
         window.tour &&
         window.tour.mainPlayList &&
@@ -439,13 +171,13 @@ window.tourSearchInit = init;
         Array.isArray(window.tour.mainPlayList.get("items")) &&
         window.tour.mainPlayList.get("items").length > 0
       ) {
-        // [3.3.0.1.1] Step: Tour is ready, execute the callback
+        // [3.3.1.2] Step: Tour is ready, execute the callback
         callback && callback();
       } else if (Date.now() - start < timeoutMs) {
-        // [3.3.0.1.2] Step: Tour not ready, poll again after a short delay
+        // [3.3.1.3] Step: Tour not ready, poll again after a short delay
         setTimeout(poll, 200);
       } else {
-        // [3.3.0.1.3] Step: Timeout reached, log a warning
+        // [3.3.1.4] Step: Timeout reached, log a warning
         if (typeof Logger !== "undefined") {
           Logger.warn("Tour not ready after waiting for", timeoutMs, "ms.");
         } else {
@@ -456,7 +188,58 @@ window.tourSearchInit = init;
   }
 
   // [3.4] Simple Logger Definition
-  const Logger = window.Logger;
+  const Logger = {
+    // [3.4.1] Method: _log()
+    _log(level, ...args) {
+      const prefix = `[SearchPro-${level.toUpperCase()}]`;
+      // [3.4.1.1] Step: Check for console availability
+      if (typeof window !== "undefined" && window.console) {
+        // [3.4.1.2] Step: Basic styling for console output
+        const style =
+          level === "error"
+            ? "color: red; font-weight: bold;"
+            : level === "warn"
+              ? "color: orange;"
+              : level === "info"
+                ? "color: blue;"
+                : "color: gray;";
+
+        // [3.4.1.3] Step: Do not log debug messages if debugMode is off
+        if (
+          level === "debug" &&
+          (typeof _config === "undefined" || !_config.debugMode)
+        ) {
+          return;
+        }
+        console.log(`%c${prefix}`, style, ...args);
+      } else {
+        // [3.4.1.4] Step: Fallback for environments without console or styling
+        if (
+          level === "debug" &&
+          (typeof _config === "undefined" || !_config.debugMode)
+        ) {
+          return;
+        }
+        console.log(prefix, ...args);
+      }
+    },
+    // [3.4.2] Method: debug()
+    debug(...args) {
+      this._log("debug", ...args);
+    },
+    // [3.4.3] Method: info()
+    info(...args) {
+      this._log("info", ...args);
+    },
+    // [3.4.4] Method: warn()
+    warn(...args) {
+      this._log("warn", ...args);
+    },
+    // [3.4.5] Method: error()
+    error(...args) {
+      this._log("error", ...args);
+    },
+  };
 
   // [3.5] Check if Script is Already Loaded
   if (window._searchProLoaded) {
@@ -511,23 +294,23 @@ window.tourSearchInit = init;
 `;
 
   // [3.8] Dependency Loader
-  // [3.9] Function: loadDependencies()
+  // [3.8.1] Function: loadDependencies()
   function loadDependencies() {
     return new Promise((resolve, reject) => {
-      // [3.9.0.1] Step: Detect if Fuse.js is already loaded
+      // [3.8.1.1] Step: Detect if Fuse.js is already loaded
       if (typeof Fuse !== "undefined") {
         console.log("Fuse.js already loaded, skipping load");
         resolve();
         return;
       }
 
-      // [3.9.0.2] Step: Try to load local Fuse.js first
+      // [3.8.1.2] Step: Try to load local Fuse.js first
       const fuseScript = document.createElement("script");
       fuseScript.src = "search-pro-non-mod/fuse.js/dist/fuse.min.js"; // *** must have the correct folder location name
       fuseScript.async = true;
 
       fuseScript.onload = () => {
-        _log('info', "Local Fuse.js loaded successfully");
+        console.log("Local Fuse.js loaded successfully");
         resolve();
       };
 
@@ -536,14 +319,14 @@ window.tourSearchInit = init;
           "Local Fuse.js failed to load, attempting to load from CDN...",
         );
 
-        // [3.9.0.2.1] Step: Fallback to CDN if local load fails
+        // [3.8.1.3] Step: Fallback to CDN if local load fails
         const fuseCDN = document.createElement("script");
         fuseCDN.src =
           "https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js";
         fuseCDN.async = true;
 
         fuseCDN.onload = () => {
-          _log('info', "Fuse.js loaded successfully from CDN");
+          console.log("Fuse.js loaded successfully from CDN");
           resolve();
         };
 
@@ -562,11 +345,11 @@ window.tourSearchInit = init;
     });
   }
 
-  // [3.10] Optional Debug Tools Loader
-  // [3.11] Function: loadDebugTools()
+  // [3.9] Optional Debug Tools Loader
+  // [3.9.1] Function: loadDebugTools()
   function loadDebugTools() {
     return new Promise((resolve) => {
-      // [3.11.0.1] Step: Check if debug mode is enabled via URL parameter or local storage
+      // [3.9.1.1] Step: Check if debug mode is enabled via URL parameter or local storage
       const debugEnabled =
         window.location.search.includes("debug=true") ||
         localStorage.getItem("searchProDebugEnabled") === "true";
@@ -576,13 +359,13 @@ window.tourSearchInit = init;
         return;
       }
 
-      // [3.11.0.2] Step: Create and configure the debug script element
+      // [3.9.1.2] Step: Create and configure the debug script element
       const debugScript = document.createElement("script");
       debugScript.src = "search-pro-non-mod/js/debug-core-non-mod.js"; // *** Must have the correct folder location name
       debugScript.async = true;
 
       debugScript.onload = () => {
-        _log('info', "Search Pro Debug Tools loaded successfully");
+        console.log("Search Pro Debug Tools loaded successfully");
         resolve(true);
       };
 
@@ -591,17 +374,17 @@ window.tourSearchInit = init;
         resolve(false);
       };
 
-      // [3.11.0.3] Step: Append script to body to initiate loading
+      // [3.9.1.3] Step: Append script to body to initiate loading
       document.body.appendChild(debugScript);
     });
   }
 
-  // [3.12] Font Awesome Loader
-  // [3.13] Function: loadFontAwesome()
+  // [3.9.2] Font Awesome Loader
+  // [3.9.2.1] Function: loadFontAwesome()
   function loadFontAwesome() {
     return new Promise((resolve) => {
-      // [3.13.0.1] Step: Check if Font Awesome should be enabled
-      const iconSettings = (typeof _config !== 'undefined' && _config.thumbnailSettings?.iconSettings) || {};
+      // [3.9.2.1.1] Step: Check if Font Awesome should be enabled
+      const iconSettings = _config.thumbnailSettings?.iconSettings || {};
 
       if (!iconSettings.enableFontAwesome) {
         Logger.debug("Font Awesome loading disabled");
@@ -609,7 +392,7 @@ window.tourSearchInit = init;
         return;
       }
 
-      // [3.13.0.2] Step: Check if Font Awesome is already loaded
+      // [3.9.2.1.2] Step: Check if Font Awesome is already loaded
       if (
         document.querySelector('link[href*="font-awesome"]') ||
         document.querySelector('link[href*="fontawesome"]') ||
@@ -620,7 +403,7 @@ window.tourSearchInit = init;
         return;
       }
 
-      // [3.13.0.3] Step: Create and configure the Font Awesome CSS link
+      // [3.9.2.1.3] Step: Create and configure the Font Awesome CSS link
       const faLink = document.createElement("link");
       faLink.rel = "stylesheet";
       faLink.href =
@@ -638,16 +421,16 @@ window.tourSearchInit = init;
         resolve(false);
       };
 
-      // [3.13.0.4] Step: Append link to head to initiate loading
+      // [3.9.2.1.4] Step: Append link to head to initiate loading
       document.head.appendChild(faLink);
     });
   }
 
-  // [3.14] CSS Loader
-  // [3.15] Function: loadCSS()
+  // [3.10] CSS Loader
+  // [3.10.1] Function: loadCSS()
   function loadCSS() {
     return new Promise((resolve) => {
-      // [3.15.0.1] Step: Check if CSS is already loaded to prevent duplication
+      // [3.10.1.1] Step: Check if CSS is already loaded to prevent duplication
       if (
         document.querySelector(
           'link[href="search-pro-non-mod/css/search-01-non-mod.css"]',
@@ -657,7 +440,7 @@ window.tourSearchInit = init;
         return;
       }
 
-      // [3.15.0.2] Step: Create and configure the CSS link element
+      // [3.10.1.2] Step: Create and configure the CSS link element
       const cssLink = document.createElement("link");
       cssLink.rel = "stylesheet";
       cssLink.href = "search-pro-non-mod/css/search-01-non-mod.css"; // *** Make sure sure it has the correct folder location name
@@ -668,15 +451,15 @@ window.tourSearchInit = init;
         resolve(); // Still resolve so we don't block initialization
       };
 
-      // [3.15.0.3] Step: Append link to head to initiate loading
+      // [3.10.1.3] Step: Append link to head to initiate loading
       document.head.appendChild(cssLink);
     });
   }
 
-  // [3.16] DOM Initialization
-  // [3.17] Function: initializeDom()
+  // [3.11] DOM Initialization
+  // [3.11.1] Function: initializeDom()
   function initializeDom() {
-    // [3.17.1] Step: Find the main viewer element, which is required for injection.
+    // [3.11.1.1] Step: Find the main viewer element, which is required for injection.
     const viewer = document.getElementById("viewer");
     if (!viewer) {
       console.error(
@@ -685,47 +468,47 @@ window.tourSearchInit = init;
       return false;
     }
 
-    // [3.17.2] Step: Check if the search container already exists to prevent duplication.
+    // [3.11.1.2] Step: Check if the search container already exists to prevent duplication.
     if (document.getElementById("searchContainer")) {
       console.log("Search container already exists, skipping DOM creation");
       return true;
     }
 
-    // [3.17.3] Step: Create a temporary container to safely build the markup.
+    // [3.11.1.3] Step: Create a temporary container to safely build the markup.
     const temp = document.createElement("div");
     temp.innerHTML = SEARCH_MARKUP.trim();
 
-    // [3.17.4] Step: Append the new search container to the viewer.
+    // [3.11.1.4] Step: Append the new search container to the viewer.
     viewer.appendChild(temp.firstChild);
 
     return true;
   }
 
-  // [3.18] Main Initialization Function
-  // [3.19] Function: initialize()
+  // [3.12] Main Initialization Function
+  // [3.12.1] Function: initialize()
   async function initialize() {
     try {
-      // [3.19.0.1] Step: Load CSS first to ensure styling is applied early.
+      // [3.12.1.1] Step: Load CSS first to ensure styling is applied early.
       await loadCSS();
 
-      // [3.19.0.2] Step: Initialize DOM elements required for the search UI.
+      // [3.12.1.2] Step: Initialize DOM elements required for the search UI.
       if (!initializeDom()) {
         return;
       }
 
-      // [3.19.0.3] Step: Load external dependencies like Fuse.js.
+      // [3.12.1.3] Step: Load external dependencies like Fuse.js.
       await loadDependencies();
 
-      // [3.19.0.4] Step: Load external dependencies and Font Awesome.
+      // [3.12.1.4] Step: Load external dependencies and Font Awesome.
       await loadFontAwesome();
 
-      // [3.19.0.5] Step: Optionally load debug tools if enabled.
+      // [3.12.1.5] Step: Optionally load debug tools if enabled.
       await loadDebugTools();
 
-      // [3.19.0.6] Step: Wait for the tour to be initialized before binding events.
+      // [3.12.1.6] Step: Wait for the tour to be initialized before binding events.
       const TourBinding = {
         initialized: false,
-        // [3.19.0.6.1] Method: init()
+        // [3.12.2] Method: init()
         async init() {
           if (this.initialized) {
             return;
@@ -737,83 +520,83 @@ window.tourSearchInit = init;
             Logger.error("Tour binding failed:", error);
           }
         },
-        // [3.19.0.6.2] Method: bindToTour() - Comprehensive tour binding with multiple strategies
+        // [3.12.3] Method: bindToTour() - Comprehensive tour binding with multiple strategies
         async bindToTour() {
-          // [3.19.0.6.3] Step: Strategy 1: Official 3DVista Events (Preferred)
+          // [3.12.3.1] Step: Strategy 1: Official 3DVista Events (Preferred)
           if (await this.tryEventBinding()) {
             Logger.info("Using official 3DVista events");
             return;
           }
-          // [3.19.0.6.4] Step: Strategy 2: Direct tour detection with validation
+          // [3.12.3.2] Step: Strategy 2: Direct tour detection with validation
           if (await this.tryDirectBinding()) {
             Logger.info("Using direct tour binding");
             return;
           }
-          // [3.19.0.6.5] Step: Strategy 3: DOM-based detection
+          // [3.12.3.3] Step: Strategy 3: DOM-based detection
           if (await this.tryDOMBinding()) {
             Logger.info("Using DOM-based binding");
             return;
           }
           throw new Error("All tour binding strategies failed");
         },
-        // [3.19.0.6.6] Method: tryEventBinding() - Strategy 1: Official 3DVista Events
+        // [3.12.4] Method: tryEventBinding() - Strategy 1: Official 3DVista Events
         tryEventBinding() {
           return new Promise((resolve, reject) => {
             try {
-              // [3.19.0.6.7] Step: Check if 3DVista event system is available
+              // [3.12.4.1] Step: Check if 3DVista event system is available
               if (window.TDV && window.TDV.Tour && window.tour) {
                 Logger.debug("3DVista event system detected");
-                // [3.19.0.6.8] Step: Bind to official tour loaded event
+                // [3.12.4.2] Step: Bind to official tour loaded event
                 if (window.TDV.Tour.EVENT_TOUR_LOADED) {
                   window.tour.bind(window.TDV.Tour.EVENT_TOUR_LOADED, () => {
                     Logger.debug("EVENT_TOUR_LOADED fired");
                     this.validateAndInitialize().then(resolve).catch(reject);
                   });
-                  // [3.19.0.6.9] Step: Timeout fallback in case event never fires
+                  // [3.12.4.3] Step: Timeout fallback in case event never fires
                   setTimeout(() => {
                     reject(new Error("EVENT_TOUR_LOADED timeout"));
                   }, 15000);
                   return; // Wait for event
                 }
               }
-              // [3.19.0.6.10] Step: Event system not available
+              // [3.12.4.4] Step: Event system not available
               reject(new Error("3DVista events not available"));
             } catch (error) {
               reject(error);
             }
           });
         },
-        // [3.19.0.6.11] Method: tryDirectBinding() - Strategy 2: Direct tour validation
+        // [3.12.5] Method: tryDirectBinding() - Strategy 2: Direct tour validation
         tryDirectBinding() {
           return new Promise((resolve, reject) => {
             let attempts = 0;
             const maxAttempts = 100; // 20 seconds max
             const poll = () => {
               attempts++;
-              // [3.19.0.6.12] Step: Check if tour is ready
+              // [3.12.5.1] Step: Check if tour is ready
               if (this.isTourReady()) {
                 this.validateAndInitialize().then(resolve).catch(reject);
                 return;
               }
-              // [3.19.0.6.13] Step: Check for timeout
+              // [3.12.5.2] Step: Check for timeout
               if (attempts >= maxAttempts) {
                 reject(new Error("Direct tour binding timeout"));
                 return;
               }
-              // [3.19.0.6.14] Step: Poll again after a short delay
+              // [3.12.5.3] Step: Poll again after a short delay
               setTimeout(poll, 200);
             };
             poll();
           });
         },
-        // [3.19.0.6.15] Method: tryDOMBinding() - Strategy 3: DOM-based detection
+        // [3.12.6] Method: tryDOMBinding() - Strategy 3: DOM-based detection
         tryDOMBinding() {
           return new Promise((resolve, reject) => {
-            // [3.19.0.6.16] Step: Watch for DOM changes that indicate tour is ready
+            // [3.12.6.1] Step: Watch for DOM changes that indicate tour is ready
             const observer = new MutationObserver((mutations) => {
               for (const mutation of mutations) {
                 if (mutation.type === "childList") {
-                  // [3.19.0.6.17] Step: Look for tour-specific DOM elements
+                  // [3.12.6.2] Step: Look for tour-specific DOM elements
                   const tourElements = document.querySelectorAll(
                     "[data-name], .PanoramaOverlay, .mainViewer",
                   );
@@ -829,14 +612,14 @@ window.tourSearchInit = init;
               childList: true,
               subtree: true,
             });
-            // [3.19.0.6.18] Step: Timeout to prevent infinite observation
+            // [3.12.6.3] Step: Timeout to prevent infinite observation
             setTimeout(() => {
               observer.disconnect();
               reject(new Error("DOM binding timeout"));
             }, 20000);
           });
         },
-        // [3.19.0.6.19] Method: isTourReady() - Comprehensive tour readiness check
+        // [3.12.7] Method: isTourReady() - Comprehensive tour readiness check
         isTourReady() {
           try {
             const tourCandidates = [
@@ -852,18 +635,18 @@ window.tourSearchInit = init;
             for (const tour of tourCandidates) {
               if (!tour) continue;
 
-              // [3.19.0.6.20] Step: Use utility functions for consistent playlist detection
+              // [3.12.7.1] Step: Use utility functions for consistent playlist detection
               const playlists = PlaylistUtils.getAllPlayLists(tour);
 
-              // [3.19.0.6.21] Step: Check if we have at least one valid playlist
+              // [3.12.7.2] Step: Check if we have at least one valid playlist
               if (!playlists.main && !playlists.root) continue;
 
-              // [3.19.0.6.22] Step: Validate basic player functionality
+              // [3.12.7.3] Step: Validate basic player functionality
               const hasPlayer =
                 tour.player && typeof tour.player.getByClassName === "function";
               if (!hasPlayer) continue;
 
-              // [3.19.0.6.23] Step: Check initialization flag if available
+              // [3.12.7.4] Step: Check initialization flag if available
               try {
                 if (tour._isInitialized === false) {
                   Logger.debug(
@@ -891,16 +674,16 @@ window.tourSearchInit = init;
             return false;
           }
         },
-        // [3.19.0.6.24] Method: validateAndInitialize() - Validate tour and initialize search
+        // [3.12.8] Method: validateAndInitialize() - Validate tour and initialize search
         async validateAndInitialize() {
-          // [3.19.0.6.25] Step: Double-check everything is ready
+          // [3.12.8.1] Step: Double-check everything is ready
           if (!this.isTourReady()) {
             throw new Error("Tour validation failed");
           }
-          // [3.19.0.6.26] Step: Additional validation and logging
+          // [3.12.8.2] Step: Additional validation and logging
           const items = window.tour.mainPlayList.get("items");
           Logger.info(`Tour ready with ${items.length} panoramas`);
-          // [3.19.0.6.27] Step: Initialize search
+          // [3.12.8.3] Step: Initialize search
           if (
             window.tourSearchFunctions &&
             typeof window.tourSearchFunctions.initializeSearch === "function"
@@ -922,12 +705,12 @@ window.tourSearchInit = init;
     }
   }
 
-  // [3.20] Module: Tour Lifecycle Binding
+  // [3.13] Module: Tour Lifecycle Binding
   const TourLifecycle = {
-    // [3.20.1] Method: bindLifecycle()
+    // [3.13.1] Method: bindLifecycle()
     bindLifecycle() {
       if (window.tour && window.TDV && window.TDV.Tour) {
-        // [3.20.1.0.1] Step: Bind to tour end event
+        // [3.13.1.1] Step: Bind to tour end event
         if (window.TDV.Tour.EVENT_TOUR_ENDED) {
           window.tour.bind(window.TDV.Tour.EVENT_TOUR_ENDED, () => {
             Logger.info("Tour ended - cleaning up search");
@@ -936,24 +719,24 @@ window.tourSearchInit = init;
         }
       }
 
-      // [3.20.1.1] Step: Handle page unload as a fallback
+      // [3.13.1.2] Step: Handle page unload as a fallback
       window.addEventListener("beforeunload", () => {
         this.cleanup();
       });
     },
 
-    // [3.20.2] Method: cleanup()
+    // [3.13.2] Method: cleanup()
     cleanup() {
       try {
-        // [3.20.2.0.1] Step: Clean up event listeners
+        // [3.13.2.1] Step: Clean up event listeners
         _unbindSearchEventListeners();
 
-        // [3.20.2.0.2] Step: Close cross-window communication
+        // [3.13.2.2] Step: Close cross-window communication
         if (_crossWindowChannel && _crossWindowChannel._channel) {
           _crossWindowChannel.close();
         }
 
-        // [3.20.2.0.3] Step: Mark as uninitialized
+        // [3.13.2.3] Step: Mark as uninitialized
         window.searchListInitialized = false;
         window.searchListInitiinitialized = false;
 
@@ -964,10 +747,10 @@ window.tourSearchInit = init;
     },
   };
 
-  // [3.21] Execution: Initialize Lifecycle Binding
+  // [3.14] Execution: Initialize Lifecycle Binding
   TourLifecycle.bindLifecycle();
 
-  // [3.22] Execution: Start initialization when the DOM is ready
+  // [3.15] Execution: Start initialization when the DOM is ready
   function initializeDOMReady() {
     try {
       // Load dependencies and CSS first
@@ -1126,9 +909,9 @@ window.tourSearchInit = init;
   }
 })();
 
-// [3.23] Utility: Lightweight CSV Parser (Papa)
+// [3.16] Utility: Lightweight CSV Parser (Papa)
 const Papa = {
-  // [3.24] Method: parse()
+  // [3.16.1] Method: parse()
   parse: function (csvString, options = {}) {
     const defaults = {
       header: false,
@@ -1139,30 +922,30 @@ const Papa = {
     const settings = { ...defaults, ...options };
     let lines = csvString.split(/\r\n|\n/);
 
-    // [3.24.1] Step: Skip empty lines if requested
+    // [3.16.1.1] Step: Skip empty lines if requested
     if (settings.skipEmptyLines) {
       lines = lines.filter((line) => line.trim() !== "");
     }
 
-    // [3.24.2] Step: Parse header row if requested
+    // [3.16.1.2] Step: Parse header row if requested
     let headers = [];
     if (settings.header && lines.length > 0) {
       const headerLine = lines.shift();
       headers = headerLine.split(",").map((h) => h.trim());
     }
 
-    // [3.24.3] Step: Parse data rows
+    // [3.16.1.3] Step: Parse data rows
     const data = lines.map((line) => {
       const values = line.split(",").map((val) => {
         let v = val.trim();
 
-        // [3.24.3.0.1] Step: Apply dynamic typing if requested
+        // [3.16.1.4] Step: Apply dynamic typing if requested
         if (settings.dynamicTyping) {
-          // [3.24.3.0.2] Sub-step: Convert to number if it looks like a number
+          // [3.16.1.4.1] Sub-step: Convert to number if it looks like a number
           if (/^[-+]?\d+(\.\d+)?$/.test(v)) {
             return parseFloat(v);
           }
-          // [3.24.3.0.3] Sub-step: Convert to boolean if true/false
+          // [3.16.1.4.2] Sub-step: Convert to boolean if true/false
           else if (v.toLowerCase() === "true") {
             return true;
           } else if (v.toLowerCase() === "false") {
@@ -1172,7 +955,7 @@ const Papa = {
         return v;
       });
 
-      // [3.24.3.1] Step: If headers are present, return an object; otherwise, return an array
+      // [3.16.1.5] Step: If headers are present, return an object; otherwise, return an array
       if (settings.header) {
         const row = {};
         headers.forEach((header, index) => {
@@ -1185,7 +968,7 @@ const Papa = {
       return values;
     });
 
-    // [3.24.4] Step: Return final parsed data object
+    // [3.16.1.6] Step: Return final parsed data object
     return {
       data: data,
       errors: [],
@@ -1206,14 +989,14 @@ window.tourSearchFunctions = (function () {
   let fuse = null;
   let performSearch = null; // Will be properly initialized in _initializeSearch
 
-  // [4.2] Submodule: PlaylistUtils - Enhanced playlist detection utilities
+  // [4.1.1] Submodule: PlaylistUtils - Enhanced playlist detection utilities
   const PlaylistUtils = {
     getMainPlayList(tour = null) {
       const tourToCheck = tour || window.tour || window.tourInstance;
 
       if (!tourToCheck) return null;
 
-      // [4.2.0.1] Step: Method 1 - Direct mainPlayList access (most common)
+      // [4.1.1.1.1] Step: Method 1 - Direct mainPlayList access (most common)
       if (
         tourToCheck.mainPlayList?.get &&
         tourToCheck.mainPlayList.get("items")?.length
@@ -1222,7 +1005,7 @@ window.tourSearchFunctions = (function () {
         return tourToCheck.mainPlayList;
       }
 
-      // [4.2.0.2] Step: Method 2 - Search through all playlists for mainPlayList (robust fallback)
+      // [4.1.1.1.2] Step: Method 2 - Search through all playlists for mainPlayList (robust fallback)
       if (tourToCheck.player?.getByClassName) {
         try {
           const allPlaylists = tourToCheck.player.getByClassName("PlayList");
@@ -1241,7 +1024,7 @@ window.tourSearchFunctions = (function () {
       return null;
     },
 
-    // [4.2.1] Method: getRootPlayerPlayList()
+    // [4.1.1.2] Method: getRootPlayerPlayList()
     getRootPlayerPlayList(tour = null) {
       const tourToCheck = tour || window.tour || window.tourInstance;
 
@@ -1262,7 +1045,7 @@ window.tourSearchFunctions = (function () {
       return null;
     },
 
-    // [4.2.2] Method: getAllPlayLists()
+    // [4.1.1.3] Method: getAllPlayLists()
 
     getAllPlayLists(tour = null) {
       return {
@@ -1272,9 +1055,9 @@ window.tourSearchFunctions = (function () {
     },
   };
 
-  // [4.3] Submodule: keyboardManager - Manages keyboard navigation for search results
+  // [4.1.2] Submodule: keyboardManager - Manages keyboard navigation for search results
   const keyboardManager = {
-    // [4.3.1] Method: init()
+    // [4.1.2.1] Method: init()
     init(searchContainer, searchInput, searchCallback) {
       if (!searchContainer || !searchInput) {
         Logger.error("Invalid parameters for keyboard manager");
@@ -1291,7 +1074,7 @@ window.tourSearchFunctions = (function () {
         inputKeydown: null,
       };
 
-      // [4.3.1.1] Helper: updateSelection()
+      // [4.1.2.1.1] Helper: updateSelection()
       const updateSelection = (newIndex) => {
         resultItems = searchContainer.querySelectorAll(".result-item");
         if (!resultItems.length) return;
@@ -1311,7 +1094,7 @@ window.tourSearchFunctions = (function () {
         }
       };
 
-      // [4.3.1.2] Event Handler: documentKeydown
+      // [4.1.2.1.2] Event Handler: documentKeydown
       handlers.documentKeydown = function (e) {
         if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
@@ -1351,12 +1134,12 @@ window.tourSearchFunctions = (function () {
         }
       };
 
-      // [4.3.1.3] Event Handler: inputKeyup (debounced)
+      // [4.1.2.1.3] Event Handler: inputKeyup (debounced)
       handlers.inputKeyup = _debounce(function () {
         selectedIndex = -1;
       }, 200);
 
-      // [4.3.1.4] Event Handler: inputKeydown
+      // [4.1.2.1.4] Event Handler: inputKeydown
       handlers.inputKeydown = function (e) {
         if (e.key === "Enter") {
           e.preventDefault();
@@ -1369,12 +1152,12 @@ window.tourSearchFunctions = (function () {
         }
       };
 
-      // [4.3.1.5] Step: Bind all event handlers
+      // [4.1.2.1.5] Step: Bind all event handlers
       document.addEventListener("keydown", handlers.documentKeydown);
       searchInput.addEventListener("keyup", handlers.inputKeyup);
       searchInput.addEventListener("keydown", handlers.inputKeydown);
 
-      // [4.3.1.6] Return: Cleanup function
+      // [4.1.2.1.6] Return: Cleanup function
       return function cleanup() {
         try {
           document.removeEventListener("keydown", handlers.documentKeydown);
@@ -1390,36 +1173,35 @@ window.tourSearchFunctions = (function () {
     },
   };
 
-  // [4.4] Module: Constants and Configuration
+  // [4.2] Module: Constants and Configuration
   const BREAKPOINTS = {
     mobile: 768,
     tablet: 1024,
   };
-  // [4.5] Helper Function: isMobileDevice()
+  // [4.2.1] Helper Function: isMobileDevice()
   function isMobileDevice() {
     return (
-      window.innerWidth <= BREAKPOINTS.mobile ||
+      window.innerWidth <= BREAKPOINTS.MOBILE ||
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0
     );
   }
 
-  // [CFG.CANONICAL] ConfigBuilder (single-source defaults)
-  // [4.6] Class: ConfigBuilder - For creating and managing search configurations
+  // [4.3] Class: ConfigBuilder - For creating and managing search configurations
   class ConfigBuilder {
-    // [4.6.1] Method: constructor()
+    // [4.3.1] Method: constructor()
     constructor() {
-      // [4.6.1.1] Property: Default configuration
+      // [4.3.1.1] Property: Default configuration
       this.config = {
-        // [4.6.1.1.1] Config: autoHide - Auto-hide search on selection
+        // [4.3.1.1.1] Config: autoHide - Auto-hide search on selection
         autoHide: {
           mobile: false,
           desktop: false,
         },
         mobileBreakpoint: BREAKPOINTS.mobile,
-        minSearchChars: 2, // Canonical field (not minSearchLength)
+        minSearchChars: 2,
         showTagsInResults: false,
-        // [4.6.1.1.2] Config: elementTriggering - Settings for triggering elements
+        // [4.3.1.1.2] Config: elementTriggering - Settings for triggering elements
         elementTriggering: {
           initialDelay: 300,
           maxRetries: 3,
@@ -1428,7 +1210,7 @@ window.tourSearchFunctions = (function () {
           baseRetryInterval: 300,
         },
 
-        // [4.6.1.1.3] Config: animations - Animation settings
+        // [4.3.1.1.3] Config: animations - Animation settings
         animations: {
           enabled: true,
           duration: {
@@ -1452,7 +1234,7 @@ window.tourSearchFunctions = (function () {
             fallbackDuration: 100,
           },
         },
-        // [4.6.1.1.4] Config: displayLabels - Labels for different result types
+        // [4.3.1.1.4] Config: displayLabels - Labels for different result types
         displayLabels: {
           Panorama: "Panorama",
           Hotspot: "Hotspot",
@@ -1470,7 +1252,7 @@ window.tourSearchFunctions = (function () {
           Container: "Container",
         },
 
-        // [4.6.1.1.5] Config: businessData - Business data integration settings
+        // [4.3.1.1.5] Config: businessData - Business data integration settings
         businessData: {
           useBusinessData: true, // *** Controls whether to use business data or not ***
           businessDataFile: "business.json",
@@ -1482,7 +1264,7 @@ window.tourSearchFunctions = (function () {
           businessDataUrl: `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/search-pro-non-mod/business-data/business.json`,
         },
 
-        // [4.6.1.1.6] Config: googleSheets - Google Sheets integration settings
+        // [4.3.1.1.6] Config: googleSheets - Google Sheets integration settings
         googleSheets: {
           useGoogleSheetData: false, // *** Controls whether to use Google Sheets data or not ***
           includeStandaloneEntries: false, // *** Controls whether to include standalone entries from Google Sheets or not ***
@@ -1517,7 +1299,7 @@ window.tourSearchFunctions = (function () {
           },
         },
 
-        // [4.6.1.1.7] Config: includeContent - Content inclusion settings
+        // [4.3.1.1.7.1] Config: includeContent - Content inclusion settings
         includeContent: {
           unlabeledWithSubtitles: true,
           unlabeledWithTags: true,
@@ -1540,13 +1322,13 @@ window.tourSearchFunctions = (function () {
             skipEmptyLabels: false,
             minLabelLength: 0,
           },
-          // [4.6.1.1.8] Config: Container search integration
+          // [4.3.1.1.7.2] Config: Container search integration
           containerSearch: {
             enableContainerSearch: false, // Enable container search functionality
             containerNames: [], // Array of container names to include in search
           },
         },
-        // [4.6.1.1.9] Config: thumbnailSettings - Thumbnail display options
+        // [4.3.1.1.7.3] Config: thumbnailSettings - Thumbnail display options
         thumbnailSettings: {
           enableThumbnails: true,
           thumbnailSize: "medium",
@@ -1652,7 +1434,7 @@ window.tourSearchFunctions = (function () {
       };
     }
 
-    // [4.6.2] Method: setDisplayOptions()
+    // [4.3.2] Method: setDisplayOptions()
     setDisplayOptions(options) {
       this.config.display = {
         showGroupHeaders:
@@ -1685,7 +1467,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.3] Method: setContentOptions()
+    // [4.3.3] Method: setContentOptions()
     setContentOptions(options) {
       this.config.includeContent = {
         unlabeledWithSubtitles:
@@ -1777,53 +1559,43 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.4] Method: setFilterOptions()
+    // [4.3.4] Method: setFilterOptions()
     setFilterOptions(options) {
       this.config.filter = {
-        mode: options?.mode !== undefined ? options?.mode : "none", // 'none' | 'whitelist' | 'blacklist'  (top-level on display label)
+        mode: options?.mode || "none",
         allowedValues: options?.allowedValues || [],
         blacklistedValues: options?.blacklistedValues || [],
+        allowedMediaIndexes: options?.allowedMediaIndexes || [],
+        blacklistedMediaIndexes: options?.blacklistedMediaIndexes || [],
         valueMatchMode: {
-          whitelist: options?.valueMatchMode?.whitelist || "exact", // 'exact' | 'contains' | 'startsWith' | 'regex'
-          blacklist: options?.valueMatchMode?.blacklist || "contains",
+          whitelist: options?.valueMatchMode?.whitelist || "exact",
+          blacklist: options?.valueMatchMode?.blacklist || "contains"   // new default for partial matching
+        },
+        mediaIndexes: {
+          mode: options?.mediaIndexes?.mode || "none",
+          allowed: options?.mediaIndexes?.allowed || options?.allowedMediaIndexes || [],
+          blacklisted: options?.mediaIndexes?.blacklisted || options?.blacklistedMediaIndexes || []
         },
         elementTypes: {
-          mode:
-            options?.elementTypes?.mode !== undefined
-              ? options?.elementTypes?.mode
-              : "none",
+          mode: options?.elementTypes?.mode || "none",
           allowedTypes: options?.elementTypes?.allowedTypes || [],
           blacklistedTypes: options?.elementTypes?.blacklistedTypes || [],
         },
         elementLabels: {
-          mode:
-            options?.elementLabels?.mode !== undefined
-              ? options?.elementLabels?.mode
-              : "none",
+          mode: options?.elementLabels?.mode || "none",
           allowedValues: options?.elementLabels?.allowedValues || [],
           blacklistedValues: options?.elementLabels?.blacklistedValues || [],
         },
         tagFiltering: {
-          mode:
-            options?.tagFiltering?.mode !== undefined
-              ? options?.tagFiltering?.mode
-              : "none",
+          mode: options?.tagFiltering?.mode || "none",
           allowedTags: options?.tagFiltering?.allowedTags || [],
           blacklistedTags: options?.tagFiltering?.blacklistedTags || [],
         },
-        mediaIndexes: {
-          mode:
-            options?.mediaIndexes?.mode !== undefined
-              ? options?.mediaIndexes?.mode
-              : "none",
-          allowed: options?.mediaIndexes?.allowed || [],
-          blacklisted: options?.mediaIndexes?.blacklisted || [],
-        }, // keep present; guarded (no-op unless enabled)
       };
       return this;
     }
 
-    // [4.6.5] Method: setLabelOptions()
+    // [4.3.5] Method: setLabelOptions()
     setLabelOptions(options) {
       this.config.useAsLabel = {
         subtitles: options?.subtitles !== undefined ? options.subtitles : true,
@@ -1839,7 +1611,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.6] Method: setAppearanceOptions()
+    // [4.3.6] Method: setAppearanceOptions()
     setAppearanceOptions(options) {
       if (!options) return this;
 
@@ -1851,7 +1623,7 @@ window.tourSearchFunctions = (function () {
             bottomRight: options.searchField?.borderRadius?.bottomRight ?? 25,
             bottomLeft: options.searchField?.borderRadius?.bottomLeft ?? 25,
           },
-          // [4.6.6.0.1] Typography Controls
+          // [4.3.6.1] Typography Controls
           typography: {
             // Input text styling
             fontSize: "16px", // *** Font size for input text
@@ -1862,7 +1634,7 @@ window.tourSearchFunctions = (function () {
             letterSpacing: "0px", // *** Letter spacing ("0.5px", "normal")
             textTransform: "none", // *** Text transform ("none", "uppercase", "lowercase", "capitalize")
 
-            // [4.6.6.0.2] Placeholder specific styling
+            // [4.3.6.2] Placeholder specific styling
             placeholder: {
               fontSize: "16px", // *** Placeholder font size
               fontFamily: "inherit", // *** Placeholder font family
@@ -1873,7 +1645,7 @@ window.tourSearchFunctions = (function () {
               textTransform: "none", // *** Placeholder text transform
             },
 
-            // [4.6.6.0.3] Focus state styling
+            // [4.3.6.3] Focus state styling
             focus: {
               fontSize: "16px", // *** Font size when focused
               fontWeight: "400", // *** Font weight when focused
@@ -1890,7 +1662,7 @@ window.tourSearchFunctions = (function () {
           },
         },
 
-        // [4.6.6.0.4] Method: setSearchFieldTypography()
+        // [4.3.6.4] Method: setSearchFieldTypography()
         setSearchFieldTypography(options) {
           if (!options) return this;
 
@@ -1933,7 +1705,7 @@ window.tourSearchFunctions = (function () {
 
           return this;
         },
-        // [4.6.6.0.5] Method: setColors()
+        // [4.3.6.5] Method: setColors()
         colors: {
           searchBackground: options.colors?.searchBackground ?? "#f4f3f2",
           searchText: options.colors?.searchText ?? "#1a1a1a",
@@ -1941,8 +1713,7 @@ window.tourSearchFunctions = (function () {
           searchIcon: options.colors?.searchIcon ?? "#94a3b8",
           clearIcon: options.colors?.clearIcon ?? "#94a3b8",
           resultsBackground: options.colors?.resultsBackground ?? "#ffffff",
-          groupHeaderBackground:
-            options.colors?.groupHeaderBackground ?? "#ffffff",
+          groupHeaderBackground: options.colors?.groupHeaderBackground ?? "#ffffff",
           groupHeaderColor: options.colors?.groupHeaderColor ?? "#20293A",
           groupCountColor: options.colors?.groupCountColor ?? "#94a3b8",
           resultHover: options.colors?.resultHover ?? "#f0f0f0",
@@ -1951,19 +1722,19 @@ window.tourSearchFunctions = (function () {
           resultSubtitle: options.colors?.resultSubtitle ?? "#64748b",
           resultIconColor: options.colors?.resultIconColor ?? "#6e85f7",
           resultSubtextColor: options.colors?.resultSubtextColor ?? "#000000",
-          // [4.6.6.0.6] HIGHLIGHT CONFIGURATIONS
+          // [4.3.6.5.1] HIGHLIGHT CONFIGURATIONS
           highlightBackground: options.colors?.highlightBackground ?? "#ffff00",
           highlightBackgroundOpacity:
             options.colors?.highlightBackgroundOpacity ?? 0.5,
           highlightText: options.colors?.highlightText ?? "#000000",
           highlightWeight: options.colors?.highlightWeight ?? "bold",
-          // [4.6.6.0.7] TAG COLOR CONFIGURATIONS
+          // [4.3.6.5.2] TAG COLOR CONFIGURATIONS
           tagBackground: options.colors?.tagBackground ?? "#e2e8f0",
           tagText: options.colors?.tagText ?? "#475569",
           tagBorder: options.colors?.tagBorder ?? "#cbd5e1",
           tagHover: options.colors?.tagHover ?? "#d1d5db",
         },
-        // [4.6.6.0.8] TAG STYLING CONFIGURATIONS
+        // [4.3.6.6] TAG STYLING CONFIGURATIONS
         tags: {
           borderRadius: options.tags?.borderRadius ?? 12,
           fontSize: options.tags?.fontSize ?? "12px",
@@ -1979,7 +1750,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.7] Method: setSearchBarOptions()
+    // [4.3.7] Method: setSearchBarOptions()
     setSearchBarOptions(options) {
       this.config.searchBar = {
         placeholder: options?.placeholder || "Search...",
@@ -2054,7 +1825,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.8] Method: setGeneralOptions()
+    // [4.3.8] Method: setGeneralOptions()
     setGeneralOptions(options) {
       if (options?.autoHide !== undefined) {
         this.config.autoHide = options.autoHide;
@@ -2077,7 +1848,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.9] Method: setDisplayLabels()
+    // [4.3.9] Method: setDisplayLabels()
     setDisplayLabels(options) {
       if (!options) return this;
 
@@ -2089,7 +1860,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.10] Method: setBusinessDataOptions()
+    // [4.3.10] Method: setBusinessDataOptions()
     setBusinessDataOptions(options) {
       if (!options) return this;
 
@@ -2111,7 +1882,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.11] Method: setThumbnailSettings()
+    // [4.3.11] Method: setThumbnailSettings()
     setThumbnailSettings(options) {
       if (!options) return this;
 
@@ -2150,55 +1921,22 @@ window.tourSearchFunctions = (function () {
         });
       }
 
-      // Local implementation of makeSizePxString (since the main one isn't available yet)
-      const makeSizePxString = function (size) {
-        // Handle null, undefined, or empty values
-        if (size == null || size === "") return "0px";
-
-        // If it's already a string with a unit (px, em, rem, etc.), return as is
-        if (typeof size === "string") {
-          // Special case for named sizes
-          if (size === "small") return "32px";
-          if (size === "medium") return "48px";
-          if (size === "large") return "64px";
-
-          // Check if it already has a CSS unit
-          if (
-            /^\d+(\.\d+)?(%|px|em|rem|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc)$/.test(
-              size,
-            )
-          ) {
-            return size;
-          }
-
-          // If it's a string number without unit, parse it and add px
-          const num = parseFloat(size);
-          if (!isNaN(num)) {
-            return `${num}px`;
-          }
-
-          // Default for invalid string
-          return "48px"; // Default size
+      // Resolve pixel size based on named size
+      let sizePx = this.config.thumbnailSettings.thumbnailSizePx;
+      if (options.thumbnailSize) {
+        switch (options.thumbnailSize) {
+          case "small":
+            sizePx = 32;
+            break;
+          case "medium":
+            sizePx = 48;
+            break;
+          case "large":
+            sizePx = 64;
+            break;
         }
-
-        // If it's a number, add px unit
-        if (typeof size === "number") {
-          return `${size}px`;
-        }
-
-        // Default for any other type
-        return "48px"; // Default size
-      };
-
-      // Get the size value, using either thumbnailSize or thumbnailSizePx
-      let sizeStr;
-
-      if (options.thumbnailSize !== undefined) {
-        sizeStr = makeSizePxString(options.thumbnailSize);
-      } else if (options.thumbnailSizePx !== undefined) {
-        sizeStr = makeSizePxString(options.thumbnailSizePx);
-      } else {
-        sizeStr = "48px"; // Default
+      } else if (options.thumbnailSizePx) {
+        sizePx = options.thumbnailSizePx;
       }
 
       this.config.thumbnailSettings = {
@@ -2206,7 +1944,7 @@ window.tourSearchFunctions = (function () {
           options.enableThumbnails !== undefined
             ? options.enableThumbnails
             : true,
-        thumbnailSize: sizeStr, // Always store as pixel string
+        thumbnailSize: options.thumbnailSize || "48px",
         borderRadius:
           options.borderRadius !== undefined ? options.borderRadius : 4,
         borderColor: options.borderColor || "#9CBBFF",
@@ -2305,7 +2043,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.12] Method: setIconSettings()
+    // [4.3.11.1] Method: setIconSettings()
     setIconSettings(options) {
       if (!options) return this;
 
@@ -2316,8 +2054,8 @@ window.tourSearchFunctions = (function () {
 
       // Extract pixel value from size string (e.g., "48px" -> 48)
       let iconSizePx = 48; // default
-      if (options.iconSize && options.iconSize.endsWith("px")) {
-        iconSizePx = parseInt(options.iconSize.replace("px", ""));
+      if (options.iconSize && options.iconSize.endsWith('px')) {
+        iconSizePx = parseInt(options.iconSize.replace('px', ''));
       }
 
       // Normalize showIconFor configuration
@@ -2494,7 +2232,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.13] Method: setGoogleSheetsOptions()
+    // [4.3.12] Method: setGoogleSheetsOptions()
     setGoogleSheetsOptions(options) {
       if (!options) return this;
 
@@ -2570,7 +2308,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.14] Method: setAnimationOptions()
+    // [4.3.13] Method: setAnimationOptions()
     setAnimationOptions(options) {
       if (!options) return this;
 
@@ -2607,7 +2345,7 @@ window.tourSearchFunctions = (function () {
       return this;
     }
 
-    // [4.6.15] Method: setSearchOptions()
+    // [4.3.14] Method: setSearchOptions()
     setSearchOptions(options) {
       if (!options) return this;
 
@@ -2645,14 +2383,13 @@ window.tourSearchFunctions = (function () {
 
       return this;
     }
-    // [4.6.16] Method: build()
+    // [4.3.15] Method: build()
     build() {
       return this.config;
     }
   }
 
-  // [CFG.RUNTIME] _config source of truth
-  // [4.7] Logic Block: Create Default Configuration
+  // [4.4] Logic Block: Create Default Configuration
   let _config = new ConfigBuilder()
     .setDisplayOptions({})
     .setContentOptions({})
@@ -2669,16 +2406,35 @@ window.tourSearchFunctions = (function () {
     .setIconSettings({})
     .build();
 
-  // [4.8] Submodule: LOGGING UTILITIES
-  const Logger = window.Logger;
+  // [4.5] Submodule: LOGGING UTILITIES
+  const Logger = {
+    // Set this to control logging level: 0=debug, 1=info, 2=warn, 3=error, 4=none
+    level: 2,
 
-  // [4.9] Logic Block: Module State Variables
+    debug: function (message, ...args) {
+      if (this.level <= 0) console.debug(`[Search] ${message}`, ...args);
+    },
+
+    info: function (message, ...args) {
+      if (this.level <= 1) console.info(`[Search] ${message}`, ...args);
+    },
+
+    warn: function (message, ...args) {
+      if (this.level <= 2) console.warn(`[Search] ${message}`, ...args);
+    },
+
+    error: function (message, ...args) {
+      if (this.level <= 3) console.error(`[Search] ${message}`, ...args);
+    },
+  };
+
+  // [4.6] Logic Block: Module State Variables
   let _initialized = false;
   let keyboardCleanup = null;
   let _businessData = [];
   let _googleSheetsData = [];
 
-  // [4.10] Logic Block: DOM ELEMENT CACHE
+  // [4.7] Logic Block: DOM ELEMENT CACHE
   const _elements = {
     container: null,
     input: null,
@@ -2687,7 +2443,7 @@ window.tourSearchFunctions = (function () {
     searchIcon: null,
   };
 
-  // [4.11] Submodule: CROSS-WINDOW COMMUNICATION
+  // [4.8] Submodule: CROSS-WINDOW COMMUNICATION
   const _crossWindowChannel = {
     // Channel instance
     _channel: null,
@@ -2695,7 +2451,7 @@ window.tourSearchFunctions = (function () {
     // Channel name
     channelName: "tourSearchChannel",
 
-    // [4.11.1] Method: init()
+    // [4.8.1] Method: init()
     init() {
       try {
         if (typeof BroadcastChannel !== "undefined") {
@@ -2714,7 +2470,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [4.11.2] Method: send()
+    // [4.8.2] Method: send()
     send(type, data) {
       try {
         if (!this._channel) {
@@ -2729,7 +2485,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [4.11.3] Method: listen()
+    // [4.8.3] Method: listen()
     listen(callback) {
       try {
         if (!this._channel) {
@@ -2748,7 +2504,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [4.11.4] Method: close()
+    // [4.8.4] Method: close()
     close() {
       try {
         if (this._channel) {
@@ -2764,8 +2520,8 @@ window.tourSearchFunctions = (function () {
     },
   };
 
-  // [4.12] Submodule: Utility Functions
-  // [4.13] Method: _debounce()
+  // [4.9] Submodule: Utility Functions
+  // [4.9.1] Method: _debounce()
   function _debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -2816,7 +2572,7 @@ window.tourSearchFunctions = (function () {
 
     return `${baseUrl}/${cleanPath}`;
   }
-  // [4.14] Method: _getThumbnailUrl() - Centralized thumbnail selection with config respect
+  // [4.9.3] Method: _getThumbnailUrl() - Centralized thumbnail selection with config respect
   function _getThumbnailUrl(resultItem, config) {
     // First check: Global thumbnail setting
     if (!config.thumbnailSettings?.enableThumbnails) {
@@ -2881,30 +2637,23 @@ window.tourSearchFunctions = (function () {
             media.get("preview");
 
           if (thumb) {
-            Logger.debug(`[THUMBNAIL] Found for ${resultItem.label}: ${thumb}`);
+            console.log(`[THUMBNAIL] Found for ${resultItem.label}: ${thumb}`);
             return _normalizeImagePath(thumb);
           }
         }
       } catch (e) {
-        Logger.debug(`[THUMBNAIL] Error extracting from tour: ${e.message}`);
+        console.log(`[THUMBNAIL] Error extracting from tour: ${e.message}`);
       }
     }
 
     // Fallback to type-specific default
     const defaultImages = config.thumbnailSettings?.defaultImages || {};
-    console.log(
-      `🔍 THUMBNAIL DEBUG: Looking for default image for type "${resultItem.type}"`,
-    );
-    console.log(
-      `🔍 THUMBNAIL DEBUG: Available defaultImages:`,
-      Object.keys(defaultImages),
-    );
-
+    console.log(`🔍 THUMBNAIL DEBUG: Looking for default image for type "${resultItem.type}"`);
+    console.log(`🔍 THUMBNAIL DEBUG: Available defaultImages:`, Object.keys(defaultImages));
+    
     if (defaultImages[resultItem.type]) {
       const imagePath = _normalizeImagePath(defaultImages[resultItem.type]);
-      Logger.debug(
-        `🔍 THUMBNAIL DEBUG: Found type-specific image: ${defaultImages[resultItem.type]} -> ${imagePath}`,
-      );
+      console.log(`🔍 THUMBNAIL DEBUG: Found type-specific image: ${defaultImages[resultItem.type]} -> ${imagePath}`);
       return imagePath;
     }
 
@@ -2915,7 +2664,7 @@ window.tourSearchFunctions = (function () {
     return fallbackPath;
   }
 
-  // [4.15] Method: _preprocessSearchTerm()
+  // [4.9.4] Method: _preprocessSearchTerm()
   function _preprocessSearchTerm(term) {
     if (!term) return "";
 
@@ -2927,7 +2676,7 @@ window.tourSearchFunctions = (function () {
     return term;
   }
 
-  // [4.16] Submodule: ARIA and Accessibility Helpers
+  // [4.10] Submodule: ARIA and Accessibility Helpers
   const _aria = {
     /**
      * [4.10.1] Method: setAutoComplete() - Sets the aria-autocomplete attribute on an element
@@ -3020,7 +2769,7 @@ window.tourSearchFunctions = (function () {
     },
   };
 
-  // [4.17] Method: _convertHexToRGBA()
+  // [4.9.5] Method: _convertHexToRGBA()
   function _convertHexToRGBA(hex, opacity) {
     if (!hex || typeof hex !== "string") return `rgba(255, 255, 0, ${opacity})`; // Default yellow
 
@@ -3043,21 +2792,21 @@ window.tourSearchFunctions = (function () {
     // Return rgba format
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-
-  // [4.18] Helper: _normalizeForFilter() - Normalize strings for consistent filtering
+  
+  // [4.10.9] Helper: _normalizeForFilter() - Normalize strings for consistent filtering
   function _normalizeForFilter(s) {
     return (s || "")
       .toString()
       .toLowerCase()
       .normalize("NFKD")
-      .replace(/["""']/g, "") // strip quotes
-      .replace(/[‐-–—−]/g, "-") // normalize dashes
-      .replace(/[\[\](){}]/g, "") // strip brackets
+      .replace(/["""']/g, "")            // strip quotes
+      .replace(/[‐-–—−]/g, "-")          // normalize dashes
+      .replace(/[\[\](){}]/g, "")        // strip brackets
       .replace(/\s+/g, " ")
       .trim();
   }
-
-  // [4.19] Method: _getOverlayCamera() - Extract camera angles from overlay
+  
+  // [4.10.1] Method: _getOverlayCamera() - Extract camera angles from overlay
   function _getOverlayCamera(overlay) {
     if (!overlay) return null;
 
@@ -3066,71 +2815,42 @@ window.tourSearchFunctions = (function () {
     let fov = null;
 
     try {
-      // Method 1: Read yaw/pitch/hfov from overlay.items[0] for any overlay class
-      if (overlay.items && overlay.items.length > 0) {
+      // For HotspotPanoramaOverlay: read from overlay.items?.[0]
+      if (overlay.class === "HotspotPanoramaOverlay" && overlay.items && overlay.items.length > 0) {
         const item = overlay.items[0];
-        if (item.yaw !== undefined) yaw = item.yaw;
-        if (item.pitch !== undefined) pitch = item.pitch;
-        if (item.hfov !== undefined) fov = item.hfov;
-        else if (item.fov !== undefined) fov = item.fov;
+        yaw = item.yaw;
+        pitch = item.pitch;
+        fov = item.hfov || 70; // Use hfov or fallback to 70
       }
-
-      // Method 2: Fallback to direct overlay.yaw/pitch/(hfov|fov)
-      if (yaw === null && overlay.yaw !== undefined) yaw = overlay.yaw;
-      if (pitch === null && overlay.pitch !== undefined) pitch = overlay.pitch;
-      if (fov === null) {
-        if (overlay.hfov !== undefined) fov = overlay.hfov;
-        else if (overlay.fov !== undefined) fov = overlay.fov;
+      // Fallback: read from overlay directly
+      else if (overlay.yaw !== undefined || overlay.pitch !== undefined) {
+        yaw = overlay.yaw;
+        pitch = overlay.pitch;
+        fov = overlay.hfov || overlay.fov || 70; // Try hfov, fov, or fallback to 70
       }
-
-      // Method 3: Optionally average overlay.vertices[] if objects have yaw/pitch
-      if ((yaw === null || pitch === null) && overlay.vertices && Array.isArray(overlay.vertices)) {
-        let sumYaw = 0, sumPitch = 0, count = 0;
-        overlay.vertices.forEach(vertex => {
-          if (vertex && typeof vertex.yaw === 'number' && typeof vertex.pitch === 'number') {
-            sumYaw += vertex.yaw;
-            sumPitch += vertex.pitch;
-            count++;
-          }
-        });
-        if (count > 0) {
-          if (yaw === null) yaw = sumYaw / count;
-          if (pitch === null) pitch = sumPitch / count;
-        }
-      }
-
-      // Set default FOV if still null
-      if (fov === null) fov = 70;
 
       // Only return if we have both yaw and pitch
       if (yaw !== null && yaw !== undefined && pitch !== null && pitch !== undefined) {
-        // Normalize yaw to [-180, 180]
-        while (yaw > 180) yaw -= 360;
-        while (yaw < -180) yaw += 360;
-
         return {
           yaw: yaw,
           pitch: pitch,
-          fov: fov,
+          fov: fov
         };
       }
     } catch (error) {
-      Logger.warn(
-        `[CAMERA DEBUG] Error extracting camera from overlay:`,
-        error,
-      );
+      console.warn(`[CAMERA DEBUG] Error extracting camera from overlay:`, error);
     }
 
     return null;
   }
-
-  // [4.20] Submodule: Element Detection and Filtering
-  // [4.21] Method: _getElementType()
+  
+  // [4.11] Submodule: Element Detection and Filtering
+  // [4.11.1] Method: _getElementType()
   function _getElementType(overlay, label) {
     if (!overlay) return "Element";
     try {
       // **ADD THIS DEBUG CODE AT THE VERY BEGINNING**
-      Logger.debug(`[ELEMENT TYPE DEBUG] Called with:`, {
+      console.log(`[ELEMENT TYPE DEBUG] Called with:`, {
         overlayId: overlay.id,
         overlayClass: overlay.class,
         label: label,
@@ -3215,22 +2935,18 @@ window.tourSearchFunctions = (function () {
       // **PRIORITY 2.5: Sprite detection by ID (catch sprites that might be misclassified)**
       if (overlay.id) {
         const idStr = overlay.id.toString().toLowerCase();
-        Logger.debug(`[DEBUG] Checking ID: ${idStr}`);
+        console.log(`[DEBUG] Checking ID: ${idStr}`);
 
         if (idStr.includes("sprite")) {
-          Logger.debug(`[DEBUG] ID contains 'sprite', returning 3DHotspot`);
+          console.log(`[DEBUG] ID contains 'sprite', returning 3DHotspot`);
           return "3DHotspot";
         }
       }
       // **PRIORITY 3: Check for 3D Model Objects first (before general class mapping)**
-      if (
-        overlay.class &&
-        (overlay.class.includes("SpriteModel3DObject") ||
-          overlay.class.includes("InnerModel3DObject"))
-      ) {
-        Logger.debug(
-          `[ELEMENT TYPE DEBUG] Detected 3DModelObject: ${overlay.class}`,
-        );
+      if (overlay.class && 
+          (overlay.class.includes("SpriteModel3DObject") || 
+           overlay.class.includes("InnerModel3DObject"))) {
+        console.log(`[ELEMENT TYPE DEBUG] Detected 3DModelObject: ${overlay.class}`);
         return "3DModelObject";
       }
 
@@ -3272,15 +2988,11 @@ window.tourSearchFunctions = (function () {
 
       // **SPECIAL CASE: HotspotPanoramaOverlay with polygon in label should be classified as Polygon**
       if (
-        (overlay.class === "HotspotPanoramaOverlay" ||
-          (typeof overlay.get === "function" &&
-            overlay.get("class") === "HotspotPanoramaOverlay")) &&
-        label &&
-        label.toLowerCase().includes("polygon")
+        (overlay.class === "HotspotPanoramaOverlay" || 
+         (typeof overlay.get === "function" && overlay.get("class") === "HotspotPanoramaOverlay")) &&
+        label && label.toLowerCase().includes("polygon")
       ) {
-        Logger.debug(
-          `[DEBUG] HotspotPanoramaOverlay with polygon label detected: ${label}`,
-        );
+        console.log(`[DEBUG] HotspotPanoramaOverlay with polygon label detected: ${label}`);
         return "Polygon";
       }
 
@@ -3344,7 +3056,7 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [4.22] Method: _validateElementType() - Validate and Normalize Element Types
+  // [4.11.1.2] Method: _validateElementType() - Validate and Normalize Element Types
   function _validateElementType(elementType) {
     try {
       // List of all supported element types
@@ -3410,12 +3122,10 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [CFG.FILTER] _shouldIncludeElement() - Element Filtering Based on Type and Properties
+  // [4.11.2] Method: _shouldIncludeElement() - Element Filtering Based on Type and Properties
   function _shouldIncludeElement(elementType, displayLabel, tags, subtitle) {
-    const safeLabel = (displayLabel ?? "").toString();
-
     try {
-      // [4.22.0.1] Validate and normalize element type first
+      // [4.11.2.0] Validate and normalize element type first
       const typeValidation = _validateElementType(elementType);
       if (!typeValidation.isValid) {
         Logger.warn(
@@ -3425,12 +3135,12 @@ window.tourSearchFunctions = (function () {
       }
       // Use normalized element type for all subsequent checks
       const normalizedElementType = typeValidation.normalized;
-      // [4.22.0.2] Skip empty labels if configured
+      // [4.11.2.1] Skip empty labels if configured
       if (!displayLabel && _config.includeContent.elements.skipEmptyLabels) {
         return false;
       }
 
-      // [4.22.0.3] Check minimum label length
+      // [4.11.2.2] Check minimum label length
       if (
         displayLabel &&
         _config.includeContent.elements.minLabelLength > 0 &&
@@ -3439,27 +3149,23 @@ window.tourSearchFunctions = (function () {
         return false;
       }
 
-      // [4.22.0.4] Apply top-level values filtering (whitelist/blacklist) to all element types
+      // [4.11.2.2.1] NEW - Apply top-level values filtering (whitelist/blacklist)
       const topLevelFilterMode = _config.filter?.mode;
-
       if (topLevelFilterMode && topLevelFilterMode !== "none") {
-        Logger.debug("[TOP-LEVEL FILTER] Evaluating", {
-          type: normalizedElementType,
-          label: safeLabel,
-          mode: topLevelFilterMode,
-        });
-
+        // Use displayLabel directly for exact matching - no textBlob concatenation
+        const finalDisplayLabel = displayLabel || "";
+        
         if (topLevelFilterMode === "whitelist") {
           const allowedValues = _config.filter?.allowedValues;
           if (Array.isArray(allowedValues) && allowedValues.length > 0) {
             // Remove empty strings from allowedValues and normalize using new helper
             const normalizedAllowed = allowedValues
-              .map((v) => _normalizeForFilter(v))
-              .filter((v) => v.length > 0);
-
+              .map(v => _normalizeForFilter(v))
+              .filter(v => v.length > 0);
+            
             if (normalizedAllowed.length > 0) {
-              const labelNorm = _normalizeForFilter(safeLabel);
-
+              const labelNorm = _normalizeForFilter(finalDisplayLabel);
+              
               // Match mode: default 'exact' for whitelist (more precise), 'contains' optional
               const mode = _config.filter?.valueMatchMode?.whitelist || "exact";
               let hasMatch = false;
@@ -3467,132 +3173,96 @@ window.tourSearchFunctions = (function () {
               if (mode === "exact") {
                 hasMatch = normalizedAllowed.includes(labelNorm);
               } else if (mode === "startsWith") {
-                hasMatch = normalizedAllowed.some((v) =>
-                  labelNorm.startsWith(v),
-                );
+                hasMatch = normalizedAllowed.some(v => labelNorm.startsWith(v));
               } else if (mode === "regex") {
-                hasMatch = normalizedAllowed.some((v) => {
-                  try {
-                    return new RegExp(v, "i").test(safeLabel);
-                  } catch {
-                    return false;
-                  }
+                hasMatch = normalizedAllowed.some(v => {
+                  try { return new RegExp(v, "i").test(finalDisplayLabel); } catch { return false; }
                 });
-              } else {
-                // "contains"
-                hasMatch = normalizedAllowed.some((v) => labelNorm.includes(v));
+              } else { // "contains"
+                hasMatch = normalizedAllowed.some(v => labelNorm.includes(v));
               }
-
+              
               // COMPREHENSIVE DEBUG LOGGING
-              Logger.debug(`[TOP-LEVEL FILTER DEBUG] Normalized check:`, {
-                displayLabel: safeLabel,
+              console.log(`[TOP-LEVEL FILTER DEBUG] Normalized check:`, {
+                displayLabel: finalDisplayLabel,
                 labelNorm,
                 normalizedAllowed,
                 mode,
                 hasMatch,
                 elementType,
-                subtitle: subtitle || "[none]",
+                subtitle: subtitle || '[none]'
               });
-
+              
               if (!hasMatch) {
                 if (_config.debugMode) {
-                  Logger.debug(
-                    `Top-level whitelist rejected: "${safeLabel}" did not match whitelist (${mode})`,
-                  );
+                  Logger.debug(`Top-level whitelist rejected: "${finalDisplayLabel}" did not match whitelist (${mode})`);
                 }
-                Logger.debug(
-                  `[TOP-LEVEL FILTER REJECT] "${safeLabel}" not in whitelist (${mode})`,
-                );
+                console.log(`[TOP-LEVEL FILTER REJECT] "${finalDisplayLabel}" not in whitelist (${mode})`);
                 return false;
               } else {
                 if (_config.debugMode) {
-                  Logger.debug(
-                    `Top-level whitelist passed: "${safeLabel}" matched whitelist (${mode})`,
-                  );
+                  Logger.debug(`Top-level whitelist passed: "${finalDisplayLabel}" matched whitelist (${mode})`);
                 }
-                Logger.debug(
-                  `[TOP-LEVEL FILTER PASS] "${safeLabel}" found in whitelist (${mode})`,
-                );
+                console.log(`[TOP-LEVEL FILTER PASS] "${finalDisplayLabel}" found in whitelist (${mode})`);
               }
             }
           }
         } else if (topLevelFilterMode === "blacklist") {
           const blacklistedValues = _config.filter?.blacklistedValues;
-          if (
-            Array.isArray(blacklistedValues) &&
-            blacklistedValues.length > 0
-          ) {
+          if (Array.isArray(blacklistedValues) && blacklistedValues.length > 0) {
             // Remove empty strings from blacklistedValues and normalize using new helper
             const normalizedBlacklisted = blacklistedValues
-              .map((v) => _normalizeForFilter(v))
-              .filter((v) => v.length > 0);
-
+              .map(v => _normalizeForFilter(v))
+              .filter(v => v.length > 0);
+            
             if (normalizedBlacklisted.length > 0) {
-              const labelNorm = _normalizeForFilter(safeLabel);
-
+              const labelNorm = _normalizeForFilter(finalDisplayLabel);
+              
               // Match mode: default 'contains' for blacklist (safer), 'exact' optional
-              const mode =
-                _config.filter?.valueMatchMode?.blacklist || "contains";
+              const mode = _config.filter?.valueMatchMode?.blacklist || "contains";
               let hasMatch = false;
 
               if (mode === "exact") {
                 hasMatch = normalizedBlacklisted.includes(labelNorm);
               } else if (mode === "startsWith") {
-                hasMatch = normalizedBlacklisted.some((v) =>
-                  labelNorm.startsWith(v),
-                );
+                hasMatch = normalizedBlacklisted.some(v => labelNorm.startsWith(v));
               } else if (mode === "regex") {
-                hasMatch = normalizedBlacklisted.some((v) => {
-                  try {
-                    return new RegExp(v, "i").test(safeLabel);
-                  } catch {
-                    return false;
-                  }
+                hasMatch = normalizedBlacklisted.some(v => {
+                  try { return new RegExp(v, "i").test(finalDisplayLabel); } catch { return false; }
                 });
-              } else {
-                // "contains" (default)
-                hasMatch = normalizedBlacklisted.some((v) =>
-                  labelNorm.includes(v),
-                );
+              } else { // "contains" (default)
+                hasMatch = normalizedBlacklisted.some(v => labelNorm.includes(v));
               }
-
+              
               // COMPREHENSIVE BLACKLIST DEBUG LOGGING
-              Logger.debug(`[TOP-LEVEL BLACKLIST DEBUG] Normalized check:`, {
-                displayLabel: safeLabel,
-                labelNorm,
-                normalizedBlacklisted,
-                mode,
+              console.log(`[TOP-LEVEL BLACKLIST DEBUG] Normalized check:`, {
+                displayLabel: finalDisplayLabel, 
+                labelNorm, 
+                normalizedBlacklisted, 
+                mode, 
                 hasMatch,
                 elementType,
-                subtitle: subtitle || "[none]",
+                subtitle: subtitle || '[none]'
               });
-
+              
               if (hasMatch) {
                 if (_config.debugMode) {
-                  Logger.debug(
-                    `Top-level blacklist rejected: "${safeLabel}" matched blacklist (${mode})`,
-                  );
+                  Logger.debug(`Top-level blacklist rejected: "${finalDisplayLabel}" matched blacklist (${mode})`);
                 }
-                Logger.debug(
-                  `[TOP-LEVEL BLACKLIST REJECT] "${safeLabel}" matched blacklist (${mode})`,
-                );
+                console.log(`[TOP-LEVEL BLACKLIST REJECT] "${finalDisplayLabel}" matched blacklist (${mode})`);
                 return false;
               } else {
                 if (_config.debugMode) {
-                  Logger.debug(
-                    `Top-level blacklist passed: "${safeLabel}" did not match blacklist (${mode})`,
-                  );
+                  Logger.debug(`Top-level blacklist passed: "${finalDisplayLabel}" did not match blacklist (${mode})`);
                 }
-                Logger.debug(
-                  `[TOP-LEVEL BLACKLIST PASS] "${safeLabel}" did not match blacklist (${mode})`,
-                );
+                console.log(`[TOP-LEVEL BLACKLIST PASS] "${finalDisplayLabel}" did not match blacklist (${mode})`);
               }
             }
           }
         }
       }
 
-      // [4.22.0.5] Apply element type filtering with enhanced type validation
+      // [4.11.2.3] Apply element type filtering with enhanced type validation
       const typeFilterMode = _config.filter.elementTypes?.mode;
       if (typeFilterMode && typeFilterMode !== "none") {
         // Use normalizedElementType here!
@@ -3602,39 +3272,27 @@ window.tourSearchFunctions = (function () {
             const normalizedAllowedTypes = allowedTypes
               .map((type) => (type ? String(type).trim().toLowerCase() : ""))
               .filter((type) => type.length > 0);
-
-            const normalizedElementTypeLower =
-              normalizedElementType.toLowerCase();
-            const hasMatch = normalizedAllowedTypes.includes(
-              normalizedElementTypeLower,
-            );
-
+            
+            const normalizedElementTypeLower = normalizedElementType.toLowerCase();
+            const hasMatch = normalizedAllowedTypes.includes(normalizedElementTypeLower);
+            
             // COMPREHENSIVE ELEMENT TYPE WHITELIST DEBUG LOGGING
-            Logger.debug(
-              `[ELEMENT-TYPE WHITELIST DEBUG] Checking "${normalizedElementType}":`,
-              {
-                elementType: normalizedElementType,
-                normalizedElementTypeLower,
-                normalizedAllowedTypes,
-                hasMatch,
-                displayLabel: safeLabel,
-              },
-            );
-
+            console.log(`[ELEMENT-TYPE WHITELIST DEBUG] Checking "${normalizedElementType}":`, {
+              elementType: normalizedElementType,
+              normalizedElementTypeLower,
+              normalizedAllowedTypes,
+              hasMatch,
+              displayLabel: finalDisplayLabel
+            });
+            
             if (normalizedAllowedTypes.length > 0 && !hasMatch) {
               if (_config.debugMode) {
-                Logger.debug(
-                  `Element type whitelist rejected: "${normalizedElementType}", allowed: ${JSON.stringify(normalizedAllowedTypes)}`,
-                );
+                Logger.debug(`Element type whitelist rejected: "${normalizedElementType}", allowed: ${JSON.stringify(normalizedAllowedTypes)}`);
               }
-              Logger.debug(
-                `[ELEMENT-TYPE WHITELIST REJECT] "${normalizedElementType}" not in allowed types`,
-              );
+              console.log(`[ELEMENT-TYPE WHITELIST REJECT] "${normalizedElementType}" not in allowed types`);
               return false;
             } else if (hasMatch) {
-              Logger.debug(
-                `[ELEMENT-TYPE WHITELIST PASS] "${normalizedElementType}" found in allowed types`,
-              );
+              console.log(`[ELEMENT-TYPE WHITELIST PASS] "${normalizedElementType}" found in allowed types`);
             }
           }
         } else if (typeFilterMode === "blacklist") {
@@ -3644,51 +3302,37 @@ window.tourSearchFunctions = (function () {
             const normalizedBlacklistedTypes = blacklistedTypes
               .map((type) => (type ? String(type).trim().toLowerCase() : ""))
               .filter((type) => type.length > 0);
-
-            const normalizedElementTypeLower =
-              normalizedElementType.toLowerCase();
-            const hasMatch = normalizedBlacklistedTypes.includes(
-              normalizedElementTypeLower,
-            );
-
+            
+            const normalizedElementTypeLower = normalizedElementType.toLowerCase();
+            const hasMatch = normalizedBlacklistedTypes.includes(normalizedElementTypeLower);
+            
             // COMPREHENSIVE ELEMENT TYPE BLACKLIST DEBUG LOGGING
-            Logger.debug(
-              `[ELEMENT-TYPE BLACKLIST DEBUG] Checking "${normalizedElementType}":`,
-              {
-                elementType: normalizedElementType,
-                normalizedElementTypeLower,
-                normalizedBlacklistedTypes,
-                hasMatch,
-                displayLabel: safeLabel,
-              },
-            );
-
+            console.log(`[ELEMENT-TYPE BLACKLIST DEBUG] Checking "${normalizedElementType}":`, {
+              elementType: normalizedElementType,
+              normalizedElementTypeLower,
+              normalizedBlacklistedTypes,
+              hasMatch,
+              displayLabel: finalDisplayLabel
+            });
+            
             if (normalizedBlacklistedTypes.length > 0 && hasMatch) {
               if (_config.debugMode) {
-                Logger.debug(
-                  `Element type blacklist rejected: "${normalizedElementType}", blacklisted: ${JSON.stringify(normalizedBlacklistedTypes)}`,
-                );
+                Logger.debug(`Element type blacklist rejected: "${normalizedElementType}", blacklisted: ${JSON.stringify(normalizedBlacklistedTypes)}`);
               }
-              Logger.debug(
-                `[ELEMENT-TYPE BLACKLIST REJECT] "${normalizedElementType}" found in blacklisted types`,
-              );
+              console.log(`[ELEMENT-TYPE BLACKLIST REJECT] "${normalizedElementType}" found in blacklisted types`);
               return false;
             } else if (!hasMatch) {
-              Logger.debug(
-                `[ELEMENT-TYPE BLACKLIST PASS] "${normalizedElementType}" not in blacklisted types`,
-              );
+              console.log(`[ELEMENT-TYPE BLACKLIST PASS] "${normalizedElementType}" not in blacklisted types`);
             }
           }
         }
       }
 
-      // [4.22.0.6] Apply label filtering (now uses normalized lowercase comparisons)
+      // [4.11.2.5] Apply label filtering (now uses normalized lowercase comparisons)
       const labelFilterMode = _config.filter.elementLabels?.mode;
-
-      Logger.debug(
-        `[ELEMENT-LABELS] Checking element "${displayLabel}" (mode: ${labelFilterMode || "none"})`,
-      );
-
+      
+      console.log(`[ELEMENT-LABELS] Checking element "${displayLabel}" (mode: ${labelFilterMode || 'none'})`);
+      
       if (
         displayLabel &&
         labelFilterMode === "whitelist" &&
@@ -3697,44 +3341,25 @@ window.tourSearchFunctions = (function () {
       ) {
         const labelLower = displayLabel.toLowerCase();
         const normalizedAllowed = _config.filter.elementLabels.allowedValues
-          .map((v) =>
-            typeof v === "string"
-              ? v.trim().toLowerCase()
-              : String(v).trim().toLowerCase(),
-          )
-          .filter((v) => v.length > 0);
-
-        Logger.debug(
-          `[ELEMENT-LABELS WHITELIST] Checking "${labelLower}" against allowed values:`,
-          normalizedAllowed,
-        );
-
+          .map(v => typeof v === 'string' ? v.trim().toLowerCase() : String(v).trim().toLowerCase())
+          .filter(v => v.length > 0);
+        
+        console.log(`[ELEMENT-LABELS WHITELIST] Checking "${labelLower}" against allowed values:`, normalizedAllowed);
+        
         if (normalizedAllowed.length > 0) {
-          const matchingValues = normalizedAllowed.filter((value) =>
-            labelLower.includes(value),
-          );
+          const matchingValues = normalizedAllowed.filter((value) => labelLower.includes(value));
           const hasMatch = matchingValues.length > 0;
-
-          Logger.debug(
-            `[ELEMENT-LABELS WHITELIST] Partial text matches found:`,
-            matchingValues,
-          );
-
+          
+          console.log(`[ELEMENT-LABELS WHITELIST] Partial text matches found:`, matchingValues);
+          
           if (!hasMatch) {
             if (_config.debugMode) {
-              Logger.debug(
-                `Element label whitelist rejected: "${displayLabel}", allowed: ${JSON.stringify(normalizedAllowed)}`,
-              );
+              Logger.debug(`Element label whitelist rejected: "${displayLabel}", allowed: ${JSON.stringify(normalizedAllowed)}`);
             }
-            Logger.debug(
-              `[ELEMENT-LABELS WHITELIST REJECT] No partial matches found for "${displayLabel}"`,
-            );
+            console.log(`[ELEMENT-LABELS WHITELIST REJECT] No partial matches found for "${displayLabel}"`);
             return false;
           } else {
-            Logger.debug(
-              `[ELEMENT-LABELS WHITELIST PASS] Partial matches found:`,
-              matchingValues,
-            );
+            console.log(`[ELEMENT-LABELS WHITELIST PASS] Partial matches found:`, matchingValues);
           }
         }
       } else if (
@@ -3744,112 +3369,67 @@ window.tourSearchFunctions = (function () {
         _config.filter.elementLabels.blacklistedValues.length > 0
       ) {
         const labelLower = displayLabel.toLowerCase();
-        const normalizedBlacklisted =
-          _config.filter.elementLabels.blacklistedValues
-            .map((v) =>
-              typeof v === "string"
-                ? v.trim().toLowerCase()
-                : String(v).trim().toLowerCase(),
-            )
-            .filter((v) => v.length > 0);
-
-        Logger.debug(
-          `[ELEMENT-LABELS BLACKLIST] Checking "${labelLower}" against blacklisted values:`,
-          normalizedBlacklisted,
-        );
-
+        const normalizedBlacklisted = _config.filter.elementLabels.blacklistedValues
+          .map(v => typeof v === 'string' ? v.trim().toLowerCase() : String(v).trim().toLowerCase())
+          .filter(v => v.length > 0);
+        
+        console.log(`[ELEMENT-LABELS BLACKLIST] Checking "${labelLower}" against blacklisted values:`, normalizedBlacklisted);
+        
         if (normalizedBlacklisted.length > 0) {
-          const matchingValues = normalizedBlacklisted.filter((value) =>
-            labelLower.includes(value),
-          );
+          const matchingValues = normalizedBlacklisted.filter((value) => labelLower.includes(value));
           const hasMatch = matchingValues.length > 0;
-
-          Logger.debug(
-            `[ELEMENT-LABELS BLACKLIST] Partial text matches found:`,
-            matchingValues,
-          );
-
+          
+          console.log(`[ELEMENT-LABELS BLACKLIST] Partial text matches found:`, matchingValues);
+          
           if (hasMatch) {
             if (_config.debugMode) {
-              Logger.debug(
-                `Element label blacklist rejected: "${displayLabel}", blacklisted: ${JSON.stringify(normalizedBlacklisted)}`,
-              );
+              Logger.debug(`Element label blacklist rejected: "${displayLabel}", blacklisted: ${JSON.stringify(normalizedBlacklisted)}`);
             }
-            Logger.debug(
-              `[ELEMENT-LABELS BLACKLIST REJECT] Partial matches found:`,
-              matchingValues,
-            );
+            console.log(`[ELEMENT-LABELS BLACKLIST REJECT] Partial matches found:`, matchingValues);
             return false;
           } else {
-            Logger.debug(
-              `[ELEMENT-LABELS BLACKLIST PASS] No partial matches found`,
-            );
+            console.log(`[ELEMENT-LABELS BLACKLIST PASS] No partial matches found`);
           }
         }
       } else if (labelFilterMode) {
-        Logger.debug(
-          `[ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)`,
-        );
+        console.log(`[ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)`);
       }
 
-      // [4.22.0.7] Apply tag filtering (now uses normalized lowercase comparisons)
+      // [4.11.2.6] Apply tag filtering (now uses normalized lowercase comparisons)
       const tagFilterMode = _config.filter.tagFiltering?.mode;
-
-      Logger.debug(
-        `[TAG-FILTERING] Checking element with tags ${JSON.stringify(tags || [])} (mode: ${tagFilterMode || "none"})`,
-      );
-
+      
+      console.log(`[TAG-FILTERING] Checking element with tags ${JSON.stringify(tags || [])} (mode: ${tagFilterMode || 'none'})`);
+      
       if (Array.isArray(tags) && tags.length > 0) {
-        const tagsLower = tags.map((tag) =>
-          (tag || "").toString().toLowerCase(),
-        );
-
-        Logger.debug(`[TAG-FILTERING] Normalized element tags:`, tagsLower);
-
+        const tagsLower = tags.map(tag => (tag || "").toString().toLowerCase());
+        
+        console.log(`[TAG-FILTERING] Normalized element tags:`, tagsLower);
+        
         if (
           tagFilterMode === "whitelist" &&
           Array.isArray(_config.filter.tagFiltering?.allowedTags) &&
           _config.filter.tagFiltering.allowedTags.length > 0
         ) {
           const normalizedAllowedTags = _config.filter.tagFiltering.allowedTags
-            .map((t) =>
-              typeof t === "string"
-                ? t.trim().toLowerCase()
-                : String(t).trim().toLowerCase(),
-            )
-            .filter((t) => t.length > 0);
-
-          Logger.debug(
-            `[TAG-FILTERING WHITELIST] Checking against allowed tags:`,
-            normalizedAllowedTags,
-          );
-
+            .map(t => typeof t === 'string' ? t.trim().toLowerCase() : String(t).trim().toLowerCase())
+            .filter(t => t.length > 0);
+          
+          console.log(`[TAG-FILTERING WHITELIST] Checking against allowed tags:`, normalizedAllowedTags);
+          
           if (normalizedAllowedTags.length > 0) {
-            const matchingTags = tagsLower.filter((tag) =>
-              normalizedAllowedTags.includes(tag),
-            );
+            const matchingTags = tagsLower.filter((tag) => normalizedAllowedTags.includes(tag));
             const hasMatch = matchingTags.length > 0;
-
-            Logger.debug(
-              `[TAG-FILTERING WHITELIST] Matching tags found:`,
-              matchingTags,
-            );
-
+            
+            console.log(`[TAG-FILTERING WHITELIST] Matching tags found:`, matchingTags);
+            
             if (!hasMatch) {
               if (_config.debugMode) {
-                Logger.debug(
-                  `Tag whitelist rejected: tags="${JSON.stringify(tags)}", allowed: ${JSON.stringify(normalizedAllowedTags)}`,
-                );
+                Logger.debug(`Tag whitelist rejected: tags="${JSON.stringify(tags)}", allowed: ${JSON.stringify(normalizedAllowedTags)}`);
               }
-              Logger.debug(
-                `[TAG-FILTERING WHITELIST REJECT] No matching tags found`,
-              );
+              console.log(`[TAG-FILTERING WHITELIST REJECT] No matching tags found`);
               return false;
             } else {
-              Logger.debug(
-                `[TAG-FILTERING WHITELIST PASS] Matching tags:`,
-                matchingTags,
-              );
+              console.log(`[TAG-FILTERING WHITELIST PASS] Matching tags:`, matchingTags);
             }
           }
         } else if (
@@ -3857,46 +3437,26 @@ window.tourSearchFunctions = (function () {
           Array.isArray(_config.filter.tagFiltering?.blacklistedTags) &&
           _config.filter.tagFiltering.blacklistedTags.length > 0
         ) {
-          const normalizedBlacklistedTags =
-            _config.filter.tagFiltering.blacklistedTags
-              .map((t) =>
-                typeof t === "string"
-                  ? t.trim().toLowerCase()
-                  : String(t).trim().toLowerCase(),
-              )
-              .filter((t) => t.length > 0);
-
-          Logger.debug(
-            `[TAG-FILTERING BLACKLIST] Checking against blacklisted tags:`,
-            normalizedBlacklistedTags,
-          );
-
+          const normalizedBlacklistedTags = _config.filter.tagFiltering.blacklistedTags
+            .map(t => typeof t === 'string' ? t.trim().toLowerCase() : String(t).trim().toLowerCase())
+            .filter(t => t.length > 0);
+          
+          console.log(`[TAG-FILTERING BLACKLIST] Checking against blacklisted tags:`, normalizedBlacklistedTags);
+          
           if (normalizedBlacklistedTags.length > 0) {
-            const matchingTags = tagsLower.filter((tag) =>
-              normalizedBlacklistedTags.includes(tag),
-            );
+            const matchingTags = tagsLower.filter((tag) => normalizedBlacklistedTags.includes(tag));
             const hasMatch = matchingTags.length > 0;
-
-            Logger.debug(
-              `[TAG-FILTERING BLACKLIST] Matching blacklisted tags found:`,
-              matchingTags,
-            );
-
+            
+            console.log(`[TAG-FILTERING BLACKLIST] Matching blacklisted tags found:`, matchingTags);
+            
             if (hasMatch) {
               if (_config.debugMode) {
-                Logger.debug(
-                  `Tag blacklist rejected: tags="${JSON.stringify(tags)}", blacklisted: ${JSON.stringify(normalizedBlacklistedTags)}`,
-                );
+                Logger.debug(`Tag blacklist rejected: tags="${JSON.stringify(tags)}", blacklisted: ${JSON.stringify(normalizedBlacklistedTags)}`);
               }
-              Logger.debug(
-                `[TAG-FILTERING BLACKLIST REJECT] Blacklisted tags found:`,
-                matchingTags,
-              );
+              console.log(`[TAG-FILTERING BLACKLIST REJECT] Blacklisted tags found:`, matchingTags);
               return false;
             } else {
-              Logger.debug(
-                `[TAG-FILTERING BLACKLIST PASS] No blacklisted tags found`,
-              );
+              console.log(`[TAG-FILTERING BLACKLIST PASS] No blacklisted tags found`);
             }
           }
         }
@@ -3906,36 +3466,23 @@ window.tourSearchFunctions = (function () {
         _config.filter.tagFiltering.allowedTags.length > 0
       ) {
         const normalizedAllowedTags = _config.filter.tagFiltering.allowedTags
-          .map((t) =>
-            typeof t === "string"
-              ? t.trim().toLowerCase()
-              : String(t).trim().toLowerCase(),
-          )
-          .filter((t) => t.length > 0);
-
-        Logger.debug(
-          `[TAG-FILTERING WHITELIST] Element has no tags, required tags:`,
-          normalizedAllowedTags,
-        );
-
+          .map(t => typeof t === 'string' ? t.trim().toLowerCase() : String(t).trim().toLowerCase())
+          .filter(t => t.length > 0);
+        
+        console.log(`[TAG-FILTERING WHITELIST] Element has no tags, required tags:`, normalizedAllowedTags);
+        
         if (normalizedAllowedTags.length > 0) {
           if (_config.debugMode) {
-            Logger.debug(
-              `Tag whitelist rejected: no tags present, required tags: ${JSON.stringify(normalizedAllowedTags)}`,
-            );
+            Logger.debug(`Tag whitelist rejected: no tags present, required tags: ${JSON.stringify(normalizedAllowedTags)}`);
           }
-          Logger.debug(
-            `[TAG-FILTERING WHITELIST REJECT] Element has no tags but tags are required`,
-          );
+          console.log(`[TAG-FILTERING WHITELIST REJECT] Element has no tags but tags are required`);
           return false;
         }
       } else if (tagFilterMode) {
-        Logger.debug(
-          `[TAG-FILTERING] No filtering applied (no tags present or empty config)`,
-        );
+        console.log(`[TAG-FILTERING] No filtering applied (no tags present or empty config)`);
       }
 
-      // [4.22.0.8] Enhanced element type checking against configuration
+      // [4.11.2.7] Enhanced element type checking against configuration
       const elementTypeMap = {
         Panorama: "includePanoramas",
         Hotspot: "includeHotspots",
@@ -3975,13 +3522,11 @@ window.tourSearchFunctions = (function () {
 
       // If we reach here, the element type is allowed by includeContent settings
       // Now ensure it also passes any additional filtering rules that may have been applied above
-
+      
       if (_config.debugMode) {
-        Logger.debug(
-          `Element passed all filters: type="${normalizedElementType}", label="${label || "[empty]"}", subtitle="${subtitle || "[none]"}", tags="${JSON.stringify(tags || [])}"`,
-        );
+        Logger.debug(`Element passed all filters: type="${normalizedElementType}", label="${label || '[empty]'}", subtitle="${subtitle || '[none]'}", tags="${JSON.stringify(tags || [])}"`);
       }
-
+      
       return true;
     } catch (error) {
       Logger.warn("Error in element filtering:", error);
@@ -3989,8 +3534,8 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [4.23] Submodule: Element Interaction
-  // [4.24] Method: _triggerElement()
+  // [4.12] Submodule: Element Interaction
+  // [4.12.1] Method: _triggerElement()
   function _triggerElement(tour, elementId, callback, options = {}) {
     if (!tour || !elementId) {
       Logger.warn("Invalid tour or elementId for trigger");
@@ -4076,7 +3621,7 @@ window.tourSearchFunctions = (function () {
       }
     };
 
-    // [4.24.1] Helper to find element by ID using multiple methods
+    // [4.12.1.1] Helper to find element by ID using multiple methods
     function findElementById(tour, id) {
       let element = null;
 
@@ -4119,9 +3664,9 @@ window.tourSearchFunctions = (function () {
    * @param {Object} searchResult - The search result item that was clicked
    */
 
-  // [4.25] Method: _triggerStandaloneElement() - Enhanced Element Trigger Function
+  // [4.12.2] Method: _triggerStandaloneElement() - Enhanced Element Trigger Function
   function _triggerStandaloneElement(searchResult, tour) {
-    // [4.25.1] If it's a regular tour item, use the standard trigger
+    // [4.12.2.1] If it's a regular tour item, use the standard trigger
     if (searchResult.item) {
       if (typeof searchResult.item.trigger === "function") {
         searchResult.item.trigger("click");
@@ -4132,7 +3677,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [4.25.2] For standalone Google Sheets entries, try to find a matching tour element
+    // [4.12.2.2] For standalone Google Sheets entries, try to find a matching tour element
     if (searchResult.sheetsData) {
       const entryId = searchResult.id || searchResult.sheetsData.id;
       const entryTag = searchResult.sheetsData.tag;
@@ -4145,7 +3690,7 @@ window.tourSearchFunctions = (function () {
       // Try to find matching tour element by ID, tag or other relationships
       let foundElement = false;
 
-      // [4.25.2.1] Method 1: Try to find by ID
+      // [4.12.2.2.1] Method 1: Try to find by ID
       if (entryId) {
         try {
           const element = tour.player.getById(entryId);
@@ -4159,7 +3704,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.25.2.2] Method 2: Try to find by tag matching - this is critical for Google Sheets integration
+      // [4.12.2.2.2] Method 2: Try to find by tag matching - this is critical for Google Sheets integration
       if (entryTag) {
         try {
           // First check if tag exists as an ID (common for hotspots)
@@ -4203,7 +3748,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.25.2.3] Method 3: Try matching by name
+      // [4.12.2.2.3] Method 3: Try matching by name
       if (entryName) {
         try {
           // Look through all panoramas and try to find a matching name
@@ -4231,7 +3776,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.25.2.4] Failed to find a matching element
+      // [4.12.2.2.4] Failed to find a matching element
       Logger.warn(
         `Could not find a matching tour element for: ${entryName || entryId || entryTag}`,
       );
@@ -4240,58 +3785,13 @@ window.tourSearchFunctions = (function () {
 
     return false;
   }
-
-  // [4.26] Helper: find a 3D sprite (hotspot) by label within the current model
-  function _find3DSpriteByLabel(tour, { label, parentModelId }) {
-    if (!tour || !label) return null;
-
-    const classes = ["SpriteModel3DObject", "SpriteHotspotObject", "Sprite3DObject"];
-    const wanted = label.toLowerCase();
-    let candidates = [];
-
-    try {
-      if (tour.player && typeof tour.player.getByClassName === "function") {
-        for (const cls of classes) {
-          const arr = tour.player.getByClassName(cls);
-          if (Array.isArray(arr)) candidates.push(...arr);
-        }
-      }
-    } catch (e) {
-      Logger.debug("[3D DEBUG] getByClassName failed:", e);
-    }
-
-    for (const sprite of candidates) {
-      try {
-        const data = _safeGetData(sprite);
-        const raw = (data?.label || sprite.label || (sprite.get && sprite.get("label")) || "").trim().toLowerCase();
-        if (!raw) continue;
-
-        // constrain to the right model if we can
-        let inParent = true;
-        if (parentModelId) {
-          const parent = sprite.get ? sprite.get("parent") : sprite.parent;
-          const pid = parent && parent.get ? parent.get("id") : parent?.id;
-          inParent = !pid || pid === parentModelId;
-        }
-
-        if (inParent && (raw === wanted || raw.includes(wanted))) {
-          return sprite;
-        }
-      } catch (e) {
-        /* ignore */
-      }
-    }
-
-    return null;
-  }
-
-  // [4.27] Method: _triggerElementRetry() - Enhanced Trigger Element Interaction Based on Item Type
+  // [4.12.3] Method: _triggerElementRetry() - Enhanced Trigger Element Interaction Based on Item Type
   function _triggerElementRetry(item, tour) {
     try {
       const type = item.type || (item.get ? item.get("type") : undefined);
       const id = item.id || (item.get ? item.get("id") : undefined);
 
-      // [4.27.0.1] Try to get the correct tour reference based on your structure
+      // [4.12.3.1] Try to get the correct tour reference based on your structure
       let actualTour = tour;
       if (!actualTour || (!actualTour.mainPlayList && !actualTour.player)) {
         // Try different possible tour references
@@ -4312,7 +3812,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.27.0.2] Get playlist from the right location
+      // [4.12.3.2] Get playlist from the right location
       let playlist = null;
       if (
         actualTour.locManager &&
@@ -4402,7 +3902,7 @@ window.tourSearchFunctions = (function () {
           }
         }
 
-        // [4.27.0.2.1] Try playlist item trigger
+        // [4.12.3.3] Try playlist item trigger
         if (item.item && typeof item.item.trigger === "function") {
           Logger.info("Triggering playlist item for 3D model");
           item.item.trigger("click");
@@ -4416,7 +3916,7 @@ window.tourSearchFunctions = (function () {
       if (type === "3DModelObject") {
         Logger.info("Triggering 3D Model Object interaction for ID: " + id);
 
-        // [4.27.0.2.2] First navigate to parent model
+        // [4.12.3.4] First navigate to parent model
         if (
           item.parentIndex !== undefined &&
           playlist &&
@@ -4451,12 +3951,12 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.27.0.3] Default behavior for panoramas and other types
+      // [4.12.3.5] Default behavior for panoramas and other types
       Logger.info(
         "Triggering element interaction for type: " + type + ", ID: " + id,
       );
 
-      // [4.27.0.4] Default panorama navigation
+      // [4.12.3.5.1] Default panorama navigation
       if (typeof item.index === "number") {
         if (playlist && typeof playlist.set === "function") {
           playlist.set("selectedIndex", item.index);
@@ -4465,7 +3965,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.27.0.5] Handle child elements like hotspots
+      // [4.12.3.5.2] Handle child elements like hotspots
       if (item.parentIndex !== undefined) {
         if (playlist && typeof playlist.set === "function") {
           playlist.set("selectedIndex", item.parentIndex);
@@ -4481,7 +3981,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [4.27.0.6] Direct element triggering as fallback
+      // [4.12.3.5.3] Direct element triggering as fallback
       if (id) {
         attemptTrigger(id, actualTour);
       } else {
@@ -4494,10 +3994,10 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [4.28] Method: attemptTrigger() - Helper Function for Attempting to Trigger Elements
+  // [4.12.4] Method: attemptTrigger() - Helper Function for Attempting to Trigger Elements
   function attemptTrigger(id, tour) {
     try {
-      // [4.28.0.1] Try multiple tour references
+      // [4.12.4.1] Try multiple tour references
       const tourRefs = [
         tour,
         window.tourInstance,
@@ -4538,17 +4038,9 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [4.29] Submodule: UI Management
-  // [4.30] Method: _applySearchStyling()
+  // [4.13] Submodule: UI Management
+  // [4.13.1] Method: _applySearchStyling()
   function _applySearchStyling() {
-    const el = document.getElementById("searchContainer");
-    if (!el) {
-      Logger?.warn?.(
-        "[STYLE] Skipping styling; #searchContainer not mounted yet",
-      );
-      return; // or defer until after init if there is an init event
-    }
-
     console.log(
       "Thumbnail settings:",
       window.searchFunctions?.getConfig()?.thumbnailSettings,
@@ -4610,9 +4102,7 @@ window.tourSearchFunctions = (function () {
     // **SAFETY CHECK: Ensure we have a valid container before proceeding**
     const finalContainer = document.getElementById("searchContainer");
     if (!finalContainer) {
-      Logger.error(
-        "Search container still not available after creation attempt",
-      );
+      Logger.error("Search container still not available after creation attempt");
       return;
     }
 
@@ -4639,20 +4129,20 @@ window.tourSearchFunctions = (function () {
         : "fixed",
     );
 
-    // [4.30.1] Clean up any existing style elements
+    // [4.13.1.1] Clean up any existing style elements
     const existingStyle = document.getElementById("search-custom-vars");
     if (existingStyle) {
       existingStyle.remove();
     }
 
-    // [4.30.2] Create new style element
+    // [4.13.1.2] Create new style element
     const styleElement = document.createElement("style");
     styleElement.id = "search-custom-vars";
 
-    // [4.30.3] Generate responsive positioning CSS
+    // [4.13.1.3] Generate responsive positioning CSS
     const mobilePosition = _config.searchBar.mobilePosition;
 
-    // [4.30.4] Width calculation based on device type
+    // [4.13.1.4] Width calculation based on device type
     const desktopWidth =
       typeof _config.searchBar.width === "number"
         ? `${_config.searchBar.width}px`
@@ -4663,14 +4153,14 @@ window.tourSearchFunctions = (function () {
         : mobileOverrides.width
       : `calc(100% - ${(mobilePosition.left || 0) * 2 + (mobilePosition.right || 0) * 2}px)`;
 
-    // [4.30.5] Maximum width for mobile if specified
+    // [4.13.1.5] Maximum width for mobile if specified
     const mobileMaxWidth = mobileOverrides.maxWidth
       ? typeof mobileOverrides.maxWidth === "number"
         ? `${mobileOverrides.maxWidth}px`
         : mobileOverrides.maxWidth
       : "";
 
-    // [4.30.6] Base mobile positioning
+    // [4.13.1.6] Base mobile positioning
     const positionCSS = isMobileOverride
       ? `
             /* Mobile positioning with overrides */
@@ -4727,16 +4217,16 @@ window.tourSearchFunctions = (function () {
             }
         `;
 
-    // [4.30.7] Apply display-related classes and CSS variables
+    // [4.13.1.7] Apply display-related classes and CSS variables
     const root = document.documentElement;
 
-    // [4.30.8] Set CSS variables for result tags visibility
+    // [4.13.1.7.1] Set CSS variables for result tags visibility
     root.style.setProperty(
       "--result-tags-display",
       _config.showTagsInResults ? "block" : "none",
     );
 
-    // [4.30.9] Apply class-based styling for visibility control
+    // [4.13.1.7.2] Apply class-based styling for visibility control
     if (!_config.display.showGroupHeaders) {
       document.body.classList.add("hide-group-headers");
     } else {
@@ -4755,17 +4245,17 @@ window.tourSearchFunctions = (function () {
       document.body.classList.remove("hide-result-icons");
     }
 
-    // [4.30.10] Set icon color variable
+    // [4.13.1.8] Set icon color variable
     root.style.setProperty(
       "--color-result-icon",
       _config.appearance.colors.resultIconColor || "#6e85f7",
     );
 
-    // [4.30.11] Set border radius CSS variables
+    // [4.13.1.9] Set border radius CSS variables
     const fieldRadius = _config.appearance.searchField.borderRadius;
     const resultsRadius = _config.appearance.searchResults.borderRadius;
 
-    // [4.30.12] Set CSS variables for border radius
+    // [4.13.1.9.1] Set CSS variables for border radius
 
     root.style.setProperty(
       "--search-field-radius-top-left",
@@ -4801,7 +4291,7 @@ window.tourSearchFunctions = (function () {
       Math.min(resultsRadius.bottomLeft, 10) + "px",
     );
 
-    // [4.30.13] Set thumbnail border properties
+    // [4.13.1.9.2] Set thumbnail border properties
     const thumbnailRadius = _config.thumbnailSettings?.borderRadius || 4;
     const thumbnailBorderColor =
       _config.thumbnailSettings?.borderColor || "#e5e7eb";
@@ -4809,36 +4299,33 @@ window.tourSearchFunctions = (function () {
 
     root.style.setProperty("--thumbnail-border-radius", thumbnailRadius + "px");
     root.style.setProperty("--thumbnail-border-color", thumbnailBorderColor);
-    // [4.30.14] Handle border width of 0 properly
+    // [4.13.1.9.2.1] Handle border width of 0 properly
     if (thumbnailBorderWidth === 0) {
       root.style.setProperty("--thumbnail-border-width", "0px");
       root.style.setProperty("--thumbnail-border-style", "none");
     } else {
-      root.style.setProperty(
-        "--thumbnail-border-width",
-        thumbnailBorderWidth + "px",
-      );
+      root.style.setProperty("--thumbnail-border-width", thumbnailBorderWidth + "px");
       root.style.setProperty("--thumbnail-border-style", "solid");
     }
 
-    // [4.30.15] Set thumbnail size properties
+    // [4.13.1.9.3] Set thumbnail size properties
     const thumbSizeName = _config.thumbnailSettings?.thumbnailSize || "48px";
-
-    // [4.30.16] Extract pixel value from size name (e.g., "48px" -> 48)
+    
+    // [4.13.1.9.3.1] Extract pixel value from size name (e.g., "48px" -> 48)
     let thumbSize = 48; // default
-    if (thumbSizeName && thumbSizeName.endsWith("px")) {
-      thumbSize = parseInt(thumbSizeName.replace("px", ""));
+    if (thumbSizeName && thumbSizeName.endsWith('px')) {
+      thumbSize = parseInt(thumbSizeName.replace('px', ''));
     }
 
-    // [4.30.17] Always set the current size
+    // [4.13.1.9.3.2] Always set the current size
     root.style.setProperty("--thumbnail-current-size", thumbSize + "px");
 
-    // [4.30.18] Update all predefined sizes for backward compatibility
+    // [4.13.1.9.3.3] Update all predefined sizes for backward compatibility
     root.style.setProperty("--thumbnail-small-size", "32px");
     root.style.setProperty("--thumbnail-medium-size", "48px");
     root.style.setProperty("--thumbnail-large-size", "64px");
 
-    const iconSettings = (typeof _config !== 'undefined' && _config.thumbnailSettings?.iconSettings) || {};
+    const iconSettings = _config.thumbnailSettings?.iconSettings || {};
     // Set icon size based on configuration
     let iconSizePx = 20; // default
     if (iconSettings.iconSize === "small") {
@@ -4895,7 +4382,7 @@ window.tourSearchFunctions = (function () {
       iconSettings.enableIconHover !== false ? "true" : "false",
     );
 
-    Logger.debug("[ICON CSS] Applied icon variables:", {
+    console.log("[ICON CSS] Applied icon variables:", {
       size: iconSizePx + "px",
       color: iconSettings.iconColor || "#6e85f7",
       opacity:
@@ -4906,9 +4393,9 @@ window.tourSearchFunctions = (function () {
       alignment: iconSettings.iconAlignment === "right" ? "right" : "left",
     });
 
-    // [4.30.19] Load Font Awesome if enabled
+    // [4.13.1.9.4] Load Font Awesome if enabled
     if (iconSettings.enableFontAwesome && iconSettings.fontAwesomeUrl) {
-      Logger.debug("[ICON] Loading Font Awesome:", iconSettings.fontAwesomeUrl);
+      console.log("[ICON] Loading Font Awesome:", iconSettings.fontAwesomeUrl);
 
       // Check if Font Awesome is already loaded
       const existingFontAwesome =
@@ -4924,7 +4411,7 @@ window.tourSearchFunctions = (function () {
         fontAwesomeLink.crossOrigin = "anonymous";
 
         fontAwesomeLink.onload = () => {
-          Logger.info("[ICON] Font Awesome loaded successfully");
+          console.log("[ICON] Font Awesome loaded successfully");
           // Re-render search results if they exist to show FA icons
           const searchInput = document.querySelector("#tourSearch");
           if (searchInput && searchInput.value) {
@@ -4943,15 +4430,15 @@ window.tourSearchFunctions = (function () {
 
         document.head.appendChild(fontAwesomeLink);
       } else {
-        Logger.debug("[ICON] Font Awesome already loaded");
+        console.log("[ICON] Font Awesome already loaded");
       }
     } else if (iconSettings.enableFontAwesome && !iconSettings.fontAwesomeUrl) {
       console.warn("[ICON] Font Awesome enabled but no URL provided");
     } else {
-      Logger.debug("[ICON] Font Awesome loading disabled");
+      console.log("[ICON] Font Awesome loading disabled");
     }
 
-    // [4.30.20] Set color variables for search
+    // [4.13.1.10] Set color variables for search
     root.style.setProperty(
       "--search-background",
       _config.appearance.colors.searchBackground || "#f4f3f2",
@@ -5013,7 +4500,7 @@ window.tourSearchFunctions = (function () {
       _config.appearance.colors.resultSubtextColor || "#000000",
     );
 
-    // [4.30.21] NEW: Set typography variables for search field
+    // [4.13.1.10.3] NEW: Set typography variables for search field
     const searchTypography = _config.appearance?.searchField?.typography || {};
     const placeholderTypography = searchTypography.placeholder || {};
     const focusTypography = searchTypography.focus || {};
@@ -5024,8 +4511,8 @@ window.tourSearchFunctions = (function () {
       configStructure: {
         hasAppearance: !!_config.appearance,
         hasSearchField: !!_config.appearance?.searchField,
-        hasTypography: !!_config.appearance?.searchField?.typography,
-      },
+        hasTypography: !!_config.appearance?.searchField?.typography
+      }
     });
 
     // Input text typography
@@ -5038,13 +4525,7 @@ window.tourSearchFunctions = (function () {
     const textTransform = searchTypography.textTransform || "none";
 
     console.log("🎯 TYPOGRAPHY CSS VARS: Setting input text variables:", {
-      fontSize,
-      fontFamily,
-      fontWeight,
-      fontStyle,
-      lineHeight,
-      letterSpacing,
-      textTransform,
+      fontSize, fontFamily, fontWeight, fontStyle, lineHeight, letterSpacing, textTransform
     });
 
     root.style.setProperty("--search-input-font-size", fontSize);
@@ -5103,13 +4584,13 @@ window.tourSearchFunctions = (function () {
         "0.25px",
     );
 
-    // [4.30.22] Set highlight color variables
+    // [4.13.1.11] Set highlight color variables
     root.style.setProperty(
       "--search-highlight-color",
       _config.appearance.colors.highlightText || "#000000",
     );
 
-    // [4.30.23] Create background color with opacity
+    // [4.13.1.12]  Create background color with opacity
     const highlightBg =
       _config.appearance.colors.highlightBackground || "#ffff00";
     const highlightOpacity =
@@ -5149,7 +4630,7 @@ window.tourSearchFunctions = (function () {
       _config.appearance.colors.highlightWeight || "bold",
     );
 
-    // [4.30.24] Set tag colors
+    // [4.13.1.10.1] Set tag colors
     root.style.setProperty(
       "--tag-background",
       _config.appearance.colors.tagBackground || "#e2e8f0",
@@ -5167,7 +4648,7 @@ window.tourSearchFunctions = (function () {
       _config.appearance.colors.tagHover || "#d1d5db",
     );
 
-    // [4.30.25] Set tag styling variables
+    // [4.13.1.10.2] Set tag styling variables
     root.style.setProperty(
       "--tag-border-radius",
       (_config.appearance.tags?.borderRadius || 12) + "px",
@@ -5201,18 +4682,18 @@ window.tourSearchFunctions = (function () {
       _config.appearance.tags?.showBorder ? "solid" : "none",
     );
 
-    // [4.30.26] Handle thumbnail alignment from config
+    // [4.13.1.11] Handle thumbnail alignment from config
     const thumbAlignment =
       _config.thumbnailSettings?.alignment === "right" ? "right" : "left";
 
-    // [4.30.27] Apply thumbnail alignment to the document body as a data attribute
+    // [4.13.1.11.1] Apply thumbnail alignment to the document body as a data attribute
     document.body.setAttribute("data-thumbnail-align", thumbAlignment);
 
-    // [4.30.28] Apply styles to the DOM
+    // [4.13.1.12] Apply styles to the DOM
     styleElement.textContent = positionCSS;
     document.head.appendChild(styleElement);
 
-    // [4.30.29] Add or update highlight styles
+    // [4.13.1.12.1] Add or update highlight styles
     const existingHighlightStyle = document.getElementById(
       "search-highlight-styles",
     );
@@ -5234,9 +4715,7 @@ window.tourSearchFunctions = (function () {
 }`;
     document.head.appendChild(highlightStyleElement);
 
-    // [6.2] Animation styles are now handled by _applyAnimationFlagAndVars()
-
-    // [4.30.30] Cache frequently used elements and apply placeholder text
+    // [4.13.1.13] Cache frequently used elements and apply placeholder text
     _elements.input = _elements.container.querySelector("#tourSearch");
     _elements.results = _elements.container.querySelector(".search-results");
     _elements.clearButton = _elements.container.querySelector(".clear-button");
@@ -5245,7 +4724,7 @@ window.tourSearchFunctions = (function () {
     if (_elements.input) {
       _elements.input.placeholder = _config.searchBar.placeholder;
 
-      // [4.30.30.1] Add accessibility attributes
+      // [4.13.1.14] Add accessibility attributes
       _aria.setRole(_elements.input, "searchbox");
       _aria.setLabel(_elements.input, "Search tour");
       _aria.setAutoComplete(_elements.input, "list");
@@ -5253,10 +4732,10 @@ window.tourSearchFunctions = (function () {
 
     Logger.info("Search styling applied successfully");
   }
-  // [4.31] Submodule: Business Data Matching
-  // [4.32] Method: findBusinessMatch()
+  // [4.14] Submodule: Business Data Matching
+  // [4.14.1] Method: findBusinessMatch()
   function findBusinessMatch(tourElement) {
-    // [4.32.1] Skip if no business data or invalid element
+    // [4.14.1.1] Skip if no business data or invalid element
     if (!_businessData || !_businessData.length || !tourElement) {
       return null;
     }
@@ -5270,7 +4749,7 @@ window.tourSearchFunctions = (function () {
       `[MATCHING] Processing: ${elementName || elementId} (Subtitle: ${elementSubtitle}, Tags: ${elementTags.join(",")})`,
     );
 
-    // [4.32.2] PRIORITY 1: Check subtitle matches FIRST
+    // [4.14.1.2] PRIORITY 1: Check subtitle matches FIRST
     if (elementSubtitle) {
       for (const entry of _businessData) {
         // Direct subtitle to ID match
@@ -5295,7 +4774,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [4.32.3] PRIORITY 2: Check element name matches
+    // [4.14.1.3] PRIORITY 2: Check element name matches
     if (elementName) {
       for (const entry of _businessData) {
         if (entry.id === elementName) {
@@ -5307,7 +4786,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [4.32.4] PRIORITY 3: Check tag matches (lowest priority)
+    // [4.14.1.4] PRIORITY 3: Check tag matches (lowest priority)
     for (const entry of _businessData) {
       if (entry.matchTags && Array.isArray(entry.matchTags)) {
         for (const tag of elementTags) {
@@ -5321,13 +4800,13 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [4.32.5] No match found
+    // [4.14.1.5] No match found
     Logger.debug(
       `[MATCH:NONE] No business match for: ${elementName || elementId || elementSubtitle}`,
     );
     return null;
 
-    // [4.32.6] Helper function to process business match
+    // [4.14.1.6] Helper function to process business match
     function processBusinessMatch(entry) {
       const businessMatch = { ...entry };
 
@@ -5336,7 +4815,7 @@ window.tourSearchFunctions = (function () {
         localImage: businessMatch.localImage,
       });
 
-      // [4.32.6.1] Normalize image paths in business data
+      // [4.14.1.6.1] Normalize image paths in business data
       if (businessMatch.imageUrl) {
         businessMatch.imageUrl = _normalizeImagePath(businessMatch.imageUrl);
       }
@@ -5347,7 +4826,7 @@ window.tourSearchFunctions = (function () {
         );
       }
 
-      // [4.32.6.2] If no imageUrl but has localImage, use localImage as imageUrl
+      // [4.11.4.2] If no imageUrl but has localImage, use localImage as imageUrl
       if (!businessMatch.imageUrl && businessMatch.localImage) {
         businessMatch.imageUrl = businessMatch.localImage;
         console.log(
@@ -5356,8 +4835,8 @@ window.tourSearchFunctions = (function () {
         );
       }
 
-      // [4.32.6.3] Debug logging after normalization
-      Logger.debug("[DEBUG] After normalization:", {
+      // [4.14.1.6.2] Debug logging after normalization
+      console.log("[DEBUG] After normalization:", {
         imageUrl: businessMatch.imageUrl,
         localImage: businessMatch.localImage,
       });
@@ -5366,8 +4845,8 @@ window.tourSearchFunctions = (function () {
     }
   }
 
-  // [4.33] Submodule: Event Binding
-  // [4.34] Method: _bindSearchEventListeners()
+  // [4.15] Submodule: Event Binding
+  // [4.15.1] Method: _bindSearchEventListeners()
   function _bindSearchEventListeners(
     searchContainer,
     searchInput,
@@ -5375,15 +4854,15 @@ window.tourSearchFunctions = (function () {
     searchIcon,
     searchCallback,
   ) {
-    // [4.34.1] First clean up any existing event listeners
+    // [4.15.1.1] First clean up any existing event listeners
     _unbindSearchEventListeners();
 
     Logger.debug("Binding search event listeners...");
 
-    // [4.34.2] Create a cleanup registry for this session
+    // [4.15.1.2] Create a cleanup registry for this session
     const cleanup = [];
 
-    // [4.34.3] Bind input event with device-appropriate debounce
+    // [4.15.1.3] Bind input event with device-appropriate debounce
     if (searchInput) {
       const isMobile =
         window.innerWidth <= _config.mobileBreakpoint ||
@@ -5398,7 +4877,7 @@ window.tourSearchFunctions = (function () {
         searchInput.removeEventListener("input", inputHandler),
       );
 
-      // [4.34.3.1] Mobile touch optimization
+      // [4.15.1.3.1] Mobile touch optimization
       if ("ontouchstart" in window) {
         const touchHandler = () => searchInput.focus();
         searchInput.addEventListener("touchend", touchHandler);
@@ -5408,7 +4887,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [4.34.4] Bind clear button
+    // [4.15.1.4] Bind clear button
     if (clearButton) {
       const clearHandler = (e) => {
         e.stopPropagation();
@@ -5432,7 +4911,7 @@ window.tourSearchFunctions = (function () {
       );
     }
 
-    // [4.34.5] Bind search icon
+    // [4.15.1.5] Bind search icon
     if (searchIcon) {
       if (searchIcon) searchIcon.classList.add("search-icon");
       const iconHandler = () => {
@@ -5446,7 +4925,7 @@ window.tourSearchFunctions = (function () {
       cleanup.push(() => searchIcon.removeEventListener("click", iconHandler));
     }
 
-    // [4.34.6] Document click handler for closing search
+    // [4.15.1.6] Document click handler for closing search
     const documentClickHandler = (e) => {
       if (!searchContainer.classList.contains("visible")) return;
       if (!searchContainer.contains(e.target)) {
@@ -5459,7 +4938,7 @@ window.tourSearchFunctions = (function () {
       document.removeEventListener("click", documentClickHandler),
     );
 
-    // [4.34.7] Touch handler for mobile
+    // [4.15.1.7] Touch handler for mobile
     if ("ontouchstart" in window) {
       const touchStartHandler = (e) => {
         if (
@@ -5476,7 +4955,7 @@ window.tourSearchFunctions = (function () {
       );
     }
 
-    // [4.34.8] Keyboard navigation
+    // [4.15.1.8] Keyboard navigation
     const keyboardHandler = (e) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -5504,14 +4983,14 @@ window.tourSearchFunctions = (function () {
       document.removeEventListener("keydown", keyboardHandler),
     );
 
-    // [4.34.9] Store cleanup functions for later use
+    // [4.15.1.9] Store cleanup functions for later use
     window._searchEventCleanup = cleanup;
 
     Logger.debug("Search event listeners bound successfully");
     return true;
   }
 
-  // [4.35] Method: _unbindSearchEventListeners()
+  // [4.15.2] Method: _unbindSearchEventListeners()
   function _unbindSearchEventListeners() {
     try {
       if (
@@ -5547,7 +5026,7 @@ window.tourSearchFunctions = (function () {
     }
 
     // **NEW: Enhanced debug logging**
-    Logger.debug("🔍 [DATA SOURCE DEBUG] Configuration check:");
+    console.log("🔍 [DATA SOURCE DEBUG] Configuration check:");
     console.log(
       "   useGoogleSheetData:",
       _config.googleSheets.useGoogleSheetData,
@@ -5720,7 +5199,7 @@ window.tourSearchFunctions = (function () {
 
         try {
           if (fetchMode === "csv") {
-            // [5.1.6.0.1] Simple CSV parsing
+            // [5.1.6.1] Simple CSV parsing
             const lines = text.split("\n");
             const headers = lines[0]
               .split(",")
@@ -5744,15 +5223,15 @@ window.tourSearchFunctions = (function () {
               }
             }
           } else {
-            // [5.1.6.0.2] Parse as JSON
+            // [5.1.6.2] Parse as JSON
             data = JSON.parse(text);
 
-            // [5.1.6.0.3] Handle common Google Sheets JSON API responses
+            // [5.1.6.3] Handle common Google Sheets JSON API responses
             if (data.feed && data.feed.entry) {
-              // [5.1.6.0.4] Handle Google Sheets API v3 format
+              // [5.1.6.3.1] Handle Google Sheets API v3 format
               data = data.feed.entry.map((entry) => {
                 const row = {};
-                // [5.1.6.0.5] Process each field (gs:cell or content entries)
+                // [5.1.6.3.1.1] Process each field (gs:cell or content entries)
                 Object.keys(entry).forEach((key) => {
                   if (key.startsWith("gsx$")) {
                     const fieldName = key.substr(4);
@@ -5762,7 +5241,7 @@ window.tourSearchFunctions = (function () {
                 return row;
               });
             } else if (data.values) {
-              // [5.1.6.0.6] Handle Google Sheets API v4 format
+              // [5.1.6.3.2] Handle Google Sheets API v4 format
               const headers = data.values[0];
               data = data.values.slice(1).map((row) => {
                 const rowData = {};
@@ -5774,7 +5253,7 @@ window.tourSearchFunctions = (function () {
             }
           }
 
-          // [5.1.6.0.7] Validate the data structure
+          // [5.1.6.4] Validate the data structure
           if (!Array.isArray(data)) {
             Logger.warn(
               `${dataSourceType === "local" ? "Local CSV" : "Google Sheets"} data is not an array after parsing, converting to array`,
@@ -5782,27 +5261,27 @@ window.tourSearchFunctions = (function () {
             data = [data]; // Convert to array if not already
           }
 
-          // [5.1.6.0.8] Log diagnostics
+          // [5.1.6.5] Log diagnostics
           Logger.info(
             `Successfully loaded ${data.length} rows from ${dataSourceType === "local" ? "local CSV file" : "Google Sheets"}`,
           );
 
-          // [5.1.6.0.9] Process data with progressive loading support
+          // [5.1.6.6] Process data with progressive loading support
           let processedData = [];
           if (progressiveOptions.enabled && data.length > 20) {
-            // [5.1.6.0.10] Apply progressive loading for larger datasets
+            // [5.1.6.6.1] Apply progressive loading for larger datasets
             Logger.info(
               "Progressive loading enabled, processing essential fields first",
             );
 
-            // [5.1.6.0.11] Extract just essential fields for initial load
+            // [5.1.6.6.1.1] Extract just essential fields for initial load
             const essentialFields = progressiveOptions.initialFields || [
               "id",
               "tag",
               "name",
             ];
 
-            // [5.1.6.0.12] Create a lightweight version with just essential fields
+            // [5.1.6.6.1.2] Create a lightweight version with just essential fields
             processedData = data.map((row) => {
               const essentialData = {};
               essentialFields.forEach((field) => {
@@ -5811,9 +5290,9 @@ window.tourSearchFunctions = (function () {
               return essentialData;
             });
 
-            // [5.1.6.0.13] Schedule Loading of Full Data for Later
+            // [5.1.6.6.1.3] Schedule Loading of Full Data for Later
             setTimeout(() => {
-              // [5.1.6.0.14] Process Full Data in Background
+              // [5.1.6.6.1.3.1] Process Full Data in Background
               const fullData = data.map((row) => ({
                 id: row.id || "",
                 tag: row.tag || "",
@@ -5824,10 +5303,10 @@ window.tourSearchFunctions = (function () {
                 parentId: row.parentId || "",
               }));
 
-              // [5.1.6.0.15] Replace Data with Full Version
+              // [5.1.6.6.1.3.2] Replace Data with Full Version
               _googleSheetsData = fullData;
 
-              // [5.1.6.0.16] Update Cache with Full Data if Caching is Enabled (Online Only)
+              // [5.1.6.6.1.3.3] Update Cache with Full Data if Caching is Enabled (Online Only)
               if (cachingOptions.enabled && dataSourceType === "online") {
                 try {
                   const storageKey =
@@ -5843,13 +5322,13 @@ window.tourSearchFunctions = (function () {
                 }
               }
 
-              // [5.1.6.0.17] Log background loading completion
+              // [5.1.6.6.1.3.4] Log background loading completion
               Logger.info(
                 `Background loading of detailed ${dataSourceType === "local" ? "local CSV" : "Google Sheets"} data complete`,
               );
             }, 2000); // Delay full data processing to avoid blocking UI
           } else {
-            // [5.1.6.0.18] Regular (non-progressive) processing
+            // [5.1.6.6.2] Regular (non-progressive) processing
             processedData = data.map((row) => ({
               id: row.id || "",
               tag: row.tag || "",
@@ -5861,7 +5340,7 @@ window.tourSearchFunctions = (function () {
             }));
           }
 
-          // [5.1.6.0.19] Cache the data if caching is enabled (online only)
+          // [5.1.6.7] Cache the data if caching is enabled (online only)
           if (cachingOptions.enabled && dataSourceType === "online") {
             try {
               const storageKey =
@@ -5881,10 +5360,10 @@ window.tourSearchFunctions = (function () {
             );
           }
 
-          // [5.1.6.0.20] Store in module-level variable for future use
+          // [5.1.6.8] Store in module-level variable for future use
           _googleSheetsData = processedData;
 
-          // [5.1.6.0.21] Output diagnostics about data quality
+          // [5.1.6.9] Output diagnostics about data quality
           const missingIds = processedData.filter((row) => !row.id).length;
           const missingTags = processedData.filter((row) => !row.tag).length;
 
@@ -5966,7 +5445,7 @@ window.tourSearchFunctions = (function () {
       }
     });
 
-    // [5.2.3] Log potential duplicate scenarios
+    // [5.2.2.1] Log potential duplicate scenarios
     existingLabels.forEach((items, label) => {
       if (items.length > 1) {
         Logger.warn(
@@ -5978,7 +5457,7 @@ window.tourSearchFunctions = (function () {
       }
     });
 
-    // [5.2.4] Iterate through Google Sheets entries and match with tour data
+    // [5.2.3] Iterate through Google Sheets entries and match with tour data
     _googleSheetsData.forEach((sheetsEntry, sheetsIndex) => {
       try {
         if (!sheetsEntry.id && !sheetsEntry.tag && !sheetsEntry.name) {
@@ -5996,7 +5475,7 @@ window.tourSearchFunctions = (function () {
         let alreadyMatched = false;
         let matchedTourItems = []; // Can match multiple items
 
-        // [5.2.4.0.1] Check if entry was already matched
+        // [5.2.3.1] Check if entry was already matched
         if (entryId && matchedSheetIds.has(entryId)) {
           alreadyMatched = true;
           Logger.debug(
@@ -6015,20 +5494,20 @@ window.tourSearchFunctions = (function () {
           return;
         }
 
-        // [5.2.4.0.2] Find all potential tour item matches
+        // [5.2.3.2] Find all potential tour item matches
         fuseData.forEach((item) => {
           if (!item.item) return;
 
           let isMatch = false;
           let matchReason = "";
 
-          // [5.2.4.0.3] Method 1: Exact ID match (highest confidence)
+          // [5.2.3.2.1] Method 1: Exact ID match (highest confidence)
           if (entryId && item.id && entryId.toString() === item.id.toString()) {
             isMatch = true;
             matchReason = "exact_id";
           }
 
-          // [5.2.4.0.4] Method 2: Tag match (medium confidence)
+          // [5.2.3.2.2] Method 2: Tag match (medium confidence)
           else if (
             entryTag &&
             Array.isArray(item.tags) &&
@@ -6038,7 +5517,7 @@ window.tourSearchFunctions = (function () {
             matchReason = "tag_match";
           }
 
-          // [5.2.4.0.5] Method 3: Label match (lower confidence)
+          // [5.2.3.2.3] Method 3: Label match (lower confidence)
           else if (
             entryName &&
             item.originalLabel &&
@@ -6048,7 +5527,7 @@ window.tourSearchFunctions = (function () {
             matchReason = "label_match";
           }
 
-          // [5.2.4.0.6] Method 4: Media ID match
+          // [5.2.3.2.4] Method 4: Media ID match
           else if (entryId && item.item && item.item.get) {
             const media = item.item.get("media");
             if (media && media.get) {
@@ -6077,7 +5556,7 @@ window.tourSearchFunctions = (function () {
         });
 
         if (matchedTourItems.length === 0) {
-          // [5.2.4.0.7] No matches found: create standalone entry if enabled
+          // [5.2.3.3] No matches found: create standalone entry if enabled
           if (!config.googleSheets.includeStandaloneEntries) {
             Logger.debug(
               `Skipping standalone Google Sheets entry "${entryName}" - standalone entries disabled`,
@@ -6087,7 +5566,7 @@ window.tourSearchFunctions = (function () {
 
           Logger.debug(`Creating standalone Google Sheets entry: ${entryName}`);
         } else if (matchedTourItems.length === 1) {
-          // [5.2.4.0.8] Single match found
+          // [5.2.3.4] Single match found
           const match = matchedTourItems[0];
           Logger.debug(
             `Single match found for "${entryName}": ${match.item.label} (${match.reason})`,
@@ -6100,7 +5579,7 @@ window.tourSearchFunctions = (function () {
             return;
           }
         } else {
-          // [5.2.4.0.9] Multiple matches found: apply resolution strategy
+          // [5.2.3.5] Multiple matches found: apply resolution strategy
           Logger.warn(
             `Multiple matches found for Google Sheets entry "${entryName}" (${matchedTourItems.length} matches):`,
           );
@@ -6110,7 +5589,7 @@ window.tourSearchFunctions = (function () {
             );
           });
 
-          // [5.2.4.0.10] Resolution: Use highest confidence match
+          // [5.2.3.5.1] Resolution: Use highest confidence match
           matchedTourItems.sort((a, b) => b.confidence - a.confidence);
           const bestMatch = matchedTourItems[0];
 
@@ -6126,46 +5605,39 @@ window.tourSearchFunctions = (function () {
           }
         }
 
-        // [5.2.4.0.11] Prepare entry data for the search index
+        // [5.2.3.6] Prepare entry data for the search index
         const rawLabel = sheetsEntry.name || sheetsEntry.id || "";
         const subtitle = sheetsEntry.description || "";
         const elementType = sheetsEntry.elementType || "Element";
-
+        
         // Compute display label using the same logic as other elements
         const displayLabel = _getDisplayLabel(rawLabel, subtitle, [], {
           type: elementType,
           id: sheetsEntry.id,
-          index: -1,
+          index: -1
         });
 
         const elementTags = sheetsEntry.tag ? [sheetsEntry.tag] : [];
-        // [5.2.4.0.12] Filter the entry based on inclusion rules (pass display label and subtitle)
-        if (
-          !_shouldIncludeElement(
-            elementType,
-            displayLabel,
-            elementTags,
-            subtitle,
-          )
-        ) {
+        // [5.2.3.7] Filter the entry based on inclusion rules (pass display label and subtitle)
+        if (!_shouldIncludeElement(elementType, displayLabel, elementTags, subtitle)) {
           Logger.debug(
             `Filtering out Google Sheets entry ${displayLabel} due to element filter`,
           );
           return;
         }
 
-        // [5.2.4.0.13] Mark as processed
+        // [5.2.3.8] Mark as processed
         if (entryId) matchedSheetIds.add(entryId);
         if (entryTag) matchedSheetTags.add(entryTag);
 
-        // [5.2.4.0.14] Determine best matched item for context
+        // [5.2.3.9] Determine best matched item for context
         const bestMatchedItem =
           matchedTourItems.length > 0
             ? matchedTourItems.sort((a, b) => b.confidence - a.confidence)[0]
                 .item
             : null;
 
-        // [5.2.4.0.15] Create search index entry
+        // [5.2.3.10] Create search index entry
         fuseData.push({
           type: elementType,
           source: bestMatchedItem ? bestMatchedItem.source : "sheets",
@@ -6251,11 +5723,11 @@ window.tourSearchFunctions = (function () {
           data = [data];
         }
 
-        // [5.3.3.0.1] Log successful data load
+        // [5.3.3.1] Log successful data load
         Logger.info("=== BUSINESS DATA LOADED ===");
         Logger.info(`Successfully loaded ${data.length} business data entries`);
 
-        // [5.3.3.0.2] Log sample entries for verification
+        // [5.3.3.1.1] Log sample entries for verification
         for (let i = 0; i < Math.min(3, data.length); i++) {
           console.log(`Entry ${i + 1}:`, {
             id: data[i].id,
@@ -6264,16 +5736,16 @@ window.tourSearchFunctions = (function () {
           });
         }
 
-        // [5.3.3.0.3] Store data in module-level variable
+        // [5.3.3.2] Store data in module-level variable
         _businessData = data;
 
-        // [5.3.3.0.4] Store data globally for accessibility
+        // [5.3.3.3] Store data globally for accessibility
         window._businessData = data;
 
         return data;
       })
       .catch((error) => {
-        // [5.3.3.0.5] Handle fetch errors
+        // [5.3.4] Handle fetch errors
         console.error(`Error loading business data: ${error.message}`);
         _businessData = [];
         return [];
@@ -6289,7 +5761,7 @@ window.tourSearchFunctions = (function () {
     // [6.1.2] Resolve the correct tour instance
     let actualTour = tour;
 
-    // [6.1.3] Attempt to get tour from rootPlayer context
+    // [6.1.2.1] Attempt to get tour from rootPlayer context
     if (tour && typeof tour.get === "function") {
       try {
         const tourFromContext = tour.get("data")?.tour;
@@ -6306,7 +5778,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.4] Apply fallback detection to find a valid tour instance
+    // [6.1.2.2] Apply fallback detection to find a valid tour instance
     if (!actualTour || !actualTour.mainPlayList) {
       const tourCandidates = [
         tour, // Original parameter
@@ -6317,7 +5789,7 @@ window.tourSearchFunctions = (function () {
         window.tour.locManager.rootPlayer
           ? window.tour.locManager.rootPlayer
           : null,
-        // [6.1.4.0.1] Try via TDV API if available
+        // [6.1.2.2.1] Try via TDV API if available
         window.TDV &&
         window.TDV.PlayerAPI &&
         typeof window.TDV.PlayerAPI.getCurrentPlayer === "function"
@@ -6337,7 +5809,7 @@ window.tourSearchFunctions = (function () {
         }
       }
     }
-    // [6.1.5] Validate the resolved tour instance
+    // [6.1.2.3] Validate the resolved tour instance
     if (!actualTour || !actualTour.mainPlayList) {
       Logger.warn("Could not find valid tour reference with mainPlayList");
     } else if (typeof actualTour.mainPlayList.get !== "function") {
@@ -6347,27 +5819,27 @@ window.tourSearchFunctions = (function () {
         `Tour initialized successfully with ${actualTour.mainPlayList.get("items")?.length || 0} panoramas`,
       );
     }
-    // [6.1.6] Store the validated tour reference globally
+    // [6.1.2.4] Store the validated tour reference globally
     window.tourInstance = actualTour;
 
-    // [6.1.7] Reset module-level state
+    // [6.1.3] Reset module-level state
     currentSearchTerm = ""; // Reset the module-level variable
     fuse = null;
 
-    // [6.1.8] Prevent re-initialization
+    // [6.1.4] Prevent re-initialization
     if (_initialized) {
       Logger.info("Search already initialized.");
       return;
     }
 
-    // [6.1.9] Set initialization flags
+    // [6.1.5] Set initialization flags
     _initialized = true;
     window.searchListInitialized = true;
 
-    // [6.1.10] Initialize cross-window communication channel
+    // [6.1.6] Initialize cross-window communication channel
     _crossWindowChannel.init();
 
-    // [6.1.11] Sub-function: validateDataSourceConfiguration()
+    // [6.1.7] Sub-function: validateDataSourceConfiguration()
     function validateDataSourceConfiguration() {
       const businessEnabled = _config.businessData?.useBusinessData;
       const googleSheetsEnabled = _config.googleSheets?.useGoogleSheetData;
@@ -6386,7 +5858,7 @@ window.tourSearchFunctions = (function () {
         primaryDataSource = localCSVEnabled ? "local-csv" : "google-sheets";
       }
 
-      // [6.1.11.1] Check for multiple active data sources
+      // [6.1.7.1] Check for multiple active data sources
       if (activeDataSources > 1) {
         Logger.warn(
           "⚠️  CONFIGURATION CONFLICT: Multiple data sources enabled!",
@@ -6398,7 +5870,7 @@ window.tourSearchFunctions = (function () {
         });
         Logger.warn("🔧 FIX: Only enable ONE external data source at a time");
 
-        // [6.1.11.1.1] Auto-fix by prioritizing Business Data
+        // [6.1.7.1.1] Auto-fix by prioritizing Business Data
         if (businessEnabled) {
           _config.googleSheets.useGoogleSheetData = false;
           Logger.warn(
@@ -6407,7 +5879,7 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [6.1.11.2] Ensure Google Sheets vs. Local CSV exclusivity
+      // [6.1.7.2] Ensure Google Sheets vs. Local CSV exclusivity
       if (
         googleSheetsEnabled &&
         localCSVEnabled &&
@@ -6424,26 +5896,24 @@ window.tourSearchFunctions = (function () {
       return primaryDataSource;
     }
 
-    // [6.1.12] Validate data source configuration
+    // [6.1.8] Validate data source configuration
     const primaryDataSource = validateDataSourceConfiguration();
 
-    // [6.1.13] Load external data sources
+    // [6.1.9] Load external data sources
     const dataPromises = [];
 
-    // [6.1.14] Add business data promise
+    // [6.1.9.1] Add business data promise
     if (_config.businessData.useBusinessData) {
       dataPromises.push(_loadBusinessData());
     }
 
-    // [6.1.15] Add Google Sheets data promise
+    // [6.1.9.2] Add Google Sheets data promise
     if (_config.googleSheets.useGoogleSheetData) {
-      Logger.debug(
-        "[DEBUG] Adding Google Sheets data loading to promise chain",
-      );
+      console.log("[DEBUG] Adding Google Sheets data loading to promise chain");
       dataPromises.push(_loadGoogleSheetsData());
     }
 
-    // [6.1.16] Prepare search index after data loading
+    // [6.1.10] Prepare search index after data loading
     Promise.all(dataPromises)
       .then(() => {
         Logger.info("All external data sources loaded successfully");
@@ -6451,11 +5921,11 @@ window.tourSearchFunctions = (function () {
       })
       .catch((error) => {
         Logger.warn("Error loading some external data sources:", error);
-        // [6.1.16.0.1] Prepare index even if some sources fail
+        // [6.1.10.1] Prepare index even if some sources fail
         prepareFuse();
       });
 
-    // [6.1.17] Set up listener for cross-window communication
+    // [6.1.11] Set up listener for cross-window communication
     _crossWindowChannel.listen(function (message) {
       try {
       } catch (error) {
@@ -6470,18 +5940,18 @@ window.tourSearchFunctions = (function () {
       return;
     }
 
-    // [6.1.18] Apply ARIA attributes to the main container
+    // [6.1.12] Apply ARIA attributes to the main container
     _aria.setRole(_elements.container, "search");
     _aria.setLabel(_elements.container, "Tour search");
 
-    // [6.1.19] Create search UI components
+    // [6.1.13] Create search UI components
     _createSearchInterface(_elements.container);
 
-    // [6.1.20] Reset state variables (redundant, but safe)
+    // [6.1.14] Reset state variables (redundant, but safe)
     currentSearchTerm = ""; // Reset the module-level variable
     fuse = null;
 
-    // [6.1.21] Sub-function: _prepareSearchIndex()
+    // [6.2] Sub-function: _prepareSearchIndex()
     /**
      * Prepares and returns a Fuse.js search index for the tour panoramas and overlays.
      * @param {object} tour - The tour object containing the main playlist.
@@ -6496,14 +5966,14 @@ window.tourSearchFunctions = (function () {
 
         let actualTour = tour;
 
-        // [6.1.21.0.1] Detect and retrieve all available playlists
+        // [6.2.1] Detect and retrieve all available playlists
         const playlists = PlaylistUtils.getAllPlayLists(actualTour);
         let mainPlaylistItems = playlists.main?.get("items");
         let rootPlaylistItems = playlists.root?.get("items");
 
-        // [6.1.21.0.2] Validate that at least one playlist was found
+        // [6.2.2] Validate that at least one playlist was found
         if (!mainPlaylistItems && !rootPlaylistItems) {
-          // [6.1.21.0.3] If no playlists, attempt fallback tour detection
+          // [6.2.2.1] If no playlists, attempt fallback tour detection
           const tourCandidates = [
             window.tour,
             window.tourInstance,
@@ -6541,11 +6011,11 @@ window.tourSearchFunctions = (function () {
         const filterMode = config.filter.mode;
         const allowedValues = config.filter.allowedValues || [];
         const blacklistedValues = config.filter.blacklistedValues || [];
-        const allowedMediaIndexes = config.filter.mediaIndexes?.allowed || [];
+        const allowedMediaIndexes = config.filter.allowedMediaIndexes || [];
         const blacklistedMediaIndexes =
-          config.filter.mediaIndexes?.blacklisted || [];
+          config.filter.blacklistedMediaIndexes || [];
 
-        // [6.1.21.0.4] Process main playlist items
+        // [6.2.3] Process main playlist items
         if (mainPlaylistItems && mainPlaylistItems.length > 0) {
           Logger.info(
             `Processing ${mainPlaylistItems.length} main playlist items...`,
@@ -6555,12 +6025,10 @@ window.tourSearchFunctions = (function () {
             try {
               const itemClass = item.get ? item.get("class") : item.class;
               const media = item.get ? item.get("media") : item.media;
-
+              
               // DEBUG: Log every playlist item being processed
-              Logger.debug(
-                `[MAIN PLAYLIST DEBUG] Processing index ${index}, class: ${itemClass}`,
-              );
-
+              console.log(`[MAIN PLAYLIST DEBUG] Processing index ${index}, class: ${itemClass}`);
+              
               if (!media) {
                 Logger.warn(
                   `No media found for main playlist item at index ${index}`,
@@ -6568,7 +6036,7 @@ window.tourSearchFunctions = (function () {
                 return;
               }
 
-              // [6.1.21.0.5] Process individual playlist item
+              // [6.2.3.1] Process individual playlist item
               processPlaylistItem(
                 item,
                 index,
@@ -6587,7 +6055,7 @@ window.tourSearchFunctions = (function () {
           });
         }
 
-        // [6.1.21.0.6] Process root player playlist items
+        // [6.2.4] Process root player playlist items
         if (rootPlaylistItems && rootPlaylistItems.length > 0) {
           Logger.info(
             `Processing ${rootPlaylistItems.length} root player playlist items...`,
@@ -6604,7 +6072,7 @@ window.tourSearchFunctions = (function () {
                 return;
               }
 
-              // [6.1.21.0.7] Process individual root playlist item
+              // [6.2.4.1] Process individual root playlist item
               const offsetIndex = (mainPlaylistItems?.length || 0) + index;
               processPlaylistItem(
                 item,
@@ -6624,7 +6092,7 @@ window.tourSearchFunctions = (function () {
           });
         }
 
-        // [6.1.21.0.8] Process standalone Google Sheets entries
+        // [6.2.5] Process standalone Google Sheets entries
         if (
           config.googleSheets?.useGoogleSheetData &&
           _googleSheetsData.length > 0
@@ -6633,12 +6101,12 @@ window.tourSearchFunctions = (function () {
             `Processing ${_googleSheetsData.length} Google Sheets entries for search index`,
           );
 
-          // [6.1.21.0.9] Initialize tracking sets for matched sheets data
+          // [6.2.5.1] Initialize tracking sets for matched sheets data
           const matchedSheetIds = new Set();
           const matchedSheetTags = new Set();
           const existingLabels = new Set();
 
-          // [6.1.21.0.10] First pass: identify existing entries in the search index
+          // [6.2.5.2] First pass: identify existing entries in the search index
           fuseData.forEach((item) => {
             if (item.label) {
               existingLabels.add(item.label.toLowerCase());
@@ -6673,7 +6141,7 @@ window.tourSearchFunctions = (function () {
               let alreadyMatched = false;
               let matchedTourItem = null;
 
-              // [6.1.21.0.11] Check for matches by ID
+              // [6.2.5.3] Check for matches by ID
               if (entryId && matchedSheetIds.has(entryId)) {
                 alreadyMatched = true;
                 Logger.debug(
@@ -6681,7 +6149,7 @@ window.tourSearchFunctions = (function () {
                 );
               }
 
-              // [6.1.21.0.12] Check for matches by tag
+              // [6.2.5.4] Check for matches by tag
               if (entryTag && matchedSheetTags.has(entryTag)) {
                 alreadyMatched = true;
                 Logger.debug(
@@ -6689,7 +6157,7 @@ window.tourSearchFunctions = (function () {
                 );
               }
 
-              // [6.1.21.0.13] Check for matches by label
+              // [6.2.5.5] Check for matches by label
               if (entryName && existingLabels.has(entryName.toLowerCase())) {
                 alreadyMatched = true;
                 Logger.debug(
@@ -6697,7 +6165,7 @@ window.tourSearchFunctions = (function () {
                 );
               }
 
-              // [6.1.21.0.14] Find matching tour item for navigation context
+              // [6.2.5.6] Find matching tour item for navigation context
               if (!alreadyMatched && entryTag) {
                 const tourItemMatch = fuseData.find((item) => {
                   if (!item.item) return false;
@@ -6776,17 +6244,12 @@ window.tourSearchFunctions = (function () {
               const displayLabel = _getDisplayLabel(rawLabel, subtitle, [], {
                 type: elementType,
                 id: sheetsEntry.id,
-                index: -1,
+                index: -1
               });
 
               const elementTags = sheetsEntry.tag ? [sheetsEntry.tag] : [];
               if (
-                !_shouldIncludeElement(
-                  elementType,
-                  displayLabel,
-                  elementTags,
-                  subtitle,
-                )
+                !_shouldIncludeElement(elementType, displayLabel, elementTags, subtitle)
               ) {
                 Logger.debug(
                   `Filtering out Google Sheets entry ${displayLabel} due to element filter`,
@@ -6796,7 +6259,7 @@ window.tourSearchFunctions = (function () {
 
               existingLabels.add(displayLabel.toLowerCase());
 
-              // [6.1.21.0.15] Create search index entry
+              // [6.2.5.7] Create search index entry
               fuseData.push({
                 type: elementType,
                 source: matchedTourItem ? matchedTourItem.source : "sheets",
@@ -6839,7 +6302,7 @@ window.tourSearchFunctions = (function () {
           });
         }
 
-        // [6.1.21.0.16] Create and return Fuse.js instance
+        // [6.2.6] Create and return Fuse.js instance
         const fuseInstance = new Fuse(fuseData, {
           keys: [
             {
@@ -6874,7 +6337,7 @@ window.tourSearchFunctions = (function () {
           location: _config.searchSettings.behavior.location,
         });
 
-        // [6.1.21.0.17] Process container search entries if enabled
+        // [6.2.7] Process container search entries if enabled
         if (
           config.includeContent?.containerSearch?.enableContainerSearch &&
           Array.isArray(
@@ -6899,25 +6362,15 @@ window.tourSearchFunctions = (function () {
                 const elementTags = [];
 
                 // Compute display label using the same logic as other elements
-                const displayLabel = _getDisplayLabel(
-                  rawLabel,
-                  subtitle,
-                  elementTags,
-                  {
-                    type: elementType,
-                    id: `container_${containerName}`,
-                    index: containerIndex,
-                  },
-                );
+                const displayLabel = _getDisplayLabel(rawLabel, subtitle, elementTags, {
+                  type: elementType,
+                  id: `container_${containerName}`,
+                  index: containerIndex
+                });
 
                 // Filter container based on inclusion rules (pass display label and subtitle)
                 if (
-                  !_shouldIncludeElement(
-                    elementType,
-                    displayLabel,
-                    elementTags,
-                    subtitle,
-                  )
+                  !_shouldIncludeElement(elementType, displayLabel, elementTags, subtitle)
                 ) {
                   Logger.debug(
                     `Filtering out container ${displayLabel} due to element filter`,
@@ -6980,7 +6433,7 @@ window.tourSearchFunctions = (function () {
 
     // Find the processPlaylistItem function and replace it entirely:
 
-    // [6.1.22] Sub-function: processPlaylistItem()
+    // [6.3] Sub-function: processPlaylistItem()
     function processPlaylistItem(
       item,
       index,
@@ -6997,17 +6450,17 @@ window.tourSearchFunctions = (function () {
         itemClass,
       );
 
-      // [6.1.22.1] Route to the correct processor based on item class
+      // [6.3.1] Route to the correct processor based on item class
       if (itemClass === "Model3DPlayListItem") {
         Logger.debug(`[PLAYLIST DEBUG] Found 3D Model at index ${index}`);
         process3DModel(item, index, media, source, fuseData, config, tour);
       } else {
-        // [6.1.22.1.1] Always process panorama to get overlays, filter panorama itself inside processPanorama
+        // [6.3.2] Always process panorama to get overlays, filter panorama itself inside processPanorama
         processPanorama(item, index, media, source, fuseData, config, tour);
       }
     }
 
-    // [6.1.23] Sub-function: process3DModel()
+    // [6.4] Sub-function: process3DModel()
     function process3DModel(
       item,
       index,
@@ -7018,21 +6471,28 @@ window.tourSearchFunctions = (function () {
       tour,
     ) {
       Logger.debug(`[3D DEBUG] Processing 3D model at index ${index}`);
-      Logger.debug(
-        `[3D MODEL DEBUG] Starting 3D model processing for index ${index}`,
-        media,
-      );
-      Logger.debug(
-        `[CACHE BUSTER] 3D MODEL PROCESSING - TIMESTAMP: ${Date.now()}`,
-      );
+      console.log(`[3D MODEL DEBUG] Starting 3D model processing for index ${index}`, media);
+      console.log(`[CACHE BUSTER] 3D MODEL PROCESSING - TIMESTAMP: ${Date.now()}`);
 
       const data = _safeGetData(media);
       const label = data?.label?.trim() || "";
       const subtitle = data?.subtitle?.trim() || "";
       const tags = Array.isArray(data?.tags) ? data.tags : [];
 
-      // [6.1.23.1] Filter 3D model based on configuration (media index only - allow object processing)
-      if (!_shouldIncludePanorama(index, _config.filter.mediaIndexes)) {
+      // [6.4.1] Filter 3D model based on configuration (media index only - allow object processing)
+      if (
+        !_shouldIncludePanorama(
+          label,
+          subtitle,
+          tags,
+          index,
+          "none", // Bypass allowedValues/blacklistedValues to allow 3D object processing
+          [], // Empty allowedValues
+          [], // Empty blacklistedValues
+          config.filter.allowedMediaIndexes,
+          config.filter.blacklistedMediaIndexes,
+        )
+      ) {
         Logger.debug(`[3D DEBUG] 3D model filtered out at index ${index}`);
         return;
       }
@@ -7048,7 +6508,7 @@ window.tourSearchFunctions = (function () {
       const businessMatch = getBusinessMatch(label, media, tags, config);
       const sheetsMatch = getSheetsMatch(label, media, tags, config);
 
-      // [6.1.23.2] Add 3D model to search index only if it passes filtering
+      // [6.4.2] Add 3D model to search index only if it passes filtering
       if (_shouldIncludeElement("3DModel", displayLabel, tags, subtitle)) {
         fuseData.push({
           type: "3DModel",
@@ -7056,12 +6516,7 @@ window.tourSearchFunctions = (function () {
           index,
           originalIndex: index,
           playlistOrder: index,
-          label: getResultLabel(
-            displayLabel,
-            businessMatch,
-            sheetsMatch,
-            config,
-          ),
+          label: getResultLabel(displayLabel, businessMatch, sheetsMatch, config),
           originalLabel: label,
           subtitle: getResultDescription(
             subtitle,
@@ -7086,74 +6541,48 @@ window.tourSearchFunctions = (function () {
 
         Logger.debug(`[3D DEBUG] Added 3D model to index: ${displayLabel}`);
       } else {
-        Logger.debug(
-          `[3D MODEL FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`,
-        );
+        console.log(`[3D MODEL FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`);
       }
 
-      // [6.1.23.3] Process objects within the 3D model
+      // [6.4.3] Process objects within the 3D model
       let objects = media.get ? media.get("objects") : media.objects;
-      Logger.debug(`[3D OBJECTS DEBUG] Media object structure:`, media);
-      Logger.debug(
-        `[3D OBJECTS DEBUG] Media has get method:`,
-        typeof media.get === "function",
-      );
-      Logger.debug(
-        `[3D OBJECTS DEBUG] Raw objects via get():`,
-        media.get ? media.get("objects") : "no get method",
-      );
-      Logger.debug(
-        `[3D OBJECTS DEBUG] Raw objects via direct access:`,
-        media.objects,
-      );
-      Logger.debug(`[3D OBJECTS DEBUG] Media keys:`, Object.keys(media));
-      if (media.get && typeof media.get === "function") {
-        Logger.debug(`[3D OBJECTS DEBUG] Trying get('wr'):`, media.get("wr"));
-        Logger.debug(`[3D OBJECTS DEBUG] Trying get('Qc'):`, media.get("Qc"));
-        Logger.debug(
-          `[3D OBJECTS DEBUG] Trying get('data'):`,
-          media.get("data"),
-        );
+      console.log(`[3D OBJECTS DEBUG] Media object structure:`, media);
+      console.log(`[3D OBJECTS DEBUG] Media has get method:`, typeof media.get === 'function');
+      console.log(`[3D OBJECTS DEBUG] Raw objects via get():`, media.get ? media.get("objects") : 'no get method');
+      console.log(`[3D OBJECTS DEBUG] Raw objects via direct access:`, media.objects);
+      console.log(`[3D OBJECTS DEBUG] Media keys:`, Object.keys(media));
+      if (media.get && typeof media.get === 'function') {
+        console.log(`[3D OBJECTS DEBUG] Trying get('wr'):`, media.get('wr'));
+        console.log(`[3D OBJECTS DEBUG] Trying get('Qc'):`, media.get('Qc'));
+        console.log(`[3D OBJECTS DEBUG] Trying get('data'):`, media.get('data'));
       }
-
+      
       // Try alternative access methods for 3D objects
       if (!objects || !Array.isArray(objects)) {
-        Logger.debug(`[3D OBJECTS DEBUG] Trying alternative access methods...`);
-
+        console.log(`[3D OBJECTS DEBUG] Trying alternative access methods...`);
+        
         // Check if tour has a method to get 3D objects
         if (tour && tour.get) {
           try {
-            const mediaId = media.get ? media.get("id") : media.id;
-            Logger.debug(`[3D OBJECTS DEBUG] Media ID:`, mediaId);
+            const mediaId = media.get ? media.get('id') : media.id;
+            console.log(`[3D OBJECTS DEBUG] Media ID:`, mediaId);
             if (mediaId) {
               const mediaObj = tour.get(mediaId);
-              Logger.debug(
-                `[3D OBJECTS DEBUG] Media object from tour:`,
-                mediaObj,
-              );
+              console.log(`[3D OBJECTS DEBUG] Media object from tour:`, mediaObj);
               if (mediaObj && mediaObj.get) {
-                objects = mediaObj.get("objects");
-                Logger.debug(
-                  `[3D OBJECTS DEBUG] Objects from tour media:`,
-                  objects,
-                );
+                objects = mediaObj.get('objects');
+                console.log(`[3D OBJECTS DEBUG] Objects from tour media:`, objects);
               }
             }
           } catch (e) {
-            Logger.debug(`[3D OBJECTS DEBUG] Error accessing tour objects:`, e);
+            console.log(`[3D OBJECTS DEBUG] Error accessing tour objects:`, e);
           }
         }
       }
-
-      Logger.debug(`[3D OBJECTS DEBUG] Final objects variable:`, objects);
-      Logger.debug(
-        `[3D OBJECTS DEBUG] Objects is array:`,
-        Array.isArray(objects),
-      );
-      Logger.debug(
-        `[3D OBJECTS DEBUG] Objects length:`,
-        objects ? objects.length : "objects is null/undefined",
-      );
+      
+      console.log(`[3D OBJECTS DEBUG] Final objects variable:`, objects);
+      console.log(`[3D OBJECTS DEBUG] Objects is array:`, Array.isArray(objects));
+      console.log(`[3D OBJECTS DEBUG] Objects length:`, objects ? objects.length : 'objects is null/undefined');
       Logger.debug(`[3D DEBUG] Found objects:`, objects);
       Logger.debug(`[3D DEBUG] Objects is array:`, Array.isArray(objects));
 
@@ -7165,7 +6594,7 @@ window.tourSearchFunctions = (function () {
 
           const objData = _safeGetData(obj);
 
-          // [6.1.23.3.1] Get object label with fallbacks
+          // [6.4.3.1] Get object label with fallbacks
           let objLabel = objData?.label?.trim() || "";
           if (!objLabel && obj.get) {
             try {
@@ -7180,7 +6609,7 @@ window.tourSearchFunctions = (function () {
 
           Logger.debug(`[3D DEBUG] Object label:`, objLabel);
 
-          // [6.1.23.3.2] Skip object if it has no valid label
+          // [6.4.3.2] Skip object if it has no valid label
           if (!objLabel || objLabel === "Object") {
             Logger.debug(
               `[3D DEBUG] Skipping object with invalid label:`,
@@ -7192,7 +6621,7 @@ window.tourSearchFunctions = (function () {
           const objTags = Array.isArray(objData?.tags) ? objData.tags : [];
           const objSubtitle = objData?.subtitle || "";
 
-          // [6.1.23.3.3] Determine the object's element type
+          // [6.4.3.3] Determine the object's element type
           let objClass = "";
           if (obj.class) {
             objClass = obj.class;
@@ -7229,46 +6658,32 @@ window.tourSearchFunctions = (function () {
           }
 
           // Compute display label first
-          const displayLabel = _getDisplayLabel(
-            objLabel,
-            objSubtitle,
-            objTags,
-            {
-              type: elementType,
-              id: obj.get ? obj.get("id") : obj.id,
-              index: objIdx,
-            },
-          );
+          const displayLabel = _getDisplayLabel(objLabel, objSubtitle, objTags, {
+            type: elementType,
+            id: obj.get ? obj.get("id") : obj.id,
+            index: objIdx
+          });
 
           // DEBUG: Log 3D object processing
-          Logger.debug(`[3D OBJECT DEBUG] Processing 3D object:`, {
+          console.log(`[3D OBJECT DEBUG] Processing 3D object:`, {
             objLabel,
             displayLabel,
             elementType,
             objClass,
             objSubtitle,
-            objTags,
+            objTags
           });
 
-          // [6.1.23.3.4] Filter object based on configuration (pass display label and subtitle)
-          if (
-            !_shouldIncludeElement(
-              elementType,
-              displayLabel,
-              objTags,
-              objSubtitle,
-            )
-          ) {
+          // [6.4.3.4] Filter object based on configuration (pass display label and subtitle)
+          if (!_shouldIncludeElement(elementType, displayLabel, objTags, objSubtitle)) {
             Logger.debug(`[3D DEBUG] Object filtered out:`, displayLabel);
-            Logger.debug(
-              `[3D OBJECT FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`,
-            );
+            console.log(`[3D OBJECT FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`);
             return;
           }
 
           const objId = obj.get ? obj.get("id") : obj.id;
 
-          // [6.1.23.3.5] Add 3D model object to search index
+          // [6.4.3.5] Add 3D model object to search index
           Logger.debug(
             `[3D DEBUG] Adding object to search index with type ${elementType}:`,
             displayLabel,
@@ -7278,7 +6693,6 @@ window.tourSearchFunctions = (function () {
             type: elementType,
             source: source,
             label: displayLabel,
-            originalLabel: objLabel,
             subtitle: objSubtitle,
             tags: objTags,
             parentModel: media.get ? media.get("id") : media.id,
@@ -7301,7 +6715,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.24] Sub-function: processPanorama()
+    // [6.5] Sub-function: processPanorama()
     function processPanorama(
       item,
       index,
@@ -7316,17 +6730,54 @@ window.tourSearchFunctions = (function () {
       const subtitle = data?.subtitle?.trim() || "";
       const tags = Array.isArray(data?.tags) ? data.tags : [];
 
-      Logger.debug(`[PANORAMA DEBUG] Processing panorama ${index}:`, {
+      console.log(`[PANORAMA DEBUG] Processing panorama ${index}:`, {
         label,
         subtitle,
         tags,
         mediaId: media.get ? media.get("id") : "unknown",
       });
 
-      // [6.1.24.1] Media Index Filtering - BYPASS: Do not gate panorama processing based on mediaIndexes configuration
-      // Keep debug logging intact for visibility but bypass actual filtering
-      // [6.1.24.2] Filter panorama based on configuration using standardized _shouldIncludePanorama
-      if (!_shouldIncludePanorama(index, _config.filter.mediaIndexes)) {
+      // [6.5.1] Media Index Filtering - Gate panorama processing based on mediaIndexes configuration
+      const mediaIndexConfig = config.filter.mediaIndexes || {};
+      const mediaIndexMode = mediaIndexConfig.mode || "none";
+      const allowedMediaIndexes = Array.isArray(mediaIndexConfig.allowed) ? mediaIndexConfig.allowed : [];
+      const blacklistedMediaIndexes = Array.isArray(mediaIndexConfig.blacklisted) ? mediaIndexConfig.blacklisted : [];
+      
+      // Convert index to string for comparison with config arrays (which contain strings)
+      const indexStr = String(index);
+      
+      console.log(`[MEDIA-INDEX] mode=${mediaIndexMode}, index=${indexStr}, allowed=[${allowedMediaIndexes.join(', ')}], blacklisted=[${blacklistedMediaIndexes.join(', ')}], action=`, {
+        evaluating: true
+      });
+
+      if (mediaIndexMode === "whitelist") {
+        if (allowedMediaIndexes.length > 0 && !allowedMediaIndexes.includes(indexStr)) {
+          console.log(`[MEDIA-INDEX] mode=${mediaIndexMode}, index=${indexStr}, allowed=[${allowedMediaIndexes.join(', ')}], blacklisted=[${blacklistedMediaIndexes.join(', ')}], action=skipped`);
+          return; // Skip this panorama and all its overlays
+        }
+      } else if (mediaIndexMode === "blacklist") {
+        if (blacklistedMediaIndexes.length > 0 && blacklistedMediaIndexes.includes(indexStr)) {
+          console.log(`[MEDIA-INDEX] mode=${mediaIndexMode}, index=${indexStr}, allowed=[${allowedMediaIndexes.join(', ')}], blacklisted=[${blacklistedMediaIndexes.join(', ')}], action=skipped`);
+          return; // Skip this panorama and all its overlays
+        }
+      }
+      
+      console.log(`[MEDIA-INDEX] mode=${mediaIndexMode}, index=${indexStr}, allowed=[${allowedMediaIndexes.join(', ')}], blacklisted=[${blacklistedMediaIndexes.join(', ')}], action=processed`);
+
+      // [6.5.2] Filter panorama based on configuration (label/subtitle/tag filtering for panorama inclusion)
+      if (
+        !_shouldIncludePanorama(
+          label,
+          subtitle,
+          tags,
+          index,
+          "none", // Bypass allowedValues/blacklistedValues to allow overlay processing
+          [], // Empty allowedValues
+          [], // Empty blacklistedValues
+          config.filter.allowedMediaIndexes || [], // Backward compatibility
+          config.filter.blacklistedMediaIndexes || [], // Backward compatibility
+        )
+      ) {
         return;
       }
 
@@ -7337,21 +6788,29 @@ window.tourSearchFunctions = (function () {
         source: source,
       });
 
-      // [6.1.24.3] Match with business and sheets data
+      // [6.5.3] Match with business and sheets data
       const businessMatch = getBusinessMatch(label, media, tags, config);
       const sheetsMatch = getSheetsMatch(label, media, tags, config);
 
-      // [6.1.24.4] Determine display label
+      // [6.5.4] Determine final display label
+      let finalDisplayLabel;
       if (businessMatch && config.businessData.replaceTourData) {
-        displayLabel =
+        finalDisplayLabel =
           businessMatch.name || label || `Panorama ${index + 1}`;
       } else if (sheetsMatch && config.googleSheets.useAsDataSource) {
-        displayLabel =
+        finalDisplayLabel =
           sheetsMatch.name || label || `Panorama ${index + 1}`;
+      } else {
+        // Use the proper label fallback system for tour data
+        finalDisplayLabel = _getDisplayLabel(label, subtitle, tags, {
+          type: "Panorama",
+          id: media.get ? media.get("id") : media.id,
+          index: index,
+          source: source,
+        });
       }
-      // displayLabel is already set from _getDisplayLabel above
 
-      // [6.1.24.5] Extract thumbnail URL
+      // [6.5.5] Extract thumbnail URL
 
       let thumbnailUrl = null;
       try {
@@ -7368,19 +6827,17 @@ window.tourSearchFunctions = (function () {
         Logger.debug("Error extracting panorama thumbnail:", e);
       }
 
-      // [6.1.24.6] Add panorama to search index only if includePanoramas is true AND passes filtering
+      // [6.5.6] Add panorama to search index only if includePanoramas is true AND passes filtering
       if (config.includeContent?.elements?.includePanoramas !== false) {
         // Apply the same filtering logic used for overlays
-        if (
-          _shouldIncludeElement("Panorama", displayLabel, tags, subtitle)
-        ) {
+        if (_shouldIncludeElement("Panorama", finalDisplayLabel, tags, subtitle)) {
           fuseData.push({
             type: "Panorama",
             source: source,
             index,
             originalIndex: index,
             playlistOrder: index,
-            label: displayLabel,
+            label: finalDisplayLabel,
             originalLabel: label,
             subtitle: getResultDescription(
               subtitle,
@@ -7405,13 +6862,11 @@ window.tourSearchFunctions = (function () {
                   : _config.searchSettings.boostValues.unlabeledItem,
           });
         } else {
-          Logger.debug(
-            `[PANORAMA FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`,
-          );
+          console.log(`[PANORAMA FILTERED] "${finalDisplayLabel}" was filtered out by _shouldIncludeElement`);
         }
       }
 
-      // [6.1.24.7] Process panorama overlays
+      // [6.5.7] Process panorama overlays
       const overlays = _getOverlays(media, tour, item);
       _processOverlaysWithSource(
         overlays,
@@ -7423,7 +6878,7 @@ window.tourSearchFunctions = (function () {
       );
     }
 
-    // [6.1.25] Sub-function: _processOverlaysWithSource()
+    // [6.6] Sub-function: _processOverlaysWithSource()
     function _processOverlaysWithSource(
       overlays,
       fuseData,
@@ -7440,7 +6895,7 @@ window.tourSearchFunctions = (function () {
         try {
           const overlayData = _safeGetData(overlay);
 
-          // [6.1.25.0.1] Get overlay label with fallbacks
+          // [6.6.1] Get overlay label with fallbacks
           let overlayLabel = "";
           if (overlayData.label) {
             overlayLabel = overlayData.label.trim();
@@ -7451,15 +6906,15 @@ window.tourSearchFunctions = (function () {
               const label = overlay.get("label");
               if (label) overlayLabel = label.trim();
             } catch {
-              // [6.1.25.0.2] Silently fail if label retrieval fails
+              // [6.6.1.1] Silently fail if label retrieval fails
             }
           }
 
-          // [6.1.25.0.3] Skip if label is empty and configured to do so
+          // [6.6.2] Skip if label is empty and configured to do so
           if (!overlayLabel && config.includeContent.elements.skipEmptyLabels)
             return;
 
-          // [6.1.25.0.4] Filter overlay based on type and configuration
+          // [6.6.3] Filter overlay based on type and configuration
           let elementType = _getElementType(overlay, overlayLabel);
           const elementTags = Array.isArray(overlayData.tags)
             ? overlayData.tags
@@ -7467,42 +6922,28 @@ window.tourSearchFunctions = (function () {
           const overlaySubtitle = overlayData?.subtitle || "";
 
           // Compute display label first, then filter with both label and subtitle
-          const displayLabel = _getDisplayLabel(
-            overlayLabel,
-            overlaySubtitle,
-            elementTags,
-            {
-              type: elementType,
-              id: overlay.id || (overlay.get ? overlay.get("id") : null),
-              index: overlayIndex,
-            },
-          );
+          const displayLabel = _getDisplayLabel(overlayLabel, overlaySubtitle, elementTags, {
+            type: elementType,
+            id: overlay.id || (overlay.get ? overlay.get("id") : null),
+            index: overlayIndex
+          });
 
           // DEBUG: Log overlay processing
-          Logger.debug(`[OVERLAY DEBUG] Processing overlay:`, {
+          console.log(`[OVERLAY DEBUG] Processing overlay:`, {
             overlayLabel,
             displayLabel,
             elementType,
             overlayClass: overlay.class,
             overlaySubtitle,
-            elementTags,
+            elementTags
           });
 
-          if (
-            !_shouldIncludeElement(
-              elementType,
-              displayLabel,
-              elementTags,
-              overlaySubtitle,
-            )
-          ) {
-            Logger.debug(
-              `[OVERLAY FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`,
-            );
+          if (!_shouldIncludeElement(elementType, displayLabel, elementTags, overlaySubtitle)) {
+            console.log(`[OVERLAY FILTERED] "${displayLabel}" was filtered out by _shouldIncludeElement`);
             return;
           }
 
-          // [6.1.25.0.5] Get overlay ID
+          // [6.6.4] Get overlay ID
           let elementId = null;
           if (overlay.id) {
             elementId = overlay.id;
@@ -7514,7 +6955,7 @@ window.tourSearchFunctions = (function () {
             }
           }
 
-          // [6.1.25.0.6] Match with business data
+          // [6.6.5] Match with business data
           let businessMatch = null;
           if (
             config.businessData?.useBusinessData &&
@@ -7536,7 +6977,7 @@ window.tourSearchFunctions = (function () {
             }
           }
 
-          // [6.1.25.0.7] Match with sheets data
+          // [6.6.6] Match with sheets data
           const sheetsMatch = getSheetsMatch(
             overlayLabel,
             overlay,
@@ -7549,28 +6990,42 @@ window.tourSearchFunctions = (function () {
             },
           );
 
-          // [6.1.25.0.8] Determine final display label
+          // [6.6.7] Determine final display label
+          let finalDisplayLabel;
           if (businessMatch && config.businessData.replaceTourData) {
-            displayLabel =
+            finalDisplayLabel =
               businessMatch.name ||
               overlayLabel ||
               `${elementType} ${parentIndex}.${overlayIndex}`;
           } else if (sheetsMatch && config.googleSheets.useAsDataSource) {
-            displayLabel =
+            finalDisplayLabel =
               sheetsMatch.name ||
               overlayLabel ||
               `${elementType} ${parentIndex}.${overlayIndex}`;
+          } else {
+            // Use the proper label fallback system for tour data
+            finalDisplayLabel = _getDisplayLabel(
+              overlayLabel,
+              overlaySubtitle,
+              elementTags,
+              {
+                type: elementType,
+                id: elementId,
+                index: overlayIndex,
+                parentIndex: parentIndex,
+                parentLabel: parentLabel,
+              },
+            );
           }
-          // displayLabel is already set from _getDisplayLabel above
 
-          // [6.1.25.0.9] Extract camera information from overlay
+          // [6.6.7.1] Extract camera information from overlay
           const cam = _getOverlayCamera(overlay);
 
-          // [6.1.25.0.10] Add overlay to search index
+          // [6.6.8] Add overlay to search index
           const resultItem = {
             type: elementType,
             source: source,
-            label: displayLabel, // Use the properly calculated label
+            label: finalDisplayLabel, // Use the properly calculated label
             subtitle:
               businessMatch && config.businessData.replaceTourData
                 ? businessMatch.description || ""
@@ -7602,39 +7057,15 @@ window.tourSearchFunctions = (function () {
             resultItem.camera = cam;
           }
 
-          // [6.1.25.0.11] Add modelSpot for 3DModelObject elements
+          // [6.6.8.1] Add modelSpot for 3DModelObject elements
           if (elementType === "3DModelObject") {
             const overlayData = _safeGetData(overlay);
             resultItem.modelSpot = {
-              x:
-                overlay.x ??
-                overlay.translationX ??
-                overlay.tx ??
-                overlayData?.x ??
-                overlayData?.translationX ??
-                overlayData?.tx ??
-                null,
-              y:
-                overlay.y ??
-                overlay.translationY ??
-                overlay.ty ??
-                overlayData?.y ??
-                overlayData?.translationY ??
-                overlayData?.ty ??
-                null,
-              z:
-                overlay.z ??
-                overlay.translationZ ??
-                overlay.tz ??
-                overlayData?.z ??
-                overlayData?.translationZ ??
-                overlayData?.tz ??
-                null,
+              x: overlay.x ?? overlay.translationX ?? overlay.tx ?? overlayData?.x ?? overlayData?.translationX ?? overlayData?.tx ?? null,
+              y: overlay.y ?? overlay.translationY ?? overlay.ty ?? overlayData?.y ?? overlayData?.translationY ?? overlayData?.ty ?? null,
+              z: overlay.z ?? overlay.translationZ ?? overlay.tz ?? overlayData?.z ?? overlayData?.translationZ ?? overlayData?.tz ?? null,
             };
-            Logger.debug(
-              `Added modelSpot for 3DModelObject ${elementId}:`,
-              resultItem.modelSpot,
-            );
+            Logger.debug(`Added modelSpot for 3DModelObject ${elementId}:`, resultItem.modelSpot);
           }
 
           fuseData.push(resultItem);
@@ -7647,292 +7078,247 @@ window.tourSearchFunctions = (function () {
       });
     }
 
-    // [6.1.26] Sub-function: createHybridClickHandler()
+    // [6.7] Sub-function: createHybridClickHandler()
     function createHybridClickHandler(result, tour) {
-      return function (e) {
-        // Event handling
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-        if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
-
+      return function () {
         try {
-          // [6.1.26.0.1] Handle Container type specially
-          if (result.item.type === "Container") {
-            if (result.item.isContainer && result.item.containerName) {
-              try {
-                if (
-                  window.tourMenu &&
-                  typeof window.tourMenu.toggleContainer === "function"
-                ) {
-                  window.tourMenu.toggleContainer(
-                    result.item.containerName,
-                    false,
-                  );
-                  Logger.info(
-                    `Toggled container: ${result.item.containerName}`,
-                  );
-                } else {
-                  Logger.warn("tourMenu not available for container toggle");
-                  // Fallback: Try direct container manipulation
-                  if (window.tour && window.tour.player) {
-                    const containers =
-                      window.tour.player.getByClassName("Container");
-                    const container = containers.find((c) => {
-                      const data = c.get("data");
-                      return data && data.name === result.item.containerName;
-                    });
+          Logger.info(
+            `Handling click for ${result.item.type} from ${result.item.source} playlist`,
+          );
 
-                    if (container) {
-                      const isVisible = container.get("visible");
-                      container.set("visible", !isVisible);
-                      Logger.info(
-                        `Direct toggle container "${result.item.containerName}" to: ${!isVisible}`,
-                      );
-                    } else {
-                      Logger.warn(
-                        `Container "${result.item.containerName}" not found`,
-                      );
-                    }
-                  }
-                }
-              } catch (e) {
-                Logger.error(`Error toggling container: ${e.message}`);
+          // [6.7.0] Check for camera navigation first
+          if (result.item.camera && 
+              result.item.camera.yaw !== null && result.item.camera.yaw !== undefined &&
+              result.item.camera.pitch !== null && result.item.camera.pitch !== undefined &&
+              Number.isFinite(result.item.camera.yaw) && Number.isFinite(result.item.camera.pitch)) {
+            
+            // [6.7.0.1] Determine target playlist based on source
+            let targetPlaylist = null;
+
+            if (result.item.source === "main") {
+              targetPlaylist = tour.mainPlayList;
+            } else if (result.item.source === "root") {
+              if (
+                tour.locManager &&
+                tour.locManager.rootPlayer &&
+                tour.locManager.rootPlayer.mainPlayList
+              ) {
+                targetPlaylist = tour.locManager.rootPlayer.mainPlayList;
+              } else {
+                targetPlaylist = tour.mainPlayList;
               }
             }
-            return; // Exit early for containers
+
+            if (!targetPlaylist) {
+              Logger.error("No valid playlist found for camera navigation");
+              return;
+            }
+
+            // [6.7.0.2] Get playlist items using official API
+            const items = tour.getPlayListItems(targetPlaylist);
+            const itemObj = items && items[result.item.mediaIndex];
+
+            if (!itemObj) {
+              Logger.error(`No playlist item found at mediaIndex ${result.item.mediaIndex}, falling back to old behavior`);
+              return;
+            }
+
+            // [6.7.0.3] Use 3DVista API for camera navigation
+            const fovValue = Number.isFinite(result.item.camera.fov) ? result.item.camera.fov : TDV.Player.DEFAULT_PANORAMA_HFOV;
+            
+            tour.setPanoramaCameraWithSpot(targetPlaylist, itemObj, result.item.camera.yaw, result.item.camera.pitch, fovValue);
+            tour.setPlayListSelectedIndex(targetPlaylist, result.item.mediaIndex);
+
+            Logger.info('[NAV] setPanoramaCameraWithSpot + setPlayListSelectedIndex', {
+              mediaIndex: result.item.mediaIndex, 
+              yaw: result.item.camera.yaw, 
+              pitch: result.item.camera.pitch,
+              fov: fovValue
+            });
+            
+            return; // Early return - don't run existing navigation logic
           }
 
-          // [6.1.26.0.2] Compute targetPlaylist once based on result.item.source
-          let targetPlaylist;
-          if (result.item.source === 'root' || (result.item.type === '3DModel' || result.item.type === '3DModelObject' || result.item.type === '3DHotspot')) {
-            // Use root playlist for 3D content when available
-            const playlists = PlaylistUtils.getAllPlayLists(tour);
-            targetPlaylist = playlists.root || playlists.main || tour?.mainPlayList;
-          } else {
-            // Prefer main playlist
-            const playlists = PlaylistUtils.getAllPlayLists(tour);
-            targetPlaylist = playlists.main || tour?.mainPlayList;
+          // [6.7.1] Determine target playlist based on source
+          let targetPlaylist = null;
+
+          if (result.item.source === "main") {
+            // [6.7.1.1] Use main playlist for navigation
+            targetPlaylist = tour.mainPlayList;
+            Logger.info("Using main playlist for navigation");
+          } else if (result.item.source === "root") {
+            // [6.7.1.2] Use root player playlist for 3D content
+            if (
+              tour.locManager &&
+              tour.locManager.rootPlayer &&
+              tour.locManager.rootPlayer.mainPlayList
+            ) {
+              targetPlaylist = tour.locManager.rootPlayer.mainPlayList;
+              Logger.info("Using root player playlist for navigation");
+            } else {
+              // [6.7.1.3] Fallback to main playlist
+              targetPlaylist = tour.mainPlayList;
+              Logger.warn(
+                "Root playlist not available, falling back to main playlist",
+              );
+            }
           }
 
           if (!targetPlaylist) {
-            Logger.error('[NAV] No target playlist available');
+            Logger.error("No valid playlist found for navigation");
             return;
           }
 
-          // [6.1.26.0.3] Panorama/3DModel branch
-          if (result.item.type === 'Panorama' || result.item.type === '3DModel') {
-            const idx = (typeof result.item.originalIndex === 'number') 
-              ? result.item.originalIndex 
-              : (typeof result.item.index === 'number') 
-                ? result.item.index 
-                : undefined;
-
-            if (typeof idx === 'number') {
-              targetPlaylist.set('selectedIndex', idx);
-              Logger.info('[NAV] media', { type: result.item.type, idx, label: result.item.label });
-              return;
+          // [6.7.2] Handle navigation based on result type
+          if (
+            result.item.type === "Panorama" ||
+            result.item.type === "3DModel"
+          ) {
+            // [6.7.2.1] Navigate directly for Panoramas and 3D Models
+            if (typeof result.item.originalIndex === "number") {
+              try {
+                targetPlaylist.set("selectedIndex", result.item.originalIndex);
+                Logger.info(
+                  `Navigated to ${result.item.type} at index ${result.item.originalIndex} using ${result.item.source} playlist`,
+                );
+              } catch (e) {
+                Logger.error(
+                  `Error navigating to ${result.item.type}: ${e.message}`,
+                );
+              }
             }
-          }
-
-          // [6.1.26.0.4] 3DModelObject and 3DHotspot branch
-          if (result.item.type === '3DModelObject' || result.item.type === '3DHotspot') {
-            // Always navigate to the parent 3D model first
+          } else if (result.item.type === "3DModelObject") {
+            // [6.7.2.2] Enhanced 3D Model Object handling with modelSpot support
             if (result.item.parentIndex !== undefined) {
               try {
-                targetPlaylist.set('selectedIndex', result.item.parentIndex);
-                Logger.info(`[3D NAV] Parent model index ${result.item.parentIndex} selected for ${result.item.type} "${result.item.label}"`);
-              } catch (e) {
-                Logger.error(`[3D NAV] Could not select parent index: ${e.message}`);
-              }
-            }
+                // [6.7.2.2.1] Resolve target playlist for 3D model navigation
+                let targetPlaylist = null;
 
-            // NEW: Robust begin+trigger implementation
-            const fire = () => {
-              const rawLabel = result.item.originalLabel || result.item.label || "";
-              const parentModelId = result.item.parentModel;
+                if (result.item.source === "main") {
+                  targetPlaylist = tour.mainPlayList;
+                } else if (result.item.source === "root") {
+                  if (
+                    tour.locManager &&
+                    tour.locManager.rootPlayer &&
+                    tour.locManager.rootPlayer.mainPlayList
+                  ) {
+                    targetPlaylist = tour.locManager.rootPlayer.mainPlayList;
+                  } else {
+                    targetPlaylist = tour.mainPlayList;
+                  }
+                }
 
-              // Get the parent model item to attach begin handler
-              const items = targetPlaylist.get && targetPlaylist.get('items');
-              const parentItem = items && items[result.item.parentIndex];
+                if (!targetPlaylist) {
+                  Logger.error("No valid playlist found for 3DModelObject navigation");
+                  return;
+                }
 
-              if (parentItem && typeof parentItem.bind === 'function') {
-                // Setup robust begin handler
-                const beginHandler = () => {
-                  Logger.info('[3D BEGIN] Model begin triggered, attempting element trigger');
+                // [6.7.2.2.2] Get parent item from playlist
+                const parentItem = targetPlaylist.get('items')[result.item.parentIndex];
+                if (!parentItem) {
+                  Logger.error(`No parent item found at index ${result.item.parentIndex}`);
+                  return;
+                }
+
+                Logger.debug(`[3D MODEL OBJECT] Navigating to 3DModelObject`, {
+                  playlistSource: result.item.source,
+                  parentIndex: result.item.parentIndex,
+                  modelSpot: result.item.modelSpot,
+                  elementId: result.item.id
+                });
+
+                // [6.7.2.2.3] Use setModel3DCameraSpot if modelSpot has position data
+                if (result.item.modelSpot && 
+                    (result.item.modelSpot.x !== null || 
+                     result.item.modelSpot.y !== null || 
+                     result.item.modelSpot.z !== null)) {
                   
-                  const tryByLabelFallback = () => {
-                    const sprite = _find3DSpriteByLabel(tour, { label: rawLabel, parentModelId });
-                    if (sprite) {
-                      const sid = (sprite.get && sprite.get("id")) || sprite.id;
-                      if (sid) {
-                        Logger.info(`[3D TRIGGER] Fallback by label -> id ${sid}`);
-                        _triggerElement(tour, sid, (ok) => {
-                          if (!ok) Logger.warn(`[3D TRIGGER] Fallback trigger failed for id ${sid}`);
-                        }, { maxRetries: 20, initialDelay: 0, baseRetryInterval: 250, maxRetryInterval: 1200 });
-                      } else if (typeof sprite.trigger === "function") {
-                        Logger.info("[3D TRIGGER] Direct sprite.trigger('click') fallback");
-                        try { sprite.trigger("click"); } catch (e) { Logger.warn("Direct trigger failed:", e); }
-                      } else {
-                        Logger.warn(`[3D TRIGGER] Sprite found but no triggerable interface for "${rawLabel}"`);
-                      }
-                    } else {
-                      Logger.warn(`[3D TRIGGER] No sprite found for "${rawLabel}" under model ${parentModelId || "(unknown)"}`);
-                    }
-                  };
+                  tour.setModel3DCameraSpot(targetPlaylist, parentItem, result.item.modelSpot);
+                  tour.setPlayListSelectedIndex(targetPlaylist, result.item.parentIndex);
+                  
+                  Logger.info(`[3D MODEL OBJECT] Used setModel3DCameraSpot with modelSpot:`, {
+                    parentIndex: result.item.parentIndex,
+                    modelSpot: result.item.modelSpot
+                  });
 
+                  // [6.7.2.2.4] Fallback element trigger after short delay
                   if (result.item.id) {
-                    Logger.info(`[3D TRIGGER] Trying by id: ${result.item.id}`);
-                    _triggerElement(tour, result.item.id, (success) => {
-                      if (!success) {
-                        Logger.warn(`[3D TRIGGER] id ${result.item.id} not found; trying label fallback "${rawLabel}"`);
-                        tryByLabelFallback();
-                      }
-                    }, { maxRetries: 20, initialDelay: 0, baseRetryInterval: 250, maxRetryInterval: 1200 });
-                  } else {
-                    Logger.info(`[3D TRIGGER] No id on result; using label fallback "${rawLabel}"`);
-                    tryByLabelFallback();
+                    setTimeout(() => {
+                      _triggerElement(tour, result.item.id, (success) => {
+                        Logger.debug(`[3D MODEL OBJECT] Fallback trigger ${success ? 'succeeded' : 'failed'} for ${result.item.id}`);
+                      });
+                    }, 500);
                   }
-
-                  // Cleanup: unbind this handler after execution
-                  try {
-                    parentItem.unbind && parentItem.unbind('begin', beginHandler);
-                  } catch(e) {
-                    Logger.debug('Failed to unbind begin handler:', e);
-                  }
-                };
-
-                // Bind the begin handler
-                parentItem.bind('begin', beginHandler);
-                Logger.info('[3D SETUP] Begin handler bound, ready for model activation');
-              } else {
-                // Fallback: immediate trigger without begin handler
-                Logger.warn('[3D FALLBACK] No parent item bind capability, using immediate trigger');
-                
-                const tryByLabelFallback = () => {
-                  const sprite = _find3DSpriteByLabel(tour, { label: rawLabel, parentModelId });
-                  if (sprite) {
-                    const sid = (sprite.get && sprite.get("id")) || sprite.id;
-                    if (sid) {
-                      Logger.info(`[3D TRIGGER] Fallback by label -> id ${sid}`);
-                      _triggerElement(tour, sid, (ok) => {
-                        if (!ok) Logger.warn(`[3D TRIGGER] Fallback trigger failed for id ${sid}`);
-                      }, { maxRetries: 20, initialDelay: 0, baseRetryInterval: 250, maxRetryInterval: 1200 });
-                    } else if (typeof sprite.trigger === "function") {
-                      Logger.info("[3D TRIGGER] Direct sprite.trigger('click') fallback");
-                      try { sprite.trigger("click"); } catch (e) { Logger.warn("Direct trigger failed:", e); }
-                    } else {
-                      Logger.warn(`[3D TRIGGER] Sprite found but no triggerable interface for "${rawLabel}"`);
-                    }
-                  } else {
-                    Logger.warn(`[3D TRIGGER] No sprite found for "${rawLabel}" under model ${parentModelId || "(unknown)"}`);
-                  }
-                };
-
-                if (result.item.id) {
-                  Logger.info(`[3D TRIGGER] Trying by id: ${result.item.id}`);
-                  _triggerElement(tour, result.item.id, (success) => {
-                    if (!success) {
-                      Logger.warn(`[3D TRIGGER] id ${result.item.id} not found; trying label fallback "${rawLabel}"`);
-                      tryByLabelFallback();
-                    }
-                  }, { maxRetries: 20, initialDelay: 0, baseRetryInterval: 250, maxRetryInterval: 1200 });
-                } else {
-                  Logger.info(`[3D TRIGGER] No id on result; using label fallback "${rawLabel}"`);
-                  tryByLabelFallback();
-                }
-              }
-            };
-
-            // Give the model a moment to mount, then setup handlers
-            setTimeout(fire, 600);
-            return; // prevent further fall-through
-          }
-
-          // [6.1.26.0.5] Overlay with camera branch (FIXED: pre-bind, then select)
-          if (result.item.camera && (result.item.type === 'Hotspot' || result.item.type === 'Polygon' || 
-              result.item.type === 'ProjectedImage' || result.item.type === 'Image' || 
-              result.item.type === 'Text' || result.item.type === 'Video' || result.item.type === 'Webframe')) {
-            
-            if (typeof result.item.mediaIndex === 'number') {
-              // Pre-fetch the target item before playlist selection
-              const items = targetPlaylist.get && targetPlaylist.get('items');
-              const itemObj = items && items[result.item.mediaIndex];
-              
-              if (itemObj && typeof tour.setPanoramaCameraWithSpot === 'function') {
-                const applyCamera = () => {
-                  const { yaw, pitch, fov } = result.item.camera;
-                  if (fov !== undefined) {
-                    tour.setPanoramaCameraWithSpot(targetPlaylist, itemObj, yaw, pitch, fov);
-                  } else {
-                    tour.setPanoramaCameraWithSpot(targetPlaylist, itemObj, yaw, pitch);
-                  }
-                  Logger.info('[NAV] hotspot+camera (one-shot)', { mediaIndex: result.item.mediaIndex, yaw, pitch, fov });
-                };
-
-                // Check if already active before binding
-                const isActive = !!(itemObj.get && itemObj.get('player') && itemObj.get('player').get('viewerArea'));
-                if (isActive) {
-                  // Already active - apply camera immediately, then navigate
-                  applyCamera();
-                  targetPlaylist.set('selectedIndex', result.item.mediaIndex);
-                } else if (itemObj.bind && typeof itemObj.bind === 'function') {
-                  // Clear any previous handler we attached
-                  if (itemObj._searchCameraBeginHandler) {
-                    Logger.debug('[NAV] clearing previous camera begin handler');
-                    try { itemObj.unbind && itemObj.unbind('begin', itemObj._searchCameraBeginHandler); } catch(e) {}
-                    itemObj._searchCameraBeginHandler = null;
-                  }
-                  // Pre-bind the one-shot handler before selection
-                  const once = () => {
-                    try { itemObj.unbind && itemObj.unbind('begin', once); } catch(e) {}
-                    itemObj._searchCameraBeginHandler = null;
-                    applyCamera();
-                  };
-                  itemObj._searchCameraBeginHandler = once;
-                  itemObj.bind('begin', once);
-                  Logger.debug('[NAV] bound one-shot camera begin handler');
                   
-                  // Now trigger the playlist selection (which will fire begin)
-                  targetPlaylist.set('selectedIndex', result.item.mediaIndex);
                 } else {
-                  // Fallback: navigate first, then delayed camera
-                  targetPlaylist.set('selectedIndex', result.item.mediaIndex);
-                  setTimeout(applyCamera, 250);
+                  // [6.7.2.2.5] Fallback to original behavior if no modelSpot
+                  Logger.debug(`[3D MODEL OBJECT] No modelSpot data, using fallback navigation`);
+                  
+                  targetPlaylist.set("selectedIndex", result.item.parentIndex);
+                  Logger.info(`Navigated to parent 3D model at index ${result.item.parentIndex}`);
+
+                  // Trigger the specific object after a delay
+                  setTimeout(() => {
+                    if (result.item.id) {
+                      _triggerElement(tour, result.item.id, (success) => {
+                        if (success) {
+                          Logger.info(`Successfully triggered 3D object ${result.item.id}`);
+                        } else {
+                          Logger.warn(`Failed to trigger 3D object ${result.item.id}`);
+                        }
+                      });
+                    }
+                  }, 500); // Delay for 3D model loading
                 }
-              } else {
-                // No camera function available, just navigate
-                targetPlaylist.set('selectedIndex', result.item.mediaIndex);
+
+              } catch (e) {
+                Logger.error(`Error navigating to 3D model object: ${e.message}`);
               }
-              return;
+            }
+          } else if (result.item.parentIndex !== undefined) {
+            // [6.7.2.3] Navigate to parent, then trigger other child elements
+            try {
+              targetPlaylist.set("selectedIndex", result.item.parentIndex);
+              Logger.info(
+                `Navigated to parent panorama at index ${result.item.parentIndex}`,
+              );
+
+              if (result.item.id) {
+                setTimeout(() => {
+                  _triggerElement(tour, result.item.id, (success) => {
+                    if (success) {
+                      Logger.info(
+                        `Successfully triggered element ${result.item.id}`,
+                      );
+                    } else {
+                      Logger.warn(
+                        `Failed to trigger element ${result.item.id}`,
+                      );
+                    }
+                  });
+                }, 300);
+              }
+            } catch (e) {
+              Logger.error(`Error navigating to parent panorama: ${e.message}`);
             }
           }
 
-          // [6.1.26.0.6] Overlay without camera branch
-          if (result.item.type === 'Hotspot' || result.item.type === 'Polygon' || 
-              result.item.type === 'ProjectedImage' || result.item.type === 'Image' || 
-              result.item.type === 'Text' || result.item.type === 'Video' || result.item.type === 'Webframe') {
-            
-            // Navigate using mediaIndex then focus overlay
-            if (typeof result.item.mediaIndex === 'number') {
-              targetPlaylist.set('selectedIndex', result.item.mediaIndex);
-              
-              const items = targetPlaylist.get && targetPlaylist.get('items');
-              const itemObj = items && items[result.item.mediaIndex];
-              
-              if (itemObj && typeof tour.focusOverlayByName === 'function' && result.item.label) {
-                tour.focusOverlayByName(itemObj, result.item.label);
-                Logger.info('[NAV] hotspot+focus', { mediaIndex: result.item.mediaIndex, label: result.item.label });
-              }
-              return;
+          // [6.7.3] Handle standalone Google Sheets entries
+          if (result.item.isStandalone && result.item.sheetsData) {
+            const success = _triggerStandaloneElement(result.item, tour);
+            if (!success) {
+              Logger.warn(
+                `Could not navigate to standalone entry: ${result.item.label}`,
+              );
             }
           }
-
         } catch (error) {
           Logger.error(`Error in hybrid click handler: ${error.message}`);
         }
       };
     }
 
-    // [6.1.27] Sub-function: getBusinessMatch()
+    // [6.8] Sub-function: getBusinessMatch()
     function getBusinessMatch(label, media, tags, config) {
       if (!config.businessData?.useBusinessData || !_businessData.length)
         return null;
@@ -7964,7 +7350,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.28] Sub-function: getSheetsMatch()
+    // [6.9] Sub-function: getSheetsMatch()
     function getSheetsMatch(label, media, tags, config, tourItemContext) {
       if (!config.googleSheets?.useGoogleSheetData || !_googleSheetsData.length)
         return null;
@@ -7972,7 +7358,7 @@ window.tourSearchFunctions = (function () {
       try {
         const itemId = media.get ? media.get("id") : media.id;
 
-        // [6.1.28.0.1] Create a comprehensive context for matching
+        // [6.9.1] Create a comprehensive context for matching
         const matchContext = {
           label: label || "",
           itemId: itemId || "",
@@ -7986,9 +7372,9 @@ window.tourSearchFunctions = (function () {
           `[SHEETS MATCH] Looking for match for: ${matchContext.label} (ID: ${matchContext.itemId}, Type: ${matchContext.elementType})`,
         );
 
-        // [6.1.28.0.2] Find all potential matches
+        // [6.9.2] Find all potential matches
         const potentialMatches = _googleSheetsData.filter((entry) => {
-          // [6.1.28.0.3] Method 1: Exact ID match (highest priority)
+          // [6.9.2.1] Method 1: Exact ID match (highest priority)
           if (
             entry.id &&
             matchContext.itemId &&
@@ -7998,7 +7384,7 @@ window.tourSearchFunctions = (function () {
             return true;
           }
 
-          // [6.1.28.0.4] Method 2: Tag-based matching (medium priority)
+          // [6.9.2.2] Method 2: Tag-based matching (medium priority)
           if (
             entry.tag &&
             matchContext.label &&
@@ -8010,7 +7396,7 @@ window.tourSearchFunctions = (function () {
             return true;
           }
 
-          // [6.1.28.0.5] Method 3: Exact name matching (lower priority)
+          // [6.9.2.3] Method 3: Exact name matching (lower priority)
           if (
             entry.name &&
             matchContext.label &&
@@ -8039,12 +7425,12 @@ window.tourSearchFunctions = (function () {
           return potentialMatches[0];
         }
 
-        // [6.1.28.0.6] Resolve ambiguity if multiple matches are found
+        // [6.9.3] Resolve ambiguity if multiple matches are found
         Logger.warn(
           `[SHEETS MATCH] Multiple matches found for ${matchContext.label} (${potentialMatches.length} matches)`,
         );
 
-        // [6.1.28.0.7] Resolution: Prefer exact ID matches
+        // [6.9.3.1] Resolution: Prefer exact ID matches
         const exactIdMatches = potentialMatches.filter(
           (entry) =>
             entry.id &&
@@ -8059,7 +7445,7 @@ window.tourSearchFunctions = (function () {
           return exactIdMatches[0];
         }
 
-        // [6.1.28.0.8] Resolution: Prefer matches with a specified element type
+        // [6.9.3.2] Resolution: Prefer matches with a specified element type
         const typeSpecificMatches = potentialMatches.filter(
           (entry) =>
             entry.elementType &&
@@ -8074,7 +7460,7 @@ window.tourSearchFunctions = (function () {
           return typeSpecificMatches[0];
         }
 
-        // [6.1.28.0.9] Resolution: Prefer matches with more detailed data
+        // [6.9.3.3] Resolution: Prefer matches with more detailed data
         const detailedMatches = potentialMatches.filter(
           (entry) => entry.description && entry.description.length > 10, // Has substantial description
         );
@@ -8086,7 +7472,7 @@ window.tourSearchFunctions = (function () {
           return detailedMatches[0];
         }
 
-        // [6.1.28.0.10] Resolution: Log ambiguity and return the first match
+        // [6.9.3.4] Resolution: Log ambiguity and return the first match
         Logger.warn(
           `[SHEETS MATCH] Could not resolve ambiguity for ${matchContext.label}. Using first match: ${potentialMatches[0].name}`,
         );
@@ -8101,7 +7487,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.29] Sub-function: getResultLabel()
+    // [6.10] Sub-function: getResultLabel()
     function getResultLabel(displayLabel, businessMatch, sheetsMatch, config) {
       if (businessMatch && config.businessData.replaceTourData) {
         return businessMatch.name || displayLabel;
@@ -8115,7 +7501,7 @@ window.tourSearchFunctions = (function () {
       return displayLabel;
     }
 
-    // [6.1.30] Sub-function: getResultDescription()
+    // [6.11] Sub-function: getResultDescription()
     function getResultDescription(
       subtitle,
       businessMatch,
@@ -8131,21 +7517,12 @@ window.tourSearchFunctions = (function () {
       return subtitle || "";
     }
 
-    // [6.1.31] Sub-function: prepareFuse()
+    // [6.12] Sub-function: prepareFuse()
     function prepareFuse() {
       fuse = _prepareSearchIndex(tour, _config);
     }
 
-    // [6.x] After prepareFuse is defined during initialization:
-    _rebuildIndex = function () {
-      try {
-        prepareFuse(); // uses the in-scope prepareFuse
-      } catch (e) {
-        Logger?.warn?.("Rebuild index failed:", e);
-      }
-    };
-
-    // [6.1.32] Sub-function: _safeGetData()
+    // [6.13] Sub-function: _safeGetData()
     function _safeGetData(obj) {
       if (!obj) return {};
 
@@ -8161,86 +7538,102 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.33] Sub-function: _shouldIncludePanorama()
-    function _shouldIncludePanorama(panoramaIndex, mediaIndexConfig) {
-      // Extract mediaIndexConfig properties
-      const {
-        mode = "none",
-        allowed = [],
-        blacklisted = [],
-      } = mediaIndexConfig || {};
-
-      Logger?.debug?.("[MEDIA-INDEX]", {
-        mode,
-        index: panoramaIndex,
-        allowed,
-        blacklisted,
-        action: "checked",
-      });
-
-      // Only gate by the mediaIndexConfig (no label gating)
-      if (mode === "whitelist" && allowed.length > 0) {
-        const indexStr = String(panoramaIndex);
-        if (!allowed.includes(indexStr)) {
-          Logger?.debug?.("[MEDIA-INDEX]", {
-            mode,
-            index: panoramaIndex,
-            allowed,
-            blacklisted,
-            action: "rejected-whitelist",
-          });
-          return false;
+    // [6.14] Sub-function: _shouldIncludePanorama()
+    function _shouldIncludePanorama(
+      label,
+      subtitle,
+      tags,
+      index,
+      filterMode,
+      allowedValues,
+      blacklistedValues,
+      allowedMediaIndexes,
+      blacklistedMediaIndexes,
+    ) {
+      // [6.14.1] Apply whitelist/blacklist filters
+      if (filterMode === "whitelist") {
+        if (label) {
+          if (!allowedValues.includes(label)) {
+            if (!subtitle || !allowedValues.includes(subtitle)) return false;
+          }
+        } else {
+          if (subtitle && !allowedValues.includes(subtitle)) return false;
         }
-      } else if (mode === "blacklist" && blacklisted.length > 0) {
-        const indexStr = String(panoramaIndex);
-        if (blacklisted.includes(indexStr)) {
-          Logger?.debug?.("[MEDIA-INDEX]", {
-            mode,
-            index: panoramaIndex,
-            allowed,
-            blacklisted,
-            action: "rejected-blacklist",
-          });
-          return false;
-        }
+      } else if (filterMode === "blacklist") {
+        if (label && blacklistedValues.includes(label)) return false;
+        if (subtitle && blacklistedValues.includes(subtitle)) return false;
       }
 
-      Logger?.debug?.("[MEDIA-INDEX]", {
-        mode,
-        index: panoramaIndex,
-        allowed,
-        blacklisted,
-        action: "passed",
-      });
+      // [6.14.2] Handle completely blank items
+      const hasTags = Array.isArray(tags) && tags.length > 0;
+      if (!label && !subtitle && !hasTags) {
+        console.log(`[MEDIA-INDEX] Completely blank item at index ${index}, checking media index filtering`);
+        
+        // Check media index filtering
+        if (filterMode === "whitelist" && allowedMediaIndexes.length > 0) {
+          console.log(`[MEDIA-INDEX WHITELIST] Checking index "${index}" against allowed:`, allowedMediaIndexes);
+          
+          if (!allowedMediaIndexes.includes(index)) {
+            console.log(`[MEDIA-INDEX WHITELIST REJECT] Index "${index}" not in allowed list`);
+            return false;
+          } else {
+            console.log(`[MEDIA-INDEX WHITELIST PASS] Index "${index}" found in allowed list`);
+          }
+        }
+        if (filterMode === "blacklist" && blacklistedMediaIndexes.length > 0) {
+          console.log(`[MEDIA-INDEX BLACKLIST] Checking index "${index}" against blacklisted:`, blacklistedMediaIndexes);
+          
+          if (blacklistedMediaIndexes.includes(index)) {
+            console.log(`[MEDIA-INDEX BLACKLIST REJECT] Index "${index}" found in blacklisted list`);
+            return false;
+          } else {
+            console.log(`[MEDIA-INDEX BLACKLIST PASS] Index "${index}" not in blacklisted list`);
+          }
+        }
+        if (!_config.includeContent.completelyBlank) return false;
+      }
+
+      // [6.14.3] Skip unlabeled items based on configuration
+      if (!label) {
+        const hasSubtitle = Boolean(subtitle);
+
+        const shouldInclude =
+          (hasSubtitle && _config.includeContent.unlabeledWithSubtitles) ||
+          (hasTags && _config.includeContent.unlabeledWithTags) ||
+          (!hasSubtitle && !hasTags && _config.includeContent.completelyBlank);
+
+        if (!shouldInclude) return false;
+      }
+
       return true;
     }
 
-    // [6.1.34] Sub-function: _getDisplayLabel()
+    // [6.15] Sub-function: _getDisplayLabel()
     function _getDisplayLabel(label, subtitle, tags, itemContext) {
-      // [6.1.34.1] Generate display label with context awareness
+      // [6.15.1] Generate display label with context awareness
       const context = itemContext || {};
       const elementType = context.type || "Element";
       const itemId = context.id || "";
       const index = context.index !== undefined ? context.index : -1;
 
-      // [6.1.34.2] Handle 'onlySubtitles' mode
+      // [6.15.1.1] Handle 'onlySubtitles' mode
       if (_config.display.onlySubtitles && subtitle) {
         return subtitle;
       }
 
-      // [6.1.34.3] Use label if it exists
+      // [6.15.1.2] Use label if it exists
       if (label && label.trim()) {
         return label.trim();
       }
 
-      // [6.1.34.4] If no label, check for subtitle
+      // [6.15.1.3] If no label, check for subtitle
       if (!label || !label.trim()) {
         if (subtitle && subtitle.trim() && _config.useAsLabel.subtitles) {
-          Logger.debug(`[LABEL DEBUG] Using subtitle as label: "${subtitle}"`);
+          console.log(`[LABEL DEBUG] Using subtitle as label: "${subtitle}"`);
           return subtitle.trim();
         }
 
-        // [6.1.34.4.1] If no subtitle, check for tags
+        // [6.15.1.4] If no subtitle, check for tags
         if (Array.isArray(tags) && tags.length > 0 && _config.useAsLabel.tags) {
           console.log(
             `[LABEL DEBUG] Using tags as label: "${tags.join(", ")}"`,
@@ -8248,7 +7641,7 @@ window.tourSearchFunctions = (function () {
           return tags.join(", ");
         }
 
-        // [6.1.34.4.2] As a last resort, use element type and index
+        // [6.15.1.5] As a last resort, use element type and index
         if (_config.useAsLabel.elementType) {
           // Don't show internal IDs - use generic labels
           if (index >= 0) {
@@ -8258,7 +7651,7 @@ window.tourSearchFunctions = (function () {
           }
         }
 
-        // [6.1.34.4.3] Final fallback to custom text
+        // [6.15.1.6] Final fallback to custom text
         const customText = _config.useAsLabel.customText || "[Unnamed Item]";
         return customText;
       }
@@ -8266,12 +7659,12 @@ window.tourSearchFunctions = (function () {
       return label;
     }
 
-    // [6.1.35] Sub-function: _getOverlays()
+    // [6.16] Sub-function: _getOverlays()
 
     function _getOverlays(media, tour, item) {
       const overlays = [];
       const overlayDetectionMethods = [
-        // [6.1.35.0.1] Method 1: media.get('overlays')
+        // [6.14.1] Method 1: media.get('overlays')
         () => {
           try {
             const mediaOverlays = media.get("overlays");
@@ -8284,7 +7677,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.2] Method 2: media.overlays
+        // [6.14.2] Method 2: media.overlays
         () => {
           try {
             if (Array.isArray(media.overlays) && media.overlays.length > 0) {
@@ -8296,7 +7689,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.3] Method 3: item's overlays directly
+        // [6.14.3] Method 3: item's overlays directly
         () => {
           try {
             if (Array.isArray(item.overlays) && item.overlays.length > 0) {
@@ -8308,7 +7701,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.4] Method 4: overlaysByTags
+        // [6.14.4] Method 4: overlaysByTags
         () => {
           try {
             if (typeof media.get === "function") {
@@ -8331,7 +7724,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.5] Method 5: Look for SpriteModel3DObject by panorama
+        // [6.14.5] Method 5: Look for SpriteModel3DObject by panorama
         () => {
           try {
             if (
@@ -8346,7 +7739,7 @@ window.tourSearchFunctions = (function () {
                 const mediaId = media.get ? media.get("id") : media.id;
                 const panoramaSprites = allSprites.filter((sprite) => {
                   try {
-                    // [6.1.35.0.6] Check if sprite belongs to this panorama
+                    // [6.14.5.1] Check if sprite belongs to this panorama
                     const spriteParent = sprite.get
                       ? sprite.get("parent")
                       : sprite.parent;
@@ -8355,7 +7748,7 @@ window.tourSearchFunctions = (function () {
                         ? spriteParent.get("id")
                         : spriteParent?.id;
 
-                    // [6.1.35.0.7] Also check for direct media association
+                    // [6.14.5.2] Also check for direct media association
                     const spriteMedia = sprite.get
                       ? sprite.get("media")
                       : sprite.media;
@@ -8366,7 +7759,7 @@ window.tourSearchFunctions = (function () {
 
                     return parentId === mediaId || spriteMediaId === mediaId;
                   } catch (e) {
-                    // [6.1.35.0.8] If parent is indeterminable, include it for the current panorama
+                    // [6.16.1.5.3] If parent is indeterminable, include it for the current panorama
                     Logger.debug(
                       "Could not determine sprite parent, including in search:",
                       e,
@@ -8392,7 +7785,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.9] Method 6: Fallback to include all 3D objects for the first panorama
+        // [6.16.1.6] Method 6: Fallback to include all 3D objects for the first panorama
         () => {
           try {
             // Only apply this fallback for the first panorama to avoid duplicates
@@ -8418,7 +7811,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.10] Method 7: Search for other 3D classes
+        // [6.16.1.7] Method 7: Search for other 3D classes
         () => {
           try {
             if (
@@ -8442,7 +7835,7 @@ window.tourSearchFunctions = (function () {
           return null;
         },
 
-        // [6.1.35.0.11] Method 8: Search for child elements in tour.player
+        // [6.16.1.8] Method 8: Search for child elements in tour.player
         () => {
           try {
             if (
@@ -8451,7 +7844,7 @@ window.tourSearchFunctions = (function () {
             ) {
               const allOverlays = tour.player.getByClassName("PanoramaOverlay");
               if (Array.isArray(allOverlays) && allOverlays.length > 0) {
-                // [6.1.35.0.12] Filter overlays belonging to the current panorama
+                // [6.16.1.8.1] Filter overlays belonging to the current panorama
                 return allOverlays.filter((overlay) => {
                   try {
                     const parentMedia = overlay.get("media");
@@ -8459,7 +7852,7 @@ window.tourSearchFunctions = (function () {
                       parentMedia && parentMedia.get("id") === media.get("id")
                     );
                   } catch {
-                    // [6.1.35.0.13] If parent is indeterminable, include it for the current panorama
+                    // [6.16.1.8.2] If parent is indeterminable, include it for the current panorama
                     Logger.debug(
                       "Could not determine overlay parent, including in search",
                     );
@@ -8475,7 +7868,7 @@ window.tourSearchFunctions = (function () {
         },
       ];
 
-      // [6.1.35.1] Sequentially try each detection method
+      // [6.16.2] Sequentially try each detection method
       for (const method of overlayDetectionMethods) {
         const result = method();
         if (result && result.length > 0) {
@@ -8491,7 +7884,7 @@ window.tourSearchFunctions = (function () {
       return overlays;
     }
 
-    // [6.1.36] Sub-function: _processOverlays()
+    // [6.17] Sub-function: _processOverlays()
     function _processOverlays(overlays, fuseData, parentIndex, parentLabel) {
       if (!Array.isArray(overlays) || overlays.length === 0) {
         return;
@@ -8499,10 +7892,10 @@ window.tourSearchFunctions = (function () {
 
       overlays.forEach((overlay, overlayIndex) => {
         try {
-          // [6.1.36.0.1] Safely get overlay data
+          // [6.17.1] Safely get overlay data
           const overlayData = _safeGetData(overlay);
 
-          // [6.1.36.0.2] Get overlay label
+          // [6.17.2] Get overlay label
           let overlayLabel = "";
           if (overlayData.label) {
             overlayLabel = overlayData.label.trim();
@@ -8513,11 +7906,11 @@ window.tourSearchFunctions = (function () {
               const label = overlay.get("label");
               if (label) overlayLabel = label.trim();
             } catch {
-              // [6.1.36.0.3] Silently fail if label property is missing
+              // [6.17.2.1] Silently fail if label property is missing
             }
           }
 
-          // [6.1.36.0.4] If no label, attempt to use text content
+          // [6.17.3] If no label, attempt to use text content
           if (!overlayLabel && typeof overlay.get === "function") {
             try {
               const textContent = overlay.get("text");
@@ -8526,15 +7919,15 @@ window.tourSearchFunctions = (function () {
                 if (textContent.length > 30) overlayLabel += "...";
               }
             } catch {
-              // [6.1.36.0.5] Silently fail if text property is missing
+              // [6.17.3.1] Silently fail if text property is missing
             }
           }
 
-          // [6.1.36.0.6] Skip if label is empty and configured to do so
+          // [6.17.4] Skip if label is empty and configured to do so
           if (!overlayLabel && _config.includeContent.elements.skipEmptyLabels)
             return;
 
-          // [6.1.36.0.7] Get element type
+          // [6.17.5] Get element type
           let elementType = _getElementType(overlay, overlayLabel);
           if (
             overlayLabel.includes("info-") ||
@@ -8543,36 +7936,24 @@ window.tourSearchFunctions = (function () {
             elementType = "Hotspot";
           }
 
-          // [6.1.36.0.8] Apply element filtering
+          // [6.17.6] Apply element filtering
           const elementTags = Array.isArray(overlayData.tags)
             ? overlayData.tags
             : [];
           const overlaySubtitle = overlayData?.subtitle || "";
 
           // Compute display label first, then filter with both label and subtitle
-          const displayLabel = _getDisplayLabel(
-            overlayLabel,
-            overlaySubtitle,
-            elementTags,
-            {
-              type: elementType,
-              id: overlay.id || (overlay.get ? overlay.get("id") : null),
-              index: overlayIndex,
-            },
-          );
+          const displayLabel = _getDisplayLabel(overlayLabel, overlaySubtitle, elementTags, {
+            type: elementType,
+            id: overlay.id || (overlay.get ? overlay.get("id") : null),
+            index: overlayIndex
+          });
 
-          if (
-            !_shouldIncludeElement(
-              elementType,
-              displayLabel,
-              elementTags,
-              overlaySubtitle,
-            )
-          ) {
+          if (!_shouldIncludeElement(elementType, displayLabel, elementTags, overlaySubtitle)) {
             return;
           }
 
-          // [6.1.36.0.9] Safely get element ID
+          // [6.17.7] Safely get element ID
           let elementId = null;
           if (overlay.id) {
             elementId = overlay.id;
@@ -8580,11 +7961,11 @@ window.tourSearchFunctions = (function () {
             try {
               elementId = overlay.get("id");
             } catch {
-              // [6.1.36.0.10] Silently fail if id property is missing
+              // [6.17.7.1] Silently fail if id property is missing
             }
           }
 
-          // [6.1.36.0.11] Display label is already computed above with proper fallbacks
+          // [6.17.8] Display label is already computed above with proper fallbacks
 
           let businessMatch = null;
           if (
@@ -8607,7 +7988,7 @@ window.tourSearchFunctions = (function () {
             }
           }
 
-          // [6.1.36.0.12] Match with business data
+          // [6.17.9] Match with business data
           let resultLabel = displayLabel;
           let resultDescription = "";
           if (businessMatch) {
@@ -8616,7 +7997,7 @@ window.tourSearchFunctions = (function () {
               resultDescription = businessMatch.description || "";
             }
           }
-          // [6.1.36.0.13] Add to search data
+          // [6.17.10] Add to search data
           fuseData.push({
             type:
               businessMatch && _config.businessData.replaceTourData
@@ -8631,7 +8012,7 @@ window.tourSearchFunctions = (function () {
             parentLabel: parentLabel,
             playlistOrder: parentIndex * 1000 + overlayIndex,
             id: elementId,
-            // [6.1.36.0.14] Include business data for images
+            // [6.17.10.1] Include business data for images
             businessData: businessMatch,
             businessName: businessMatch?.name,
             imageUrl: businessMatch?.imageUrl || null,
@@ -8649,12 +8030,12 @@ window.tourSearchFunctions = (function () {
       });
     }
 
-    // [6.1.37] Submodule: UI Building Functions
+    // [6.18] Submodule: UI Building Functions
     /**
      * Creates and inserts the search field into the container if missing.
      * @param {HTMLElement} container
      */
-    // [6.1.38] Sub-function: _buildSearchField()
+    // [6.18.1] Sub-function: _buildSearchField()
     function _buildSearchField(container) {
       if (!container.querySelector("#tourSearch")) {
         const searchField = document.createElement("div");
@@ -8688,7 +8069,7 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.39] Sub-function: _buildNoResultsMessage()
+    // [6.18.2] Sub-function: _buildNoResultsMessage()
     function _buildNoResultsMessage() {
       const noResults = document.createElement("div");
       noResults.className = "no-results";
@@ -8696,7 +8077,7 @@ window.tourSearchFunctions = (function () {
       return noResults;
     }
 
-    // [6.1.40] Sub-function: _buildResultsContainer()
+    // [6.18.3] Sub-function: _buildResultsContainer()
     function _buildResultsContainer(container) {
       if (!container.querySelector(".search-results")) {
         const resultsContainer = document.createElement("div");
@@ -8706,19 +8087,19 @@ window.tourSearchFunctions = (function () {
         _aria.setRole(resultsContainer, "listbox");
         _aria.setLabel(resultsContainer, "Search results");
 
-        // [6.1.40.0.1] Add results section
+        // [6.18.3.1] Add results section
         const resultsSection = document.createElement("div");
         resultsSection.className = "results-section";
         resultsContainer.appendChild(resultsSection);
 
-        // [6.1.40.0.2] Add no-results message
+        // [6.18.3.2] Add no-results message
         resultsContainer.appendChild(_buildNoResultsMessage());
 
         container.appendChild(resultsContainer);
       }
     }
 
-    // [6.1.41] Sub-function: _createSearchInterface()
+    // [6.18.4] Sub-function: _createSearchInterface()
     function _createSearchInterface(container) {
       if (!container) {
         Logger.error(
@@ -8735,8 +8116,8 @@ window.tourSearchFunctions = (function () {
       }
     }
 
-    // [6.1.42] Submodule: UI Helpers
-    // [6.1.43] Sub-function: highlightMatch()
+    // [6.19] Submodule: UI Helpers
+    // [6.19.1] Sub-function: highlightMatch()
     const highlightMatch = (text, term) => {
       if (!text || !term || term === "*") return text || "";
 
@@ -8758,18 +8139,17 @@ window.tourSearchFunctions = (function () {
       }
     };
 
-    // [6.1.44] Sub-function: getIconSizeClass() - Get CSS class for icon size
+    // [6.19.1.5] Sub-function: getIconSizeClass() - Get CSS class for icon size
     const getIconSizeClass = () => {
-      const iconSize =
-        _config.thumbnailSettings?.iconSettings?.iconSize || "48px";
-      if (iconSize.endsWith("px")) {
+      const iconSize = _config.thumbnailSettings?.iconSettings?.iconSize || "48px";
+      if (iconSize.endsWith('px')) {
         return `icon-${iconSize}`;
       }
       // Fallback for any old configurations
       return "icon-48px";
     };
 
-    // [6.1.45] Sub-function: getTypeIcon() - FIXED VERSION
+    // [6.19.2] Sub-function: getTypeIcon() - FIXED VERSION
     const getTypeIcon = (type, config = _config) => {
       // First define the original SVG icons function
       const getOriginalTypeIcon = (iconType) => {
@@ -8849,9 +8229,9 @@ window.tourSearchFunctions = (function () {
         return icons[iconType] || icons["Element"];
       };
 
-      const iconSettings = (typeof config !== 'undefined' && config.thumbnailSettings?.iconSettings) || {};
+      const iconSettings = config.thumbnailSettings?.iconSettings || {};
 
-      Logger.debug(`[ICON DEBUG] Processing type: ${type}`);
+      console.log(`[ICON DEBUG] Processing type: ${type}`);
       console.log(
         `[ICON DEBUG] enableCustomIcons value: ${iconSettings.enableCustomIcons}`,
         typeof iconSettings.enableCustomIcons,
@@ -8891,7 +8271,7 @@ window.tourSearchFunctions = (function () {
 
       const showIconKey = typeMapping[elementType] || "other";
       if (showIconFor[showIconKey] === false) {
-        Logger.debug(`[ICON] Icons disabled for type: ${elementType}`);
+        console.log(`[ICON] Icons disabled for type: ${elementType}`);
         return ""; // Return empty string if icons are disabled for this type
       }
 
@@ -8899,7 +8279,7 @@ window.tourSearchFunctions = (function () {
       const customIcons = iconSettings.customIcons || {};
       let customIcon = customIcons[type] || customIcons.default || "⚪";
 
-      Logger.debug(`[ICON] Using custom icon for ${type}: ${customIcon}`);
+      console.log(`[ICON] Using custom icon for ${type}: ${customIcon}`);
 
       // *** ENHANCED: Handle different icon types with proper Font Awesome detection ***
       if (customIcon.startsWith("<svg")) {
@@ -8984,7 +8364,7 @@ window.tourSearchFunctions = (function () {
 
         // Method 3: Check for Font Awesome JavaScript object
         if (window.FontAwesome || window.fontawesome) {
-          Logger.debug(`[ICON] Font Awesome detected via JavaScript object`);
+          console.log(`[ICON] Font Awesome detected via JavaScript object`);
           return true;
         }
 
@@ -8994,9 +8374,9 @@ window.tourSearchFunctions = (function () {
         return false;
       }
     };
-    // [6.1.46] Sub-function: groupAndSortResults()
+    // [6.20] Sub-function: groupAndSortResults()
     const groupAndSortResults = (matches) => {
-      // [6.1.46.1] Group results by type with consistent data handling
+      // [6.20.1] Group results by type with consistent data handling
       const grouped = matches.reduce((acc, match) => {
         // **SIMPLIFIED: Always start with original type**
         let groupType = match.item.type || "Element";
@@ -9032,10 +8412,10 @@ window.tourSearchFunctions = (function () {
         return acc;
       }, {});
 
-      // [6.1.46.2] Sort items within each group
+      // [6.20.2] Sort items within each group
       Object.keys(grouped).forEach((type) => {
         grouped[type].sort((a, b) => {
-          // [6.1.46.2.1] Primary sort: playlistOrder
+          // [6.20.2.1] Primary sort: playlistOrder
           if (
             a.item.playlistOrder !== undefined &&
             b.item.playlistOrder !== undefined
@@ -9043,11 +8423,11 @@ window.tourSearchFunctions = (function () {
             return a.item.playlistOrder - b.item.playlistOrder;
           }
 
-          // [6.1.46.2.2] Secondary sort: label (alphabetical)
+          // [6.20.2.2] Secondary sort: label (alphabetical)
           const labelCompare = a.item.label.localeCompare(b.item.label);
           if (labelCompare !== 0) return labelCompare;
 
-          // [6.1.46.2.3] Tertiary sort: parentLabel
+          // [6.20.2.3] Tertiary sort: parentLabel
           if (a.item.parentLabel && b.item.parentLabel) {
             return a.item.parentLabel.localeCompare(b.item.parentLabel);
           }
@@ -9058,7 +8438,7 @@ window.tourSearchFunctions = (function () {
 
       return grouped;
     };
-    // [6.1.47] Sub-function: _resolveDisplayType()
+    // [6.21] Sub-function: _resolveDisplayType()
     function _resolveDisplayType(item, config) {
       const originalType = item.type || "Element";
 
@@ -9082,9 +8462,9 @@ window.tourSearchFunctions = (function () {
       // Default: keep original type
       return originalType;
     }
-    // [6.1.48] Sub-function: performSearch()
+    // [6.22] Sub-function: performSearch()
     performSearch = () => {
-      // [6.1.48.1] Main search execution
+      // [6.22.1] Main search execution
       const searchContainer = document.getElementById("searchContainer");
       if (!searchContainer) {
         Logger.error("Search container not found");
@@ -9104,11 +8484,11 @@ window.tourSearchFunctions = (function () {
         return;
       }
 
-      // [6.1.48.2] Add ARIA attributes for accessibility
+      // [6.22.1.1] Add ARIA attributes for accessibility
       resultsContainer.setAttribute("aria-live", "polite"); // Announce changes politely
       noResults.setAttribute("role", "status"); // Mark as status for screen readers
 
-      // [6.1.48.3] Update UI based on search term
+      // [6.22.1.2] Update UI based on search term
       if (searchTerm.length > 0) {
         if (clearButton) clearButton.classList.add("visible");
         if (searchIcon) {
@@ -9123,14 +8503,14 @@ window.tourSearchFunctions = (function () {
         }
       }
 
-      // [6.1.48.4] Skip if search term is unchanged
+      // [6.22.1.3] Skip if search term is unchanged
       if (searchTerm === currentSearchTerm) return;
       currentSearchTerm = searchTerm;
 
-      // [6.1.48.5] Reset results list
+      // [6.22.1.4] Reset results list
       resultsList.innerHTML = "";
 
-      // [6.1.48.6] Handle empty search term
+      // [6.22.1.5] Handle empty search term
       if (!searchTerm) {
         searchContainer.classList.remove("has-results");
         noResults.classList.remove("visible");
@@ -9141,7 +8521,7 @@ window.tourSearchFunctions = (function () {
         return;
       }
 
-      // [6.1.48.7] Check for minimum character requirement
+      // [6.22.1.6] Check for minimum character requirement
       if (searchTerm !== "*" && searchTerm.length < _config.minSearchChars) {
         noResults.classList.remove("visible");
         noResults.classList.add("hidden");
@@ -9155,21 +8535,21 @@ window.tourSearchFunctions = (function () {
         return;
       }
 
-      // [6.1.48.8] Show results container initially
+      // [6.19.1.7] Show results container initially
       resultsContainer.classList.remove("hidden");
       resultsContainer.classList.add("visible");
 
       try {
-        // [6.1.48.8.1] Ensure fuse index is initialized
+        // [6.19.1.8] Ensure fuse index is initialized
         if (!fuse) {
           Logger.warn("Search index not initialized, preparing now...");
           prepareFuse();
         }
 
-        // [6.1.48.8.2] Perform search
+        // [6.19.1.9] Perform search
         let matches;
         if (searchTerm === "*") {
-          // [6.1.48.8.3] Wildcard search shows all items
+          // [6.19.1.9.1] Wildcard search shows all items
           matches = fuse._docs
             ? fuse._docs.map((item, index) => ({
                 item,
@@ -9178,42 +8558,42 @@ window.tourSearchFunctions = (function () {
               }))
             : [];
         } else {
-          // [6.1.48.8.4] Process search term for special characters
+          // [6.19.1.9.2] Process search term for special characters
           const processedTerm = _preprocessSearchTerm(searchTerm);
 
-          // [6.1.48.8.5] Allow exact matching with = prefix
+          // [6.19.1.9.3] Allow exact matching with = prefix
           if (
             typeof processedTerm === "string" &&
             processedTerm.startsWith("=")
           ) {
             matches = fuse.search({ $or: [{ label: processedTerm }] });
           } else {
-            // [6.1.48.8.6] Use regular fuzzy search
+            // [6.19.1.9.4] Use regular fuzzy search
             matches = fuse.search(processedTerm);
           }
         }
 
-        // [6.1.48.8.7] Handle no results case
+        // [6.19.1.10] Handle no results case
         if (!matches || !matches.length) {
-          // [6.1.48.8.8] Remove 'has-results' if no matches
+          // [6.19.1.10.1] Remove 'has-results' if no matches
           searchContainer.classList.remove("has-results");
 
-          // [6.1.48.8.9] Show 'no results' message
+          // [6.19.1.10.2] Show 'no results' message
           noResults.classList.remove("hidden");
           noResults.classList.add("visible");
           noResults.setAttribute("role", "status");
           noResults.setAttribute("aria-live", "polite");
 
-          // [6.1.48.8.10] Make results container visible but transparent
+          // [6.19.1.10.3] Make results container visible but transparent
           resultsContainer.classList.remove("hidden");
           resultsContainer.classList.add("visible", "no-results-bg");
 
-          // [6.1.48.8.11] Hide results list
+          // [6.19.1.10.4] Hide results list
           resultsList.classList.add("hidden");
 
           return;
         } else {
-          // [6.1.48.8.12] Show results and hide 'no results'
+          // [6.19.1.10.5] Show results and hide 'no results'
           searchContainer.classList.add("has-results");
           noResults.classList.remove("visible");
           noResults.classList.add("hidden");
@@ -9222,28 +8602,28 @@ window.tourSearchFunctions = (function () {
           resultsList.classList.remove("hidden");
         }
 
-        // [6.1.48.8.13] Make results container accessible for screen readers
+        // [6.19.1.11] Make results container accessible for screen readers
         resultsContainer.setAttribute("aria-live", "polite");
         resultsContainer.setAttribute("aria-relevant", "additions text");
         noResults.classList.remove("visible");
         noResults.classList.add("hidden");
 
-        // [6.1.48.8.14] Display results
+        // [6.19.1.12] Display results
         resultsList.classList.remove("hidden");
         resultsList.classList.add("visible"); // Use CSS class for visible state
         noResults.classList.remove("visible");
         noResults.classList.add("hidden");
 
-        // [6.1.48.8.15] Group and sort results
+        // [6.19.1.13] Group and sort results
         const groupedResults = groupAndSortResults(matches);
 
-        // [6.1.48.8.16] Apply type filtering based on config
+        // [6.19.1.14] Apply type filtering based on config
         if (
           _config.filter.typeFilter?.mode === "whitelist" &&
           Array.isArray(_config.filter.typeFilter?.allowedTypes) &&
           _config.filter.typeFilter.allowedTypes.length > 0
         ) {
-          // [6.1.48.8.17] Only keep allowed result types
+          // [6.19.1.14.1] Only keep allowed result types
           Object.keys(groupedResults).forEach((type) => {
             if (!_config.filter.typeFilter.allowedTypes.includes(type)) {
               delete groupedResults[type];
@@ -9254,7 +8634,7 @@ window.tourSearchFunctions = (function () {
           Array.isArray(_config.filter.typeFilter?.blacklistedTypes) &&
           _config.filter.typeFilter.blacklistedTypes.length > 0
         ) {
-          // [6.1.48.8.18] Remove blacklisted result types
+          // [6.19.1.14.2] Remove blacklisted result types
           Object.keys(groupedResults).forEach((type) => {
             if (_config.filter.typeFilter.blacklistedTypes.includes(type)) {
               delete groupedResults[type];
@@ -9262,10 +8642,10 @@ window.tourSearchFunctions = (function () {
           });
         }
 
-        // [6.1.48.8.19] Keep track of result index for ARIA attributes
+        // [6.19.1.15] Keep track of result index for ARIA attributes
         let resultIndex = 0;
 
-        // [6.1.48.8.20] Define priority order for result types
+        // [6.19.1.16] Define priority order for result types
         const typeOrder = [
           "Panorama",
           "Hotspot",
@@ -9281,18 +8661,18 @@ window.tourSearchFunctions = (function () {
           "Business",
         ];
 
-        // [6.1.48.8.21] Render each group of results in priority order
+        // [6.19.1.17] Render each group of results in priority order
         Object.entries(groupedResults)
           .sort(([typeA], [typeB]) => {
-            // [6.1.48.8.22] Get index in priority array (default to end if not found)
+            // [6.19.1.17.1] Get index in priority array (default to end if not found)
             const indexA = typeOrder.indexOf(typeA);
             const indexB = typeOrder.indexOf(typeB);
 
-            // [6.1.48.8.23] Handle types not in the priority list
+            // [6.19.1.17.2] Handle types not in the priority list
             const valA = indexA !== -1 ? indexA : typeOrder.length;
             const valB = indexB !== -1 ? indexB : typeOrder.length;
 
-            // [6.1.48.8.24] Sort by priority index
+            // [6.19.1.17.3] Sort by priority index
             return valA - valB;
           })
           .forEach(([type, results]) => {
@@ -9312,10 +8692,10 @@ window.tourSearchFunctions = (function () {
             _aria.setRole(groupEl, "group");
             _aria.setLabel(groupEl, `${type} results`);
 
-            // [6.1.48.8.25] Use custom label from config if available, otherwise use the original type
+            // [6.19.1.17.4] Use custom label from config if available, otherwise use the original type
             const customLabel = _config.displayLabels[type] || type;
 
-            // [6.1.48.8.26] Create group header with custom label
+            // [6.19.1.17.5] Create group header with custom label
             groupEl.innerHTML = `
                         <div class="group-header">
                             <span class="group-title">${customLabel}</span>
@@ -9323,7 +8703,7 @@ window.tourSearchFunctions = (function () {
                         </div>
                     `;
 
-            // [6.1.48.8.27] Apply fade-in animation
+            // [6.19.1.17.5.1] Apply fade-in animation
             const animConfig = _config.animations || {};
             const animEnabled = animConfig.enabled === true;
 
@@ -9341,7 +8721,7 @@ window.tourSearchFunctions = (function () {
               });
             }
 
-            // [6.1.48.8.28] Render each result item
+            // [6.19.1.17.6] Render each result item
             results.forEach((result) => {
               resultIndex++;
               const resultItem = document.createElement("div");
@@ -9352,7 +8732,7 @@ window.tourSearchFunctions = (function () {
               _aria.setSelected(resultItem, false);
               resultItem.dataset.type = result.item.type;
 
-              // [6.1.48.8.29] Apply fade-in animation
+              // [6.19.1.17.6.0.1] Apply fade-in animation
               if (animEnabled) {
                 console.log(
                   `🎬 Applying item animation ${resultIndex}:`,
@@ -9372,7 +8752,7 @@ window.tourSearchFunctions = (function () {
                 );
               }
 
-              // [6.1.48.8.30] Add business data attributes if available
+              // [6.19.1.17.6.1] Add business data attributes if available
               if (
                 _config.businessData?.useBusinessData &&
                 result.item.businessName
@@ -9381,7 +8761,7 @@ window.tourSearchFunctions = (function () {
                 resultItem.dataset.businessTag = result.item.businessTag || "";
               }
 
-              // [6.1.48.8.31] Add Google Sheets data attributes if available
+              // [6.19.1.17.6.2] Add Google Sheets data attributes if available
               if (
                 _config.googleSheets?.useGoogleSheetData &&
                 result.item.sheetsData
@@ -9392,13 +8772,13 @@ window.tourSearchFunctions = (function () {
                     result.item.sheetsData.elementType;
                 }
               }
-              // [6.1.48.8.32] ADD CLICK/KEYBOARD HANDLER - Use our enhanced hybrid click handler
+              // [6.19.1.17.6.3] ADD CLICK/KEYBOARD HANDLER - Use our enhanced hybrid click handler
               resultItem.addEventListener(
                 "click",
                 createHybridClickHandler(result, window.tourInstance),
               );
 
-              // [6.1.48.8.33] Also handle keyboard enter/space for accessibility
+              // [6.19.1.17.6.4] Also handle keyboard enter/space for accessibility
               resultItem.addEventListener("keydown", (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -9409,6 +8789,27 @@ window.tourSearchFunctions = (function () {
               resultItem.setAttribute("aria-posinset", resultIndex);
               _aria.setSelected(resultItem, false);
               resultItem.dataset.type = result.item.type;
+
+              // Add business data attributes if available
+              if (
+                _config.businessData?.useBusinessData &&
+                result.item.businessName
+              ) {
+                resultItem.dataset.business = "true";
+                resultItem.dataset.businessTag = result.item.businessTag || "";
+              }
+
+              // Add Google Sheets data attributes if available
+              if (
+                _config.googleSheets?.useGoogleSheetData &&
+                result.item.sheetsData
+              ) {
+                resultItem.dataset.sheets = "true";
+                if (result.item.sheetsData.elementType) {
+                  resultItem.dataset.sheetsType =
+                    result.item.sheetsData.elementType;
+                }
+              }
 
               if (result.item.id) {
                 resultItem.dataset.id = result.item.id;
@@ -9422,7 +8823,7 @@ window.tourSearchFunctions = (function () {
                 resultItem.dataset.index = result.item.index;
               }
 
-              // [6.1.48.8.34] Show parent info for child elements if configured to do so
+              // [6.19.1.17.6.7] Show parent info for child elements if configured to do so
               const parentInfo =
                 result.item.type !== "Panorama" &&
                 result.item.parentLabel &&
@@ -9430,7 +8831,7 @@ window.tourSearchFunctions = (function () {
                   ? `<div class="result-parent">in ${highlightMatch(result.item.parentLabel, searchTerm)}</div>`
                   : "";
 
-              // [6.1.48.8.35] Determine icon with consistent type resolution
+              // [6.19.1.17.6.8] Determine icon with consistent type resolution
               let displayType = result.item.type; // Always use the original element type for icons
               let isBusinessEnhanced = false;
               let isSheetsEnhanced = false;
@@ -9451,22 +8852,22 @@ window.tourSearchFunctions = (function () {
               }
               const iconType = displayType; // Use original type, not business/sheets override
 
-              // [6.1.48.8.36] Check for available image sources
+              // [6.19.1.17.6.9] Check for available image sources
               const hasGoogleSheetsImage =
                 _config.googleSheets?.useGoogleSheetData &&
                 result.item.imageUrl;
 
-              // [6.1.48.8.37] Get thumbnail URL using centralized logic
+              // [6.19.1.17.6.10] Get thumbnail URL using centralized logic
               const thumbnailUrl = _getThumbnailUrl(result.item, _config);
               const hasThumbnail = thumbnailUrl !== null;
 
-              // [6.1.48.8.38] Determine thumbnail size class based on pixel value
+              // [6.19.1.17.6.11] Determine thumbnail size class based on pixel value
               let thumbnailSizeClass = "thumbnail-medium";
               const thumbSettings = _config.thumbnailSettings || {};
               const thumbSize = thumbSettings.thumbnailSize || "48px";
-
+              
               // Use specific pixel-based classes for precise control
-              if (thumbSize.endsWith("px")) {
+              if (thumbSize.endsWith('px')) {
                 thumbnailSizeClass = `thumbnail-${thumbSize}`;
               } else {
                 // Fallback to legacy size names
@@ -9474,16 +8875,12 @@ window.tourSearchFunctions = (function () {
                   thumbnailSizeClass = "thumbnail-small";
                 } else if (thumbSize === "32px" || thumbSize === "48px") {
                   thumbnailSizeClass = "thumbnail-medium";
-                } else if (
-                  thumbSize === "64px" ||
-                  thumbSize === "80px" ||
-                  thumbSize === "96px"
-                ) {
+                } else if (thumbSize === "64px" || thumbSize === "80px" || thumbSize === "96px") {
                   thumbnailSizeClass = "thumbnail-large";
                 }
               }
 
-              // [6.1.48.8.39] Set alignment attributes
+              // [6.19.1.17.6.12] Set alignment attributes
               if (hasThumbnail) {
                 resultItem.setAttribute(
                   "data-thumbnail-align",
@@ -9495,7 +8892,7 @@ window.tourSearchFunctions = (function () {
                 thumbSettings.alignment === "right" ? "right" : "left",
               );
 
-              // [6.1.48.8.40] Safely encode attribute values to prevent HTML injection
+              // [6.19.1.17.6.19] Safely encode attribute values to prevent HTML injection
               const safeEncode = (str) => {
                 if (!str) return "";
                 return String(str)
@@ -9510,7 +8907,7 @@ window.tourSearchFunctions = (function () {
                 result.item.label || "Search result",
               );
 
-              // [6.1.48.8.41] Build result item content
+              // [6.19.1.17.6.20] Build result item content
               resultItem.innerHTML = `
                 ${
                   hasThumbnail
@@ -9558,19 +8955,171 @@ window.tourSearchFunctions = (function () {
                 </div>
               `;
 
-              // [6.1.48.8.42] Add to group
+              // [6.19.1.17.6.22] Add click handler with improved element triggering
+              resultItem.addEventListener("click", () => {
+                if (result.item.type === "Container") {
+                  console.log(
+                    "🗂️ Container clicked:",
+                    result.item.containerName,
+                  );
+
+                  if (result.item.isContainer && result.item.containerName) {
+                    try {
+                      if (
+                        window.tourMenu &&
+                        typeof window.tourMenu.toggleContainer === "function"
+                      ) {
+                        window.tourMenu.toggleContainer(
+                          result.item.containerName,
+                          false,
+                        );
+                        Logger.info(
+                          `Toggled container: ${result.item.containerName}`,
+                        );
+                      } else {
+                        Logger.warn(
+                          "tourMenu not available for container toggle",
+                        );
+
+                        // 🆘 FALLBACK: Try direct container manipulation
+                        try {
+                          if (window.tour && window.tour.player) {
+                            const containers =
+                              window.tour.player.getByClassName("Container");
+                            const container = containers.find((c) => {
+                              const data = c.get("data");
+                              return (
+                                data && data.name === result.item.containerName
+                              );
+                            });
+
+                            if (container) {
+                              const isVisible = container.get("visible");
+                              container.set("visible", !isVisible);
+                              Logger.info(
+                                `Direct toggle container "${result.item.containerName}" to: ${!isVisible}`,
+                              );
+                            } else {
+                              Logger.warn(
+                                `Container "${result.item.containerName}" not found`,
+                              );
+                            }
+                          }
+                        } catch (directError) {
+                          Logger.error(
+                            `Direct container toggle failed: ${directError.message}`,
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      Logger.error(`Error toggling container: ${e.message}`);
+                    }
+                  }
+
+                  // Clear search and auto-hide
+                  if (searchInput) {
+                    searchInput.value = "";
+                    searchInput.focus();
+                  }
+
+                  const isMobile =
+                    window.innerWidth <= _config.mobileBreakpoint;
+                  if (
+                    (isMobile && _config.autoHide.mobile) ||
+                    (!isMobile && _config.autoHide.desktop)
+                  ) {
+                    _toggleSearch(false);
+                  }
+                  return;
+                } else if (result.item.type === "Panorama") {
+                  // [6.19.1.17.6.22.2] Direct navigation for panoramas
+                  if (
+                    tour &&
+                    tour.mainPlayList &&
+                    typeof result.item.index === "number"
+                  ) {
+                    try {
+                      tour.mainPlayList.set("selectedIndex", result.item.index);
+                      Logger.info(
+                        `Navigated to panorama at index ${result.item.index}`,
+                      );
+                    } catch (e) {
+                      Logger.error(
+                        `Error navigating to panorama: ${e.message}`,
+                      );
+                    }
+                  }
+                } else if (result.item.parentIndex !== undefined) {
+                  // [6.19.1.17.6.22.3] For child elements, navigate to parent panorama first
+                  if (tour && tour.mainPlayList) {
+                    try {
+                      tour.mainPlayList.set(
+                        "selectedIndex",
+                        result.item.parentIndex,
+                      );
+                      Logger.info(
+                        `Navigated to parent panorama at index ${result.item.parentIndex}`,
+                      );
+
+                      // [6.19.1.17.6.22.4] Then trigger the element with retry logic
+                      if (result.item.id) {
+                        _triggerElement(tour, result.item.id, (success) => {
+                          if (success) {
+                            Logger.info(
+                              `Successfully triggered element ${result.item.id}`,
+                            );
+                          } else {
+                            Logger.warn(
+                              `Failed to trigger element ${result.item.id}`,
+                            );
+                          }
+                        });
+                      }
+                    } catch (e) {
+                      Logger.error(
+                        `Error navigating to parent panorama: ${e.message}`,
+                      );
+                    }
+                  }
+                }
+
+                // [6.19.1.17.6.22.5] Clear search input
+                if (searchInput) {
+                  searchInput.value = "";
+                  searchInput.focus();
+                }
+
+                // [6.19.1.17.6.22.6] Auto-hide based on configuration
+                const isMobile = window.innerWidth <= _config.mobileBreakpoint;
+                if (
+                  (isMobile && _config.autoHide.mobile) ||
+                  (!isMobile && _config.autoHide.desktop)
+                ) {
+                  _toggleSearch(false);
+                }
+              });
+
+              // [6.19.1.17.6.23] Add keyboard navigation
+              resultItem.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  resultItem.click();
+                }
+              });
+
+              // [6.19.1.17.6.24] Add to group
               groupEl.appendChild(resultItem);
             });
 
-            // [6.1.48.8.43] Add group to results list
+            // [6.19.1.17.7] Add group to results list
             resultsList.appendChild(groupEl);
           });
 
-        // [6.1.48.8.44] Update ARIA attribute for total results
+        // [6.19.1.18] Update ARIA attribute for total results
         resultsContainer.setAttribute("aria-setsize", resultIndex);
       } catch (error) {
         Logger.error("Search error:", error);
-        // [6.1.48.8.45] Show error message in results
+        // [6.19.1.19] Show error message in results
         resultsList.innerHTML = `
                 <div class="search-error" role="alert">
                     <p>An error occurred while searching. Please try again.</p>
@@ -9578,14 +9127,14 @@ window.tourSearchFunctions = (function () {
                 </div>
             `;
 
-        // [6.1.48.8.46] Keep container visible for error messages
+        // [6.19.1.20] Keep container visible for error messages
         resultsContainer.classList.remove("hidden");
         resultsContainer.classList.add("visible");
         resultsContainer.classList.remove("no-results-bg"); // Use normal background for errors
       }
     };
 
-    // [6.1.49] Set up keyboard navigation
+    // [6.20] Set up keyboard navigation
 
     keyboardCleanup = keyboardManager.init(
       _elements.container,
@@ -9593,7 +9142,7 @@ window.tourSearchFunctions = (function () {
       performSearch,
     );
 
-    // [6.1.50] Bind search event listeners for UI interactions
+    // [6.21] Bind search event listeners for UI interactions
     _bindSearchEventListeners(
       _elements.container,
       _elements.container.querySelector("#tourSearch"),
@@ -9602,13 +9151,13 @@ window.tourSearchFunctions = (function () {
       performSearch, // Pass the module-level performSearch function
     );
 
-    // [6.1.51] Prepare the search index
+    // [6.22] Prepare the search index
     prepareFuse();
 
-    // [6.1.52] Apply search styling
+    // [6.23] Apply search styling
     _applySearchStyling();
 
-    // [6.1.53] Apply custom CSS for showing/hiding tags
+    // [6.24] Apply custom CSS for showing/hiding tags
     let styleElement = document.getElementById("search-custom-styles");
     if (styleElement) {
       styleElement.remove();
@@ -9619,12 +9168,12 @@ window.tourSearchFunctions = (function () {
       _config.showTagsInResults,
     );
 
-    // [6.1.54] Get key elements
+    // [6.25] Get key elements
     const searchInput = _elements.container.querySelector("#tourSearch");
     const clearButton = _elements.container.querySelector(".clear-button");
     const searchIcon = _elements.container.querySelector(".search-icon");
 
-    // [6.1.55] Bind all event listeners
+    // [6.26] Bind all event listeners
     _bindSearchEventListeners(
       _elements.container,
       searchInput,
@@ -9633,7 +9182,7 @@ window.tourSearchFunctions = (function () {
       performSearch, // Pass the module-level performSearch function
     );
 
-    // [6.1.56] Mark initialization as complete
+    // [6.27] Mark initialization as complete
     window.searchListInitialized = true;
     _initialized = true;
     Logger.info("Enhanced search initialized successfully");
@@ -9646,29 +9195,29 @@ window.tourSearchFunctions = (function () {
 
   // [7.1] Toggle Search Function to Handle Rapid Toggles
   function _toggleSearch(show) {
-    // [8.0] Toggle search visibility
+    // [7.2] Toggle search visibility
     const currentlyVisible =
       _elements.container && _elements.container.classList.contains("visible");
     _isSearchVisible = currentlyVisible;
 
-    // [8.0.1] If 'show' is explicitly specified and matches current state, debounce it
+    // [7.2.2] If 'show' is explicitly specified and matches current state, debounce it
     if (
       show !== undefined &&
       ((show && currentlyVisible) || (!show && !currentlyVisible))
     ) {
-      Logger.debug(`[toggleSearch] Ignoring duplicate state request: ${show}`);
+      console.log(`[toggleSearch] Ignoring duplicate state request: ${show}`);
       return;
     }
 
-    // [8.0.2] Debounce logic for double-calls from 3DVista toggle button
+    // [7.2.3] Debounce logic for double-calls from 3DVista toggle button
     const now = Date.now();
     if (now - _lastToggleTime < _toggleDebounceTime) {
-      Logger.debug("[toggleSearch] Ignoring rapid toggle call, debouncing");
+      console.log("[toggleSearch] Ignoring rapid toggle call, debouncing");
       return;
     }
     _lastToggleTime = now;
 
-    // [8.0.3] Enable proper toggle functionality without modifying 3DVista button code
+    // [7.2.4] Enable proper toggle functionality without modifying 3DVista button code
     if (show === undefined) {
       const isCurrentlyVisible =
         _elements.container &&
@@ -9685,13 +9234,13 @@ window.tourSearchFunctions = (function () {
       window.searchProDebug.logSearchToggle(show, _elements);
     }
 
-    // [8.0.4] Validate container exists
+    // [7.2.5] Validate container exists
     if (!_elements.container) {
       Logger.error("Search container not found");
       return;
     }
 
-    // [8.0.5] Get animation configuration - FIX: Correct the logic
+    // [7.2.6] Get animation configuration - FIX: Correct the logic
     const animConfig = _config.animations || {};
     const animEnabled = animConfig.enabled === true;
 
@@ -9699,9 +9248,9 @@ window.tourSearchFunctions = (function () {
     console.log("🎬 Animations enabled:", animEnabled);
 
     if (show) {
-      Logger.debug("[toggleSearch] Showing search UI");
+      console.log("[toggleSearch] Showing search UI");
 
-      // [8.0.5.1] Show search with animation
+      // [7.2.7] Show search with animation
       _elements.container.style.display = "block";
       _elements.container.classList.remove("hiding", "closing", "hidden");
 
@@ -9740,7 +9289,7 @@ window.tourSearchFunctions = (function () {
         _elements.container.style.setProperty("--container-top", `${newTop}px`);
       }
 
-      // [8.0.5.2] Focus search input after animation
+      // [7.2.7.2] Focus search input after animation
       const focusDelay = animEnabled
         ? animConfig.searchBar?.openDuration || 300
         : 0;
@@ -9748,8 +9297,8 @@ window.tourSearchFunctions = (function () {
         if (_elements.input) _elements.input.focus();
       }, focusDelay);
     } else {
-      // [8.0.5.3] Hide search with animation
-      Logger.debug("[toggleSearch] Hiding search UI");
+      // [7.2.8] Hide search with animation
+      console.log("[toggleSearch] Hiding search UI");
 
       _elements.container.classList.remove("visible", "opening");
 
@@ -9778,21 +9327,19 @@ window.tourSearchFunctions = (function () {
       // Set ARIA expanded state
       _aria.setExpanded(_elements.input, false);
 
-      // [8.0.5.4] Wait for transition to complete before hiding (race-safe)
+      // [7.2.8.1] Wait for transition to complete before hiding
       const hideDelay = animEnabled
         ? animConfig.searchBar?.closeDuration || 200
         : 0;
 
-      // Bump token to invalidate older pending hides
-      const myToken = ++_pendingHideToken;
-
       setTimeout(() => {
-        // If another open happened since this timer started, abort this hide
-        if (myToken !== _pendingHideToken) return;
-
         if (!_elements.container.classList.contains("visible")) {
           _elements.container.style.display = "none";
-          _elements.container.classList.remove("hiding", "closing", "scale-effect");
+          _elements.container.classList.remove(
+            "hiding",
+            "closing",
+            "scale-effect",
+          );
           _elements.container.classList.add("hidden");
           console.log("🎬 Container hidden after animation delay");
         }
@@ -9826,15 +9373,9 @@ window.tourSearchFunctions = (function () {
       }, hideDelay + 200);
     }
   }
-  // [8.1] Update the ARIA state
+  // [7.3] Update the ARIA state
   function _updateAnimationCSSVariables() {
     const animConfig = _config.animations || {};
-    _applyAnimationFlagAndVars(animConfig);
-  }
-
-  // [8.2] Private helper to apply animation flag and CSS variables
-  function _applyAnimationFlagAndVars(animConfig) {
-    if (!animConfig) animConfig = {};
     const root = document.documentElement;
 
     console.log("🎬 Setting animation CSS variables:", animConfig);
@@ -9850,11 +9391,7 @@ window.tourSearchFunctions = (function () {
     console.log("🎬 Animations enabled:", animationsEnabled);
     console.log("🎬 Prefers reduced motion:", prefersReducedMotion);
 
-    // [CRITICAL FIX] Always add the .sp-anim-on class for basic styling, 
-    // but use CSS variables to control actual animations
-    document.documentElement.classList.add('sp-anim-on');
-
-    // Set animation state variable to control transitions in CSS
+    // Set animation state
     root.style.setProperty(
       "--animations-enabled",
       animationsEnabled ? "1" : "0",
@@ -9937,66 +9474,19 @@ window.tourSearchFunctions = (function () {
     );
 
     console.log("🎬 Animation CSS variables applied");
-
-    // [8.3] Inject animation styles
-    _injectAnimationStyles(animationsEnabled);
   }
-
-  // [8.4] Private helper to inject animation styles
-  function _injectAnimationStyles(animationsEnabled) {
-    // Remove existing animation styles
-    const existingStyle = document.getElementById('search-animation-styles');
-    if (existingStyle) {
-      existingStyle.remove();
-    }
-
-    // Only inject styles if animations are enabled
-    if (!animationsEnabled) return;
-
-    const styleElement = document.createElement('style');
-    styleElement.id = 'search-animation-styles';
-    styleElement.textContent = `
-/* Search Animation Styles - Only active when .sp-anim-on is present */
-.sp-anim-on #searchContainer {
-  transition: opacity var(--animation-normal-duration) var(--animation-easing),
-              transform var(--animation-normal-duration) var(--animation-easing);
-}
-
-.sp-anim-on .search-results {
-  transition: opacity var(--animation-results-duration) var(--animation-easing);
-}
-
-.sp-anim-on .result-item {
-  transition: transform var(--animation-fast-duration) var(--animation-easing),
-              opacity var(--animation-fast-duration) var(--animation-easing);
-}
-
-.sp-anim-on .result-item:hover {
-  transform: translateY(-2px);
-}
-
-.sp-anim-on #searchInput {
-  transition: transform var(--animation-normal-duration) var(--animation-easing),
-              box-shadow var(--animation-fast-duration) var(--animation-easing);
-}
-`;
-    
-    document.head.appendChild(styleElement);
-    console.log("🎬 Animation styles injected");
-  }
-
-  // [9.0] Public API
+  // [8.0] Public API
   return {
-    // [9.0.1] DOM Elements Cache
+    // [8.1] DOM Elements Cache
     elements: _elements,
-    // [9.0.2] Initialize Search Functionality
+    // [8.2] Initialize Search Functionality
     initializeSearch: function (tour) {
       try {
         if (!tour) {
           throw new Error("Tour instance is required for initialization");
         }
 
-        // [9.0.2.0.1] Find the search container if it's not already set
+        // [8.2.1] Find the search container if it's not already set
         if (!_elements.container) {
           _elements.container = document.getElementById("searchContainer");
           if (!_elements.container) {
@@ -10012,7 +9502,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [10.0] Toggle Search Visibility
+    // [8.3] Toggle Search Visibility
     toggleSearch: function (show) {
       // Find the search container if it's not already set
       if (!_elements.container) {
@@ -10027,58 +9517,127 @@ window.tourSearchFunctions = (function () {
       _toggleSearch(show);
     },
 
-    // [CFG.UPDATE] updateConfig (merge + normalize)
-    updateConfig: function (patch) {
+    updateConfig: function (newConfig) {
       try {
-        if (!patch || typeof patch !== "object") {
-          Logger.warn("No valid configuration provided for update");
-          return this.getConfig();
+        console.log("🎯 UPDATECONFIG: New configuration received");
+        console.log("🎯 UPDATECONFIG: New thumbnail settings:", {
+          enableThumbnails: newConfig.thumbnailSettings?.enableThumbnails,
+          defaultImages: newConfig.thumbnailSettings?.defaultImages
+        });
+        
+        // [8.4.1] Validate configuration object
+        if (!newConfig || typeof newConfig !== "object") {
+          throw new Error("Invalid configuration object");
         }
 
-        // Map legacy names on input
-        const processedPatch = { ...patch };
+        // [8.4.1.1] Handle animation configuration with CSS variables FIRST
+        if (newConfig.animations) {
+          console.log(
+            "🎬 Processing animation configuration:",
+            newConfig.animations,
+          );
 
-        // minSearchLength → minSearchChars
-        if (patch.minSearchLength !== undefined) {
-          processedPatch.minSearchChars = patch.minSearchLength;
-          delete processedPatch.minSearchLength;
-        }
+          // Update internal config
+          if (!_config.animations) _config.animations = {};
 
-        // allowedMediaIndexes → filter.mediaIndexes.allowed (do not change mode)
-        if (patch.allowedMediaIndexes !== undefined) {
-          if (!processedPatch.filter) processedPatch.filter = {};
-          if (!processedPatch.filter.mediaIndexes)
-            processedPatch.filter.mediaIndexes = {};
-          processedPatch.filter.mediaIndexes.allowed =
-            patch.allowedMediaIndexes;
-          delete processedPatch.allowedMediaIndexes;
-        }
+          // Deep merge animation settings
+          _config.animations = {
+            enabled:
+              newConfig.animations.enabled !== undefined
+                ? newConfig.animations.enabled
+                : _config.animations.enabled,
+            duration: {
+              ..._config.animations.duration,
+              ...newConfig.animations.duration,
+            },
+            easing: newConfig.animations.easing || _config.animations.easing,
+            searchBar: {
+              ..._config.animations.searchBar,
+              ...newConfig.animations.searchBar,
+            },
+            results: {
+              ..._config.animations.results,
+              ...newConfig.animations.results,
+            },
+            reducedMotion: {
+              ..._config.animations.reducedMotion,
+              ...newConfig.animations.reducedMotion,
+            },
+          };
 
-        // blacklistedMediaIndexes → filter.mediaIndexes.blacklisted
-        if (patch.blacklistedMediaIndexes !== undefined) {
-          if (!processedPatch.filter) processedPatch.filter = {};
-          if (!processedPatch.filter.mediaIndexes)
-            processedPatch.filter.mediaIndexes = {};
-          processedPatch.filter.mediaIndexes.blacklisted =
-            patch.blacklistedMediaIndexes;
-          delete processedPatch.blacklistedMediaIndexes;
-        }
+          // Update CSS variables immediately
+          if (newConfig.animations.enabled !== undefined) {
+            const root = document.documentElement;
+            root.style.setProperty(
+              "--animations-enabled",
+              newConfig.animations.enabled ? "1" : "0",
+            );
+            root.style.setProperty(
+              "--animation-scale-enabled",
+              newConfig.animations.enabled ? "1" : "0",
+            );
 
-        // If thumbnailSettings.thumbnailSize is "small"|"medium"|"large", convert to pixels
-        if (processedPatch.thumbnailSettings?.thumbnailSize) {
-          const sizeMap = { small: "32px", medium: "48px", large: "64px" };
-          const size = processedPatch.thumbnailSettings.thumbnailSize;
-          if (sizeMap[size]) {
-            processedPatch.thumbnailSettings.thumbnailSize = sizeMap[size];
+            console.log(
+              `🎬 CSS Variables Updated: enabled=${newConfig.animations.enabled}`,
+            );
           }
+
+          // Update timing variables if provided
+          if (newConfig.animations.results?.fadeInDuration) {
+            document.documentElement.style.setProperty(
+              "--animation-results-duration",
+              newConfig.animations.results.fadeInDuration + "ms",
+            );
+          }
+          if (newConfig.animations.searchBar?.openDuration) {
+            document.documentElement.style.setProperty(
+              "--animation-open-duration",
+              newConfig.animations.searchBar.openDuration + "ms",
+            );
+          }
+          if (newConfig.animations.searchBar?.closeDuration) {
+            document.documentElement.style.setProperty(
+              "--animation-close-duration",
+              newConfig.animations.searchBar.closeDuration + "ms",
+            );
+          }
+          if (newConfig.animations.results?.slideDistance) {
+            document.documentElement.style.setProperty(
+              "--animation-slide-distance",
+              newConfig.animations.results.slideDistance + "px",
+            );
+          }
+          if (newConfig.animations.easing) {
+            document.documentElement.style.setProperty(
+              "--animation-easing",
+              newConfig.animations.easing,
+            );
+          }
+          console.log("🎬 Final animation config:", _config.animations);
         }
 
-        // Deep merge only known keys (ignore unknowns)
+        const searchContainer = document.getElementById("searchContainer");
+        const viewer = document.getElementById("viewer");
+
+        // Skip early styling application - wait until after config merge
+        console.log("🎯 UPDATECONFIG: Skipping early _applySearchStyling() call - will apply after config merge");
+
+        // Reinitialize if already initialized
+        if (_initialized && window.tourInstance) {
+          _initializeSearch(window.tourInstance);
+        }
+
+        // Update animation CSS variables (call this after config merge)
+        _updateAnimationCSSVariables();
+
+        // [8.4.2] Deep merge function
         function deepMerge(target, source) {
+          // [8.4.2.1] Handle null/undefined values
           if (!source) return target;
           if (!target) return source;
 
           for (const key in source) {
+            // [8.4.2.2] Skip prototype properties and undefined values
             if (
               !Object.prototype.hasOwnProperty.call(source, key) ||
               source[key] === undefined
@@ -10086,130 +9645,215 @@ window.tourSearchFunctions = (function () {
               continue;
             }
 
+            // [8.4.2.3] Deep merge for objects that aren't arrays
             if (
               source[key] &&
               typeof source[key] === "object" &&
               !Array.isArray(source[key])
             ) {
+              // [8.4.2.3.1] Create empty target object if needed
               if (!target[key] || typeof target[key] !== "object") {
                 target[key] = {};
               }
+
+              // [8.4.2.3.2] Recurse for nested objects
               deepMerge(target[key], source[key]);
             } else {
+              // [8.4.2.4] Direct assignment for primitives and arrays
               target[key] = source[key];
             }
           }
+
           return target;
         }
 
-        // Merge processed patch into _config
-        _config = deepMerge(_config, processedPatch);
+        // [8.4.3] CRITICAL FIX: Handle appearance.searchField.typography directly without ConfigBuilder
+        console.log("🎯 UPDATECONFIG: Processing new config:", {
+          hasAppearance: !!newConfig.appearance,
+          hasSearchField: !!newConfig.appearance?.searchField,
+          hasTypography: !!newConfig.appearance?.searchField?.typography,
+          typographyStructure: newConfig.appearance?.searchField?.typography
+        });
 
-        // After merging, run a single normalization pass
-        function normalizeArray(arr) {
+        // Direct merge for typography to avoid ConfigBuilder issues
+        if (newConfig.appearance?.searchField?.typography) {
+          console.log("🎯 UPDATECONFIG: Direct typography merge to preserve data");
+          const configToMerge = { ...newConfig };
+          delete configToMerge.animations; // Don't double-merge animations
+          _config = deepMerge(_config, configToMerge);
+        } else if (typeof newConfig === "object" && !Array.isArray(newConfig)) {
+          if (
+            newConfig.display ||
+            newConfig.includeContent ||
+            newConfig.filter ||
+            newConfig.useAsLabel ||
+            newConfig.appearance ||
+            newConfig.searchBar ||
+            newConfig.thumbnailSettings ||
+            newConfig.displayLabels ||
+            newConfig.businessData ||
+            newConfig.googleSheets ||
+            newConfig.animations ||
+            newConfig.iconSettings
+          ) {
+            // [8.4.3.1] Looks like a configuration object suitable for the builder
+            const builder = new ConfigBuilder();
+
+            if (newConfig.display) {
+              builder.setDisplayOptions(newConfig.display);
+            }
+
+            if (newConfig.includeContent) {
+              builder.setContentOptions(newConfig.includeContent);
+            }
+
+            if (newConfig.filter) {
+              builder.setFilterOptions(newConfig.filter);
+            }
+
+            if (newConfig.useAsLabel) {
+              builder.setLabelOptions(newConfig.useAsLabel);
+            }
+
+            if (newConfig.appearance) {
+              builder.setAppearanceOptions(newConfig.appearance);
+            }
+
+            if (newConfig.searchBar) {
+              builder.setSearchBarOptions(newConfig.searchBar);
+            }
+
+            if (newConfig.thumbnailSettings) {
+              builder.setThumbnailSettings(newConfig.thumbnailSettings);
+            }
+
+            // FIX: Handle both top-level and nested iconSettings
+            if (newConfig.iconSettings) {
+              builder.setIconSettings(newConfig.iconSettings);
+            } else if (
+              newConfig.thumbnailSettings &&
+              newConfig.thumbnailSettings.iconSettings
+            ) {
+              // Handle nested iconSettings under thumbnailSettings
+              builder.setIconSettings(newConfig.thumbnailSettings.iconSettings);
+            }
+
+            if (newConfig.displayLabels) {
+              builder.setDisplayLabels(newConfig.displayLabels);
+            }
+
+            if (newConfig.businessData) {
+              builder.setBusinessDataOptions(newConfig.businessData);
+            }
+
+            if (newConfig.googleSheets) {
+              builder.setGoogleSheetsOptions(newConfig.googleSheets);
+            }
+
+            if (newConfig.animations) {
+              builder.setAnimationOptions(newConfig.animations);
+            }
+
+            if (newConfig.searchSettings) {
+              builder.setSearchOptions(newConfig.searchSettings);
+            }
+
+            // [8.4.3.2] General options
+            builder.setGeneralOptions(newConfig);
+
+            // [8.4.3.3] Build the config
+            const builtConfig = builder.build();
+
+            // [8.4.3.4] Merge with existing config (but skip animations since we handled it above)
+            const configToMerge = { ...builtConfig };
+            delete configToMerge.animations; // Don't double-merge animations
+            _config = deepMerge(_config, configToMerge);
+          } else {
+            // [8.4.3.5] Not structured for the builder, just deep merge (but skip animations)
+            const configToMerge = { ...newConfig };
+            delete configToMerge.animations; // Don't double-merge animations
+            _config = deepMerge(_config, configToMerge);
+          }
+        }
+
+        // [8.4.4] Normalize and sanitize filter arrays after config merge
+        function normalizeFilterArray(arr) {
           if (!Array.isArray(arr)) return [];
           return arr
-            .map((v) => (typeof v === "string" ? v.trim() : String(v).trim()))
-            .filter((v) => v.length > 0)
+            .map(v => typeof v === 'string' ? v.trim() : String(v).trim())
+            .filter(v => v.length > 0)
             .filter((value, index, array) => array.indexOf(value) === index); // dedupe
         }
 
         if (_config.filter) {
-          // Normalize filter arrays
+          // Normalize allowedValues/blacklistedValues
           if (_config.filter.allowedValues) {
-            _config.filter.allowedValues = normalizeArray(
-              _config.filter.allowedValues,
-            );
+            _config.filter.allowedValues = normalizeFilterArray(_config.filter.allowedValues);
           }
           if (_config.filter.blacklistedValues) {
-            _config.filter.blacklistedValues = normalizeArray(
-              _config.filter.blacklistedValues,
-            );
+            _config.filter.blacklistedValues = normalizeFilterArray(_config.filter.blacklistedValues);
           }
-
-          if (_config.filter.elementLabels) {
-            if (_config.filter.elementLabels.allowedValues) {
-              _config.filter.elementLabels.allowedValues = normalizeArray(
-                _config.filter.elementLabels.allowedValues,
-              );
-            }
-            if (_config.filter.elementLabels.blacklistedValues) {
-              _config.filter.elementLabels.blacklistedValues = normalizeArray(
-                _config.filter.elementLabels.blacklistedValues,
-              );
-            }
-          }
-
-          if (_config.filter.tagFiltering) {
-            if (_config.filter.tagFiltering.allowedTags) {
-              _config.filter.tagFiltering.allowedTags = normalizeArray(
-                _config.filter.tagFiltering.allowedTags.map((t) =>
-                  t.toLowerCase(),
-                ),
-              );
-            }
-            if (_config.filter.tagFiltering.blacklistedTags) {
-              _config.filter.tagFiltering.blacklistedTags = normalizeArray(
-                _config.filter.tagFiltering.blacklistedTags.map((t) =>
-                  t.toLowerCase(),
-                ),
-              );
-            }
-          }
-
+          
+          // Normalize mediaIndexes arrays
           if (_config.filter.mediaIndexes) {
             if (_config.filter.mediaIndexes.allowed) {
-              _config.filter.mediaIndexes.allowed = normalizeArray(
-                _config.filter.mediaIndexes.allowed,
-              );
+              _config.filter.mediaIndexes.allowed = normalizeFilterArray(_config.filter.mediaIndexes.allowed);
             }
             if (_config.filter.mediaIndexes.blacklisted) {
-              _config.filter.mediaIndexes.blacklisted = normalizeArray(
-                _config.filter.mediaIndexes.blacklisted,
-              );
+              _config.filter.mediaIndexes.blacklisted = normalizeFilterArray(_config.filter.mediaIndexes.blacklisted);
+            }
+          }
+          
+          // Normalize elementLabels arrays
+          if (_config.filter.elementLabels) {
+            if (_config.filter.elementLabels.allowedValues) {
+              _config.filter.elementLabels.allowedValues = normalizeFilterArray(_config.filter.elementLabels.allowedValues);
+            }
+            if (_config.filter.elementLabels.blacklistedValues) {
+              _config.filter.elementLabels.blacklistedValues = normalizeFilterArray(_config.filter.elementLabels.blacklistedValues);
+            }
+          }
+          
+          // Normalize elementTypes arrays
+          if (_config.filter.elementTypes) {
+            if (_config.filter.elementTypes.allowedTypes) {
+              _config.filter.elementTypes.allowedTypes = normalizeFilterArray(_config.filter.elementTypes.allowedTypes);
+            }
+            if (_config.filter.elementTypes.blacklistedTypes) {
+              _config.filter.elementTypes.blacklistedTypes = normalizeFilterArray(_config.filter.elementTypes.blacklistedTypes);
             }
           }
         }
 
-        // Leave a small debug log summarizing changed keys
-        const changedKeys = Object.keys(processedPatch);
-        Logger.debug(`[CFG.UPDATE] Updated keys: ${changedKeys.join(", ")}`);
+        // [8.4.5] Apply styling updates after config merge
+        console.log("🎯 UPDATECONFIG: Applying styling with merged config...");
+        _applySearchStyling();
+        console.log("🎯 UPDATECONFIG: Styling applied with current config:", {
+          hasTypography: !!_config.appearance?.searchField?.typography,
+          typographyStructure: _config.appearance?.searchField?.typography
+        });
 
-        // --- [POST-MERGE APPLY] make updates live without re-init ---
-        try {
-          const styleTouch = changedKeys.some(k =>
-            /^(appearance|thumbnailSettings|iconSettings|displayLabels|useAsLabel|animations)/.test(k)
-          );
-          const indexTouch = changedKeys.some(k =>
-            /^(filter|includeContent|searchSettings|fuse|behavior|googleSheets|businessData)/.test(k)
-          );
-
-          if (styleTouch) {
-            // Re-apply CSS variables, widths, placeholders, icons, etc.
-           _applySearchStyling && _applySearchStyling();
-           _updateAnimationCSSVariables && _updateAnimationCSSVariables();
-          }
-
-          if (indexTouch) {
-            // Rebuild the Fuse index and refresh visible results if any query is active
-            if (typeof _rebuildIndex === "function") {
-              _rebuildIndex();
-            } else {
-              Logger?.debug?.("Reindex deferred; initializeSearch not completed yet.");
-            }
-            if (typeof currentSearchTerm === 'string' && currentSearchTerm.trim()) {
-              // Re-run search with the current term to refresh results instantly
-              performSearch && performSearch(currentSearchTerm);
-            }
-          }
-
-          Logger.info('Config patch applied without re-init', { styleTouch, indexTouch, changedKeys });
-        } catch (e) {
-          Logger.warn('updateConfig post-merge apply failed; falling back to re-init', e);
-          if (window.tourInstance && typeof initializeSearch === 'function') {
-            initializeSearch(window.tourInstance);
-          }
+        // [8.4.5] Reinitialize if already initialized
+        if (_initialized && window.tourInstance) {
+          _initializeSearch(window.tourInstance);
         }
+
+        // [8.4.6] Debug configuration application
+        Logger.info("Configuration updated successfully");
+        Logger.debug(
+          "Current config - showIconsInResults:",
+          _config.display?.showIconsInResults,
+        );
+        Logger.debug(
+          "Current config - includePanoramas:",
+          _config.includeContent?.elements?.includePanoramas,
+        );
+
+        // [8.4.7] Debug Google Sheets URL
+        console.log(
+          "[DEBUG] Google Sheets URL being used:",
+          window.searchFunctions.getConfig().googleSheets.googleSheetUrl,
+        );
 
         return this.getConfig();
       } catch (error) {
@@ -10218,7 +9862,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [10.0.1] Get Current Configuration
+    // [8.5] Get Current Configuration
     getConfig: function () {
       try {
         return JSON.parse(JSON.stringify(_config));
@@ -10228,7 +9872,7 @@ window.tourSearchFunctions = (function () {
       }
     },
 
-    // [10.0.2] Search History Management
+    // [8.6] Search History Management
     searchHistory: {
       get() {
         return []; // No history feature
@@ -10241,55 +9885,20 @@ window.tourSearchFunctions = (function () {
       },
     },
 
-    // [10.0.3] Logging Control
+    // [8.7] Logging Control
     setLogLevel(level) {
       // Use the centralized Logger's setLevel method instead of directly modifying Logger.level
       return Logger.setLevel(level);
     },
 
-    // [10.0.4] Utility Functions
+    // [8.8] Utility Functions
     utils: {
       debounce: _debounce,
       getElementType: _getElementType,
       triggerElement: _triggerElement,
       normalizeImagePath: _normalizeImagePath,
 
-      // [10.0.4.1] Size formatting utility
-      makeSizePxString: function (size) {
-        // Handle null, undefined, or empty values
-        if (size == null || size === "") return "0px";
-
-        // If it's already a string with a unit (px, em, rem, etc.), return as is
-        if (typeof size === "string") {
-          // Check if it already has a CSS unit
-          if (
-            /^\d+(\.\d+)?(%|px|em|rem|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc)$/.test(
-              size,
-            )
-          ) {
-            return size;
-          }
-
-          // If it's a string number without unit, parse it and add px
-          const num = parseFloat(size);
-          if (!isNaN(num)) {
-            return `${num}px`;
-          }
-
-          // Default for invalid string
-          return "0px";
-        }
-
-        // If it's a number, add px unit
-        if (typeof size === "number") {
-          return `${size}px`;
-        }
-
-        // Default for any other type
-        return "0px";
-      },
-
-      // [10.0.4.2] Utility for image handling
+      // [8.8.1] Utility for image handling
       imageUtils: {
         getImageExtension: function (path) {
           if (!path) return "";
@@ -10318,36 +9927,31 @@ window.tourSearchFunctions = (function () {
       },
     },
 
-    // [10.0.5] Expose Google Sheets Data Accessor
+    // [8.9] Expose Google Sheets Data Accessor
     _getGoogleSheetsData: function () {
       return _googleSheetsData || [];
     },
-    // [10.0.6] Expose Business Data Accessor
+    // [8.10] Expose Business Data Accessor
     _getBusinessData: function () {
       return _businessData || [];
     },
 
-    // [10.0.7] Expose Search Index Accessor
+    // [8.11] Expose Search Index Accessor
     getSearchIndex: function () {
       return fuse ? fuse._docs || [] : [];
     },
 
-    // [10.0.8] Expose Business Matching Function
+    // [8.12] Expose Business Matching Function
     findBusinessMatch: function (elementData) {
       return findBusinessMatch(elementData);
     },
   };
 })();
 
-// [CFG.WINDOW] window.searchFunctions unified with canonical getConfig/updateConfig
-window.searchFunctions = {
-  ...window.tourSearchFunctions,
-  // Override with canonical functions from above
-  getConfig: window.tourSearchFunctions.getConfig,
-  updateConfig: window.tourSearchFunctions.updateConfig,
-};
+// [9.0] SECTION: Global Exports
+window.searchFunctions = window.tourSearchFunctions;
 
-// [10.1] Method: ensurePlaylistsReady() - Combined Playlist Readiness Detection Utility
+// [9.1] Method: ensurePlaylistsReady() - Combined Playlist Readiness Detection Utility
 function ensurePlaylistsReady(callback) {
   if (
     window.tour &&
@@ -10375,69 +9979,39 @@ function ensurePlaylistsReady(callback) {
 
 // [CACHE BUSTER v2] - Force browser refresh - Timestamp: 1752343890000
 document.addEventListener("DOMContentLoaded", function () {
-  // [10.2] Wait for a short time to ensure DOM is stable
+  // [9.1] Wait for a short time to ensure DOM is stable
   setTimeout(function () {
     if (!window.Logger || typeof window.Logger.debug !== "function") {
       console.warn(
         "[Search] Logger not properly initialized, using console fallback",
       );
       window.Logger = window.Logger || {};
-
-      // [STEP E] Safety guard: Add level property for fallback logger
-      if (typeof window.Logger.level === "undefined") {
-        window.Logger.level = 0; // Default to debug level for fallback
-      }
-
       window.Logger.debug =
         window.Logger.debug ||
-        function (msg) {
-          if (window.Logger.level > 0) return; // Skip debug if level > 0
-          if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            console.debug("[Search] DEBUG:", msg, args);
-          } else {
-            console.debug("[Search] DEBUG:", msg);
-          }
+        function (msg, ...args) {
+          console.debug("[Search] DEBUG:", msg, ...args);
         };
       window.Logger.info =
         window.Logger.info ||
-        function (msg) {
-          if (window.Logger.level > 1) return; // Skip info if level > 1
-          if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            console.info("[Search] INFO:", msg, args);
-          } else {
-            console.info("[Search] INFO:", msg);
-          }
+        function (msg, ...args) {
+          console.info("[Search] INFO:", msg, ...args);
         };
       window.Logger.warn =
         window.Logger.warn ||
-        function (msg) {
-          if (window.Logger.level > 2) return; // Skip warn if level > 2
-          if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            console.warn("[Search] WARN:", msg, args);
-          } else {
-            console.warn("[Search] WARN:", msg);
-          }
+        function (msg, ...args) {
+          console.warn("[Search] WARN:", msg, ...args);
         };
       window.Logger.error =
         window.Logger.error ||
-        function (msg) {
-          if (window.Logger.level > 3) return; // Skip error if level > 3
-          if (arguments.length > 1) {
-            var args = Array.prototype.slice.call(arguments, 1);
-            console.error("[Search] ERROR:", msg, args);
-          } else {
-            console.error("[Search] ERROR:", msg);
-          }
+        function (msg, ...args) {
+          console.error("[Search] ERROR:", msg, ...args);
         };
     }
 
-    // [10.2.1] Logic Block: Find the search container in DOM
+    // [9.1.1] Logic Block: Find the search container in DOM
     const containerEl = document.getElementById("searchContainer");
 
-    // [10.2.2] Logic Block: If container exists in DOM but not in cache, update the cache
+    // [9.1.2] Logic Block: If container exists in DOM but not in cache, update the cache
     if (
       containerEl &&
       (!window.searchFunctions || !window.searchFunctions.elements.container)
@@ -10446,11 +10020,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "[Search] Found existing searchContainer in DOM, updating element cache",
       );
 
-      // [10.2.2.1] Logic Block: Update the elements cache directly
+      // [9.1.2.1] Logic Block: Update the elements cache directly
       if (window.searchFunctions && window.searchFunctions.elements) {
         window.searchFunctions.elements.container = containerEl;
 
-        // [10.2.2.1.1] Logic Block: Also update child element references
+        // [9.1.2.1.1] Logic Block: Also update child element references
         window.searchFunctions.elements.input =
           containerEl.querySelector("#tourSearch");
         window.searchFunctions.elements.results =
@@ -10466,13 +10040,13 @@ document.addEventListener("DOMContentLoaded", function () {
     //     Configure your search experience.
     // ==========================================
 
-    // [10.2.3] Now update the config
+    // [10.0] Now update the config
     if (window.searchFunctions) {
       window.searchFunctions.updateConfig({
         // ==========================================
         // GENERAL TAB - Search Bar Settings
         // ==========================================
-        // [10.2.3.0.1] General Settings
+        // [10.1] General Settings
         autoHide: {
           mobile: false, // Auto-hide search on mobile after selection
           desktop: false, // Auto-hide search on desktop after selection
@@ -10488,7 +10062,7 @@ document.addEventListener("DOMContentLoaded", function () {
           baseRetryInterval: 300, // Base retry interval
         },
 
-        // [10.2.3.0.2] Search Bar Positioning and Layout
+        // [10.2] Search Bar Positioning and Layout
         searchBar: {
           placeholder: "Search... Type * for all", // Placeholder text for search input
           width: 350, // Width in pixels or percentage (e.g., "100%")
@@ -10521,7 +10095,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // APPEARANCE TAB - Visual Style Settings
         // ==========================================
-        // [10.2.3.0.3] Appearance Settings
+        // [10.3] Appearance Settings
         appearance: {
           searchField: {
             borderRadius: {
@@ -10573,7 +10147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
           },
 
-          // [10.2.3.0.4] Color Settings
+          // [10.4] Color Settings
           colors: {
             searchBackground: "#f4f3f2", // *** Search bar background color
             searchText: "#1a1a1a", // *** Search bar text color
@@ -10602,7 +10176,7 @@ document.addEventListener("DOMContentLoaded", function () {
             highlightWeight: "bold", // *** Highlight font weight: 'normal', 'bold', etc.
           },
 
-          // [10.2.3.0.5] Tag Appearance Settings
+          // [10.5] Tag Appearance Settings
           tags: {
             borderRadius: 16, // *** Rounded tag pills (0-20 recommended)
             fontSize: "11px", // *** Tag text size
@@ -10615,7 +10189,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         },
 
-        // [10.2.3.0.6] Thumbnail Settings
+        // [10.6] Thumbnail Settings
         thumbnailSettings: {
           enableThumbnails: false, // *** true or false - Enable custom thumbnails
           thumbnailSize: "48px", // "16px", "24px", "32px", "48px", "64px", "80px", "96px"
@@ -10642,7 +10216,7 @@ document.addEventListener("DOMContentLoaded", function () {
             default: "./search-pro-non-mod/assets/default-thumbnail.jpg", // *** Default thumbnail - supports .jpg, .jpeg, .png, .gif, .webp, .svg
           },
 
-          // [10.2.3.0.7] ICON SETTINGS CONFIGURATION
+          // [10.6.1] ICON SETTINGS CONFIGURATION
           iconSettings: {
             enableCustomIcons: false, // // *** true or false Enable/disable the entire icon system
             enableFontAwesome: false, // // *** true or false - Enable Font Awesome icons
@@ -10748,7 +10322,7 @@ document.addEventListener("DOMContentLoaded", function () {
               showTypeLabel: false, // *** Show "HOTSPOT", "VIDEO" text instead of icon
             },
           },
-          // [10.2.3.0.8] Thumbnail Grouping Settings
+          // [10.6.3] Thumbnail Grouping Settings
           groupHeaderAlignment: "left", // "left","right"
           groupHeaderPosition: "top", // "top", "bottom"
           showFor: {
@@ -10773,16 +10347,20 @@ document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // DISPLAY TAB - Control How Elements Appear
         // ==========================================
-        // [10.2.3.0.9] Display Settings
+        // [10.7] Display Settings
         display: {
           showGroupHeaders: true, // Show group headers in search results
           showGroupCount: true, // Show count of items in each group
           showIconsInResults: true, // Show icons in search results
+          // onlySubtitles: true, // DELETED -
           showSubtitlesInResults: true, // Show subtitles in search results
+          // showParentLabel: true, // // DELETED -  Show parent label for child elements
           showParentInfo: true, // Show parent info for child elements
+          // showParentTags: true, // DELETED - Show parent tags for child elements
+          // showParentType: true, // // DELETED - Show parent type for child elements
         },
 
-        // [10.2.3.0.10] Label Customization
+        // [10.8] Label Customization
         displayLabels: {
           Panorama: "Panorama", // *** Display label for panoramas
           Hotspot: "Hotspot", // *** Display label for hotspots
@@ -10800,7 +10378,7 @@ document.addEventListener("DOMContentLoaded", function () {
           Container: "Container", // *** Display label for UI containers
         },
 
-        // [10.2.3.0.11] Label Fallback Options
+        // [10.9] Label Fallback Options
         useAsLabel: {
           subtitles: true, // Use subtitles as labels when labels are missing
           tags: true, // Use tags as labels when labels and subtitles are missing
@@ -10812,7 +10390,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // CONTENT TAB - Control What Appears in Search
         // ==========================================
-        // [10.2.3.0.12] Content Inclusion Options
+        // [10.10] Content Inclusion Options
         includeContent: {
           unlabeledWithSubtitles: true, // Include items with no label but with subtitles
           unlabeledWithTags: true, // Include items with no label but with tags
@@ -10853,7 +10431,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // - Use "none" mode to disable filtering (show everything)
         // ==========================================
 
-        // [10.2.3.0.13] Element Filtering Options
+        // [10.11] Element Filtering Options
         filter: {
           // Top-level filter controls ALL content based on label/value text matching
           mode: "none", // "none" (show all), "whitelist" (only show allowed), "blacklist" (hide specified)
@@ -10863,23 +10441,21 @@ document.addEventListener("DOMContentLoaded", function () {
           // Value matching modes control how filter values are compared with element labels
           valueMatchMode: {
             whitelist: "exact", // "exact" (complete match), "contains" (partial match), "startsWith", "regex"
-            blacklist: "contains", // "contains" is safer default for blacklists (catches variants)
+            blacklist: "contains"   // "contains" is safer default for blacklists (catches variants)
           },
 
           // Media index filtering with proper mode control - filter specific panoramas by position in tour
           mediaIndexes: {
-            mode: "none", // "none" (show all), "whitelist" (only show allowed), "blacklist" (hide specified)
+            mode: "none", // "none" (show all), "whitelist" (only show allowed), "blacklist" (hide specified)  
             allowed: [""], // Panorama indexes to allow when mode is "whitelist", e.g. ["0", "1", "5"] shows only the 1st, 2nd, and 6th panoramas
-            blacklisted: [""], // Panorama indexes to block when mode is "blacklist", e.g. ["0", "3"] hides the 1st and 4th panoramas
+            blacklisted: [""] // Panorama indexes to block when mode is "blacklist", e.g. ["0", "3"] hides the 1st and 4th panoramas
           },
 
           // Filter based on element type (Panorama, Hotspot, Video, etc.)
           elementTypes: {
             mode: "none", // "none" (show all types), "whitelist" (only show specified types), "blacklist" (hide specified types)
-            allowedTypes: [""], // Element types to include, ["Panorama", "Hotspot", "3DModel"] will ONLY show these types
-            // Complete List of Available Element Types: "Panorama", "Hotspot", "Polygon", "Video", "Webframe", "Image", "Text", "ProjectedImage", "Element", "Business", "Container","3DModel", "3DHotspot", "3DModelObject"
+            allowedTypes: [""], // Element types to include, e.g. ["Panorama", "Hotspot", "3DModel"] will ONLY show these types
             blacklistedTypes: [""], // Element types to exclude, e.g. ["Text", "Element"] will HIDE these types but show all others
-            // Complete List of Available Element Types: "Panorama", "Hotspot", "Polygon", "Video", "Webframe", "Image", "Text", "ProjectedImage", "Element", "Business", "Container","3DModel", "3DHotspot", "3DModelObject"
           },
 
           // Filter based on partial text matches in element labels
@@ -10892,7 +10468,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Filter based on assigned tags (useful when your tour content uses tags)
           tagFiltering: {
             mode: "none", // "none" (show all tags), "whitelist" (only show elements with specified tags), "blacklist" (hide elements with specified tags)
-            allowedTags: [""], // Tags to allow, e.g. ["important", "featured_location"] shows only elements with these tags
+            allowedTags: [""], // Tags to allow, e.g. ["important", "featured"] shows only elements with these tags
             blacklistedTags: [""], // Tags to block, e.g. ["hidden", "internal"] hides elements with these tags
           },
         },
@@ -10900,80 +10476,32 @@ document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // ADVANCED TAB - Animation and Search Behavior
         // ==========================================
-        // [10.2.3.0.14] Animation Settings
-        // Control how search interactions feel - smooth vs snappy vs disabled
+        // [10.12] Animation Settings
         animations: {
-          // *** MASTER ANIMATION TOGGLE ***
-          enabled: false, // *** true/false - Enable ALL animations (false = instant actions, no transitions)
-          // TIP: Set to false for performance on slow devices or for users who prefer instant responses
-
-          // *** TIMING GROUPS - Controls speed of different animation categories ***
+          enabled: false, // Enable animations globally
           duration: {
-            // Base timing values used throughout the search interface (in milliseconds)
-            fast: 600, // *** TESTING: Increased from 250ms - Quick animations for instant feedback (button hovers, icon changes)
-            // RECOMMENDED: 150-250ms for responsive feel, 100ms for very snappy, 300ms for slightly smoother
-            
-            normal: 800, // *** TESTING: Increased from 250ms - Standard animations for main interactions (opening panels, transitions)  
-            // RECOMMENDED: 250-350ms for balanced feel, 200ms for quick, 400-500ms for more deliberate
-            
-            slow: 1200, // *** TESTING: Increased from 400ms - Slower animations for complex transitions (page changes, major state changes)
-            // RECOMMENDED: 400-600ms for smooth feel, 300ms for quicker, 700-800ms for very smooth
+            fast: 150, // Fast animations (150ms)
+            normal: 250, // Normal animations (250ms)
+            slow: 400, // Slow animations (400ms)
           },
-          // *** ANIMATION STYLE - Controls how animations feel ***
-          easing: "cubic-bezier(0.68, -0.55, 0.265, 1.55)", // *** TESTING: Changed to bouncy effect for visibility
-          // OPTIONS: 
-          // - "ease-out" (recommended): Starts fast, slows down - feels natural and responsive
-          // - "ease-in": Starts slow, speeds up - feels deliberate but less responsive
-          // - "ease": Slow-fast-slow - standard web animation feel
-          // - "linear": Constant speed - mechanical feeling, not recommended for UI
-          // - "cubic-bezier(0.22, 1, 0.36, 1)": Custom smooth curve - very polished feel
-          // - "cubic-bezier(0.68, -0.55, 0.265, 1.55)": Bouncy effect - playful but can be distracting
-          // *** SEARCH BAR SPECIFIC ANIMATIONS ***
+          easing: "ease-out", // Simple, natural easing
           searchBar: {
-            openDuration: 700, // *** TESTING: Increased from 300ms - Time for search bar to appear when activated
-            // RECOMMENDED: 300-400ms feels responsive, 200ms very snappy, 500-600ms more graceful
-            
-            closeDuration: 500, // *** TESTING: Increased from 200ms - Time for search bar to disappear when closed
-            // TIP: Usually faster than opening - users expect quick closure
-            // RECOMMENDED: 200ms balanced, 150ms very quick, 300ms more gentle
-            
-            scaleEffect: true, // *** true/false - Whether search bar grows slightly when focused
-            // true: Search bar subtly scales up on focus - feels interactive and modern
-            // false: No scaling - cleaner, more minimal appearance
+            openDuration: 300, // Quick, responsive opening
+            closeDuration: 200, // Even quicker closing
+            scaleEffect: true, // Subtle scale effect
           },
-          // *** SEARCH RESULTS ANIMATIONS ***
           results: {
-            fadeInDuration: 600, // *** TESTING: Increased from 200ms - Time for each result item to fade in when appearing
-            // RECOMMENDED: 200ms feels smooth, 150ms quicker, 300ms more gentle
-            // TIP: Shorter values feel more responsive, longer values feel smoother
-            
-            slideDistance: 25, // *** TESTING: Increased from 10px - Distance results slide in from (vertical movement)
-            // 0px: No slide, just fade - minimal, clean
-            // 5-10px: Subtle slide - modern, polished feel
-            // 15-30px: More dramatic slide - attention-grabbing but can be distracting
-            // RECOMMENDED: 8-12px for subtle polish
-            
-            staggerDelay: 150, // *** TESTING: Increased from 80ms - Delay between each result appearing (cascade effect)
-            // 0ms: All results appear at once - instant but can feel overwhelming
-            // 50-100ms: Nice cascade effect - feels organized and flows well
-            // 150ms+: Very slow cascade - can feel sluggish with many results
-            // RECOMMENDED: 60-100ms for smooth cascade, 40ms for quicker rhythm
+            fadeInDuration: 200, // Quick, clean fade-in
+            slideDistance: 8, // Subtle slide movement
+            staggerDelay: 30, // Quick succession between items
           },
-          // *** ACCESSIBILITY & PERFORMANCE ***
           reducedMotion: {
-            respectPreference: false, // *** TESTING: Disabled to force animations for testing
-            // true (HIGHLY RECOMMENDED): Respects user's accessibility needs - shows you care about all users
-            // false: Ignores system preference - animations always play (not recommended for accessibility)
-            
-            fallbackDuration: 80, // *** 0-200ms - Animation duration when user prefers reduced motion
-            // 0ms: Completely instant - most accessible but least polished
-            // 50-100ms: Very quick transitions - maintains some polish while being accessible
-            // 150ms+: Longer transitions - may still feel too animated for users who prefer reduced motion
-            // RECOMMENDED: 50-80ms balances accessibility with minimal visual polish
+            respectPreference: true, // Respect user's reduced motion preference
+            fallbackDuration: 80, // Fast fallback for accessibility
           },
         },
 
-        // [10.2.3.0.15] Search Ranking & Behavior Settings
+        // [10.13] Search Ranking & Behavior Settings
         searchSettings: {
           // Field weights (0.0 to 1.0) - Higher = More Important
           fieldWeights: {
@@ -11008,7 +10536,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // ==========================================
         // DATA SOURCES TAB - External Data Integration
         // ==========================================
-        // [10.2.3.0.16] Business Data Integration
+        // [10.14] Business Data Integration
         businessData: {
           useBusinessData: false, // *** true/false - Enable business data (DISABLES Google Sheets)
           replaceTourData: false, // *** true/false - Replace tour labels with business labels
@@ -11019,7 +10547,7 @@ document.addEventListener("DOMContentLoaded", function () {
           businessDataUrl: `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"))}/search-pro-non-mod/business-data/business.json`, // *** Business data URL
         },
 
-        // [10.2.3.0.17] Google Sheets Integration
+        // [10.15] Google Sheets Integration
         // ==========================================
         // GOOGLE SHEETS or LOCAL CSV INTEGRATION (you can use one or the other)
         // ==========================================
@@ -11116,7 +10644,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // END OF CONFIGURATION SETTINGS
       // ==========================================
 
-      // [10.2.3.1] Debugging Function for Image Paths
+      // [11.0] Debugging Function for Image Paths
       function debugImagePaths() {
         const config = window.searchFunctions.getConfig();
         const baseUrl =
@@ -11153,13 +10681,13 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         );
       }
-      // [10.2.3.2] Add Debug Logging to Verify Google Sheets Configuration
+      // [11.1] Add Debug Logging to Verify Google Sheets Configuration
       Logger.debug(
         "[DEBUG] Google Sheets Config Applied:",
         window.searchFunctions.getConfig().googleSheets,
       );
 
-      // [10.2.3.3] Force reinitialization if tour is available
+      // [11.2] Force reinitialization if tour is available
       if (window.tourInstance) {
         Logger.info(
           "[GOOGLE SHEETS] Reinitializing search with updated config",
@@ -11195,60 +10723,51 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       return true;
     }
-    // [10.2.4] Check for live configuration updates from control panel - External File
+    // [11.3] Check for live configuration updates from control panel - External File
     function checkForLiveConfig() {
       try {
         const liveConfig = localStorage.getItem("searchProLiveConfig");
         const timestamp = localStorage.getItem("searchProConfigUpdate");
-
+        
         // Log ALL localStorage keys related to search to debug
-        const allKeys = Object.keys(localStorage).filter((key) =>
-          key.includes("searchPro"),
-        );
+        const allKeys = Object.keys(localStorage).filter(key => key.includes('searchPro'));
         console.log("🔍 ALL SEARCH KEYS in localStorage:", allKeys);
-
+        
         console.log("🔍 LIVE CONFIG CHECK:", {
           hasLiveConfig: !!liveConfig,
           configSize: liveConfig?.length,
           timestamp: timestamp,
-          configPreview: liveConfig
-            ? liveConfig.substring(0, 100) + "..."
-            : "none",
+          configPreview: liveConfig ? liveConfig.substring(0, 100) + "..." : "none"
         });
-
+        
         if (liveConfig) {
           const config = JSON.parse(liveConfig);
-
+          
           console.log("🔍 LIVE CONFIG: Parsed config thumbnails:", {
             enableThumbnails: config.thumbnailSettings?.enableThumbnails,
             defaultImages: config.thumbnailSettings?.defaultImages,
-            showFor: config.thumbnailSettings?.showFor,
+            showFor: config.thumbnailSettings?.showFor
           });
-
+          
           // Check if this is a new config by comparing with last applied
-          const lastAppliedConfig = localStorage.getItem(
-            "searchProLastAppliedConfig",
-          );
+          const lastAppliedConfig = localStorage.getItem("searchProLastAppliedConfig");
           const configHash = JSON.stringify(config);
-
+          
           console.log("🔍 LIVE CONFIG: Hash comparison:", {
             newHash: configHash.substring(0, 50) + "...",
             lastHash: lastAppliedConfig?.substring(0, 50) + "...",
-            isNew: lastAppliedConfig !== configHash,
+            isNew: lastAppliedConfig !== configHash
           });
-
+          
           if (lastAppliedConfig !== configHash) {
-            console.log(
-              "🎯 SEARCH ENGINE: Found NEW live config in localStorage:",
-              {
-                hasConfig: !!config,
-                hasAppearance: !!config.appearance,
-                hasSearchField: !!config.appearance?.searchField,
-                hasTypography: !!config.appearance?.searchField?.typography,
-                typographyStructure: config.appearance?.searchField?.typography,
-              },
-            );
-
+            console.log("🎯 SEARCH ENGINE: Found NEW live config in localStorage:", {
+              hasConfig: !!config,
+              hasAppearance: !!config.appearance,
+              hasSearchField: !!config.appearance?.searchField,
+              hasTypography: !!config.appearance?.searchField?.typography,
+              typographyStructure: config.appearance?.searchField?.typography
+            });
+            
             if (window.searchFunctions && window.searchFunctions.updateConfig) {
               window.searchFunctions.updateConfig(config);
               console.log(
@@ -11263,9 +10782,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           } else {
             // Config hasn't changed, skip processing
-            console.log(
-              "🎯 SEARCH ENGINE: Config unchanged, skipping reapplication",
-            );
+            console.log("🎯 SEARCH ENGINE: Config unchanged, skipping reapplication");
           }
         }
       } catch (error) {
@@ -11275,7 +10792,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
     }
-    // [10.2.5] Show configuration update notification
+    // [11.4] Show configuration update notification
     function showConfigUpdateNotification() {
       const notification = document.createElement("div");
       notification.className = "config-notification";
@@ -11311,6 +10828,4 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(checkForLiveConfig, 2000);
   }, 100);
 });
-console.log(
-  "🔥 CACHE BUST: Search engine reloaded at Sun Aug  3 11:34:37 PM UTC 2025",
-);
+console.log('🔥 CACHE BUST: Search engine reloaded at Sun Aug  3 11:34:37 PM UTC 2025');
