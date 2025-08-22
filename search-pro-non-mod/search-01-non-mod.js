@@ -9850,9 +9850,12 @@ window.tourSearchFunctions = (function () {
     console.log("🎬 Animations enabled:", animationsEnabled);
     console.log("🎬 Prefers reduced motion:", prefersReducedMotion);
 
-    // [CRITICAL FIX] Always add the .sp-anim-on class for basic styling, 
-    // but use CSS variables to control actual animations
-    document.documentElement.classList.add('sp-anim-on');
+    // Toggle .sp-anim-on class conditionally based on animations enabled
+    if (animationsEnabled) {
+      document.documentElement.classList.add('sp-anim-on');
+    } else {
+      document.documentElement.classList.remove('sp-anim-on');
+    }
 
     // Set animation state variable to control transitions in CSS
     root.style.setProperty(
