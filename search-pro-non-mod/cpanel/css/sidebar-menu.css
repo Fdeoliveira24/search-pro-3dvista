@@ -15,7 +15,7 @@
   border-right: none;
   box-shadow: 2px 0 14px rgba(0, 0, 0, 0.06);
   border-radius: 0;
-  z-index: 1000;
+  z-index: var(--z-sidebar, 1000);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   display: flex;
@@ -415,7 +415,7 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  z-index: 1001;
+  z-index: calc(var(--z-sidebar, 1000) + 1);
   pointer-events: none;
 }
 
@@ -472,7 +472,7 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: calc(var(--z-sidebar, 1000) - 1);
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
@@ -489,7 +489,7 @@
   position: fixed;
   top: 20px;
   right: 20px; /* MOVED TO RIGHT */
-  z-index: 1002;
+  z-index: calc(var(--z-sidebar, 1000) + 2);
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
   border: none;
@@ -513,19 +513,35 @@
 }
 
 /* FIXED: Responsive Design with Clear Breakpoints */
-@media (max-width: 1024px) {
-  /* Tablet View - Show collapse button, hide action buttons */
+
+/* Tablet View (769px to 1024px) - Sidebar pushes content */
+@media (max-width: 1024px) and (min-width: 769px) {
   .sidebar-collapse-btn {
     display: flex;
   }
 
   .sidebar {
-    z-index: 1001;
+    z-index: var(--z-sidebar, 1000);
+    position: fixed; /* Keep fixed positioning */
+    transform: translateX(0); /* Ensure sidebar is visible */
   }
 
   /* Hide action buttons on tablet */
   .header-actions {
     display: none !important;
+  }
+
+  /* CRITICAL FIX: Ensure navigation scrolling on tablet */
+  .sidebar-nav {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - 100px) !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Better touch targets for tablet */
+  .nav-item {
+    min-height: 48px !important;
   }
 }
 
@@ -590,6 +606,21 @@
   .sidebar-collapse-btn {
     display: none !important;
   }
+
+  /* CRITICAL FIX: Ensure navigation scrolling on mobile */
+  .sidebar-nav {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - 120px) !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 20px !important;
+  }
+
+  /* Ensure nav items are properly spaced for mobile scrolling */
+  .nav-item {
+    min-height: 52px !important;
+    margin-bottom: 2px !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -604,6 +635,22 @@
     width: 44px;
     height: 44px;
     font-size: 16px;
+  }
+
+  /* CRITICAL FIX: Extra small screen navigation scrolling */
+  .sidebar-nav {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - 100px) !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 30px !important;
+  }
+
+  /* Larger touch targets for very small screens */
+  .nav-item {
+    min-height: 56px !important;
+    padding: 16px 20px !important;
+    margin-bottom: 3px !important;
   }
 }
 

@@ -1,0 +1,1134 @@
+tdvremote.js?v=1758324980423:1 🎬 Animation options set: {enabled: true, duration: {…}, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', searchBar: {…}, results: {…}, …}
+tdvremote.js?v=1758324980423:1 [CONFIG] Set thumbnailSettings.iconSettings.enableCustomIcons to: false
+tdvremote.js?v=1758324980423:1 [CONFIG] Original value passed: undefined (type: undefined)
+tdvremote.js?v=1758324980423:1 🔥 CACHE BUST: Search engine reloaded at Sun Aug  3 11:34:37 PM UTC 2025
+tdvremote.js?v=1758324980423:1 PXL 360 Player v:2210
+search-v3.js:368 Local Fuse.js loaded successfully
+tdvremote.js?v=1758324980423:1 Font Awesome loading disabled
+tdvplayer.js?v=1758324980423:257 [Violation] 'setTimeout' handler took 53ms
+tdvplayer.js?v=1758324980423:159 Unrecognized feature: 'vr'.
+attr @ tdvplayer.js?v=1758324980423:159
+$ @ tdvplayer.js?v=1758324980423:94
+attr @ tdvplayer.js?v=1758324980423:158
+a.Hb @ tdvplayer.js?v=1758324980423:3963
+f.z1a @ tdvplayer.js?v=1758324980423:3707
+f.oa @ tdvplayer.js?v=1758324980423:3707
+f.c_ @ tdvplayer.js?v=1758324980423:3708
+m @ tdvplayer.js?v=1758324980423:513
+Promise.then
+$B @ tdvplayer.js?v=1758324980423:513
+f.ux @ tdvplayer.js?v=1758324980423:3708
+f.BT @ tdvplayer.js?v=1758324980423:3706
+q.BT @ tdvplayer.js?v=1758324980423:601
+q.tba @ tdvplayer.js?v=1758324980423:600
+q.Mt @ tdvplayer.js?v=1758324980423:584
+q.Mt @ tdvplayer.js?v=1758324980423:677
+(anonymous) @ tdvplayer.js?v=1758324980423:3710
+(anonymous) @ tdvplayer.js?v=1758324980423:3723
+(anonymous) @ tdvplayer.js?v=1758324980423:493
+(anonymous) @ tdvplayer.js?v=1758324980423:489
+f.Dm @ tdvplayer.js?v=1758324980423:489
+l.PQa @ tdvplayer.js?v=1758324980423:4018
+l.Z8a @ tdvplayer.js?v=1758324980423:4015
+(anonymous) @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:257
+setTimeout
+r.delay @ tdvplayer.js?v=1758324980423:257
+c @ tdvplayer.js?v=1758324980423:242
+P @ tdvplayer.js?v=1758324980423:256
+f.EXa @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:3666
+h.Jz @ tdvplayer.js?v=1758324980423:518
+h.trigger @ tdvplayer.js?v=1758324980423:517
+t.load @ tdvplayer.js?v=1758324980423:3667
+r.n9a @ tdvplayer.js?v=1758324980423:3666
+f @ tdvplayer.js?v=1758324980423:4026
+l.defineScript @ tdvplayer.js?v=1758324980423:211
+(anonymous) @ script_general.js:230
+(anonymous) @ script_general.js:232
+tdvplayer.js?v=1758324980423:159 Allow attribute will take precedence over 'allowfullscreen'.
+attr @ tdvplayer.js?v=1758324980423:159
+$ @ tdvplayer.js?v=1758324980423:94
+attr @ tdvplayer.js?v=1758324980423:158
+a.Hb @ tdvplayer.js?v=1758324980423:3963
+f.z1a @ tdvplayer.js?v=1758324980423:3707
+f.oa @ tdvplayer.js?v=1758324980423:3707
+f.c_ @ tdvplayer.js?v=1758324980423:3708
+m @ tdvplayer.js?v=1758324980423:513
+Promise.then
+$B @ tdvplayer.js?v=1758324980423:513
+f.ux @ tdvplayer.js?v=1758324980423:3708
+f.BT @ tdvplayer.js?v=1758324980423:3706
+q.BT @ tdvplayer.js?v=1758324980423:601
+q.tba @ tdvplayer.js?v=1758324980423:600
+q.Mt @ tdvplayer.js?v=1758324980423:584
+q.Mt @ tdvplayer.js?v=1758324980423:677
+(anonymous) @ tdvplayer.js?v=1758324980423:3710
+(anonymous) @ tdvplayer.js?v=1758324980423:3723
+(anonymous) @ tdvplayer.js?v=1758324980423:493
+(anonymous) @ tdvplayer.js?v=1758324980423:489
+f.Dm @ tdvplayer.js?v=1758324980423:489
+l.PQa @ tdvplayer.js?v=1758324980423:4018
+l.Z8a @ tdvplayer.js?v=1758324980423:4015
+(anonymous) @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:257
+setTimeout
+r.delay @ tdvplayer.js?v=1758324980423:257
+c @ tdvplayer.js?v=1758324980423:242
+P @ tdvplayer.js?v=1758324980423:256
+f.EXa @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:4026
+(anonymous) @ tdvplayer.js?v=1758324980423:3666
+h.Jz @ tdvplayer.js?v=1758324980423:518
+h.trigger @ tdvplayer.js?v=1758324980423:517
+t.load @ tdvplayer.js?v=1758324980423:3667
+r.n9a @ tdvplayer.js?v=1758324980423:3666
+f @ tdvplayer.js?v=1758324980423:4026
+l.defineScript @ tdvplayer.js?v=1758324980423:211
+(anonymous) @ script_general.js:230
+(anonymous) @ script_general.js:232
+tdvremote.js?v=1758324980423:1 change callState disconnected
+tdvremote.js?v=1758324980423:1 initialize call [{…}]
+tdvremote.js?v=1758324980423:1 change channelId ym8qhy2gkv0u
+tdvremote.js?v=1758324980423:1 change channelState checking
+tdvremote.js?v=1758324980423:1 fetchJSON call (2) [URL, 'GET']
+tdvremote.js?v=1758324980423:1 initialize call [{…}]
+tdvremote.js?v=1758324980423:1 change bugReportVisible false
+tdvremote.js?v=1758324980423:1 setPlayer call [a]
+tdvremote.js?v=1758324980423:1 change player a {Lp: f, Ct: f, Sc: {…}}
+tdvremote.js?v=1758324980423:1 setPlayer call [a]
+tdvremote.js?v=1758324980423:1 change player a {Lp: f, Ct: f, Sc: {…}}
+tdvremote.js?v=1758324980423:1 [Search] Logger not properly initialized, using console fallback
+d.warn @ tdvremote.js?v=1758324980423:1
+(anonymous) @ search-v3.js:10578
+setTimeout
+(anonymous) @ search-v3.js:10576
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [Search] Found existing searchContainer in DOM, updating element cache
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [CFG.UPDATE] Updated keys: autoHide, mobileBreakpoint, minSearchChars, showTagsInResults, elementTriggering, searchBar, appearance, thumbnailSettings, display, displayLabels, useAsLabel, includeContent, filter, animations, searchSettings, businessData, googleSheets
+tdvremote.js?v=1758324980423:1 Thumbnail settings: {enableThumbnails: false, thumbnailSize: '48px', borderRadius: 4, borderColor: '#9CBBFF', borderWidth: 4, …}
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ICON CSS] Applied icon variables: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ICON] Font Awesome loading disabled
+tdvremote.js?v=1758324980423:1 🎯 TYPOGRAPHY CSS VARS: Applying typography variables: {searchTypography: {…}, hasTypography: true, configStructure: {…}}
+tdvremote.js?v=1758324980423:1 🎯 TYPOGRAPHY CSS VARS: Setting input text variables: {fontSize: '16px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif", fontWeight: '400', fontStyle: 'normal', lineHeight: '1.5', …}
+search-v3.js:10607 [Search] INFO: Search styling applied successfully
+tdvremote.js?v=1758324980423:1 🎬 Setting animation CSS variables: {enabled: false, duration: {…}, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', searchBar: {…}, results: {…}, …}
+tdvremote.js?v=1758324980423:1 🎬 Animations enabled: false
+tdvremote.js?v=1758324980423:1 🎬 Prefers reduced motion: false
+tdvremote.js?v=1758324980423:1 🎬 Animation CSS variables applied
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: Reindex deferred; initializeSearch not completed yet.
+search-v3.js:10605 [Search] INFO: Config patch applied without re-init [{…}]
+tdvremote.js?v=1758324980423:1 Thumbnail settings: {enableThumbnails: false, thumbnailSize: '48px', borderRadius: 4, borderColor: '#9CBBFF', borderWidth: 4, …}
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [DEBUG] Google Sheets Config Applied: [{…}]
+index.html:1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input class=​"password" type=​"password" placeholder=​"Enter password..." required>​
+jquery-migrate.min.js:2 JQMIGRATE: Migrate is installed, version 3.4.1
+tdvremote.js?v=1758324980423:1 fetch response {response: {…}, request: {…}}
+tdvremote.js?v=1758324980423:1 change channelState offline
+tdvremote.js?v=1758324980423:1 change channelSilent true
+(index):1 [DOM] Found 2 elements with non-unique id #product_cat: (More info: https://goo.gl/9p2vKq) <select name=​"product_cat" id=​"product_cat" class=​"form-control1" style=​"display:​ none;​">​…​</select>​ <select name=​"product_cat" id=​"product_cat" class=​"form-control1" style=​"display:​ none;​">​…​</select>​
+tdvremote.js?v=1758324980423:1 🔍 ALL SEARCH KEYS in localStorage: (4) ['searchProLastAppliedConfig', 'searchProConfig', 'searchProLiveConfig', 'searchProConfigUpdate']
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG CHECK: {hasLiveConfig: true, configSize: 9568, timestamp: '1758327493122', configPreview: '{"autoHide":{"mobile":false,"desktop":false},"mobi…eakpoint":768,"minSearchChars":2,"minSearchLen...'}
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG: Parsed config thumbnails: {enableThumbnails: false, defaultImages: {…}, showFor: {…}}
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG: Hash comparison: {newHash: '{"autoHide":{"mobile":false,"desktop":false},"mobi...', lastHash: '{"autoHide":{"mobile":false,"desktop":false},"mobi...', isNew: false}
+tdvremote.js?v=1758324980423:1 🎯 SEARCH ENGINE: Config unchanged, skipping reapplication
+tdvremote.js?v=1758324980423:1 🔍 ALL SEARCH KEYS in localStorage: (4) ['searchProLastAppliedConfig', 'searchProConfig', 'searchProLiveConfig', 'searchProConfigUpdate']
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG CHECK: {hasLiveConfig: true, configSize: 9568, timestamp: '1758327493122', configPreview: '{"autoHide":{"mobile":false,"desktop":false},"mobi…eakpoint":768,"minSearchChars":2,"minSearchLen...'}
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG: Parsed config thumbnails: {enableThumbnails: false, defaultImages: {…}, showFor: {…}}
+tdvremote.js?v=1758324980423:1 🔍 LIVE CONFIG: Hash comparison: {newHash: '{"autoHide":{"mobile":false,"desktop":false},"mobi...', lastHash: '{"autoHide":{"mobile":false,"desktop":false},"mobi...', isNew: false}
+tdvremote.js?v=1758324980423:1 🎯 SEARCH ENGINE: Config unchanged, skipping reapplication
+ [Search] INFO: Initializing enhanced search v2.0...
+ [Search] INFO: Tour initialized successfully with 8 panoramas
+ [Search] INFO: BroadcastChannel initialized for cross-window communication
+ [Search] INFO: 🎯 Data Source Priority: TOUR (+ tour data)
+ [Search] DEBUG: Search event listeners cleaned up
+ [Search] DEBUG: Binding search event listeners...
+ [Search] DEBUG: Search event listeners bound successfully
+ [Search] INFO: Starting hybrid search index preparation...
+ [Search] DEBUG: Found mainPlayList via direct access
+ [Search] INFO: Found playlists - Main: 8, Root: 0
+ [Search] INFO: Processing 8 main playlist items...
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 0, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 0, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 0: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-1" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: Overlay detection method found 3 overlays
+ [Search] INFO: Total overlays found for panorama: 3
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1, label: gotoroom-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479, label: webframe-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+ [Search] DEBUG: [DEBUG] Checking ID: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "WebFrame-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e, label: info-icon-360-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-360-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 1, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 1, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 1: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-2" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTag_01"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: Overlay detection method found 7 overlays
+ [Search] INFO: Total overlays found for panorama: 7
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c, label: gotoroom-1-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-1-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626, label: gotoroom-4-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-4-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69, label: gotoroom-3-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-3-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1, label: polygon-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc, label: regular-image-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+ [DEBUG] Reclassifying as Image based on ID/label: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage based on name: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 2, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 2, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 2: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-3" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: Overlay detection method found 5 overlays
+ [Search] INFO: Total overlays found for panorama: 5
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8, label: gotoroom-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_8161a12c_d070_0a56_41e6_9af4a6262526, label: polygon-02-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-02-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e, label: regular-image-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+ [DEBUG] Reclassifying as Image based on ID/label: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["Regular-Image"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_880A460B_ADE7_B45C_41CB_0EB995ADC51C
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-02-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_88506EDA_ADE1_B5FC_41DC_31E2903EC932
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-02-1-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 3, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 3, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 3: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-4" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4","MyCoolTag_04"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(2)]
+ [Search] DEBUG: Overlay detection method found 5 overlays
+ [Search] INFO: Total overlays found for panorama: 5
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf, label: go-to-room-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a012bd_ca7c_9c5e_41b8_83982c5b3ddf
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Go-To-Room-2-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339, label: info-icon-floorplan-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_ec5e7c6a_ca9d_a4fa_41e1_6438e3839339
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-FloorPlan-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning Video polygon for: overlay_EC367CFE_D070_FBB2_41E8_B9623EAFF82E
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Video-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_97b447f6_d070_15b2_41e7_3f131b16635c, label: text-hotspot-02-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_97b447f6_d070_15b2_41e7_3f131b16635c
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_97b447f6_d070_15b2_41e7_3f131b16635c
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Hotspot-02-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_98f8eb39_d070_1ebe_41c7_6901a9686898, label: polygon-03-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_98f8eb39_d070_1ebe_41c7_6901a9686898
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_98f8eb39_d070_1ebe_41c7_6901a9686898
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-03-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 4, class: Model3DPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 4, class: ['Model3DPlayListItem']
+ [Search] DEBUG: [PLAYLIST DEBUG] Found 3D Model at index 4
+ [Search] DEBUG: [3D DEBUG] Processing 3D model at index 4
+ [Search] DEBUG: [3D MODEL DEBUG] Starting 3D model processing for index 4 [h]
+ [Search] DEBUG: [CACHE BUSTER] 3D MODEL PROCESSING - TIMESTAMP: 1758327509801
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "3DModel-Sample-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Added 3D model to index: 3DModel-Sample-01
+ [Search] DEBUG: [3D OBJECTS DEBUG] Media object structure: [h]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Media has get method: [true]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Raw objects via get(): [Array(103)]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Raw objects via direct access: [Array(103)]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Media keys: [Array(3)]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('wr'): [undefined]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('Qc'): [undefined]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Trying get('data'): [{…}]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Final objects variable: [Array(103)]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Objects is array: [true]
+ [Search] DEBUG: [3D OBJECTS DEBUG] Objects length: [103]
+ [Search] DEBUG: [3D DEBUG] Found objects: [Array(103)]
+ [Search] DEBUG: [3D DEBUG] Objects is array: [true]
+ [Search] DEBUG: [3D DEBUG] Processing 103 objects
+ [Search] DEBUG: [3D DEBUG] Processing object 0: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 1: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-2']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-2" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-2']
+ [Search] DEBUG: [3D DEBUG] Processing object 2: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-3']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-3" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-3']
+ [Search] DEBUG: [3D DEBUG] Processing object 3: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-4']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-4" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-4']
+ [Search] DEBUG: [3D DEBUG] Processing object 4: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-5']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-5" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-5']
+ [Search] DEBUG: [3D DEBUG] Processing object 5: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-6']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-6" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-6']
+ [Search] DEBUG: [3D DEBUG] Processing object 6: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-7']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-7" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-7']
+ [Search] DEBUG: [3D DEBUG] Processing object 7: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-8']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-8" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-8']
+ [Search] DEBUG: [3D DEBUG] Processing object 8: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-9']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-9" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-9']
+ [Search] DEBUG: [3D DEBUG] Processing object 9: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-10']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-10" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-10']
+ [Search] DEBUG: [3D DEBUG] Processing object 10: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 11: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 12: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 13: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 14: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 15: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 16: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 17: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 18: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 19: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 20: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 21: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 22: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 23: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 24: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 25: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 26: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 27: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 28: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 29: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 30: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 31: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 32: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 33: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 34: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 35: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 36: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 37: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 38: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 39: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 40: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 41: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 42: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 43: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 44: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 45: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 46: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 47: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 48: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 49: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-1']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-1" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-1']
+ [Search] DEBUG: [3D DEBUG] Processing object 50: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 51: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 52: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 53: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 54: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 55: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 56: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 57: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 58: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 59: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 60: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 61: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 62: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 63: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-11']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-11" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-11']
+ [Search] DEBUG: [3D DEBUG] Processing object 64: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-12']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-12" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-12']
+ [Search] DEBUG: [3D DEBUG] Processing object 65: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-13']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-13" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-13']
+ [Search] DEBUG: [3D DEBUG] Processing object 66: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-14']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-14" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-14']
+ [Search] DEBUG: [3D DEBUG] Processing object 67: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-15']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-15" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-15']
+ [Search] DEBUG: [3D DEBUG] Processing object 68: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-16']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-16" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-16']
+ [Search] DEBUG: [3D DEBUG] Processing object 69: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-17']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-17" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-17']
+ [Search] DEBUG: [3D DEBUG] Processing object 70: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-18']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-18" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-18']
+ [Search] DEBUG: [3D DEBUG] Processing object 71: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-19']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-19" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-19']
+ [Search] DEBUG: [3D DEBUG] Processing object 72: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-20']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-20" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-20']
+ [Search] DEBUG: [3D DEBUG] Processing object 73: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-21']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-21" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-21']
+ [Search] DEBUG: [3D DEBUG] Processing object 74: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-22']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-22" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-22']
+ [Search] DEBUG: [3D DEBUG] Processing object 75: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-23']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-23" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-23']
+ [Search] DEBUG: [3D DEBUG] Processing object 76: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-24']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-24" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-24']
+ [Search] DEBUG: [3D DEBUG] Processing object 77: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-25']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-25" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-25']
+ [Search] DEBUG: [3D DEBUG] Processing object 78: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-26']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-26" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-26']
+ [Search] DEBUG: [3D DEBUG] Processing object 79: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-27']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-27" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-27']
+ [Search] DEBUG: [3D DEBUG] Processing object 80: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-28']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-28" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-28']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 81: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-29']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-29" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-29']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 82: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-30']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-30" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-30']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 83: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-31']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-31" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-31']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 84: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-32']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-32" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-32']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 85: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-33']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-33" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-33']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 86: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-34']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-34" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-34']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 87: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object-35']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-35" (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-35']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 88: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 89: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Processing object 90: [h]
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+tdvremote.js?v=1758324980423:1 [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 91: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 92: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 93: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 94: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 95: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 96: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 97: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Skipping object with invalid label: ['Object']
+ [Search] DEBUG: [3D DEBUG] Processing object 98: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['Object-20']
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Object-20" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DModelObject: ['Object-20']
+ [Search] DEBUG: [3D DEBUG] Processing object 99: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Hotspot-01']
+ [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Hotspot-01
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Hotspot-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Hotspot-01']
+ [Search] DEBUG: [3D DEBUG] Processing object 100: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Bed-Hotspot-01']
+ [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Bed-Hotspot-01
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Bed-Hotspot-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["3D-Hotel-Bed-Tag"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Bed-Hotspot-01']
+ [Search] DEBUG: [3D DEBUG] Processing object 101: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Education-01']
+ [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Education-01
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Education-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Education-01']
+ [Search] DEBUG: [3D DEBUG] Processing object 102: [h]
+ [Search] DEBUG: [3D DEBUG] Object label: ['3D-Model-Door-Hotspot-01']
+ [Search] DEBUG: [3D DEBUG] Detected sprite object as 3DHotspot: 3D-Model-Door-Hotspot-01
+ [Search] DEBUG: [3D OBJECT DEBUG] Processing 3D object: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "3D-Model-Door-Hotspot-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [3D DEBUG] Adding object to search index with type 3DHotspot: ['3D-Model-Door-Hotspot-01']
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 5, class: Video360PlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 5, class: ['Video360PlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 5: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "360-video-sample" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] INFO: Total overlays found for panorama: 0
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 6, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 6, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 6: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "[Unnamed Item]" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: Overlay detection method found 2 overlays
+ [Search] INFO: Total overlays found for panorama: 2
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6, label: polygon-04-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_d003cfa4_f3df_6f8d_41e2_e855493590b6
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-04-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_872d5508_bc26_945c_41e5_8507a2f3965b, label: text-sample
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_872d5508_bc26_945c_41e5_8507a2f3965b
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_872d5508_bc26_945c_41e5_8507a2f3965b
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Sample" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 7, class: VideoPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 7, class: ['VideoPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 7: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Placeholder-video-01" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["Placeholder-video-01-tag"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] INFO: Total overlays found for panorama: 0
+ [Search] INFO: Using configured container list - 1 containers
+ [Search] INFO: Processing 1 containers for search index
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "TwinsViewer-Container" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: Added container to search index (config): TwinsViewer-Container
+ [Search] INFO: Hybrid search index created with 71 total items
+ [Search] INFO: Hybrid search index created with 71 total items
+ [Search] INFO: Main playlist contributed: 8 items
+ [Search] INFO: Root playlist contributed: 0 items
+ Thumbnail settings: {enableThumbnails: false, thumbnailSize: '48px', borderRadius: 4, borderColor: '#9CBBFF', borderWidth: 4, …}
+ [Search] DEBUG: [ICON CSS] Applied icon variables: [{…}]
+ [Search] DEBUG: [ICON] Font Awesome loading disabled
+ 🎯 TYPOGRAPHY CSS VARS: Applying typography variables: {searchTypography: {…}, hasTypography: true, configStructure: {…}}
+ 🎯 TYPOGRAPHY CSS VARS: Setting input text variables: {fontSize: '16px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif", fontWeight: '400', fontStyle: 'normal', lineHeight: '1.5', …}
+ [Search] INFO: Search styling applied successfully
+ [Search] DEBUG: Search event listeners cleaned up
+ [Search] DEBUG: Binding search event listeners...
+ [Search] DEBUG: Search event listeners bound successfully
+ [Search] INFO: Enhanced search initialized successfully
+ 🎬 Animation config: {enabled: false, duration: {…}, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)', searchBar: {…}, results: {…}, …}
+ 🎬 Animations enabled: false
+ [Search] DEBUG: [toggleSearch] Showing search UI
+ 🎬 Animations disabled - showing immediately
+ [Search] INFO: All external data sources loaded successfully
+ [Search] INFO: Starting hybrid search index preparation...
+ [Search] DEBUG: Found mainPlayList via direct access
+ [Search] INFO: Found playlists - Main: 8, Root: 0
+ [Search] INFO: Processing 8 main playlist items...
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 0, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 0, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 0: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-1" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: Overlay detection method found 3 overlays
+ [Search] INFO: Total overlays found for panorama: 3
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1, label: gotoroom-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e4faff_ca7c_adda_41dd_d21758a4fdc1
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479, label: webframe-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+ [Search] DEBUG: [DEBUG] Checking ID: framepanoramaoverlay_925837fc_d070_75b6_41b3_f77883c2c479
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "WebFrame-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e, label: info-icon-360-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_80dbad6b_d090_1ad2_41a2_6eff0920e29e
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Info-Icon-360-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 1, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 1, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 1: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-2" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTag_01"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: Overlay detection method found 7 overlays
+ [Search] INFO: Total overlays found for panorama: 7
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c, label: gotoroom-1-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1e17b00_ca7c_ac26_41de_5e163ba21e1c
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-1-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626, label: gotoroom-4-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1a702bd_ca7c_9c5e_41e6_e910ed2fc626
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-4-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69, label: gotoroom-3-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1bb4914_ca7d_ac2e_41a0_0ccbaeeedf69
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-3-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1, label: polygon-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_e6c2dd2f_d070_3a52_41a0_83c286a7c5d1
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc, label: regular-image-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+ [DEBUG] Reclassifying as Image based on ID/label: overlay_89006084_ac3e_ec54_41e1_c0ee477f5ddc
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Regular-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage for: overlay_8083F9EF_BC21_BFD4_41D5_83F6CF44AD83
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Projected-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Returning ProjectedImage based on name: overlay_85685869_bc3f_fcdc_41b7_e2b28af858d2
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Text-Projected-Image-01-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [MAIN PLAYLIST DEBUG] Processing index 2, class: PanoramaPlayListItem
+ [Search] DEBUG: [PLAYLIST DEBUG] Processing item 2, class: ['PanoramaPlayListItem']
+ [Search] DEBUG: [PANORAMA DEBUG] Processing panorama 2: [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [MEDIA-INDEX] [{…}]
+ [Search] DEBUG: [THUMBNAIL] Extracted URL from panorama: undefined
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Room-3" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags ["MyCoolTour_3_and_4"] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] Normalized element tags: [Array(1)]
+ [Search] DEBUG: Overlay detection method found 5 overlays
+ [Search] INFO: Total overlays found for panorama: 5
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8, label: gotoroom-2-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_f1c73914_ca7d_ac2e_41bd_79c6c84901b8
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "GoToRoom-2-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_8161a12c_d070_0a56_41e6_9af4a6262526, label: polygon-02-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: false for overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+ [Search] DEBUG: [DEBUG] Checking ID: overlay_8161a12c_d070_0a56_41e6_9af4a6262526
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]
+ [Search] DEBUG: [ELEMENT-LABELS] Checking element "Polygon-02-Hotspot" (mode: none)
+ [Search] DEBUG: [ELEMENT-LABELS] No filtering applied (empty config or no displayLabel)
+ [Search] DEBUG: [TAG-FILTERING] Checking element with tags [] (mode: none)
+ [Search] DEBUG: [TAG-FILTERING] No filtering applied (no tags present or empty config)
+ [Search] DEBUG: [ELEMENT TYPE DEBUG] Called with: [{…}]
+ [ELEMENT TYPE DEBUG] Checking image keywords for: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e, label: regular-image-01-hotspot
+ [ELEMENT TYPE DEBUG] Image keywords check result: true for overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+ [DEBUG] Reclassifying as Image based on ID/label: overlay_89ae937b_ade2_ecbc_41d9_90b57d3d258e
+ [Search] DEBUG: [OVERLAY DEBUG] Processing overlay: [{…}]

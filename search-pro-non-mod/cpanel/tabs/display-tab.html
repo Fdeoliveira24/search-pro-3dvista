@@ -136,35 +136,7 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="onlySubtitles">
-            Only Subtitles
-            <span
-              class="help-tooltip"
-              data-tooltip="Show only subtitle text"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Show only subtitle text"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="toggle-switch">
-            <input
-              type="checkbox"
-              id="onlySubtitles"
-              name="display.onlySubtitles"
-              class="toggle-input"
-              aria-describedby="onlySubtitles-desc"
-            />
-            <label for="onlySubtitles" class="toggle-label">
-              <span class="toggle-text">Show only subtitle text</span>
-            </label>
-          </div>
-          <div id="onlySubtitles-desc" class="sr-only">
-            Toggle to show only subtitle text in results
-          </div>
-        </div>
+
 
         <div class="form-group">
           <label class="form-label" for="showSubtitlesInResults">
@@ -197,36 +169,7 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="showParentLabel">
-            Show Parent Label
-            <span
-              class="help-tooltip"
-              data-tooltip="Display parent element name"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Display parent element name"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="toggle-switch">
-            <input
-              type="checkbox"
-              id="showParentLabel"
-              name="display.showParentLabel"
-              class="toggle-input"
-              checked
-              aria-describedby="showParentLabel-desc"
-            />
-            <label for="showParentLabel" class="toggle-label">
-              <span class="toggle-text">Display parent element name</span>
-            </label>
-          </div>
-          <div id="showParentLabel-desc" class="sr-only">
-            Toggle to show or hide parent element names in results
-          </div>
-        </div>
+
 
         <div class="form-group">
           <label class="form-label" for="showParentInfo">
@@ -259,80 +202,37 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="showParentTags">
-            Show Parent Tags
-            <span
-              class="help-tooltip"
-              data-tooltip="Display parent element tags"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Display parent element tags"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="toggle-switch">
-            <input
-              type="checkbox"
-              id="showParentTags"
-              name="display.showParentTags"
-              class="toggle-input"
-              aria-describedby="showParentTags-desc"
-            />
-            <label for="showParentTags" class="toggle-label">
-              <span class="toggle-text">Display parent element tags</span>
-            </label>
-          </div>
-          <div id="showParentTags-desc" class="sr-only">
-            Toggle to show or hide parent element tags in results
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="showParentType">
-            Show Parent Type
-            <span
-              class="help-tooltip"
-              data-tooltip="Display parent element type"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Display parent element type"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="toggle-switch">
-            <input
-              type="checkbox"
-              id="showParentType"
-              name="display.showParentType"
-              class="toggle-input"
-              checked
-              aria-describedby="showParentType-desc"
-            />
-            <label for="showParentType" class="toggle-label">
-              <span class="toggle-text">Display parent element type</span>
-            </label>
-          </div>
-          <div id="showParentType-desc" class="sr-only">
-            Toggle to show or hide parent element type in results
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
   <!-- Thumbnail Configuration Section -->
   <section class="config-section" aria-labelledby="thumbnail-config-heading">
-    <div class="section-header">
-      <h3 class="section-title" id="thumbnail-config-heading">
-        <i class="fas fa-image section-icon" aria-hidden="true"></i>
-        Thumbnail Configuration
-      </h3>
-      <p class="section-description">
-        Configure thumbnail display and appearance settings
-      </p>
+    <div
+      class="section-header"
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      "
+    >
+      <div>
+        <h3 class="section-title" id="thumbnail-config-heading">
+          <i class="fas fa-image section-icon" aria-hidden="true"></i>
+          Thumbnail Configuration
+        </h3>
+        <p class="section-description">
+          Configure thumbnail display and appearance settings
+        </p>
+      </div>
+      <button
+        type="button"
+        class="reset-section-button"
+        data-section="thumbnailSettings"
+      >
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset
+      </button>
     </div>
 
     <div class="subsection">
@@ -356,6 +256,7 @@
             id="enableThumbnails"
             name="thumbnailSettings.enableThumbnails"
             class="toggle-input"
+            checked
             aria-describedby="enableThumbnails-desc"
           />
           <label for="enableThumbnails" class="toggle-label">
@@ -397,46 +298,20 @@
             class="form-select"
             aria-describedby="thumbnailSizePreset-desc"
           >
-            <option value="small">Small (32px)</option>
-            <option value="medium" selected>Medium (48px)</option>
-            <option value="large">Large (64px)</option>
+            <option value="16px">Extra Small (16px)</option>
+            <option value="24px">Small (24px)</option>
+            <option value="32px">Medium Small (32px)</option>
+            <option value="48px" selected>Medium (48px)</option>
+            <option value="64px">Large (64px)</option>
+            <option value="80px">Extra Large (80px)</option>
+            <option value="96px">Huge (96px)</option>
           </select>
           <div id="thumbnailSizePreset-desc" class="sr-only">
             Select a predefined size for thumbnails
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="thumbnailCustomSize">
-            Custom Size (px)
-            <span
-              class="help-tooltip"
-              data-tooltip="Custom thumbnail size in pixels"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Custom thumbnail size"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="input-wrapper">
-            <input
-              type="number"
-              id="thumbnailCustomSize"
-              name="thumbnailSettings.thumbnailSizePx"
-              class="form-input"
-              value="120"
-              min="16"
-              max="128"
-              aria-describedby="thumbnailCustomSize-desc"
-              inputmode="numeric"
-            />
-            <span class="input-unit" aria-hidden="true">px</span>
-          </div>
-          <div id="thumbnailCustomSize-desc" class="sr-only">
-            Set custom thumbnail size in pixels
-          </div>
-        </div>
+
 
         <div class="form-group">
           <label class="form-label" for="thumbnailBorderRadius">
@@ -457,12 +332,17 @@
               id="thumbnailBorderRadius"
               name="thumbnailSettings.borderRadius"
               class="range-input"
-              value="4"
+              value="0"
               min="0"
-              max="32"
+              max="50"
+              aria-label="Thumbnail border radius"
               aria-describedby="thumbnailBorderRadius-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="50"
+              aria-valuenow="0"
             />
-            <span class="range-value">4</span>
+            <span class="range-value">0</span>
           </div>
           <div id="thumbnailBorderRadius-desc" class="sr-only">
             Set border radius for thumbnail corners
@@ -488,12 +368,17 @@
               id="thumbnailBorderWidth"
               name="thumbnailSettings.borderWidth"
               class="range-input"
-              value="4"
+              value="0"
               min="0"
-              max="8"
+              max="10"
+              aria-label="Thumbnail border width"
               aria-describedby="thumbnailBorderWidth-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="10"
+              aria-valuenow="0"
             />
-            <span class="range-value">4</span>
+            <span class="range-value">0</span>
           </div>
           <div id="thumbnailBorderWidth-desc" class="sr-only">
             Set border width for thumbnails
@@ -567,14 +452,23 @@
             <label class="form-label" for="panoramaDefault">
               <i class="fas fa-home" aria-hidden="true"></i>
               Panorama Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Panorama default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="panoramaDefault"
               name="thumbnails.defaults.panorama"
               class="form-input"
-              value="assets/default-thumbnail.jpg"
-              placeholder="Enter path"
+              value="default-thumbnail.jpg"
+              placeholder="e.g., my-panorama.jpg"
             />
           </div>
 
@@ -583,14 +477,23 @@
             <label class="form-label" for="hotspotDefault">
               <i class="fas fa-map-pin" aria-hidden="true"></i>
               Hotspot Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Hotspot default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="hotspotDefault"
               name="thumbnails.defaults.hotspot"
               class="form-input"
-              value="assets/hotspot-default.jpg"
-              placeholder="Enter path"
+              value="hotspot-default.jpg"
+              placeholder="e.g., my-hotspot.png"
             />
           </div>
 
@@ -599,14 +502,23 @@
             <label class="form-label" for="polygonDefault">
               <i class="fas fa-draw-polygon" aria-hidden="true"></i>
               Polygon Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Polygon default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="polygonDefault"
               name="thumbnails.defaults.polygon"
               class="form-input"
-              value="assets/polygon-default.jpg"
-              placeholder="Enter path"
+              value="polygon-default.jpg"
+              placeholder="e.g., my-polygon.svg"
             />
           </div>
 
@@ -615,14 +527,23 @@
             <label class="form-label" for="videoDefault">
               <i class="fas fa-video" aria-hidden="true"></i>
               Video Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Video default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="videoDefault"
               name="thumbnails.defaults.video"
               class="form-input"
-              value="assets/video-default.jpg"
-              placeholder="Enter path"
+              value="video-default.jpg"
+              placeholder="e.g., my-video.gif"
             />
           </div>
 
@@ -631,14 +552,23 @@
             <label class="form-label" for="webframeDefault">
               <i class="fas fa-globe" aria-hidden="true"></i>
               Webframe Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Webframe default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="webframeDefault"
               name="thumbnails.defaults.webframe"
               class="form-input"
-              value="assets/webframe-default.jpg"
-              placeholder="Enter path"
+              value="webframe-default.jpg"
+              placeholder="e.g., my-webframe.webp"
             />
           </div>
 
@@ -647,14 +577,23 @@
             <label class="form-label" for="imageDefault">
               <i class="fas fa-image" aria-hidden="true"></i>
               Image Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Image default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="imageDefault"
               name="thumbnails.defaults.image"
               class="form-input"
-              value="assets/image-default.jpg"
-              placeholder="Enter path"
+              value="image-default.jpg"
+              placeholder="e.g., my-image.png"
             />
           </div>
 
@@ -663,14 +602,23 @@
             <label class="form-label" for="textDefault">
               <i class="fas fa-font" aria-hidden="true"></i>
               Text Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Text default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="textDefault"
               name="thumbnails.defaults.text"
               class="form-input"
-              value="assets/text-default.jpg"
-              placeholder="Enter path"
+              value="text-default.jpg"
+              placeholder="e.g., my-text.jpeg"
             />
           </div>
 
@@ -679,14 +627,23 @@
             <label class="form-label" for="projectedImageDefault">
               <i class="fas fa-object-group" aria-hidden="true"></i>
               ProjectedImage Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: ProjectedImage default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="projectedImageDefault"
               name="thumbnails.defaults.projectedImage"
               class="form-input"
-              value="assets/projected-image-default.jpg"
-              placeholder="Enter path"
+              value="projected-image-default.jpg"
+              placeholder="e.g., my-projected.webp"
             />
           </div>
 
@@ -695,14 +652,23 @@
             <label class="form-label" for="elementDefault">
               <i class="fas fa-cube" aria-hidden="true"></i>
               Element Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Element default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="elementDefault"
               name="thumbnails.defaults.element"
               class="form-input"
-              value="assets/element-default.jpg"
-              placeholder="Enter path"
+              value="element-default.jpg"
+              placeholder="e.g., my-element.jpg"
             />
           </div>
 
@@ -711,14 +677,23 @@
             <label class="form-label" for="businessDefault">
               <i class="fas fa-building" aria-hidden="true"></i>
               Business Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Business default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="businessDefault"
               name="thumbnails.defaults.business"
               class="form-input"
-              value="assets/business-default.jpg"
-              placeholder="Enter path"
+              value="business-default.jpg"
+              placeholder="e.g., my-business.png"
             />
           </div>
 
@@ -733,7 +708,7 @@
               id="containerDefault"
               name="thumbnails.defaults.container"
               class="form-input"
-              value="assets/container-default.jpg"
+              value="container-default.jpg"
               placeholder="Enter path"
             />
           </div>
@@ -743,14 +718,23 @@
             <label class="form-label" for="3dModelDefault">
               <i class="fas fa-cube" aria-hidden="true"></i>
               3DModel Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: 3DModel default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
               id="3dModelDefault"
               name="thumbnails.defaults.3dModel"
               class="form-input"
-              value="assets/3d-model-default.jpg"
-              placeholder="Enter path"
+              value="3d-model-default.jpg"
+              placeholder="e.g., my-3dmodel.webp"
             />
           </div>
 
@@ -765,7 +749,7 @@
               id="3dHotspotDefault"
               name="thumbnails.defaults.3dHotspot"
               class="form-input"
-              value="assets/3d-hotspot-default.jpg"
+              value="3d-hotspot-default.jpg"
               placeholder="Enter path"
             />
           </div>
@@ -781,7 +765,7 @@
               id="3dModelObjectDefault"
               name="thumbnails.defaults.3dModelObject"
               class="form-input"
-              value="assets/3d-model-object-default.jpg"
+              value="3d-model-object-default.jpg"
               placeholder="Enter path"
             />
           </div>
@@ -791,6 +775,15 @@
             <label class="form-label" for="otherDefault">
               <i class="fas fa-question" aria-hidden="true"></i>
               Other Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Other default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
             </label>
             <input
               type="text"
@@ -798,7 +791,7 @@
               name="thumbnails.defaults.other"
               class="form-input"
               value="assets/default-thumbnail.jpg"
-              placeholder="Enter path"
+              placeholder="e.g., my-other.svg"
             />
           </div>
         </div>
@@ -1385,7 +1378,7 @@
     <div class="subsection">
       <h4 class="subsection-title">Icon Appearance</h4>
 
-      <div class="form-grid grid-3-col" role="group">
+      <div class="form-grid grid-2-col" role="group">
         <div class="form-group">
           <label class="form-label" for="iconSize">
             Icon Size
@@ -1405,45 +1398,27 @@
             class="form-select"
             aria-describedby="iconSize-desc"
           >
-            <option value="small">Small (16px)</option>
-            <option value="medium" selected>Medium (20px)</option>
-            <option value="large">Large (24px)</option>
-            <option value="custom">Custom</option>
+            <option value="16px">Extra Small (16px)</option>
+            <option value="20px">Small (20px)</option>
+            <option value="24px" selected>Medium (24px)</option>
+            <option value="28px">Medium Large (28px)</option>
+            <option value="32px">Large (32px)</option>
+            <option value="48px">Extra Large (48px)</option>
+            <option value="64px">Huge (64px)</option>
           </select>
           <div id="iconSize-desc" class="sr-only">
             Select the size preset for icons
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="iconSizePx">
-            Custom Size (px)
-            <span
-              class="help-tooltip"
-              data-tooltip="Custom icon size in pixels"
-              role="button"
-              tabindex="0"
-              aria-label="Help: Custom icon size"
-            >
-              <i class="fas fa-question-circle" aria-hidden="true"></i>
-            </span>
-          </label>
-          <div class="input-wrapper">
-            <input
-              type="number"
-              id="iconSizePx"
-              name="thumbnailSettings.iconSettings.iconSizePx"
-              class="form-input"
-              value="20"
-              min="12"
-              max="64"
-              aria-describedby="iconSizePx-desc"
-              inputmode="numeric"
-            />
-            <span class="input-unit" aria-hidden="true">px</span>
+          
+          <!-- Icon Size Validation Messages -->
+          <div class="validation-message validation-warning" id="iconSizeWarning" style="display: none;">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <span>Large icon sizes may affect layout on mobile devices</span>
           </div>
-          <div id="iconSizePx-desc" class="sr-only">
-            Set custom icon size in pixels
+          
+          <div class="validation-message validation-error" id="iconSizeError" style="display: none;">
+            <i class="fas fa-times-circle" aria-hidden="true"></i>
+            <span>Icon size must be between 16px and 96px</span>
           </div>
         </div>
 
@@ -1504,7 +1479,12 @@
               min="0"
               max="1"
               step="0.1"
+              aria-label="Icon opacity"
               aria-describedby="iconOpacity-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="1"
+              aria-valuenow="0.9"
             />
             <span class="range-value">0.9</span>
           </div>
@@ -1621,21 +1601,26 @@
               <i class="fas fa-question-circle" aria-hidden="true"></i>
             </span>
           </label>
-          <div class="input-wrapper">
+          <div class="range-input-wrapper">
             <input
-              type="number"
+              type="range"
               id="iconHoverScale"
               name="thumbnailSettings.iconSettings.iconHoverScale"
-              class="form-input"
+              class="range-input"
               value="1.15"
               min="1.0"
               max="2.0"
               step="0.05"
+              aria-label="Icon hover scale"
               aria-describedby="iconHoverScale-desc"
-              inputmode="decimal"
+              role="slider"
+              aria-valuemin="1.0"
+              aria-valuemax="2.0"
+              aria-valuenow="1.15"
             />
+            <span class="range-value">1.15</span>
           </div>
-          <small>0 to 2 Values: 1.15 = 15% larger on hover</small>
+          <small>1.0 to 2.0 Values: 1.15 = 15% larger on hover</small>
           <div id="iconHoverScale-desc" class="sr-only">
             Set the scale factor for icons on hover
           </div>

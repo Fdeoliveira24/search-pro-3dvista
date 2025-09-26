@@ -32,6 +32,8 @@ class GeneralTabHandler {
       this.setupMobileOverridesToggle(container);
       this.setupWidthValidation(container);
       this.setupRangeInputs(container);
+      this.setupVisibilityBehaviorControls(container);
+      this.setupAdvancedMobileValidation(container);
 
       // Populate form with current values
       this.core.populateForm(container);
@@ -107,19 +109,25 @@ class GeneralTabHandler {
             e.target.classList.remove("valid");
             
             // Show validation message
-            window.showValidationMessage(
-              e.target, 
-              "error", 
-              "Enter a valid width (e.g., 350px or 100%)",
-              3000
-            );
-          } else {
-            e.target.classList.remove("error");
-            e.target.classList.add("valid");
-            window.clearValidationMessage(e.target.id);
+            if (window.showValidationMessage) {
+              window.showValidationMessage(
+                e.target, 
+                "error", 
+                "Enter a valid width (e.g., 350px or 95%)",
+                3000
+              );
+            }
+          } else if (value !== "") {
+            // Enhanced width overflow validation
+            this.validateWidthOverflow(e.target, value);
             
             // Preview width changes
             this.handleWidthChange(e.target);
+          } else {
+            e.target.classList.remove("error", "warning");
+            if (window.clearValidationMessage) {
+              window.clearValidationMessage(e.target.id);
+            }
           }
         });
         
@@ -140,6 +148,192 @@ class GeneralTabHandler {
       );
     } catch (error) {
       console.error("🚨 Security: Error setting up width validation:", error);
+    }
+  }
+
+  /**
+   * Enhanced width validation with overflow warnings
+   */
+  validateWidthOverflow(input, value) {
+    try {
+      // Clear previous validation state
+      input.classList.remove('error', 'warning');
+      if (window.clearValidationMessage) {
+        window.clearValidationMessage(input.id);
+      }
+      
+      // Extract numeric value and unit
+      const match = value.match(/^(\d+(?:\.\d+)?)(px|%|em|rem|vw)?$/);
+      if (!match) return;
+      
+      const numValue = parseFloat(match[1]);
+      const unit = match[2] || '';
+      
+      // Percentage validation
+      if (unit === '%') {
+        if (numValue === 100) {
+          input.classList.add('warning');
+          if (window.showValidationMessage) {
+            window.showValidationMessage(
+              input, 
+              'warning', 
+              '100% width may overflow on small screens. Consider using 95% or max-width constraints.',
+              4000
+            );
+          }
+        } else if (numValue > 95) {
+          input.classList.add('warning');
+          if (window.showValidationMessage) {
+            window.showValidationMessage(
+              input, 
+              'warning', 
+              `${numValue}% width may cause overflow. Consider using 95% or less.`,
+              4000
+            );
+          }
+        } else {
+          input.classList.add('valid');
+        }
+      }
+      
+      // Pixel validation for mobile compatibility
+      else if (unit === 'px') {
+        if (numValue > 800) {
+          input.classList.add('warning');
+          if (window.showValidationMessage) {
+            window.showValidationMessage(
+              input, 
+              'warning', 
+              `${numValue}px may be too wide for mobile devices. Consider using percentages.`,
+              4000
+            );
+          }
+        } else {
+          input.classList.add('valid');
+        }
+      }
+      
+      // Other units are generally valid
+      else {
+        input.classList.add('valid');
+      }
+      
+    } catch (error) {
+      console.error('Error validating width overflow:', error);
+    }
+  }
+
+  /**
+   * Setup visibility behavior controls for mobile settings
+   */
+  setupVisibilityBehaviorControls(container = document) {
+    try {
+      const behaviorSelect = container.querySelector("#visibilityBehavior");
+      const showOnScrollToggle = container.querySelector("#showOnScroll");
+      const hideThresholdInput = container.querySelector("#hideThreshold");
+
+      if (!behaviorSelect) return;
+
+      const updateVisibilityControls = () => {
+        const behavior = behaviorSelect.value;
+        const isDynamic = behavior === "dynamic";
+        
+        // Enable/disable related controls based on behavior
+        if (showOnScrollToggle) {
+          showOnScrollToggle.disabled = !isDynamic;
+          showOnScrollToggle.closest(".form-group").classList.toggle("disabled", !isDynamic);
+        }
+        
+        if (hideThresholdInput) {
+          hideThresholdInput.disabled = !isDynamic;
+          hideThresholdInput.closest(".form-group").classList.toggle("disabled", !isDynamic);
+        }
+      };
+
+      behaviorSelect.addEventListener("change", updateVisibilityControls);
+      
+      // Initialize state
+      updateVisibilityControls();
+
+      console.log("👁️ Visibility behavior controls setup complete");
+    } catch (error) {
+      console.error("🚨 Error setting up visibility behavior controls:", error);
+    }
+  }
+
+  /**
+   * Setup advanced mobile validation for new fields
+   */
+  setupAdvancedMobileValidation(container = document) {
+    try {
+      // Validate mobile bottom position
+      const mobileBottomInput = container.querySelector("#mobileBottom");
+      if (mobileBottomInput) {
+        mobileBottomInput.addEventListener("input", (e) => {
+          const value = this.core.sanitizeInput(e.target.value);
+          const isValid = value === "auto" || /^\d+(%|px|em|rem|vh)$/.test(value);
+          
+          if (!isValid && value !== "") {
+            e.target.classList.add("error");
+            window.showValidationMessage(
+              e.target,
+              "error",
+              "Enter 'auto' or valid CSS value (e.g., 20px, 10%)",
+              3000
+            );
+          } else {
+            e.target.classList.remove("error");
+            e.target.classList.add("valid");
+            window.clearValidationMessage(e.target.id);
+          }
+        });
+      }
+
+      // Validate hide threshold
+      const hideThresholdInput = container.querySelector("#hideThreshold");
+      if (hideThresholdInput) {
+        hideThresholdInput.addEventListener("input", (e) => {
+          const value = parseInt(e.target.value);
+          if (value < 0 || value > 500) {
+            e.target.classList.add("error");
+            window.showValidationMessage(
+              e.target,
+              "warning",
+              "Threshold should be between 0-500px for optimal UX",
+              3000
+            );
+          } else {
+            e.target.classList.remove("error");
+            e.target.classList.add("valid");
+            window.clearValidationMessage(e.target.id);
+          }
+        });
+      }
+
+      // Validate mobile max width constraints
+      const maxWidthInput = container.querySelector("#mobileMaxWidth");
+      if (maxWidthInput) {
+        maxWidthInput.addEventListener("input", (e) => {
+          const value = parseInt(e.target.value);
+          if (value < 200 || value > 800) {
+            e.target.classList.add("error");
+            window.showValidationMessage(
+              e.target,
+              "warning",
+              "Max width should be between 200-800px for mobile usability",
+              3000
+            );
+          } else {
+            e.target.classList.remove("error");
+            e.target.classList.add("valid");
+            window.clearValidationMessage(e.target.id);
+          }
+        });
+      }
+
+      console.log("📱 Advanced mobile validation setup complete");
+    } catch (error) {
+      console.error("🚨 Error setting up advanced mobile validation:", error);
     }
   }
   
@@ -291,6 +485,60 @@ class GeneralTabHandler {
           if (value > 10) {
             isValid = false;
             errorMessage = "Too many retries may cause performance issues";
+          }
+          break;
+
+        case "elementTriggering.baseRetryInterval":
+        case "baseRetryInterval":
+          if (value < 100) {
+            isValid = false;
+            errorMessage = "Base retry interval should be at least 100ms";
+          } else if (value > 2000) {
+            isValid = false;
+            errorMessage = "Base retry interval over 2 seconds may feel unresponsive";
+          }
+          break;
+
+        case "searchBar.mobileOverrides.breakpoint":
+        case "mobileBreakpointOverride":
+          if (value < 320) {
+            isValid = false;
+            errorMessage = "Mobile breakpoint should be at least 320px";
+          } else if (value > 1200) {
+            isValid = false;
+            errorMessage = "Mobile breakpoint should not exceed 1200px";
+          }
+          break;
+
+        case "searchBar.mobileOverrides.maxWidth":
+        case "mobileMaxWidth":
+          if (value < 200) {
+            isValid = false;
+            errorMessage = "Max width should be at least 200px for usability";
+          } else if (value > 800) {
+            isValid = false;
+            errorMessage = "Max width should not exceed 800px for mobile screens";
+          }
+          break;
+
+        case "searchBar.mobilePosition.bottom":
+        case "mobileBottom":
+          if (typeof value === "string" && value !== "auto") {
+            if (!/^\d+(%|px|em|rem|vh)$/.test(value)) {
+              isValid = false;
+              errorMessage = "Enter 'auto' or valid CSS value (e.g., 20px, 10%)";
+            }
+          }
+          break;
+
+        case "searchBar.mobileOverrides.visibility.hideThreshold":
+        case "hideThreshold":
+          if (value < 0) {
+            isValid = false;
+            errorMessage = "Hide threshold cannot be negative";
+          } else if (value > 500) {
+            isValid = false;
+            errorMessage = "Hide threshold over 500px may affect usability";
           }
           break;
       }

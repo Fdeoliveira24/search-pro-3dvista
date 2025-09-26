@@ -61,6 +61,73 @@ class ControlPanelCore {
   }
 
   /**
+   * Validate property name to prevent prototype pollution
+   * @param {string} propertyName - Property name to validate
+   * @returns {boolean} True if property name is safe
+   */
+  isValidPropertyName(propertyName) {
+    if (typeof propertyName !== "string") return false;
+    
+    // Block dangerous property names
+    const dangerousProps = [
+      '__proto__', 'constructor', 'prototype', 'valueOf', 'toString',
+      'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable'
+    ];
+    
+    // Check if the property path contains dangerous elements
+    const parts = propertyName.split('.');
+    for (const part of parts) {
+      if (dangerousProps.includes(part)) {
+        console.warn(`🚨 Security: Blocked dangerous property: ${part}`);
+        return false;
+      }
+      // Block properties starting with __
+      if (part.startsWith('__')) {
+        console.warn(`🚨 Security: Blocked dunder property: ${part}`);
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  /**
+   * Validate configuration structure integrity
+   * @param {Object} config - Configuration object to validate
+   * @returns {boolean} True if config structure is valid
+   */
+  validateConfigStructure(config) {
+    try {
+      if (!config || typeof config !== 'object') {
+        console.error('🚨 Security: Config is not a valid object');
+        return false;
+      }
+      
+      // Check for required top-level properties
+      const requiredProperties = ['searchBar', 'appearance', 'content'];
+      for (const prop of requiredProperties) {
+        if (!(prop in config)) {
+          console.warn(`⚠️ Missing required config property: ${prop}`);
+          // Don't fail validation for missing properties, just warn
+        }
+      }
+      
+      // Check config size to prevent DoS
+      const configStr = JSON.stringify(config);
+      if (configStr.length > this.maxConfigSize) {
+        console.error(`🚨 Security: Config size exceeds limit: ${configStr.length} > ${this.maxConfigSize}`);
+        return false;
+      }
+      
+      console.log('✅ Config structure validation passed');
+      return true;
+    } catch (error) {
+      console.error('🚨 Security: Config validation error:', error);
+      return false;
+    }
+  }
+
+  /**
    * Validate content for dangerous patterns
    */
   isContentSafe(content) {
@@ -410,6 +477,20 @@ class ControlPanelCore {
       const name = this.sanitizeInput(input.name || input.id, 100);
       let value = input.type === "checkbox" ? input.checked : input.value;
 
+      // ENHANCED DEBUGGING: Log all form changes, especially panorama-related
+      console.log(`🔍 FORM CHANGE DEBUG: Field "${name}" changed to "${value}" (type: ${input.type})`);
+      
+      if (name.includes("includePanoramas")) {
+        console.log("🔍 PANORAMA FORM DEBUG: Panorama toggle changed!", {
+          inputElement: input,
+          fieldName: name,
+          newValue: value,
+          inputType: input.type,
+          inputChecked: input.checked,
+          configBefore: this.config.includeContent?.elements?.includePanoramas
+        });
+      }
+
       if (typeof value === "string") {
         value = this.sanitizeInput(value);
 
@@ -460,6 +541,14 @@ class ControlPanelCore {
       }, 300);
 
       console.log(`🔧 Config updated safely: ${name} = ${value}`);
+      
+      // ENHANCED DEBUGGING: Log config state after panorama changes
+      if (name.includes("includePanoramas")) {
+        console.log("🔍 PANORAMA CONFIG DEBUG: Config after update", {
+          configAfter: this.config.includeContent?.elements?.includePanoramas,
+          fullElementsConfig: this.config.includeContent?.elements
+        });
+      }
     } catch (error) {
       console.error("🚨 Security: Error handling form change:", error);
     }
@@ -589,6 +678,16 @@ class ControlPanelCore {
       const previewConfig = JSON.parse(JSON.stringify(this.config));
       this.safeSetNestedProperty(previewConfig, fieldName, value);
 
+      // ENHANCED DEBUGGING: Log exactly what's being sent for panorama changes
+      if (fieldName.includes("includePanoramas")) {
+        console.log("🔍 PANORAMA DEBUG: Live preview config update", {
+          fieldName,
+          value,
+          includeContentElements: previewConfig.includeContent?.elements,
+          fullIncludeContent: previewConfig.includeContent
+        });
+      }
+
       this.safeLocalStorageSet("searchProLiveConfig", previewConfig);
 
       if (window.parent && window.parent !== window) {
@@ -623,9 +722,25 @@ class ControlPanelCore {
       const formInputs = container.querySelectorAll(
         ".form-input, .toggle-input, .color-input, .range-input, .form-select",
       );
+      
+      // ENHANCED DEBUGGING: Check if panorama toggle is found
+      const panoramaToggle = container.querySelector('#includePanoramas');
+      console.log(`🔍 LISTENERS DEBUG: Found panorama toggle?`, {
+        panoramaToggle: panoramaToggle,
+        hasToggleInputClass: panoramaToggle?.classList.contains('toggle-input'),
+        panoramaName: panoramaToggle?.getAttribute('name'),
+        panoramaId: panoramaToggle?.id,
+        totalInputsFound: formInputs.length
+      });
+      
       formInputs.forEach((input) => {
         input.addEventListener("change", () => this.onFormChange(input));
         input.addEventListener("input", () => this.onFormInput(input));
+        
+        // ENHANCED DEBUGGING: Log if this is the panorama toggle
+        if (input.id === 'includePanoramas') {
+          console.log("🔍 LISTENERS DEBUG: Event listeners attached to panorama toggle", input);
+        }
       });
 
       console.log(`✅ Form listeners set up for ${formInputs.length} inputs`);
@@ -706,7 +821,62 @@ class ControlPanelCore {
         baseRetryInterval: 300,
       },
 
-      // Search plugin specific settings
+        // ==========================================
+      // FILTERING TAB - Content Filtering Settings
+      // ==========================================
+
+      filter: {
+        enabled: false,
+        mode: "blacklist",
+        caseSensitive: false,
+        matchExact: false,
+        matchField: "all",
+        whitelist: [],
+        blacklist: []
+      },
+
+      // ==========================================
+      // SEARCH SETTINGS - Advanced Search Configuration
+      // ==========================================
+
+      searchSettings: {
+        debounce: 300,
+        maxResults: 50,
+        caseSensitive: false,
+        fuzzySearch: {
+          enabled: false,
+          threshold: 0.3
+        },
+        highlightMatches: true
+      },
+
+      // ==========================================
+      // DISPLAY LABELS - Field Mapping Configuration
+      // ==========================================
+
+      displayLabels: {
+        panoramas: "label",
+        hotspots: "label",
+        polygons: "label",
+        videos: "label",
+        images: "label",
+        text: "label"
+      },
+
+      // ==========================================
+      // USE AS LABEL - Fallback Field Configuration
+      // ==========================================
+
+      useAsLabel: {
+        panoramas: "none",
+        hotspots: "none",
+        polygons: "none",
+        videos: "none",
+        images: "none",
+        text: "none"
+      },
+
+    // Legacy Search plugin specific settings (deprecated but kept for compatibility)
     maxResults: 20,
     debugMode: false,
     showHotspots: true,
@@ -782,7 +952,7 @@ class ControlPanelCore {
             },
             focus: {
               fontSize: "16px",
-              fontWeight: "500",
+              fontWeight: "400",
               letterSpacing: "0.25px",
             },
           },
@@ -802,6 +972,7 @@ class ControlPanelCore {
           searchIcon: "#94a3b8",
           clearIcon: "#94a3b8",
           resultsBackground: "#ffffff",
+          groupHeaderBackground: "#ffffff",
           groupHeaderColor: "#20293A",
           groupCountColor: "#94a3b8",
           resultHover: "#f0f0f0",
@@ -838,19 +1009,14 @@ class ControlPanelCore {
         showGroupHeaders: true,
         showGroupCount: true,
         showIconsInResults: true,
-        onlySubtitles: false,
         showSubtitlesInResults: true,
-        showParentLabel: true,
         showParentInfo: true,
-        showParentTags: true,
-        showParentType: true,
       },
 
       // Thumbnail Settings
       thumbnailSettings: {
         enableThumbnails: false,
-        thumbnailSize: "medium",
-        thumbnailSizePx: 120,
+        thumbnailSize: "48px",
         borderRadius: 4,
         borderWidth: 4,
         borderColor: "#9CBBFF",
@@ -874,14 +1040,17 @@ class ControlPanelCore {
           default: "./search-pro-non-mod/assets/default-thumbnail.jpg",
         },
 
+        // Group Header Settings
+        groupHeaderAlignment: "left", // "left" or "right"
+        groupHeaderPosition: "top", // "top" or "bottom"
+
         // ICON SETTINGS CONFIGURATION
         iconSettings: {
           enableCustomIcons: false,
           enableFontAwesome: false,
           fontAwesomeUrl:
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
-          iconSize: "medium",
-          iconSizePx: 20,
+          iconSize: "24px",
           iconColor: "#3b82f6",
           iconOpacity: 0.9,
           iconAlignment: "left",
@@ -998,31 +1167,8 @@ class ControlPanelCore {
       // ==========================================
    
     filter: {
-      mode: "none",
-      allowedValues: [""],
-      blacklistedValues: [""],
-      allowedMediaIndexes: [""],
-      blacklistedMediaIndexes: [""],
-      elementTypes: {
-        mode: "none",
-        allowedTypes: [""],
-        blacklistedTypes: [""],
-      },
-      elementLabels: {
-        mode: "none",
-        allowedValues: [""],
-        blacklistedValues: [""],
-      },
-      tagFiltering: {
-        mode: "none",
-        allowedTags: [""],
-        blacklistedTags: [""],
-      },
-      uniqueNames: {
-        mode: "none",
-        allowedNames: [""],
-        blacklistedNames: [""],
-      },
+      // Only blacklistedValues - simple and reliable filtering
+      blacklistedValues: []
     },
     // ==========================================
 // DATA SOURCES TAB - External Data Integration

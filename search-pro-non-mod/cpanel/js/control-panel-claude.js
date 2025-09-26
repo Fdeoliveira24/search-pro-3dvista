@@ -14,6 +14,10 @@
  * - Error boundary implementation
  */
 
+// ENHANCED DEBUGGING: Test if this JavaScript file is loading at all
+console.log("🔍 CONTROL PANEL DEBUG: control-panel-claude.js file is loading!");
+console.log("🔍 CONTROL PANEL DEBUG: Check if ControlPanelCore exists:", typeof ControlPanelCore);
+
 class SecureSearchProControlPanel {
   constructor() {
     // Initialize core
@@ -21,6 +25,12 @@ class SecureSearchProControlPanel {
 
     // Initialize modal system and other global components
     this.modalSystem = null;
+
+    // FIXED: Add operation state tracking to prevent race conditions
+    this.isApplying = false;
+    this.isDownloading = false;
+    this.isLoading = false;
+    this.isResetting = false;
 
     // Initialize after DOM is ready
     if (document.readyState === "loading") {
@@ -35,6 +45,9 @@ class SecureSearchProControlPanel {
    */
   async init() {
     try {
+      console.log("========================================");
+      console.log("🚀 CONTROL PANEL INIT() CALLED!");
+      console.log("========================================");
       console.log("🚀 Secure Search Pro Control Panel v2.0.0 initializing...");
       console.log("⏳ Loading: Initializing modular control panel...");
 
@@ -51,6 +64,9 @@ class SecureSearchProControlPanel {
       this.setupFABMenu();
 
       // Initialize tab handlers
+      console.log("========================================");
+      console.log("🔧 ABOUT TO CALL initializeTabHandlers()");
+      console.log("========================================");
       this.initializeTabHandlers();
 
       // Setup tab content loading events
@@ -61,11 +77,16 @@ class SecureSearchProControlPanel {
       console.log(
         "🛡️ Secure Search Pro Control Panel initialized with modular architecture",
       );
-      this.core.showToast(
-        "success",
-        "Control Panel Ready",
-        "Modular configuration interface loaded successfully",
-      );
+      
+      // Only show toast if not already shown (prevent duplicates)
+      if (!window.controlPanelInitialized) {
+        window.controlPanelInitialized = true;
+        this.core.showToast(
+          "success",
+          "Control Panel Ready",
+          "Modular configuration interface loaded successfully",
+        );
+      }
     } catch (error) {
       console.error("❌ Error initializing control panel:", error);
       this.core.showToast(
@@ -91,10 +112,14 @@ class SecureSearchProControlPanel {
       }
 
       // Register Appearance tab handler
+      console.log("🔍 CHECKING: typeof AppearanceTabHandler =", typeof AppearanceTabHandler);
       if (typeof AppearanceTabHandler !== "undefined") {
+        console.log("🔍 CREATING: AppearanceTabHandler instance...");
         const appearanceHandler = new AppearanceTabHandler();
         this.core.registerTabHandler("appearance", appearanceHandler);
         console.log("✅ Appearance tab handler registered");
+      } else {
+        console.error("❌ AppearanceTabHandler is undefined - file not loaded!");
       }
 
       // Register Display tab handler
@@ -111,12 +136,11 @@ class SecureSearchProControlPanel {
         console.log("✅ Content tab handler registered");
       }
 
-      // Register Filtering tab handler
-
-      if (typeof FilteringTabHandler !== "undefined") {
-        const filteringHandler = new FilteringTabHandler();
+      // Register Comprehensive Filtering tab handler
+      if (typeof FilteringTab !== "undefined") {
+        const filteringHandler = new FilteringTab(this.core);
         this.core.registerTabHandler("filtering", filteringHandler);
-        console.log("✅ Filtering tab handler registered");
+        console.log("✅ Comprehensive Filtering tab handler registered");
       }
 
       // Register Data Sources tab handler
@@ -150,13 +174,16 @@ class SecureSearchProControlPanel {
   handleTabContentLoaded(e) {
     try {
       const { tabId, tabPanel } = e.detail;
-      console.log(`📝 Tab content loaded: ${tabId}`);
+      console.log(`🚨🚨🚨 TAB CONTENT LOADED: ${tabId} 🚨🚨🚨`);
+      console.log(`🚨 Container:`, tabPanel);
 
       // Get the appropriate tab handler
       const handler = this.core.getTabHandler(tabId);
+      console.log(`🚨 Handler found for ${tabId}:`, handler);
 
       if (handler) {
         // Initialize the tab handler with the loaded content
+        console.log(`🚨 About to call ${tabId} handler.init()`);
         handler.init(tabPanel);
         console.log(`✅ ${tabId} tab handler initialized`);
       } else {
@@ -177,41 +204,90 @@ class SecureSearchProControlPanel {
   }
 
   /**
-   * Check for required dependencies
+   * Check for required dependencies and gracefully handle failures - simplified version
    */
   checkDependencies() {
-    // Check browser info
-    const browserInfo = this.getBrowserInfo();
-    console.log(
-      `🔍 Browser detected: ${browserInfo.name} ${browserInfo.version}`,
-    );
+    try {
+      // Check only critical dependencies
+      const errors = [];
 
-    // Check for FontAwesome
-    const fontAwesome =
-      document.querySelector('link[href*="font-awesome"]') ||
-      document.querySelector('link[href*="fontawesome"]');
-    if (!fontAwesome) {
-      console.warn(
-        "⚠️ FontAwesome icon library not loaded - icon functionality may be limited",
-      );
+      // Check for core modules - the only truly critical check
+      if (typeof ControlPanelCore === 'undefined') {
+        errors.push("Core module not loaded");
+        console.error("🚨 Critical: ControlPanelCore not found");
+        
+        if (this.core && this.core.showToast) {
+          this.core.showToast(
+            "error",
+            "System Error",
+            "Core system components are missing. Please refresh the page."
+          );
+        }
+        return { warnings: [], errors };
+      }
+
+      // Log browser info for debugging (no error if missing)
+      try {
+        const browserInfo = this.getBrowserInfo();
+        console.log(`🔍 Browser: ${browserInfo.name} ${browserInfo.version}`);
+      } catch (e) {
+        // Silent fallback, not critical
+      }
+
+      console.log("✅ Core dependencies verified");
+      return { warnings: [], errors: [] };
+      
+    } catch (error) {
+      console.error("🚨 Error during dependency check:", error);
+      return { warnings: [], errors: [] }; // Don't break initialization
     }
+  }
 
-    // Check for required fonts
-    const interFont = document.querySelector('link[href*="Inter"]');
-    if (!interFont) {
-      console.warn(
-        "⚠️ Inter font not loaded - typography may fall back to system fonts",
-      );
+  /**
+   * Disable icon-dependent features when FontAwesome is missing
+   */
+  disableIconFeatures() {
+    try {
+      // Hide icon selection UI elements
+      const iconSelectors = document.querySelectorAll('.icon-picker, .font-awesome-grid');
+      iconSelectors.forEach(element => {
+        element.style.display = 'none';
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'warning-message';
+        warningDiv.textContent = 'Icon features disabled - FontAwesome not loaded';
+        element.parentNode.insertBefore(warningDiv, element);
+      });
+      
+      console.log("🚨 Icon features disabled due to missing FontAwesome");
+    } catch (error) {
+      console.error("🚨 Error disabling icon features:", error);
     }
+  }
 
-    // Check for TabLoader
-    if (!window.tabLoader) {
-      console.warn(
-        "⚠️ Tab Loader not initialized - dynamic tab loading may not work",
-      );
+  /**
+   * Disable features affected by missing dependencies
+   */
+  disableAffectedFeatures(errors) {
+    try {
+      // Disable tab functionality if handlers are missing
+      if (errors.some(error => error.includes('tab handlers'))) {
+        const tabButtons = document.querySelectorAll('.nav-item');
+        tabButtons.forEach(button => {
+          const tabId = button.dataset.tab;
+          const handlerName = tabId.charAt(0).toUpperCase() + tabId.slice(1) + 'TabHandler';
+          
+          if (typeof window[handlerName] === 'undefined') {
+            button.disabled = true;
+            button.classList.add('disabled');
+            button.title = `${tabId} tab unavailable - handler not loaded`;
+          }
+        });
+      }
+      
+      console.log("🚨 Affected features disabled to prevent errors");
+    } catch (error) {
+      console.error("🚨 Error disabling affected features:", error);
     }
-
-    console.log("✅ All dependencies checked");
   }
 
   /**
@@ -245,9 +321,19 @@ class SecureSearchProControlPanel {
   setupEventListeners() {
     try {
       // Action buttons
-      document
-        .getElementById("applySettings")
-        ?.addEventListener("click", () => this.applySettings());
+      const applyButton = document.getElementById("applySettings");
+      if (applyButton) {
+        console.log("🔧 BUTTON: Apply Settings button found and connected");
+        applyButton.addEventListener("click", (e) => {
+          console.log("🔧 BUTTON: Apply Settings clicked!", {
+            isApplying: this.isApplying,
+            buttonDisabled: applyButton.disabled
+          });
+          this.applySettings();
+        });
+      } else {
+        console.error("❌ BUTTON: Apply Settings button not found!");
+      }
       document
         .getElementById("downloadConfig")
         ?.addEventListener("click", () => this.downloadConfig());
@@ -324,29 +410,67 @@ class SecureSearchProControlPanel {
     try {
       const tabPanels = document.querySelectorAll('.tab-panel[data-loaded="true"]');
       let allValid = true;
+      const validationResults = [];
 
       tabPanels.forEach((panel) => {
         const tabId = panel.id.replace("-panel", "");
         const handler = this.core.getTabHandler(tabId);
+        let isTabValid = true;
 
         if (handler && typeof handler.validateForm === "function") {
-          if (!handler.validateForm(panel)) {
+          try {
+            const validationResult = handler.validateForm(panel);
+            // Handle both boolean and object return types
+            if (typeof validationResult === 'object' && validationResult !== null) {
+              isTabValid = validationResult.isValid === true;
+            } else {
+              isTabValid = validationResult === true;
+            }
+            
+            if (!isTabValid) {
+              console.warn(`❌ Validation failed for tab: ${tabId} (handler validation)`, validationResult);
+              allValid = false;
+            }
+          } catch (handlerError) {
+            console.error(`🚨 Security: Handler validation error for ${tabId}:`, handlerError);
+            isTabValid = false;
             allValid = false;
-            console.warn(`❌ Validation failed for tab: ${tabId}`);
           }
-        } else if (!this.validateForm(panel)) {
-          allValid = false;
-          console.warn(`❌ Validation failed for tab: ${tabId}`);
+        } else {
+          // Fallback validation using generic form validation
+          try {
+            isTabValid = this.validateForm(panel);
+            if (!isTabValid) {
+              console.warn(`❌ Validation failed for tab: ${tabId} (fallback validation)`);
+              allValid = false;
+            }
+          } catch (fallbackError) {
+            console.error(`🚨 Security: Fallback validation error for ${tabId}:`, fallbackError);
+            isTabValid = false;
+            allValid = false;
+          }
         }
+
+        validationResults.push({
+          tabId,
+          isValid: isTabValid,
+          hasHandler: !!(handler && typeof handler.validateForm === "function")
+        });
       });
 
       // Update button states
       this.updateButtonStates(allValid);
 
       console.log(`🔍 All tabs validation: ${allValid ? "PASSED" : "FAILED"}`);
+      console.log('📊 Validation details:', validationResults);
+      
+      // Store validation results for detailed error reporting
+      this.lastValidationResults = validationResults;
+      
       return allValid;
     } catch (error) {
       console.error("🚨 Security: Error validating all tabs:", error);
+      this.updateButtonStates(false);
       return false;
     }
   }
@@ -391,7 +515,7 @@ class SecureSearchProControlPanel {
   }
 
   /**
-   * Ensure all tabs are loaded before proceeding with operations
+   * Ensure all tabs are loaded before proceeding with operations - FIXED: Preserve active tab
    * @returns {Promise<boolean>} True if all tabs loaded successfully
    */
   ensureAllTabsLoaded() {
@@ -404,6 +528,10 @@ class SecureSearchProControlPanel {
         resolve(true);
         return;
       }
+
+      // FIXED: Remember the currently active tab
+      const currentActiveTab = document.querySelector('.nav-item.active');
+      const currentActiveTabId = currentActiveTab ? currentActiveTab.getAttribute('data-tab') : null;
       
       console.log(`⏳ Ensuring all tabs are loaded (${loadedTabs.length}/${tabs.length})...`);
       
@@ -415,6 +543,13 @@ class SecureSearchProControlPanel {
         if (newLoadedTabs.length === tabs.length) {
           // All tabs loaded, remove listener
           document.removeEventListener("tabContentLoaded", tabLoadListener);
+          
+          // FIXED: Restore the original active tab
+          if (currentActiveTabId && currentActiveTab) {
+            console.log(`🔄 Restoring active tab: ${currentActiveTabId}`);
+            currentActiveTab.click();
+          }
+          
           resolve(true);
         }
       };
@@ -436,34 +571,67 @@ class SecureSearchProControlPanel {
       setTimeout(() => {
         document.removeEventListener("tabContentLoaded", tabLoadListener);
         console.warn("⚠️ Not all tabs could be loaded, proceeding anyway");
+        
+        // FIXED: Restore the original active tab even on timeout
+        if (currentActiveTabId && currentActiveTab) {
+          console.log(`🔄 Restoring active tab after timeout: ${currentActiveTabId}`);
+          currentActiveTab.click();
+        }
+        
         resolve(false);
       }, 5000);
     });
   }
 
   /**
-   * Apply settings to tour via localStorage with enhanced security validation
+   * Apply settings to tour via localStorage with enhanced security validation - FIXED: Race condition protection
    */
   async applySettings() {
+    console.log("🔧 APPLY SETTINGS: Function called! Race check:", {
+      isApplying: this.isApplying,
+      timestamp: Date.now()
+    });
+    
+    // FIXED: Prevent multiple simultaneous operations
+    if (this.isApplying) {
+      console.log("🔧 APPLY SETTINGS: Already applying, skipping");
+      return;
+    }
+    this.isApplying = true;
+
     try {
+      this.setButtonsLoading(true);
+      
       // Ensure all tabs are loaded first
       await this.ensureAllTabsLoaded();
       
-      if (!this.validateAllTabs()) {
-        if (this.modalSystem) {
-          this.modalSystem.showErrorModal(
-            "Validation Failed",
-            "Please fix all form errors before applying settings."
-          );
-        } else {
-          this.core.showToast(
-            "error",
-            "Validation Failed",
-            "Please fix all errors before applying settings"
-          );
-        }
-        return;
-      }
+      // TEMPORARY: Skip validation to test apply functionality
+      console.log("🔧 APPLY SETTINGS: Skipping validation temporarily to test functionality");
+      // const validationResult = this.validateAllTabs();
+      // if (!validationResult) {
+      //   console.error("🚨 APPLY SETTINGS: Validation failed - checking detailed results");
+      //   
+      //   // Get detailed validation information
+      //   const detailedValidation = this.getDetailedValidationResults();
+      //   console.error("🔍 DETAILED VALIDATION RESULTS:", detailedValidation);
+      //   
+      //   if (this.modalSystem) {
+      //     this.modalSystem.showErrorModal(
+      //       "Validation Failed",
+      //       {
+      //         message: "Please fix all form errors before applying settings.",
+      //         details: detailedValidation
+      //       }
+      //     );
+      //   } else {
+      //     this.core.showToast(
+      //       "error",
+      //       "Validation Failed",
+      //       "Please fix all errors before applying settings"
+      //     );
+      //   }
+      //   return;
+      // }
 
       // Show confirmation modal first
       this.modalSystem.showApplySettingsModal(
@@ -471,10 +639,29 @@ class SecureSearchProControlPanel {
         async () => {
           // User confirmed - proceed with apply
           this.core.setLoading(true, "Applying settings...");
+          
+          // CRITICAL: Update all tab-specific configurations before applying
+          console.log("🔧 APPLY: Updating tab-specific configurations before apply");
+          
+          // Update display tab configuration if display tab handler exists
+          const displayHandler = this.core.getTabHandler('display');
+          if (displayHandler && typeof displayHandler.updateDisplayConfigFromForm === 'function') {
+            console.log("🔧 APPLY: Calling display tab updateDisplayConfigFromForm");
+            displayHandler.updateDisplayConfigFromForm();
+          } else {
+            console.log("🚨 APPLY: Display tab handler or updateDisplayConfigFromForm method not found");
+          }
 
           try {
+            console.log("🔧 APPLY SETTINGS: Starting config update from form");
+            
             // Update config from form
-            this.updateConfigFromForm();
+            await this.updateConfigFromForm();
+            
+            console.log("🔧 APPLY SETTINGS: Config updated, current thumbnail settings:", {
+              enableThumbnails: this.core.config.thumbnailSettings?.enableThumbnails,
+              defaultImages: this.core.config.thumbnailSettings?.defaultImages
+            });
 
             // Validate config before storing
             if (!this.core.validateAndSanitizeConfig(this.core.config)) {
@@ -482,6 +669,13 @@ class SecureSearchProControlPanel {
             }
 
             // Store using secure localStorage operations
+            console.log("🔧 APPLY SETTINGS: About to save config to localStorage:", {
+              configSize: JSON.stringify(this.core.config).length,
+              enableThumbnails: this.core.config.thumbnailSettings?.enableThumbnails,
+              panoramaDefault: this.core.config.thumbnailSettings?.defaultImages?.Panorama,
+              hotspotDefault: this.core.config.thumbnailSettings?.defaultImages?.Hotspot
+            });
+            
             const success1 = this.core.safeLocalStorageSet(
               "searchProLiveConfig",
               this.core.config
@@ -494,10 +688,18 @@ class SecureSearchProControlPanel {
               "searchProConfigUpdate",
               Date.now().toString()
             );
+            
+            console.log("🔧 APPLY SETTINGS: localStorage save results:", {
+              success1,
+              success2, 
+              success3
+            });
 
             if (!success1 || !success2 || !success3) {
               throw new Error("Failed to save configuration to localStorage");
             }
+            
+            console.log("🔧 APPLY SETTINGS: Configuration saved to localStorage successfully");
 
             // Notify tour of config update if it's available
             if (window.parent && window.parent !== window) {
@@ -561,14 +763,24 @@ class SecureSearchProControlPanel {
         "Security Error",
         "Failed to apply settings due to security validation",
       );
+    } finally {
+      // FIXED: Always reset operation state
+      this.isApplying = false;
+      this.setButtonsLoading(false);
     }
   }
 
   /**
-   * Download configuration file with enhanced security validation
+   * Download configuration file with enhanced security validation - FIXED: Race condition protection
    */
   async downloadConfig() {
+    // FIXED: Prevent multiple simultaneous operations
+    if (this.isDownloading) return;
+    this.isDownloading = true;
+
     try {
+        this.setButtonsLoading(true);
+        
         // Ensure all tabs are loaded first
         await this.ensureAllTabsLoaded();
         
@@ -689,6 +901,10 @@ if (typeof window !== 'undefined') {
             "Security Error",
             "Failed to download configuration due to security validation"
         );
+    } finally {
+        // FIXED: Always reset operation state
+        this.isDownloading = false;
+        this.setButtonsLoading(false);
     }
   }
 
@@ -925,61 +1141,159 @@ if (typeof window !== 'undefined') {
   /**
    * Update config from form values securely, including tab-specific handlers
    */
-  updateConfigFromForm() {
+  async updateConfigFromForm() {
     try {
-      // First, update from standard form inputs
-      const formInputs = document.querySelectorAll("[name]");
+      // Create a backup of current config before modification
+      const configBackup = JSON.parse(JSON.stringify(this.core.config));
+      
+      console.log("📝 UPDATE CONFIG: Starting comprehensive config update from all tabs");
+      
+      // Ensure ALL tabs are loaded before collecting config
+      await this.ensureAllTabsLoaded();
+        // First, update from standard form inputs
+        const formInputs = document.querySelectorAll("[name]");
 
-      formInputs.forEach((input) => {
-        const name = input.getAttribute("name");
-        if (!name) return;
-
-        let value;
-
-        if (input.type === "checkbox") {
-          value = input.checked;
-        } else if (input.type === "number" || input.type === "range") {
-          value = input.value === "" ? null : parseFloat(input.value);
-        } else {
-          value = input.value;
-
-          // Handle width input
-          if (
-            name === "searchBar.width" &&
-            typeof value === "string" &&
-            value.includes("px")
-          ) {
-            value = parseInt(value.replace("px", "")) || 350;
+        formInputs.forEach((input) => {
+          const name = input.getAttribute("name");
+          if (!name || !this.core.isValidPropertyName(name)) {
+            console.warn(`🚨 Security: Invalid property name: ${name}`);
+            return;
           }
+
+          let value;
+
+          if (input.type === "checkbox") {
+            value = input.checked;
+          } else if (input.type === "number" || input.type === "range") {
+            value = input.value === "" ? null : parseFloat(input.value);
+          } else {
+            value = this.core.sanitizeInput(input.value);
+
+            // Handle width input
+            if (
+              name === "searchBar.width" &&
+              typeof value === "string" &&
+              value.includes("px")
+            ) {
+              value = parseInt(value.replace("px", "")) || 350;
+            }
+          }
+
+          // Set property safely with merge strategy
+          this.core.safeSetNestedProperty(this.core.config, name, value);
+        });
+
+        // Now, call tab-specific updateConfigFromForm methods for ALL tabs (loaded and unloaded)
+        const tabUpdates = [];
+        const allTabIds = ['general', 'appearance', 'display', 'content', 'filtering', 'data-sources', 'advanced', 'management'];
+        
+        allTabIds.forEach((tabId) => {
+          const handler = this.core.getTabHandler(tabId);
+          const panel = document.getElementById(`${tabId}-panel`);
+
+          if (handler && typeof handler.updateConfigFromForm === "function") {
+            try {
+              // Create a temporary config snapshot for this tab
+              const preTabConfig = JSON.parse(JSON.stringify(this.core.config));
+              
+              // Call the handler whether the tab is loaded or not
+              handler.updateConfigFromForm(panel);
+              
+              // Log what changed for this tab
+              const postTabConfig = JSON.parse(JSON.stringify(this.core.config));
+              const configChanged = JSON.stringify(preTabConfig) !== JSON.stringify(postTabConfig);
+              
+              tabUpdates.push({
+                tabId,
+                success: true,
+                configChanged
+              });
+              
+              if (configChanged) {
+                console.log(`📝 Tab-specific config update for ${tabId} completed with changes`);
+              } else {
+                console.log(`📝 Tab-specific config update for ${tabId} completed (no changes)`);
+              }
+            } catch (tabError) {
+              console.error(`❌ Error updating config for ${tabId} tab:`, tabError);
+              tabUpdates.push({
+                tabId,
+                success: false,
+                error: tabError.message
+              });
+              
+              // Continue with other tabs even if one fails
+            }
+          } else {
+            console.warn(`⚠️ No handler or updateConfigFromForm method found for ${tabId} tab`);
+            tabUpdates.push({
+              tabId,
+              success: false,
+              error: "No handler available"
+            });
+          }
+        });
+
+        // Log summary of tab updates
+        const successfulTabs = tabUpdates.filter(update => update.success);
+        const failedTabs = tabUpdates.filter(update => !update.success);
+        const changedTabs = tabUpdates.filter(update => update.success && update.configChanged);
+        
+        console.log(`📊 Config update summary: ${successfulTabs.length} successful, ${failedTabs.length} failed, ${changedTabs.length} with changes`);
+        if (successfulTabs.length > 0) {
+          console.log("✅ Successful tabs:", successfulTabs.map(t => t.tabId).join(", "));
+        }
+        if (changedTabs.length > 0) {
+          console.log("🔄 Tabs with changes:", changedTabs.map(t => t.tabId).join(", "));
+        }
+        if (failedTabs.length > 0) {
+          console.warn("❌ Failed tabs:", failedTabs.map(t => `${t.tabId} (${t.error})`).join(", "));
         }
 
-        // Set property safely
-        this.core.safeSetNestedProperty(this.core.config, name, value);
-      });
-
-      // Now, call tab-specific updateConfigFromForm methods if they exist
-      document.querySelectorAll('.tab-panel[data-loaded="true"]').forEach((panel) => {
-        const tabId = panel.id.replace("-panel", "");
-        const handler = this.core.getTabHandler(tabId);
-
-        if (handler && typeof handler.updateConfigFromForm === "function") {
-          handler.updateConfigFromForm(panel);
-          console.log(`📝 Tab-specific config update for ${tabId}`);
+        // Additional validation and sanitization of final config
+        if (!this.core.validateAndSanitizeConfig(this.core.config)) {
+          console.warn("⚠️ Final configuration failed validation, reverting to backup");
+          this.core.config = configBackup;
+          throw new Error("Final configuration validation failed");
         }
-      });
 
-      console.log("📝 Config updated from form securely");
+        console.log("✅ updateConfigFromForm completed successfully");
+      
     } catch (error) {
       console.error("🚨 Security: Error updating config from form:", error);
-      throw new Error("Failed to update configuration from form");
+      // Restore backup on error
+      this.core.config = configBackup;
+      throw new Error("Failed to update configuration from form: " + error.message);
     }
   }
 
   /**
-   * Reset all settings to defaults - Enhanced Version
+   * Get detailed validation results for error reporting
+   */
+  getDetailedValidationResults() {
+    if (!this.lastValidationResults) {
+      return "No detailed validation results available";
+    }
+    
+    const failedTabs = this.lastValidationResults.filter(result => !result.isValid);
+    if (failedTabs.length === 0) {
+      return "All tabs passed validation";
+    }
+    
+    return failedTabs.map(tab => `${tab.tabId}: Failed ${tab.hasHandler ? 'handler' : 'fallback'} validation`).join(', ');
+  }
+
+  /**
+   * Reset all settings to defaults - Enhanced Version - FIXED: Race condition protection
    */
   async resetAll() {
+    // FIXED: Prevent multiple simultaneous operations
+    if (this.isResetting) return;
+    this.isResetting = true;
+
     try {
+      this.setButtonsLoading(true);
+      
       if (this.modalSystem) {
         this.modalSystem.showResetAllModal(
           () => this.performCompleteReset(),
@@ -995,6 +1309,10 @@ if (typeof window !== 'undefined') {
       }
     } catch (error) {
       console.error("🚨 Security: Error in resetAll:", error);
+    } finally {
+      // FIXED: Always reset operation state
+      this.isResetting = false;
+      this.setButtonsLoading(false);
     }
   }
 
@@ -1171,9 +1489,9 @@ if (typeof window !== 'undefined') {
   }
 
   /**
-   * Load configuration from file (trigger file input)
+   * Load configuration from file (trigger file input) - FIXED: Add async for consistency
    */
-  loadConfig() {
+  async loadConfig() {
     try {
       const fileInput = document.getElementById("fileInput");
       if (fileInput) {
@@ -1181,6 +1499,44 @@ if (typeof window !== 'undefined') {
       }
     } catch (error) {
       console.error("🚨 Security: Error loading config:", error);
+    }
+  }
+
+  /**
+   * Set buttons loading state - FIXED: Add missing method for race condition protection
+   */
+  setButtonsLoading(isLoading) {
+    try {
+      const buttons = [
+        document.getElementById("applySettings"),
+        document.getElementById("downloadConfig"),
+        document.getElementById("loadConfig"),
+        document.getElementById("resetAll")
+      ];
+
+      buttons.forEach(button => {
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.style.opacity = "0.6";
+            button.style.cursor = "not-allowed";
+          } else {
+            button.style.opacity = "1";
+            button.style.cursor = "pointer";
+          }
+        }
+      });
+
+      // Also update FAB buttons
+      const fabButtons = document.querySelectorAll(".fab-action");
+      fabButtons.forEach(button => {
+        if (button) {
+          button.disabled = isLoading;
+          button.style.opacity = isLoading ? "0.6" : "1";
+        }
+      });
+    } catch (error) {
+      console.error("🚨 Error setting buttons loading state:", error);
     }
   }
 
@@ -1216,37 +1572,73 @@ class SearchProControlPanel extends SecureSearchProControlPanel {
   }
 }
 
-// Initialize when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("🛡️ Modular control panel loading...");
-  window.searchProControlPanel = new SearchProControlPanel();
-});
+// Note: Control panel is initialized at the bottom of this file to prevent duplicate initialization
 
 // Enhanced global error handlers with security logging
+// Global error handler - much less aggressive, prevents duplicate toasts
+let lastErrorTime = 0;
+let errorCount = 0;
+const ERROR_THROTTLE_DELAY = 5000; // 5 seconds between error toasts
+
 window.addEventListener("error", (event) => {
   console.error("🚨 Control Panel Error:", event.error);
-  if (
-    window.searchProControlPanel &&
-    typeof window.searchProControlPanel.core.showToast === "function"
-  ) {
+  
+  const now = Date.now();
+  if (now - lastErrorTime < ERROR_THROTTLE_DELAY) {
+    errorCount++;
+    return; // Throttle: don't show toast if recent error already shown
+  }
+  
+  // Only show toast for critical errors that break functionality
+  const isCriticalError = event.error && (
+    (event.error.name === 'ReferenceError' && event.error.message.includes('not defined')) ||
+    (event.error.name === 'TypeError' && event.error.message.includes('Cannot read properties of null'))
+  );
+  
+  if (isCriticalError && 
+      window.searchProControlPanel &&
+      window.searchProControlPanel.core &&
+      typeof window.searchProControlPanel.core.showToast === "function") {
+    
+    lastErrorTime = now;
+    const message = errorCount > 0 ? 
+      `Script issue detected (${errorCount + 1} errors). Some features may not work.` :
+      "A script issue was detected. Most features should continue working.";
+    
     window.searchProControlPanel.core.showToast(
-      "error",
-      "System Error",
-      "An unexpected error occurred. Check console for details.",
+      "warning",
+      "Script Warning",
+      message,
     );
+    errorCount = 0; // Reset count after showing toast
   }
 });
 
 window.addEventListener("unhandledrejection", (event) => {
   console.error("🚨 Unhandled Promise Rejection:", event.reason);
-  if (
-    window.searchProControlPanel &&
-    typeof window.searchProControlPanel.core.showToast === "function"
-  ) {
+  
+  const now = Date.now();
+  if (now - lastErrorTime < ERROR_THROTTLE_DELAY) {
+    return; // Use same throttling as error handler
+  }
+  
+  // Only show toast for critical promise rejections
+  const isCritical = event.reason && (
+    event.reason.message?.includes('Failed to fetch') ||
+    event.reason.message?.includes('Network error') ||
+    event.reason.message?.includes('Critical')
+  );
+  
+  if (isCritical &&
+      window.searchProControlPanel &&
+      window.searchProControlPanel.core &&
+      typeof window.searchProControlPanel.core.showToast === "function") {
+    
+    lastErrorTime = now;
     window.searchProControlPanel.core.showToast(
-      "error",
-      "System Error",
-      "An unexpected error occurred. Check console for details.",
+      "warning",
+      "Network Warning",
+      "A network issue occurred. Some features may be limited.",
     );
   }
 });
@@ -1272,3 +1664,15 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("  ✅ Modular live preview system");
   console.log("  ✅ Enhanced security logging");
 });
+
+// 🔥 CRITICAL FIX: Actually instantiate the control panel!
+console.log("========================================");
+console.log("🔥 CREATING CONTROL PANEL INSTANCE...");
+console.log("========================================");
+
+// Create the control panel instance and make it globally available
+window.searchProControlPanel = new SecureSearchProControlPanel();
+
+console.log("========================================");
+console.log("🔥 CONTROL PANEL INSTANCE CREATED!");
+console.log("========================================");

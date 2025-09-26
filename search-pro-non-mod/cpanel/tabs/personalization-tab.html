@@ -1,0 +1,432 @@
+<div class="panel-header">
+  <div class="panel-title">
+    <i class="fas fa-user-cog panel-icon" aria-hidden="true"></i>
+    <h2>Personalization Settings</h2>
+  </div>
+  <p class="panel-description">
+    Customize your interface experience and user preferences
+  </p>
+</div>
+
+<div class="panel-content">
+  <!-- Theme & Appearance Section -->
+  <section class="config-section personalization-section" aria-labelledby="theme-appearance-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="theme-appearance-heading">
+          <i class="fas fa-palette section-icon" aria-hidden="true"></i>
+          Theme & Appearance
+        </h3>
+        <p class="section-description">
+          Customize visual appearance and color scheme
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="themeAppearance" aria-label="Reset Theme Settings to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="interfaceTheme">
+          Interface Theme
+          <span class="help-tooltip" data-tooltip="Choose between light and dark interface themes" role="button" tabindex="0" aria-label="Help: Interface Theme">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="select-wrapper">
+          <select id="interfaceTheme" name="personalization.theme.interface" class="form-select">
+            <option value="auto">Auto (System)</option>
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="accentColor">
+          Accent Color
+          <span class="help-tooltip" data-tooltip="Primary color for buttons and highlights" role="button" tabindex="0" aria-label="Help: Accent Color">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="color-input-wrapper">
+          <input type="color" id="accentColor" name="personalization.theme.accentColor" class="form-color-input" value="#007bff">
+          <input type="text" id="accentColorText" class="form-input color-text-input" value="#007bff" placeholder="#007bff">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fontSize">
+          Interface Font Size
+          <span class="help-tooltip" data-tooltip="Adjust text size for better readability" role="button" tabindex="0" aria-label="Help: Font Size">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="range-input-wrapper">
+          <input type="range" id="fontSize" name="personalization.theme.fontSize" class="form-range" min="12" max="18" value="14" step="1">
+          <span class="range-value">14px</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="enableAnimations" name="personalization.theme.enableAnimations" class="form-checkbox">
+          Enable Interface Animations
+          <span class="help-tooltip" data-tooltip="Smooth transitions and hover effects" role="button" tabindex="0" aria-label="Help: Interface Animations">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interface Behavior Section -->
+  <section class="config-section personalization-section" aria-labelledby="interface-behavior-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="interface-behavior-heading">
+          <i class="fas fa-mouse-pointer section-icon" aria-hidden="true"></i>
+          Interface Behavior
+        </h3>
+        <p class="section-description">
+          Control how the interface responds to user interactions
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="interfaceBehavior" aria-label="Reset Interface Behavior to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="autoSaveInterval">
+          Auto-Save Interval (seconds)
+          <span class="help-tooltip" data-tooltip="How often to automatically save settings" role="button" tabindex="0" aria-label="Help: Auto-Save Interval">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-with-unit">
+          <input type="number" id="autoSaveInterval" name="personalization.behavior.autoSaveInterval" class="form-input" min="5" max="300" value="30" step="5">
+          <span class="unit-label">seconds</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="tooltipDelay">
+          Tooltip Delay (milliseconds)
+          <span class="help-tooltip" data-tooltip="How long to wait before showing tooltips" role="button" tabindex="0" aria-label="Help: Tooltip Delay">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-with-unit">
+          <input type="number" id="tooltipDelay" name="personalization.behavior.tooltipDelay" class="form-input" min="0" max="2000" value="500" step="100">
+          <span class="unit-label">ms</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="confirmDangerousActions" name="personalization.behavior.confirmDangerousActions" class="form-checkbox" checked>
+          Confirm Dangerous Actions
+          <span class="help-tooltip" data-tooltip="Show confirmation dialogs for destructive actions" role="button" tabindex="0" aria-label="Help: Confirm Dangerous Actions">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="showAdvancedOptions" name="personalization.behavior.showAdvancedOptions" class="form-checkbox">
+          Show Advanced Options
+          <span class="help-tooltip" data-tooltip="Display advanced settings and debugging options" role="button" tabindex="0" aria-label="Help: Show Advanced Options">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sidebar Preferences Section -->
+  <section class="config-section personalization-section" aria-labelledby="sidebar-preferences-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="sidebar-preferences-heading">
+          <i class="fas fa-bars section-icon" aria-hidden="true"></i>
+          Sidebar Preferences
+        </h3>
+        <p class="section-description">
+          Customize sidebar behavior and appearance
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="sidebarPreferences" aria-label="Reset Sidebar Preferences to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label" for="sidebarWidth">
+          Sidebar Width (pixels)
+          <span class="help-tooltip" data-tooltip="Width of the sidebar in pixels" role="button" tabindex="0" aria-label="Help: Sidebar Width">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="range-input-wrapper">
+          <input type="range" id="sidebarWidth" name="personalization.sidebar.width" class="form-range" min="200" max="400" value="280" step="20">
+          <span class="range-value">280px</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="sidebarPosition">
+          Sidebar Position
+          <span class="help-tooltip" data-tooltip="Choose sidebar position on screen" role="button" tabindex="0" aria-label="Help: Sidebar Position">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="select-wrapper">
+          <select id="sidebarPosition" name="personalization.sidebar.position" class="form-select">
+            <option value="left">Left Side</option>
+            <option value="right">Right Side</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="sidebarAutoCollapse" name="personalization.sidebar.autoCollapse" class="form-checkbox">
+          Auto-Collapse on Mobile
+          <span class="help-tooltip" data-tooltip="Automatically collapse sidebar on mobile devices" role="button" tabindex="0" aria-label="Help: Auto-Collapse on Mobile">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="showTabIcons" name="personalization.sidebar.showTabIcons" class="form-checkbox" checked>
+          Show Tab Icons
+          <span class="help-tooltip" data-tooltip="Display icons next to tab names in sidebar" role="button" tabindex="0" aria-label="Help: Show Tab Icons">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keyboard Shortcuts Section -->
+  <section class="config-section personalization-section" aria-labelledby="keyboard-shortcuts-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="keyboard-shortcuts-heading">
+          <i class="fas fa-keyboard section-icon" aria-hidden="true"></i>
+          Keyboard Shortcuts
+        </h3>
+        <p class="section-description">
+          Configure keyboard shortcuts for common actions
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="keyboardShortcuts" aria-label="Reset Keyboard Shortcuts to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="shortcuts-grid">
+      <div class="shortcut-item">
+        <label class="shortcut-label">Save Settings</label>
+        <div class="shortcut-input">
+          <input type="text" id="shortcutSave" name="personalization.shortcuts.save" class="form-input shortcut-field" value="Ctrl+S" readonly>
+          <button class="shortcut-record-btn" data-shortcut="save">
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="shortcut-item">
+        <label class="shortcut-label">Toggle Sidebar</label>
+        <div class="shortcut-input">
+          <input type="text" id="shortcutToggleSidebar" name="personalization.shortcuts.toggleSidebar" class="form-input shortcut-field" value="Ctrl+B" readonly>
+          <button class="shortcut-record-btn" data-shortcut="toggleSidebar">
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="shortcut-item">
+        <label class="shortcut-label">Export Configuration</label>
+        <div class="shortcut-input">
+          <input type="text" id="shortcutExport" name="personalization.shortcuts.export" class="form-input shortcut-field" value="Ctrl+E" readonly>
+          <button class="shortcut-record-btn" data-shortcut="export">
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="shortcut-item">
+        <label class="shortcut-label">Reset All Settings</label>
+        <div class="shortcut-input">
+          <input type="text" id="shortcutReset" name="personalization.shortcuts.reset" class="form-input shortcut-field" value="Ctrl+Alt+R" readonly>
+          <button class="shortcut-record-btn" data-shortcut="reset">
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">
+        <input type="checkbox" id="enableKeyboardShortcuts" name="personalization.shortcuts.enabled" class="form-checkbox" checked>
+        Enable Keyboard Shortcuts
+        <span class="help-tooltip" data-tooltip="Enable or disable all keyboard shortcuts" role="button" tabindex="0" aria-label="Help: Enable Keyboard Shortcuts">
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+        </span>
+      </label>
+    </div>
+  </section>
+
+  <!-- Notification Preferences Section -->
+  <section class="config-section personalization-section" aria-labelledby="notification-preferences-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="notification-preferences-heading">
+          <i class="fas fa-bell section-icon" aria-hidden="true"></i>
+          Notification Preferences
+        </h3>
+        <p class="section-description">
+          Control how and when you receive notifications
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="notificationPreferences" aria-label="Reset Notification Preferences to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="showSuccessNotifications" name="personalization.notifications.showSuccess" class="form-checkbox" checked>
+          Show Success Notifications
+          <span class="help-tooltip" data-tooltip="Display notifications for successful operations" role="button" tabindex="0" aria-label="Help: Success Notifications">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="showErrorNotifications" name="personalization.notifications.showErrors" class="form-checkbox" checked>
+          Show Error Notifications
+          <span class="help-tooltip" data-tooltip="Display notifications for errors and warnings" role="button" tabindex="0" aria-label="Help: Error Notifications">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="notificationDuration">
+          Notification Duration (seconds)
+          <span class="help-tooltip" data-tooltip="How long notifications stay visible" role="button" tabindex="0" aria-label="Help: Notification Duration">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="range-input-wrapper">
+          <input type="range" id="notificationDuration" name="personalization.notifications.duration" class="form-range" min="2" max="10" value="5" step="1">
+          <span class="range-value">5s</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="notificationPosition">
+          Notification Position
+          <span class="help-tooltip" data-tooltip="Where notifications appear on screen" role="button" tabindex="0" aria-label="Help: Notification Position">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="select-wrapper">
+          <select id="notificationPosition" name="personalization.notifications.position" class="form-select">
+            <option value="top-right">Top Right</option>
+            <option value="top-left">Top Left</option>
+            <option value="bottom-right">Bottom Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="top-center">Top Center</option>
+            <option value="bottom-center">Bottom Center</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data & Privacy Section -->
+  <section class="config-section personalization-section" aria-labelledby="data-privacy-heading">
+    <div class="section-header">
+      <div>
+        <h3 class="section-title" id="data-privacy-heading">
+          <i class="fas fa-shield-alt section-icon" aria-hidden="true"></i>
+          Data & Privacy
+        </h3>
+        <p class="section-description">
+          Manage your data storage and privacy preferences
+        </p>
+      </div>
+      <button class="reset-section-button" data-section="dataPrivacy" aria-label="Reset Data & Privacy to Defaults">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset to Defaults
+      </button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="rememberSettings" name="personalization.privacy.rememberSettings" class="form-checkbox" checked>
+          Remember My Settings
+          <span class="help-tooltip" data-tooltip="Store settings in browser local storage" role="button" tabindex="0" aria-label="Help: Remember Settings">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <input type="checkbox" id="enableAnalytics" name="personalization.privacy.enableAnalytics" class="form-checkbox">
+          Enable Usage Analytics
+          <span class="help-tooltip" data-tooltip="Help improve the software by sharing anonymous usage data" role="button" tabindex="0" aria-label="Help: Usage Analytics">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="dataRetentionPeriod">
+          Data Retention Period
+          <span class="help-tooltip" data-tooltip="How long to keep stored data" role="button" tabindex="0" aria-label="Help: Data Retention">
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="select-wrapper">
+          <select id="dataRetentionPeriod" name="personalization.privacy.dataRetentionPeriod" class="form-select">
+            <option value="30">30 Days</option>
+            <option value="90">90 Days</option>
+            <option value="365" selected>1 Year</option>
+            <option value="forever">Forever</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn-danger clear-data-btn" id="clearAllData">
+          <i class="fas fa-trash-alt"></i>
+          Clear All Stored Data
+        </button>
+        <div class="field-note danger-note">
+          Warning: This will permanently delete all your saved settings and cannot be undone
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

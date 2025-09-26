@@ -7,7 +7,7 @@ class TabLoader {
   constructor() {
     this.tabContentCache = {};
     this.loadingIndicator = `
-            <div class="panel-loading">
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content" data-loaded="false">
                 <div class="loading-spinner"></div>
                 <p>Loading settings...</p>
             </div>
@@ -108,18 +108,18 @@ class TabLoader {
       const currentHeight = tabPanel.offsetHeight;
       if (currentHeight > 100) {
         const loadingDiv = document.createElement("div");
-        loadingDiv.innerHTML = this.loadingIndicator;
         loadingDiv.style.minHeight = `${currentHeight}px`;
-        tabPanel.innerHTML = "";
+        this.safeSetContent(loadingDiv, this.loadingIndicator);
+        tabPanel.textContent = "";
         tabPanel.appendChild(loadingDiv);
       } else {
-        tabPanel.innerHTML = this.loadingIndicator;
+        this.safeSetContent(tabPanel, this.loadingIndicator);
       }
 
       // Check if content is in cache
       if (this.tabContentCache[tabId]) {
         console.log(`Loading ${tabId} tab content from cache`);
-        tabPanel.innerHTML = this.tabContentCache[tabId];
+        this.safeSetContent(tabPanel, this.tabContentCache[tabId]);
         tabPanel.dataset.loaded = "true";
         this.initializeTabContent(tabId, tabPanel);
         return;
@@ -141,8 +141,8 @@ class TabLoader {
           // Sanitize content for security
           const sanitizedHtml = this.sanitizeContent(html);
 
-          // Update tab panel
-          tabPanel.innerHTML = sanitizedHtml;
+          // Update tab panel safely
+          this.safeSetContent(tabPanel, sanitizedHtml);
           tabPanel.dataset.loaded = "true";
 
           // Cache content
@@ -155,7 +155,7 @@ class TabLoader {
         })
         .catch((error) => {
           console.error(`❌ Error loading ${tabId} tab content:`, error);
-          tabPanel.innerHTML = this.errorTemplate;
+          this.safeSetContent(tabPanel, this.errorTemplate);
 
           // Add retry button functionality
           const retryButton = tabPanel.querySelector(".btn-retry");
@@ -168,7 +168,35 @@ class TabLoader {
         });
     } catch (error) {
       console.error("Error loading tab content:", error);
-      tabPanel.innerHTML = this.errorTemplate;
+      this.safeSetContent(tabPanel, this.errorTemplate);
+    }
+  }
+
+  /**
+   * Safely set content using DOM creation methods - FIXED XSS ISSUE
+   * @param {Element} element - Target element
+   * @param {string} content - HTML content to set
+   */
+  safeSetContent(element, content) {
+    try {
+      // SECURITY FIX: Use DOMParser instead of innerHTML to prevent XSS
+      const parser = new DOMParser();
+      const sanitizedContent = this.sanitizeContent(content);
+      const doc = parser.parseFromString(sanitizedContent, 'text/html');
+      
+      // Clear existing content
+      element.textContent = '';
+      
+      // Safely append parsed nodes
+      while (doc.body.firstChild) {
+        element.appendChild(doc.body.firstChild);
+      }
+      
+      console.log('✅ Content set safely using DOM methods');
+    } catch (error) {
+      console.error('Error setting content:', error);
+      // Fallback to text content only
+      element.textContent = 'Error loading content. Please refresh the page.';
     }
   }
 

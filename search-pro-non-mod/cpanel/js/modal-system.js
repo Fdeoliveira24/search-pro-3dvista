@@ -1016,39 +1016,12 @@ class SecureModalSystem {
   }
 
   /**
-   * Show success modal - Uses toast notifications
+   * Show success modal - Now disabled to prevent duplicate toasts
    */
   showSuccessModal(action, details) {
-    console.log("🎯 Showing success modal for action:", action);
-
-    if (window.toastManager) {
-      const messages = {
-        apply: {
-          title: "Settings Applied Successfully",
-          message:
-            "Configuration updated and ready to use. Refresh your tour to see the changes.",
-        },
-        download: {
-          title: "Configuration Downloaded",
-          message:
-            "File saved successfully. Upload it to your server to apply the changes.",
-        },
-        load: {
-          title: "Configuration Loaded",
-          message:
-            "Settings imported and applied successfully. The form has been updated.",
-        },
-        reset: {
-          title: "Settings Reset Complete",
-          message: "All settings have been restored to their default values.",
-        },
-      };
-
-      const config = messages[action] || messages.apply;
-      window.toastManager.showToast("success", config.title, config.message);
-    } else {
-      console.log(`✅ Success: ${action} completed successfully`);
-    }
+    console.log("🎯 Success modal requested for action (disabled to prevent duplicates):", action);
+    // Note: Success messages are now handled by individual components to avoid duplicates
+    // This method is kept for backward compatibility but does not show duplicate toasts
   }
 }
 

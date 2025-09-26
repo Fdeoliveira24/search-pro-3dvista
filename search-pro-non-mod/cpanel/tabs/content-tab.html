@@ -410,4 +410,388 @@
       </div>
     </div>
   </section>
+
+  <!-- Display Labels Configuration Section -->
+  <section class="config-section" aria-labelledby="display-labels-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="display-labels-heading">
+        <i class="fas fa-tags section-icon" aria-hidden="true"></i>
+        Display Labels Configuration
+      </h3>
+      <p class="section-description">
+        Configure which field to use as the primary label for each element type
+      </p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="displayLabelPanoramas">
+          Panoramas Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for panorama results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Panorama label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelPanoramas"
+          name="displayLabels.panoramas"
+          class="form-select"
+          aria-describedby="displayLabelPanoramas-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelPanoramas-desc" class="sr-only">
+          Select field to use as primary label for panoramas
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelHotspots">
+          Hotspots Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for hotspot results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hotspot label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelHotspots"
+          name="displayLabels.hotspots"
+          class="form-select"
+          aria-describedby="displayLabelHotspots-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelHotspots-desc" class="sr-only">
+          Select field to use as primary label for hotspots
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelPolygons">
+          Polygons Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for polygon results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Polygon label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelPolygons"
+          name="displayLabels.polygons"
+          class="form-select"
+          aria-describedby="displayLabelPolygons-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelPolygons-desc" class="sr-only">
+          Select field to use as primary label for polygons
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelVideos">
+          Videos Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for video results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Video label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelVideos"
+          name="displayLabels.videos"
+          class="form-select"
+          aria-describedby="displayLabelVideos-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelVideos-desc" class="sr-only">
+          Select field to use as primary label for videos
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelImages">
+          Images Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for image results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Image label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelImages"
+          name="displayLabels.images"
+          class="form-select"
+          aria-describedby="displayLabelImages-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelImages-desc" class="sr-only">
+          Select field to use as primary label for images
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelText">
+          Text Elements Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for text element results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Text element label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelText"
+          name="displayLabels.text"
+          class="form-select"
+          aria-describedby="displayLabelText-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelText-desc" class="sr-only">
+          Select field to use as primary label for text elements
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use As Label Configuration Section -->
+  <section class="config-section" aria-labelledby="use-as-label-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="use-as-label-heading">
+        <i class="fas fa-exchange-alt section-icon" aria-hidden="true"></i>
+        Use As Label Configuration
+      </h3>
+      <p class="section-description">
+        Configure alternative field mappings when primary labels are empty
+      </p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelPanoramas">
+          Panoramas Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Panorama fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelPanoramas"
+          name="useAsLabel.panoramas"
+          class="form-select"
+          aria-describedby="useAsLabelPanoramas-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelPanoramas-desc" class="sr-only">
+          Select alternative field for panoramas when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelHotspots">
+          Hotspots Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hotspot fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelHotspots"
+          name="useAsLabel.hotspots"
+          class="form-select"
+          aria-describedby="useAsLabelHotspots-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelHotspots-desc" class="sr-only">
+          Select alternative field for hotspots when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelPolygons">
+          Polygons Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Polygon fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelPolygons"
+          name="useAsLabel.polygons"
+          class="form-select"
+          aria-describedby="useAsLabelPolygons-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelPolygons-desc" class="sr-only">
+          Select alternative field for polygons when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelVideos">
+          Videos Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Video fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelVideos"
+          name="useAsLabel.videos"
+          class="form-select"
+          aria-describedby="useAsLabelVideos-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelVideos-desc" class="sr-only">
+          Select alternative field for videos when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelImages">
+          Images Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Image fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelImages"
+          name="useAsLabel.images"
+          class="form-select"
+          aria-describedby="useAsLabelImages-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelImages-desc" class="sr-only">
+          Select alternative field for images when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelText">
+          Text Elements Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Text element fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelText"
+          name="useAsLabel.text"
+          class="form-select"
+          aria-describedby="useAsLabelText-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelText-desc" class="sr-only">
+          Select alternative field for text elements when label is empty
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

@@ -1,6 +1,6 @@
 /* 
- * Search Stylesheet - Version 1.0.7
- * Last Updated: 06/26/2025 (Non-Modular - Cleaned)
+ * Search Stylesheet - Version 1.0.8
+ * Last Updated: 08/23/2025 (Non-Modular - Cleaned)
  * This stylesheet defines the layout, styling, and responsiveness for the search bar, 
  * its associated components, and the search results. It includes configurations for 
  * positioning, visibility, animations, and theme adjustments to ensure a seamless 
@@ -221,8 +221,7 @@
 
   /* Complete transitions */
   --transition-base: all var(--duration-normal) var(--easing-standard);
-  --transition-transform: transform var(--duration-normal)
-    var(--easing-standard);
+  --transition-transform: transform var(--duration-normal) var(--easing-standard);
   --transition-opacity: opacity var(--duration-normal) var(--easing-standard);
   --transition-colors:
     background-color var(--duration-normal) var(--easing-standard),
@@ -363,13 +362,8 @@
   position: relative;
   width: 100%;
   background: var(--search-background);
-  border-radius: var(
-      --search-field-radius-top-left,
-      var(--search-field-radius-default)
-    )
-    var(--search-field-radius-top-right, var(--search-field-radius-default))
-    var(--search-field-radius-bottom-right, var(--search-field-radius-default))
-    var(--search-field-radius-bottom-left, var(--search-field-radius-default));
+  border-radius: var(--search-field-radius-top-left,
+      var(--search-field-radius-default)) var(--search-field-radius-top-right, var(--search-field-radius-default)) var(--search-field-radius-bottom-right, var(--search-field-radius-default)) var(--search-field-radius-bottom-left, var(--search-field-radius-default));
 }
 
 /* Base search input styles that always apply */
@@ -378,10 +372,7 @@
   height: 48px;
   padding: 0 48px 0 16px;
   border: none;
-  border-radius: var(--search-field-radius-top-left, 25px)
-    var(--search-field-radius-top-right, 25px)
-    var(--search-field-radius-bottom-right, 25px)
-    var(--search-field-radius-bottom-left, 25px);
+  border-radius: var(--search-field-radius-top-left, 25px) var(--search-field-radius-top-right, 25px) var(--search-field-radius-bottom-right, 25px) var(--search-field-radius-bottom-left, 25px);
   background: transparent;
   font-size: var(--font-size-base);
   color: var(--search-text);
@@ -541,10 +532,7 @@
   margin-top: 8px;
   background: var(--results-background, #fff);
   color: var(--result-text, #1a1a1a);
-  border-radius: var(--search-results-radius-top-left, 5px)
-    var(--search-results-radius-top-right, 5px)
-    var(--search-results-radius-bottom-right, 5px)
-    var(--search-results-radius-bottom-left, 5px);
+  border-radius: var(--search-results-radius-top-left, 5px) var(--search-results-radius-top-right, 5px) var(--search-results-radius-bottom-right, 5px) var(--search-results-radius-bottom-left, 5px);
   opacity: 0;
   transform: translateY(-4px);
   transition:
@@ -918,8 +906,7 @@
   background-color: #f3f4f6;
   flex-shrink: 0;
   margin-right: 10px;
-  border: var(--thumbnail-border-width, 2px) solid
-    var(--thumbnail-border-color, #e5e7eb);
+  border: var(--thumbnail-border-width, 2px) solid var(--thumbnail-border-color, #e5e7eb);
   position: relative;
 }
 
@@ -1316,13 +1303,11 @@ body.hide-result-icons .search-result-icon {
   display: none;
 }
 
-.search-results[data-include-3d-models="false"]
-  .result-item[data-type="3DModel"] {
+.search-results[data-include-3d-models="false"] .result-item[data-type="3DModel"] {
   display: none !important;
 }
 
-.search-results[data-include-3d-hotspots="false"]
-  .result-item[data-type="3DHotspot"] {
+.search-results[data-include-3d-hotspots="false"] .result-item[data-type="3DHotspot"] {
   display: none !important;
 }
 
@@ -1330,57 +1315,39 @@ body.hide-result-icons .search-result-icon {
    Icon Visibility Controls
    =================================== */
 
-.search-results[data-show-panorama-icons="false"]
-  .result-item[data-type="Panorama"]
-  .result-icon {
+.search-results[data-show-panorama-icons="false"] .result-item[data-type="Panorama"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-hotspot-icons="false"]
-  .result-item[data-type="Hotspot"]
-  .result-icon {
+.search-results[data-show-hotspot-icons="false"] .result-item[data-type="Hotspot"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-polygon-icons="false"]
-  .result-item[data-type="Polygon"]
-  .result-icon {
+.search-results[data-show-polygon-icons="false"] .result-item[data-type="Polygon"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-video-icons="false"]
-  .result-item[data-type="Video"]
-  .result-icon {
+.search-results[data-show-video-icons="false"] .result-item[data-type="Video"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-webframe-icons="false"]
-  .result-item[data-type="Webframe"]
-  .result-icon {
+.search-results[data-show-webframe-icons="false"] .result-item[data-type="Webframe"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-image-icons="false"]
-  .result-item[data-type="Image"]
-  .result-icon {
+.search-results[data-show-image-icons="false"] .result-item[data-type="Image"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-text-icons="false"]
-  .result-item[data-type="Text"]
-  .result-icon {
+.search-results[data-show-text-icons="false"] .result-item[data-type="Text"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-element-icons="false"]
-  .result-item[data-type="Element"]
-  .result-icon {
+.search-results[data-show-element-icons="false"] .result-item[data-type="Element"] .result-icon {
   display: none;
 }
 
-.search-results[data-show-business-icons="false"]
-  .result-item[data-type="Business"]
-  .result-icon {
+.search-results[data-show-business-icons="false"] .result-item[data-type="Business"] .result-icon {
   display: none;
 }
 
@@ -1421,10 +1388,8 @@ button:focus,
 .sp-anim-on #searchContainer {
   transition-property: opacity, transform, visibility;
   transition-timing-function: var(--animation-easing);
-  transition-duration: var(
-    --current-duration,
-    var(--animation-normal-duration)
-  );
+  transition-duration: var(--current-duration,
+      var(--animation-normal-duration));
 }
 
 .sp-anim-on #searchContainer.opening {
@@ -1470,13 +1435,11 @@ button:focus,
 }
 
 .search-results.fade-in {
-  animation: resultsSlideIn var(--animation-results-duration, 200ms) ease-out
-    forwards;
+  animation: resultsSlideIn var(--animation-results-duration, 200ms) ease-out forwards;
 }
 
 .search-results.fade-out {
-  animation: resultsSlideOut var(--animation-results-duration, 200ms) ease-in
-    forwards;
+  animation: resultsSlideOut var(--animation-results-duration, 200ms) ease-in forwards;
 }
 
 @keyframes resultsSlideIn {
@@ -1484,6 +1447,7 @@ button:focus,
     opacity: 0;
     transform: translateY(var(--animation-slide-distance, 10px));
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1495,6 +1459,7 @@ button:focus,
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(calc(-1 * var(--animation-slide-distance, 10px)));
@@ -1514,6 +1479,7 @@ button:focus,
     opacity: 0;
     transform: translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1521,6 +1487,7 @@ button:focus,
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   #searchContainer,
   .search-results,
   .sp-anim-on .result-item {
@@ -1558,15 +1525,13 @@ button:focus,
   gap: 12px;
   transform: translateX(120%);
   opacity: 0;
-  animation: notificationSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)
-    forwards;
+  animation: notificationSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
   backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .config-notification.fadeout {
-  animation: notificationFadeOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045)
-    forwards;
+  animation: notificationFadeOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
 }
 
 .config-notification-checkmark {
@@ -1585,6 +1550,7 @@ button:focus,
     transform: translateX(120%);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -1596,6 +1562,7 @@ button:focus,
     transform: translateX(0);
     opacity: 1;
   }
+
   100% {
     transform: translateX(120%);
     opacity: 0;
@@ -1715,16 +1682,19 @@ button:focus,
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 @keyframes iconPulse {
+
   0%,
   100% {
     opacity: var(--icon-opacity);
   }
+
   50% {
     opacity: calc(var(--icon-opacity) * 0.5);
   }

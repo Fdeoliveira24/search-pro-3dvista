@@ -2,7 +2,6 @@ class DisplayTabHandler {
   constructor() {
     this.core = null;
     this.tabId = "display";
-    this._resolvingSubtitleConflict = false;
   }
 
   /**
@@ -27,6 +26,11 @@ class DisplayTabHandler {
       this.setupThumbnailHandlers(container);
       this.setupIconConfigurationHandlers(container);
       this.setupColorPickerHandlers(container);
+      
+      // Setup validation for border radius and width
+      this.setupBorderValidation(container);
+      
+      // Icon picker initialization is already handled in setupIconConfigurationHandlers
 
       // Setup reset button handlers for all sections
       this.setupResetButtonHandlers(container);
@@ -301,6 +305,11 @@ setupResetButtonHandlers(container) {
           if (typeof this.applyColorLivePreview === "function") {
             this.applyColorLivePreview(e.target.id, e.target.value);
           }
+          
+          // Sync Icon Color with Result Icon Color in Appearance tab
+          if (e.target.id === "iconColor") {
+            this.syncIconColors(e.target.value);
+          }
         });
 
         // Update color picker when HEX input changes
@@ -311,6 +320,11 @@ setupResetButtonHandlers(container) {
             this.core.onFormChange(input);
             if (typeof this.applyColorLivePreview === "function") {
               this.applyColorLivePreview(input.id, input.value);
+            }
+            
+            // Sync Icon Color with Result Icon Color in Appearance tab
+            if (input.id === "iconColor") {
+              this.syncIconColors(e.target.value);
             }
           } else {
             hexInput.classList.add("error");
@@ -361,15 +375,8 @@ setupResetButtonHandlers(container) {
       // Setup tooltip interactions
       this.setupTooltipHandlers(displayBehaviorSection);
 
-      // Add reset button handler for Display Behavior section
-      const resetButton = container.querySelector(
-        '[data-section="displayBehavior"]',
-      );
-      if (resetButton) {
-        resetButton.addEventListener("click", () => {
-          this.resetDisplayBehaviorToDefaults();
-        });
-      }
+      // Reset button handler is already set up in setupResetButtonHandlers()
+      // No need to add duplicate event listeners here
 
       console.log(
         `👁️ Display behavior handlers set up for ${toggleSwitches.length} toggles`,
@@ -422,6 +429,14 @@ setupResetButtonHandlers(container) {
         });
       }
 
+      // Size preset dropdown handler
+      const sizePresetDropdown = thumbnailSection.querySelector("#thumbnailSizePreset");
+      if (sizePresetDropdown) {
+        sizePresetDropdown.addEventListener("change", (e) => {
+          this.handleThumbnailSizeChange(e.target);
+        });
+      }
+
       // Range input handlers with live value updates
       const rangeInputs = thumbnailSection.querySelectorAll(".range-input");
       rangeInputs.forEach((range) => {
@@ -468,6 +483,7 @@ setupResetButtonHandlers(container) {
       if (iconSizeDropdown) {
         iconSizeDropdown.addEventListener("change", (e) => {
           this.handleIconSizeChange(e.target);
+          this.validateIconSize(e.target);
         });
       }
 
@@ -580,14 +596,13 @@ setupResetButtonHandlers(container) {
   handleIconSizeChange(select) {
     try {
       const value = select.value;
-      const customSizeInput = document.querySelector("#iconSizePx");
-      if (customSizeInput) {
-        customSizeInput.disabled = value !== "custom";
-        if (value === "custom") {
-          customSizeInput.focus();
-        }
-      }
+      
+      // Update configuration with new pixel-based size
+      this.core.setNestedValue(this.core.config, 'thumbnailSettings.iconSettings.iconSize', value);
+      
+      // Trigger form change to apply settings
       this.core.onFormChange(select);
+      
       console.log(`🎨 Icon size changed to: ${value}`);
     } catch (error) {
       console.error("🚨 Error handling icon size change:", error);
@@ -908,19 +923,8 @@ setupResetButtonHandlers(container) {
         }
       }
 
-      // If still no icons, try to load from all.js directly
-      // This would require adding a script tag to all.js in the head
-      if (typeof document !== "undefined") {
-        const script = document.createElement("script");
-        script.src = "./js/all.js";
-        script.async = true;
-        script.onload = () => {
-          console.log("Font Awesome all.js loaded successfully");
-          // Refresh the icon grids after loading
-          this.initializeIconPickerGrids(document);
-        };
-        document.head.appendChild(script);
-      }
+      // FontAwesome icons not available - using CSS classes only
+      console.warn("⚠️ Font Awesome icons not available - using CSS classes only");
 
       // Return the fallback list if everything else fails
       return this.getFallbackFontAwesomeIcons();
@@ -936,24 +940,52 @@ setupResetButtonHandlers(container) {
   showCustomImageInput(element, gridContainer) {
     try {
       gridContainer.className = "icon-picker-grid custom-input";
-      gridContainer.innerHTML = `
-        <div class="custom-image-input-container">
-          <label for="customImage${element}">Enter Custom Image URL:</label>
-          <input type="text" id="customImage${element}" class="custom-image-url" 
-                 placeholder="https://example.com/image.png"
-                 aria-label="Custom image URL for ${element}">
-          
-          <div class="custom-image-preview" id="preview${element}">
-            Image preview will appear here
-          </div>
-          
-          <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-            <button type="button" class="btn btn-primary" id="applyBtn${element}" disabled>
-              Apply Image
-            </button>
-          </div>
-        </div>
-      `;
+      // Clear container safely
+      gridContainer.textContent = '';
+      
+      // Create custom image input container
+      const container = document.createElement('div');
+      container.className = 'custom-image-input-container';
+      
+      // Create label
+      const label = document.createElement('label');
+      label.setAttribute('for', `customImage${element}`);
+      label.textContent = 'Enter Custom Image URL:';
+      
+      // Create input
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = `customImage${element}`;
+      input.className = 'custom-image-url';
+      input.placeholder = 'https://example.com/image.png';
+      input.setAttribute('aria-label', `Custom image URL for ${element}`);
+      
+      // Create preview container
+      const previewDiv = document.createElement('div');
+      previewDiv.className = 'custom-image-preview';
+      previewDiv.id = `preview${element}`;
+      previewDiv.textContent = 'Image preview will appear here';
+      
+      // Create button container
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.cssText = 'display: flex; gap: 10px; justify-content: center; margin-top: 15px;';
+      
+      // Create apply button
+      const applyButton = document.createElement('button');
+      applyButton.type = 'button';
+      applyButton.className = 'btn btn-primary';
+      applyButton.id = `applyBtn${element}`;
+      applyButton.disabled = true;
+      applyButton.textContent = 'Apply Image';
+      
+      // Assemble elements
+      buttonContainer.appendChild(applyButton);
+      container.appendChild(label);
+      container.appendChild(input);
+      container.appendChild(previewDiv);
+      container.appendChild(buttonContainer);
+      
+      gridContainer.appendChild(container);
 
       // Setup preview button
       const urlInput = document.getElementById(`customImage${element}`);
@@ -971,24 +1003,22 @@ setupResetButtonHandlers(container) {
               url.match(/^https?:\/\/.+\.(png|jpg|jpeg|gif|svg|webp)$/i)
             ) {
               // Test image loading
-              previewContainer.innerHTML = "Loading...";
+              previewContainer.textContent = "Loading...";
               const img = new Image();
               img.onload = () => {
-                previewContainer.innerHTML = "";
+                previewContainer.textContent = "";
                 previewContainer.appendChild(img);
                 applyBtn.disabled = false;
               };
               img.onerror = () => {
-                previewContainer.innerHTML =
-                  "Error loading image. Please check the URL.";
+                previewContainer.textContent = "Error loading image. Please check the URL.";
                 applyBtn.disabled = true;
               };
               img.src = url;
               img.style.maxWidth = "100%";
               img.style.maxHeight = "100px";
             } else {
-              previewContainer.innerHTML =
-                "Enter valid image URL (must end with .png, .jpg, .gif, .svg, etc)";
+              previewContainer.textContent = "Enter valid image URL (must end with .png, .jpg, .gif, .svg, etc)";
               applyBtn.disabled = true;
             }
           }, 500);
@@ -1010,14 +1040,29 @@ setupResetButtonHandlers(container) {
 
       // Fallback if there's an error
       if (gridContainer) {
-        gridContainer.innerHTML = `
-          <div style="padding: 20px; text-align: center; color: #666;">
-            <p>Error loading custom image input</p>
-            <button class="btn btn-secondary" onclick="this.closest('.icon-picker-element').querySelector('.icon-picker-type').value='fontawesome'; this.closest('.icon-picker-element').querySelector('.icon-picker-type').dispatchEvent(new Event('change'));">
-              Switch back to Font Awesome
-            </button>
-          </div>
-        `;
+        gridContainer.textContent = '';
+        
+        const fallbackDiv = document.createElement('div');
+        fallbackDiv.style.cssText = 'padding: 20px; text-align: center; color: #666;';
+        
+        const errorMsg = document.createElement('p');
+        errorMsg.textContent = 'Error loading custom image input';
+        
+        const switchBtn = document.createElement('button');
+        switchBtn.className = 'btn btn-secondary';
+        switchBtn.textContent = 'Switch back to Font Awesome';
+        switchBtn.addEventListener('click', function() {
+          const pickerElement = this.closest('.icon-picker-element');
+          const typeSelector = pickerElement?.querySelector('.icon-picker-type');
+          if (typeSelector) {
+            typeSelector.value = 'fontawesome';
+            typeSelector.dispatchEvent(new Event('change'));
+          }
+        });
+        
+        fallbackDiv.appendChild(errorMsg);
+        fallbackDiv.appendChild(switchBtn);
+        gridContainer.appendChild(fallbackDiv);
       }
     }
   }
@@ -1031,7 +1076,7 @@ setupResetButtonHandlers(container) {
       if (!gridContainer) return;
 
       // Clear existing icons
-      gridContainer.innerHTML = "";
+      gridContainer.textContent = "";
       gridContainer.className = "icon-picker-grid loading";
 
       setTimeout(() => {
@@ -1178,20 +1223,21 @@ setupResetButtonHandlers(container) {
             "fas fa-shopping-bag",
             "fas fa-shopping-basket",
             "fas fa-store",
-            "fas fa-store-alt",
             "fas fa-box",
             "fas fa-boxes",
             "fas fa-archive",
-            "fas fa-inventory",
+            "fas fa-warehouse",
             "fas fa-tshirt",
             "fas fa-shoe-prints",
-            "fas fa-socks",
-            "fas fa-hat-cowboy",
-            "fas fa-hat-wizard",
+            "fas fa-user-tie",
+            "fas fa-mask",
             "fas fa-glasses",
             "fas fa-sunglasses",
             "fas fa-briefcase",
-            "fas fa-backpack",
+            "fas fa-suitcase",
+            "fas fa-umbrella",
+            "fas fa-hat-wizard",
+            "fas fa-crown",
             "fas fa-graduation-cap",
             "fas fa-book",
             "fas fa-book-open",
@@ -1237,7 +1283,7 @@ setupResetButtonHandlers(container) {
             "fas fa-recycle",
             "fas fa-fire",
             "fas fa-fire-alt",
-            "fas fa-burn",
+            "fas fa-fire-flame-curved",
             "fas fa-temperature-high",
             "fas fa-temperature-low",
             "fas fa-thermometer",
@@ -1247,7 +1293,7 @@ setupResetButtonHandlers(container) {
             "fas fa-tint",
             "fas fa-tint-slash",
             "fas fa-water",
-            "fas fa-hand-water",
+            "fas fa-hand-holding",
             "fas fa-hands-wash",
             "fas fa-shower",
             "fas fa-bath",
@@ -1273,14 +1319,15 @@ setupResetButtonHandlers(container) {
             "fas fa-viruses",
             "fas fa-bacteria",
             "fas fa-disease",
-            "fas fa-pill",
+            "fas fa-pills",
             "fas fa-prescription",
             "fas fa-cannabis",
             "fas fa-smoking",
             "fas fa-smoking-ban",
-            "fas fa-joint",
-            "fas fa-bong",
-            "fas fa-pipe",
+            "fas fa-leaf",
+            "fas fa-prescription-bottle",
+            "fas fa-capsules",
+            "fas fa-tablets",
             "fas fa-beer",
             "fas fa-cocktail",
             "fas fa-wine-glass",
@@ -1372,8 +1419,11 @@ setupResetButtonHandlers(container) {
 
         if (icons.length === 0) {
           gridContainer.className = "icon-picker-grid empty";
-          gridContainer.innerHTML =
-            '<p style="color: #666; text-align: center; padding: 20px;">No icons available</p>';
+          gridContainer.textContent = '';
+          const noIconsMessage = document.createElement('p');
+          noIconsMessage.style.cssText = 'color: #666; text-align: center; padding: 20px;';
+          noIconsMessage.textContent = 'No icons available';
+          gridContainer.appendChild(noIconsMessage);
           return;
         }
 
@@ -1394,7 +1444,10 @@ setupResetButtonHandlers(container) {
 
           if (pickerType === "fontawesome") {
             // Create icon with simple error handling
-            iconItem.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;
+            const iconElement = document.createElement('i');
+            iconElement.className = icon;
+            iconElement.setAttribute('aria-hidden', 'true');
+            iconItem.appendChild(iconElement);
           } else {
             iconItem.textContent = icon;
           }
@@ -1422,8 +1475,11 @@ setupResetButtonHandlers(container) {
       console.error("🚨 Error populating icon grid:", error);
       if (gridContainer) {
         gridContainer.className = "icon-picker-grid empty";
-        gridContainer.innerHTML =
-          '<p style="color: red; text-align: center; padding: 20px;">Error loading icons</p>';
+        gridContainer.textContent = '';
+        const errorMessage = document.createElement('p');
+        errorMessage.style.cssText = 'color: red; text-align: center; padding: 20px;';
+        errorMessage.textContent = 'Error loading icons';
+        gridContainer.appendChild(errorMessage);
       }
     }
   }
@@ -1513,9 +1569,21 @@ setupResetButtonHandlers(container) {
 
       // Update display
       if (pickerType === "fontawesome") {
-        displayElement.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;
+        displayElement.textContent = '';
+        const iconElement = document.createElement('i');
+        iconElement.className = icon;
+        iconElement.setAttribute('aria-hidden', 'true');
+        displayElement.appendChild(iconElement);
       } else if (pickerType === "custom") {
-        displayElement.innerHTML = `<img src="${icon}" alt="Custom icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'24\\' height=\\'24\\' viewBox=\\'0 0 24 24\\'><path fill=\\'%23f44336\\' d=\\'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\\'/></svg>'">`;
+        displayElement.textContent = '';
+        const imgElement = document.createElement('img');
+        imgElement.src = icon;
+        imgElement.alt = 'Custom icon';
+        // Set up safe error fallback
+        imgElement.addEventListener('error', function() {
+          this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23f44336" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+        });
+        displayElement.appendChild(imgElement);
       } else {
         displayElement.textContent = icon;
       }
@@ -1587,15 +1655,10 @@ setupResetButtonHandlers(container) {
         fontAwesomeUrl.value = iconSettings.fontAwesomeUrl;
       }
 
-      // Icon appearance settings
+      // Icon appearance settings - now pixel-based
       const iconSize = container.querySelector("#iconSize");
       if (iconSize && iconSettings.iconSize) {
         iconSize.value = iconSettings.iconSize;
-      }
-
-      const iconSizePx = container.querySelector("#iconSizePx");
-      if (iconSizePx && iconSettings.iconSizePx) {
-        iconSizePx.value = iconSettings.iconSizePx;
       }
 
       const iconColor = container.querySelector("#iconColor");
@@ -1639,6 +1702,7 @@ setupResetButtonHandlers(container) {
       const iconHoverScale = container.querySelector("#iconHoverScale");
       if (iconHoverScale && iconSettings.iconHoverScale !== undefined) {
         iconHoverScale.value = iconSettings.iconHoverScale;
+        this.updateRangeValue(iconHoverScale);
       }
 
       const iconHoverOpacity = container.querySelector("#iconHoverOpacity");
@@ -1730,11 +1794,30 @@ setupResetButtonHandlers(container) {
       // Create preview container
       const previewContainer = document.createElement("div");
       previewContainer.className = "image-preview-container";
-      previewContainer.innerHTML = `
-        <div class="image-preview-label">Preview</div>
-        <img class="image-preview" src="" alt="Thumbnail preview" style="display: none;">
-        <div class="preview-placeholder">No image</div>
-      `;
+      // Clear container safely
+      previewContainer.textContent = '';
+      
+      // Create preview label
+      const previewLabel = document.createElement('div');
+      previewLabel.className = 'image-preview-label';
+      previewLabel.textContent = 'Preview';
+      
+      // Create preview image
+      const previewImg = document.createElement('img');
+      previewImg.className = 'image-preview';
+      previewImg.src = '';
+      previewImg.alt = 'Thumbnail preview';
+      previewImg.style.display = 'none';
+      
+      // Create placeholder
+      const placeholder = document.createElement('div');
+      placeholder.className = 'preview-placeholder';
+      placeholder.textContent = 'No image';
+      
+      // Assemble elements
+      previewContainer.appendChild(previewLabel);
+      previewContainer.appendChild(previewImg);
+      previewContainer.appendChild(placeholder);
 
       // Insert at the beginning of the container
       container.insertBefore(previewContainer, container.firstChild);
@@ -1878,16 +1961,10 @@ setupResetButtonHandlers(container) {
         this.handleThumbnailToggle(enableThumbnails);
       }
 
-      // Size preset
+      // Size preset - now pixel-based
       const sizePreset = container.querySelector("#thumbnailSizePreset");
       if (sizePreset && config.thumbnailSize) {
         sizePreset.value = config.thumbnailSize;
-      }
-
-      // Custom size
-      const customSize = container.querySelector("#thumbnailCustomSize");
-      if (customSize && config.thumbnailSizePx) {
-        customSize.value = config.thumbnailSizePx;
       }
 
       // Border radius
@@ -1939,11 +2016,35 @@ setupResetButtonHandlers(container) {
 
       // Element-specific defaults
       const defaults = config.defaultImages || {};
-      Object.keys(defaults).forEach((key) => {
-        // Handle IDs that might start with numbers by using querySelector syntax
-        const input = container.querySelector(`[id="${key}Default"]`);
-        if (input) {
-          input.value = defaults[key];
+      const elementMapping = {
+        "Panorama": "panoramaDefault",
+        "Hotspot": "hotspotDefault", 
+        "Polygon": "polygonDefault",
+        "Video": "videoDefault",
+        "Webframe": "webframeDefault",
+        "Image": "imageDefault",
+        "Text": "textDefault",
+        "ProjectedImage": "projectedImageDefault",
+        "Element": "elementDefault",
+        "Business": "businessDefault",
+        "3DHotspot": "3dHotspotDefault",
+        "Container": "containerDefault", 
+        "3DModel": "3dModelDefault",
+        "3DModelObject": "3dModelObjectDefault"
+      };
+      
+      Object.entries(defaults).forEach(([element, imagePath]) => {
+        const inputId = elementMapping[element];
+        if (inputId) {
+          const input = document.getElementById(inputId);
+          if (input) {
+            // Extract just the filename for display purposes
+            const filename = imagePath.split('/').pop() || imagePath;
+            input.value = filename;
+            console.log(`🔧 POPULATE: Set ${inputId} = ${filename} (from ${imagePath})`);
+          } else {
+            console.warn(`🔧 POPULATE: Input ${inputId} not found for element ${element}`);
+          }
         }
       });
 
@@ -1980,11 +2081,34 @@ setupResetButtonHandlers(container) {
    * Reset Thumbnail Configuration to defaults
    */
   resetThumbnailToDefaults() {
-    // This is the method that resets ALL thumbnail settings
+    // Reset thumbnail settings to match search engine defaults
     try {
-      const defaults = this.core.getDefaultConfig().thumbnailSettings;
+      const defaults = {
+        enableThumbnails: false,
+        thumbnailSize: "48px",
+        borderRadius: 4,
+        borderColor: "#9CBBFF",
+        borderWidth: 4,
+        defaultImagePath: "./search-pro-non-mod/assets/default-thumbnail.jpg",
+        defaultImages: {
+          Panorama: "./search-pro-non-mod/assets/default-thumbnail.jpg",
+          Hotspot: "./search-pro-non-mod/assets/hotspot-default.jpg",
+          Polygon: "./search-pro-non-mod/assets/polygon-default.jpg",
+          Video: "./search-pro-non-mod/assets/video-default.jpg",
+          Webframe: "./search-pro-non-mod/assets/webframe-default.jpg",
+          Image: "./search-pro-non-mod/assets/image-default.jpg",
+          Text: "./search-pro-non-mod/assets/text-default.jpg",
+          ProjectedImage: "./search-pro-non-mod/assets/projected-image-default.jpg",
+          Element: "./search-pro-non-mod/assets/element-default.jpg",
+          Business: "./search-pro-non-mod/assets/business-default.jpg",
+          Container: "./search-pro-non-mod/assets/container-default.jpg",
+          "3DModel": "./search-pro-non-mod/assets/3d-model-default.jpg",
+          "3DHotspot": "./search-pro-non-mod/assets/3d-hotspot-default.jpg",
+          "3DModelObject": "./search-pro-non-mod/assets/3d-model-object-default.jpg"
+        }
+      };
+      
       this.core.config.thumbnailSettings = { ...defaults };
-      this.core.config.thumbnailSettings.enableThumbnails = false;
 
       const container = document.getElementById("display-panel");
       if (container) {
@@ -2004,58 +2128,44 @@ setupResetButtonHandlers(container) {
   }
 
   /**
-   * Reset Icon settings to defaults
+   * Reset Icon settings to defaults aligned with search engine
    */
   resetIconSettingsToDefaults() {
     try {
-      const defaults =
-        this.core.getDefaultConfig().thumbnailSettings.iconSettings || {};
+      const defaults = {
+        enableCustomIcons: false,
+        enableFontAwesome: false,
+        fontAwesomeUrl: "",
+        iconSize: "24px",
+        iconColor: "#3b82f6",
+        iconOpacity: 1.0,
+        iconAlignment: "left"
+      };
 
-      // Ensure we have the default structure
+      // Update the configuration
       if (!this.core.config.thumbnailSettings) {
         this.core.config.thumbnailSettings = {};
       }
+      if (!this.core.config.thumbnailSettings.iconSettings) {
+        this.core.config.thumbnailSettings.iconSettings = {};
+      }
 
-      // Deep copy to prevent reference issues
-      this.core.config.thumbnailSettings.iconSettings = JSON.parse(
-        JSON.stringify(defaults),
-      );
+      Object.assign(this.core.config.thumbnailSettings.iconSettings, defaults);
 
-      // Update form
       const container = document.getElementById("display-panel");
       if (container) {
         this.populateIconForm(container);
-
-        // Reset all toggle inputs in the icon visibility section
-        const iconVisibilitySection = container.querySelector(
-          '[aria-labelledby="icon-config-heading"]',
-        );
-        if (iconVisibilitySection) {
-          const toggleInputs =
-            iconVisibilitySection.querySelectorAll(".toggle-input");
-          toggleInputs.forEach((toggle) => {
-            const name = toggle.name;
-            if (name && name.includes("showIconFor")) {
-              toggle.checked = true; // Reset all to true
-              this.core.onFormChange(toggle);
-            }
-          });
-        }
-
-        // Re-initialize icon picker grids with default values
-        this.initializeIconPickerGrids(container);
       }
 
       if (this.core.showToast) {
         this.core.showToast(
           "success",
           "Reset Complete",
-          "Icon settings reset to defaults",
+          "All icon settings reset to defaults",
         );
       }
-      console.log("🔄 Icon settings reset to defaults");
     } catch (error) {
-      console.error("🚨 Security: Error resetting icon settings:", error);
+      console.error("❌ Error resetting icon settings:", error);
     }
   }
 
@@ -2232,19 +2342,17 @@ setupResetButtonHandlers(container) {
    */
   populateSubtitleToggles() {
     try {
-      const onlySubtitlesToggle = document.getElementById("onlySubtitles");
       const showSubtitlesToggle = document.getElementById(
         "showSubtitlesInResults",
       );
 
-      if (!onlySubtitlesToggle || !showSubtitlesToggle) return;
+      if (!showSubtitlesToggle) return;
 
       const displayConfig = this.core.config.display || {};
-      onlySubtitlesToggle.checked = !!displayConfig.onlySubtitles;
       showSubtitlesToggle.checked = !!displayConfig.showSubtitlesInResults;
 
       console.log(
-        `👁️ Subtitle toggles populated: onlySubtitles=${onlySubtitlesToggle.checked}, showSubtitles=${showSubtitlesToggle.checked}`,
+        `👁️ Subtitle toggles populated: showSubtitles=${showSubtitlesToggle.checked}`,
       );
     } catch (error) {
       console.error("🚨 Security: Error populating subtitle toggles:", error);
@@ -2259,16 +2367,8 @@ setupResetButtonHandlers(container) {
       const fieldName = this.core.sanitizeInput(toggle.name || toggle.id, 100);
       const isChecked = toggle.checked;
 
-      // Skip interdependency checks if we're in the middle of conflict resolution
-      if (!this._resolvingSubtitleConflict) {
-        // Handle interdependent toggles first
-        this.handleToggleInterdependencies(fieldName, isChecked);
-      }
-
-      // Update configuration - for subtitle toggles, this will be handled by conflict resolution
-      if (!this.isSubtitleToggle(fieldName)) {
-        this.core.onFormChange(toggle);
-      }
+      // Update configuration directly
+      this.core.onFormChange(toggle);
 
       // Apply live preview
       this.applyDisplayLivePreview(fieldName, isChecked);
@@ -2290,9 +2390,7 @@ setupResetButtonHandlers(container) {
    */
   isSubtitleToggle(fieldName) {
     return (
-      fieldName === "onlySubtitles" ||
       fieldName === "showSubtitlesInResults" ||
-      fieldName === "display.onlySubtitles" ||
       fieldName === "display.showSubtitlesInResults"
     );
   }
@@ -2305,10 +2403,7 @@ setupResetButtonHandlers(container) {
       // Handle subtitle toggles specially
       const fieldName = input.name || input.id;
 
-      if (this.isSubtitleToggle(fieldName) && !skipInterdependencyCheck) {
-        this.handleDisplayBehaviorToggle(input);
-        return;
-      }
+
 
       // Let core handle the basic form change
       this.core.onFormChange(input);
@@ -2320,10 +2415,7 @@ setupResetButtonHandlers(container) {
           "showGroupHeaders",
           "showGroupCount",
           "showIconsInResults",
-          "showParentLabel",
           "showParentInfo",
-          "showParentTags",
-          "showParentType",
         ].includes(fieldName)
       ) {
         this.handleDisplayBehaviorToggle(input);
@@ -2351,15 +2443,11 @@ setupResetButtonHandlers(container) {
       } else {
         // Create default display config if not in defaults
         this.core.config.display = {
-          showGroupHeaders: false,
+          showGroupHeaders: true,
           showGroupCount: true,
           showIconsInResults: true,
-          onlySubtitles: false,
           showSubtitlesInResults: true,
-          showParentLabel: true,
           showParentInfo: true,
-          showParentTags: false,
-          showParentType: true,
         };
       }
 
@@ -2396,15 +2484,11 @@ setupResetButtonHandlers(container) {
   resetDisplayBehaviorToDefaults() {
     try {
       const defaults = {
-        showGroupHeaders: false,
+        showGroupHeaders: true,
         showGroupCount: true,
         showIconsInResults: true,
-        onlySubtitles: false,
         showSubtitlesInResults: true,
-        showParentLabel: true,
         showParentInfo: true,
-        showParentTags: false,
-        showParentType: true,
       };
 
       // Initialize display object if it doesn't exist
@@ -2505,132 +2589,7 @@ setupResetButtonHandlers(container) {
     }
   }
 
-  /**
-   * Handle toggle interdependencies with conflict resolution
-   */
-  handleToggleInterdependencies(fieldName, isChecked) {
-    try {
-      // Handle logic where some toggles affect others
-      switch (fieldName) {
-        case "display.onlySubtitles":
-        case "onlySubtitles":
-          // Mutual exclusion with "Show Subtitles in Results"
-          this.handleSubtitleConflictResolution("onlySubtitles", isChecked);
-          break;
 
-        case "display.showSubtitlesInResults":
-        case "showSubtitlesInResults":
-          // Mutual exclusion with "Only Subtitles"
-          this.handleSubtitleConflictResolution(
-            "showSubtitlesInResults",
-            isChecked,
-          );
-          break;
-
-        case "display.showIconsInResults":
-        case "showIconsInResults":
-          // This could affect thumbnail/icon priority logic later
-          console.log(
-            `👁️ Icons in results ${isChecked ? "enabled" : "disabled"}`,
-          );
-          break;
-      }
-    } catch (error) {
-      console.error(
-        "🚨 Security: Error handling toggle interdependencies:",
-        error,
-      );
-    }
-  }
-
-  /**
-   * Handle subtitle conflict resolution logic
-   */
-  handleSubtitleConflictResolution(triggerField, isChecked) {
-    try {
-      const onlySubtitlesToggle = document.getElementById("onlySubtitles");
-      const showSubtitlesToggle = document.getElementById(
-        "showSubtitlesInResults",
-      );
-
-      if (!onlySubtitlesToggle || !showSubtitlesToggle) return;
-
-      // Prevent infinite recursion by checking if we're already in a conflict resolution
-      if (this._resolvingSubtitleConflict) return;
-      this._resolvingSubtitleConflict = true;
-
-      let message = "";
-
-      if (triggerField === "onlySubtitles") {
-        if (isChecked) {
-          // "Only Subtitles" turned ON
-          showSubtitlesToggle.checked = false;
-          this.updateToggleVisualState(showSubtitlesToggle, false);
-          message =
-            'Disabled "Show Subtitles in Results" - now showing only subtitles';
-        } else {
-          // "Only Subtitles" turned OFF
-          showSubtitlesToggle.checked = true;
-          this.updateToggleVisualState(showSubtitlesToggle, true);
-          message = 'Enabled "Show Subtitles in Results" automatically';
-        }
-      } else {
-        // triggerField === 'showSubtitlesInResults'
-        if (isChecked) {
-          // "Show Subtitles in Results" turned ON
-          onlySubtitlesToggle.checked = false;
-          this.updateToggleVisualState(onlySubtitlesToggle, false);
-          message =
-            'Disabled "Only Subtitles" - now showing subtitles with other content';
-        } else {
-          // "Show Subtitles in Results" turned OFF
-          onlySubtitlesToggle.checked = true;
-          this.updateToggleVisualState(onlySubtitlesToggle, true);
-          message =
-            'Enabled "Only Subtitles" - now showing only subtitle content';
-        }
-      }
-
-      // Update config directly
-      this.core.config.display.onlySubtitles = !!onlySubtitlesToggle.checked;
-      this.core.config.display.showSubtitlesInResults =
-        !!showSubtitlesToggle.checked;
-
-      // Update both toggles' form change events without triggering recursion
-      this.core.onFormChange(onlySubtitlesToggle, true); // true = skip interdependency check
-      this.core.onFormChange(showSubtitlesToggle, true); // true = skip interdependency check
-
-      // Apply live preview with the underlying value
-      this.applyDisplayLivePreview(
-        "display.onlySubtitles",
-        onlySubtitlesToggle.checked,
-      );
-      this.applyDisplayLivePreview(
-        "display.showSubtitlesInResults",
-        showSubtitlesToggle.checked,
-      );
-
-      // Show user feedback message
-      if (message) {
-        this.showInterdependencyMessage(message);
-      }
-
-      // Reset the flag
-      setTimeout(() => {
-        this._resolvingSubtitleConflict = false;
-      }, 100);
-
-      console.log(
-        `👁️ Subtitle conflict resolved: onlySubtitles=${onlySubtitlesToggle.checked}, showSubtitles=${showSubtitlesToggle.checked}`,
-      );
-    } catch (error) {
-      console.error(
-        "🚨 Security: Error in subtitle conflict resolution:",
-        error,
-      );
-      this._resolvingSubtitleConflict = false;
-    }
-  }
 
   /**
    * Update toggle visual state with smooth animation
@@ -2717,8 +2676,13 @@ setupResetButtonHandlers(container) {
       isValid = this.core.validateField(field);
 
       // Custom validation rules for Display tab fields
-      // Most display fields are toggles, so basic validation is sufficient
-      // Future sections will have more complex validation
+      if (field.id === "thumbnailBorderRadius") {
+        isValid = this.validateBorderRadius(field, value);
+      } else if (field.id === "thumbnailBorderWidth") {
+        isValid = this.validateBorderWidth(field, value);
+      } else if (field.id === "iconSize") {
+        isValid = this.validateIconSize(field);
+      }
 
       // Apply validation styling
       if (!isValid) {
@@ -2736,6 +2700,180 @@ setupResetButtonHandlers(container) {
         error,
       );
       return false;
+    }
+  }
+
+  /**
+   * Validate icon size input
+   */
+  validateIconSize(select) {
+    try {
+      const value = select.value;
+      const warningElement = document.querySelector('#iconSizeWarning');
+      const errorElement = document.querySelector('#iconSizeError');
+      
+      if (!warningElement || !errorElement) return true;
+      
+      // Hide both messages initially
+      warningElement.style.display = 'none';
+      errorElement.style.display = 'none';
+      
+      // Extract pixel value from size string (e.g., "64px" -> 64)
+      let pixelValue = 48; // default
+      if (value && value.endsWith('px')) {
+        pixelValue = parseInt(value.replace('px', ''));
+      }
+      
+      // Validation rules
+      if (pixelValue < 16 || pixelValue > 96) {
+        errorElement.style.display = 'block';
+        select.classList.add('error');
+        return false;
+      } else if (pixelValue >= 64) {
+        warningElement.style.display = 'block';
+        select.classList.remove('error');
+        select.classList.add('warning');
+        return true;
+      }
+      
+      // Remove validation classes if no issues
+      select.classList.remove('error', 'warning');
+      return true;
+    } catch (error) {
+      console.error('Error validating icon size:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Validate border radius with warnings and errors
+   */
+  validateBorderRadius(field, value) {
+    try {
+      const numValue = parseFloat(value);
+      
+      // Clear previous validation messages
+      this.clearValidationMessage(field);
+      
+      if (isNaN(numValue) || numValue < 0) {
+        this.showValidationMessage(field, "error", "Border radius cannot be negative");
+        return false;
+      }
+      
+      if (numValue > 50) {
+        this.showValidationMessage(field, "error", "Border radius cannot exceed 50px");
+        return false;
+      }
+      
+      if (numValue > 35) {
+        this.showValidationMessage(field, "warning", "High border radius values may look unusual on small thumbnails");
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error validating border radius:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Validate border width with warnings and errors
+   */
+  validateBorderWidth(field, value) {
+    try {
+      const numValue = parseFloat(value);
+      
+      // Clear previous validation messages
+      this.clearValidationMessage(field);
+      
+      if (isNaN(numValue) || numValue < 0) {
+        this.showValidationMessage(field, "error", "Border width cannot be negative");
+        return false;
+      }
+      
+      if (numValue > 10) {
+        this.showValidationMessage(field, "error", "Border width cannot exceed 10px");
+        return false;
+      }
+      
+      if (numValue > 5) {
+        this.showValidationMessage(field, "warning", "Thick borders may reduce visible thumbnail content");
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error validating border width:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Show validation message for a field
+   */
+  showValidationMessage(field, type, message, duration = 3000) {
+    try {
+      // Use the global validation message function if available
+      if (typeof window.showValidationMessage === 'function') {
+        window.showValidationMessage(field, type, message, duration);
+        return;
+      }
+      
+      // Fallback: Create simple validation tooltip
+      this.clearValidationMessage(field);
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `validation-message validation-${type}`;
+      messageDiv.textContent = message;
+      messageDiv.id = `${field.id}-validation`;
+      
+      // Style the message
+      messageDiv.style.cssText = `
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: ${type === 'error' ? '#ef4444' : '#f59e0b'};
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 1000;
+        white-space: nowrap;
+        margin-top: 2px;
+      `;
+      
+      // Position relative to input
+      field.parentNode.style.position = 'relative';
+      field.parentNode.appendChild(messageDiv);
+      
+      // Auto-remove after duration
+      setTimeout(() => {
+        this.clearValidationMessage(field);
+      }, duration);
+      
+      console.log(`👁️ Validation message shown: ${type} - ${message}`);
+    } catch (error) {
+      console.error('Error showing validation message:', error);
+    }
+  }
+
+  /**
+   * Clear validation message for a field
+   */
+  clearValidationMessage(field) {
+    try {
+      // Use the global clear function if available
+      if (typeof window.clearValidationMessage === 'function') {
+        window.clearValidationMessage(field.id);
+        return;
+      }
+      
+      // Fallback: Remove our custom message
+      const existingMessage = document.getElementById(`${field.id}-validation`);
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+    } catch (error) {
+      console.error('Error clearing validation message:', error);
     }
   }
 
@@ -2808,62 +2946,81 @@ setupResetButtonHandlers(container) {
   }
 
   /**
-   * Get Display tab configuration summary
+   * Get Display tab configuration summary aligned with search engine structure
    */
   getConfigSummary() {
     try {
       return {
         tab: "Display",
         sections: {
-          displayBehavior: {
+          display: {
             showGroupHeaders:
-              this.core.config.display?.showGroupHeaders || false,
+              this.core.config.display?.showGroupHeaders || true,
             showGroupCount: this.core.config.display?.showGroupCount || true,
             showIconsInResults:
               this.core.config.display?.showIconsInResults || true,
-            onlySubtitles: this.core.config.display?.onlySubtitles || false,
             showSubtitlesInResults:
               this.core.config.display?.showSubtitlesInResults || true,
-            showParentLabel: this.core.config.display?.showParentLabel || true,
             showParentInfo: this.core.config.display?.showParentInfo || true,
-            showParentTags: this.core.config.display?.showParentTags || false,
-            showParentType: this.core.config.display?.showParentType || true,
           },
           thumbnailSettings: {
             enableThumbnails:
               this.core.config.thumbnailSettings?.enableThumbnails || false,
             thumbnailSize:
-              this.core.config.thumbnailSettings?.thumbnailSize || "medium",
+              this.core.config.thumbnailSettings?.thumbnailSize || "48px",
             borderRadius: this.core.config.thumbnailSettings?.borderRadius || 4,
-            borderWidth: this.core.config.thumbnailSettings?.borderWidth || 1,
+            borderWidth: this.core.config.thumbnailSettings?.borderWidth || 4,
             borderColor:
-              this.core.config.thumbnailSettings?.borderColor || "#9CB8FF",
+              this.core.config.thumbnailSettings?.borderColor || "#9CBBFF",
+            defaultImagePath: 
+              this.core.config.thumbnailSettings?.defaultImagePath || "./search-pro-non-mod/assets/default-thumbnail.jpg",
+            defaultImages: this.core.config.thumbnailSettings?.defaultImages || {}
           },
           iconSettings: {
             enableCustomIcons:
               this.core.config.thumbnailSettings?.iconSettings
                 ?.enableCustomIcons || false,
             enableFontAwesome:
-              this.core.config.thumbnailSettings?.iconSettings
-                ?.enableFontAwesome || false,
-            iconSize:
-              this.core.config.thumbnailSettings?.iconSettings?.iconSize ||
-              "medium",
-            iconColor:
-              this.core.config.thumbnailSettings?.iconSettings?.iconColor ||
-              "#3b82f6",
-            iconOpacity:
-              this.core.config.thumbnailSettings?.iconSettings?.iconOpacity ||
-              0.9,
-          },
-        },
+              this.core.config.thumbnailSettings?.iconSettings?.enableFontAwesome || false,
+            fontAwesomeUrl:
+              this.core.config.thumbnailSettings?.iconSettings?.fontAwesomeUrl || "",
+            iconSize: this.core.config.thumbnailSettings?.iconSettings?.iconSize || "24px",
+            iconColor: this.core.config.thumbnailSettings?.iconSettings?.iconColor || "#3b82f6",
+            iconOpacity: this.core.config.thumbnailSettings?.iconSettings?.iconOpacity || 1.0,
+            iconAlignment: this.core.config.thumbnailSettings?.iconSettings?.iconAlignment || "left"
+          }
+        }
       };
     } catch (error) {
-      console.error(
-        "🚨 Security: Error getting Display tab config summary:",
-        error,
-      );
-      return null;
+        console.error(
+          "🚨 Security: Error getting Display tab config summary:",
+          error,
+        );
+        return null;
+      }
+    }
+
+  /**
+   * Sync Icon Color with Result Icon Color in Appearance tab
+   */
+  syncIconColors(color) {
+    try {
+      // Update the Result Icon Color in Appearance tab
+      const resultIconColorInput = document.querySelector('#resultIconColor');
+      const resultIconColorHex = document.querySelector('#resultIconColor + .color-hex-input');
+      
+      if (resultIconColorInput) {
+        resultIconColorInput.value = color;
+        this.core.setNestedValue(this.core.config, 'appearance.colors.resultIconColor', color);
+      }
+      
+      if (resultIconColorHex) {
+        resultIconColorHex.value = color.toUpperCase();
+      }
+      
+      console.log(`🎨 Synced Icon Color with Result Icon Color: ${color}`);
+    } catch (error) {
+      console.error('Error syncing icon colors:', error);
     }
   }
 
@@ -3021,6 +3178,12 @@ setupResetButtonHandlers(container) {
           value = input.value;
         }
         
+        // Debug thumbnail visibility toggles specifically
+        if (name.includes("displayElements.showFor")) {
+          console.log(`🔧 THUMBNAIL VISIBILITY: ${name} = ${value}`);
+          console.log(`🔧 CONFIG STATE: displayElements.showFor =`, this.core.config.displayElements?.showFor);
+        }
+        
         // Set property safely
         this.core.safeSetNestedProperty(this.core.config, name, value);
       });
@@ -3107,15 +3270,35 @@ setupResetButtonHandlers(container) {
 updateThumbnailConfigFromForm(container) {
   try {
     // Handle element-specific default image paths
-    const elements = [
-      "Panorama", "Hotspot", "Polygon", "Video", "Webframe",
-      "Image", "Text", "ProjectedImage", "Element", "Business", 
-      "3DHotspot", "Container", "3DModel", "3DModelObject"
-    ];
+    const elementMapping = {
+      "Panorama": "panoramaDefault",
+      "Hotspot": "hotspotDefault", 
+      "Polygon": "polygonDefault",
+      "Video": "videoDefault",
+      "Webframe": "webframeDefault",
+      "Image": "imageDefault",
+      "Text": "textDefault",
+      "ProjectedImage": "projectedImageDefault",
+      "Element": "elementDefault",
+      "Business": "businessDefault",
+      "3DHotspot": "3dHotspotDefault",
+      "Container": "containerDefault", 
+      "3DModel": "3dModelDefault",
+      "3DModelObject": "3dModelObjectDefault"
+    };
     
-    elements.forEach(element => {
-      // Use getElementById instead of querySelector to avoid CSS selector issues with numbers
-      const defaultInput = document.getElementById(`${element}Default`);
+    console.log(`🔧 FORM DEBUG: updateThumbnailConfigFromForm called`);
+    
+    Object.entries(elementMapping).forEach(([element, inputId]) => {
+      // Use the correct lowercase HTML IDs
+      const defaultInput = document.getElementById(inputId);
+      console.log(`🔧 FORM DEBUG: Checking ${element}Default input:`, {
+        element: element,
+        inputExists: !!defaultInput,
+        inputValue: defaultInput?.value,
+        inputId: defaultInput?.id
+      });
+      
       if (defaultInput && defaultInput.value) {
         if (!this.core.config.thumbnailSettings) {
           this.core.config.thumbnailSettings = {};
@@ -3123,15 +3306,193 @@ updateThumbnailConfigFromForm(container) {
         if (!this.core.config.thumbnailSettings.defaultImages) {
           this.core.config.thumbnailSettings.defaultImages = {};
         }
-        this.core.config.thumbnailSettings.defaultImages[element] = defaultInput.value;
+        // Format the path properly for the search engine
+        let imagePath = defaultInput.value.trim();
+        
+        // If the path starts with just "assets/", prepend the full path
+        if (imagePath.startsWith("assets/")) {
+          imagePath = `./search-pro-non-mod/${imagePath}`;
+        }
+        // If the path doesn't start with "./" or "http", assume it's relative to assets
+        else if (!imagePath.startsWith("./") && !imagePath.startsWith("http") && !imagePath.startsWith("/")) {
+          imagePath = `./search-pro-non-mod/assets/${imagePath}`;
+        }
+        
+        this.core.config.thumbnailSettings.defaultImages[element] = imagePath;
+        console.log(`🖼️ Processed ${element} path: ${defaultInput.value} -> ${imagePath}`);
       }
     });
     
+    // Debug current thumbnail configuration state
     console.log("🖼️ Thumbnail config updated from form");
+    console.log("🔍 DEBUG - Current thumbnail settings:", {
+      enableThumbnails: this.core.config.thumbnailSettings?.enableThumbnails,
+      defaultImages: this.core.config.thumbnailSettings?.defaultImages,
+      showFor: this.core.config.thumbnailSettings?.showFor,
+      displayElementsShowFor: this.core.config.displayElements?.showFor
+    });
   } catch (error) {
     console.error("🚨 Error updating thumbnail config from form:", error);
   }
 }
+
+
+
+  /**
+   * Update general display configuration from form values
+   */
+  updateDisplayConfigFromForm(container) {
+    try {
+      // Update thumbnail master toggle
+      const enableThumbnailsToggle = document.getElementById('enableThumbnails');
+      if (enableThumbnailsToggle) {
+        if (!this.core.config.thumbnailSettings) {
+          this.core.config.thumbnailSettings = {};
+        }
+        this.core.config.thumbnailSettings.enableThumbnails = enableThumbnailsToggle.checked;
+        console.log(`🔧 DISPLAY CONFIG: enableThumbnails = ${enableThumbnailsToggle.checked}`);
+      }
+      
+      // Update thumbnail size
+      const thumbnailSizeSelect = document.getElementById('thumbnailSizePreset');
+      if (thumbnailSizeSelect && thumbnailSizeSelect.value) {
+        this.core.config.thumbnailSettings.thumbnailSize = thumbnailSizeSelect.value;
+        console.log(`🔧 DISPLAY CONFIG: thumbnailSize = ${thumbnailSizeSelect.value}`);
+      }
+      
+      // Update border radius
+      const borderRadiusInput = document.getElementById('thumbnailBorderRadius');
+      if (borderRadiusInput) {
+        this.core.config.thumbnailSettings.borderRadius = parseInt(borderRadiusInput.value) || 0;
+        console.log(`🔧 DISPLAY CONFIG: borderRadius = ${borderRadiusInput.value}`);
+      }
+      
+      // Update border width
+      const borderWidthInput = document.getElementById('thumbnailBorderWidth');
+      if (borderWidthInput) {
+        this.core.config.thumbnailSettings.borderWidth = parseInt(borderWidthInput.value) || 0;
+        console.log(`🔧 DISPLAY CONFIG: borderWidth = ${borderWidthInput.value}`);
+      }
+
+      // Update thumbnail visibility settings (showFor) - moved from displayElements to thumbnailSettings
+      if (!this.core.config.thumbnailSettings.showFor) {
+        this.core.config.thumbnailSettings.showFor = {};
+      }
+      
+      // CRITICAL: Copy displayElements.showFor to thumbnailSettings.showFor for search engine compatibility
+      console.log(`🔧 DEBUG: Checking displayElements.showFor:`, this.core.config.displayElements?.showFor);
+      
+      if (this.core.config.displayElements?.showFor) {
+        // Search engine expects specific keys, map from form keys to search engine keys
+        const showForMapping = {
+          panorama: this.core.config.displayElements.showFor.panorama,
+          hotspot: this.core.config.displayElements.showFor.hotspot,
+          polygon: this.core.config.displayElements.showFor.polygon,
+          video: this.core.config.displayElements.showFor.video,
+          webframe: this.core.config.displayElements.showFor.webframe,
+          image: this.core.config.displayElements.showFor.image,
+          text: this.core.config.displayElements.showFor.text,
+          projectedimage: this.core.config.displayElements.showFor.projectedImage,
+          element: this.core.config.displayElements.showFor.element,
+          business: this.core.config.displayElements.showFor.business,
+          container: this.core.config.displayElements.showFor.container,
+          "3dmodel": this.core.config.displayElements.showFor["3dmodel"],
+          "3dhotspot": this.core.config.displayElements.showFor["3dhotspot"],
+          "3dmodelobject": this.core.config.displayElements.showFor["3dmodelobject"],
+          other: this.core.config.displayElements.showFor.other
+        };
+        
+        this.core.config.thumbnailSettings.showFor = showForMapping;
+        console.log(`🔧 DISPLAY CONFIG: Copied thumbnail visibility settings:`, this.core.config.thumbnailSettings.showFor);
+      } else {
+        // Initialize with default values if no displayElements.showFor exists
+        this.core.config.thumbnailSettings.showFor = {
+          panorama: true,
+          hotspot: true,
+          polygon: true,
+          video: true,
+          webframe: true,
+          image: true,
+          text: true,
+          projectedimage: true,
+          element: true,
+          business: true,
+          container: true,
+          "3dmodel": true,
+          "3dhotspot": true,
+          "3dmodelobject": true,
+          other: true
+        };
+        console.log(`🔧 DISPLAY CONFIG: Initialized default thumbnail visibility settings`);
+      }
+      
+      console.log("🔧 DISPLAY CONFIG: General display settings updated");
+      console.log("🔍 DEBUG - Final thumbnail settings after display config update:", {
+        thumbnailSettings: this.core.config.thumbnailSettings,
+        displayElements: this.core.config.displayElements
+      });
+    } catch (error) {
+      console.error("🚨 Error updating display config from form:", error);
+    }
+  }
+
+  /**
+   * Setup border validation for border radius and width fields
+   */
+  setupBorderValidation(container) {
+    try {
+      // Find border radius and width fields
+      const borderRadiusField = container.querySelector('#thumbnailBorderRadius');
+      const borderWidthField = container.querySelector('#thumbnailBorderWidth');
+      
+      if (borderRadiusField) {
+        // Add input event listener for real-time validation
+        borderRadiusField.addEventListener('input', (e) => {
+          this.validateBorderRadius(e.target, e.target.value);
+        });
+        
+        // Add change event listener for final validation
+        borderRadiusField.addEventListener('change', (e) => {
+          this.validateBorderRadius(e.target, e.target.value);
+        });
+      }
+      
+      if (borderWidthField) {
+        // Add input event listener for real-time validation
+        borderWidthField.addEventListener('input', (e) => {
+          this.validateBorderWidth(e.target, e.target.value);
+        });
+        
+        // Add change event listener for final validation
+        borderWidthField.addEventListener('change', (e) => {
+          this.validateBorderWidth(e.target, e.target.value);
+        });
+      }
+      
+      console.log('👁️ Border validation setup complete');
+    } catch (error) {
+      console.error('Error setting up border validation:', error);
+    }
+  }
+
+  /**
+   * Handle thumbnail size preset change
+   */
+  handleThumbnailSizeChange(select) {
+    try {
+      const value = select.value;
+      
+      // Update configuration with new pixel-based size
+      this.core.setNestedValue(this.core.config, 'thumbnailSettings.thumbnailSize', value);
+      
+      // Trigger form change to apply settings
+      this.core.onFormChange(select);
+      
+      console.log(`🖼️ Thumbnail size changed to: ${value}`);
+    } catch (error) {
+      console.error('Error handling thumbnail size change:', error);
+    }
+  }
 }
 
 // Export for module use

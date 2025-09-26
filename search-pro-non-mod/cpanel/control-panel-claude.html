@@ -35,18 +35,11 @@
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- FontAwesome Icons with Integrity Check -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <!-- FontAwesome Icons - Using local version only to avoid conflicts -->
 
     <!-- Your CSS Files -->
     <link rel="stylesheet" href="./css/control-panel-claude.css" />
-    <link rel="stylesheet" href="./fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="./css/sidebar-menu.css" />
     <link rel="stylesheet" href="./css/control-panel-tooltip.css" />
     <link rel="stylesheet" href="./css/fab-menu.css" />
@@ -54,7 +47,6 @@
     <link rel="stylesheet" href="./css/validation-messages.css" />
     <link rel="stylesheet" href="./css/modal-system.css" />
     <link rel="stylesheet" href="./css/tab-loader.css" />
-    
   </head>
   <body>
     <!-- Toast Notification System -->
@@ -269,8 +261,8 @@
             aria-labelledby="general-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading General Settings...</p>
             </div>
           </div>
@@ -282,8 +274,8 @@
             aria-labelledby="appearance-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Appearance Settings...</p>
             </div>
           </div>
@@ -295,8 +287,8 @@
             aria-labelledby="display-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Display Settings...</p>
             </div>
           </div>
@@ -308,8 +300,8 @@
             aria-labelledby="content-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Content Settings...</p>
             </div>
           </div>
@@ -321,9 +313,22 @@
             aria-labelledby="filtering-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Filtering Settings...</p>
+            </div>
+          </div>
+
+          <div
+            id="data-sources-panel"
+            class="tab-panel"
+            role="tabpanel"
+            aria-labelledby="data-sources-tab"
+            tabindex="0"
+          >
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
+              <p>Loading Data Sources Settings...</p>
             </div>
           </div>
 
@@ -334,8 +339,8 @@
             aria-labelledby="advanced-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Advanced Settings...</p>
             </div>
           </div>
@@ -347,22 +352,9 @@
             aria-labelledby="management-tab"
             tabindex="0"
           >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
+            <div class="panel-loading" role="status" aria-live="polite" aria-label="Loading content">
+              <div class="loading-spinner" aria-hidden="true"></div>
               <p>Loading Management Settings...</p>
-            </div>
-          </div>
-
-          <div
-            id="data-sources-panel"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="data-sources-tab"
-            tabindex="0"
-          >
-            <div class="panel-loading">
-              <div class="loading-spinner"></div>
-              <p>Loading Data Sources Settings...</p>
             </div>
           </div>
         </main>
@@ -448,7 +440,6 @@
     <script src="./js/management-tab.js"></script>
     <script src="./js/fontawesome-icons.js"></script>
     <script src="./js/emoji-library.js"></script>
-
 
     <!-- STEP 3: Load Main Controller (orchestrates everything) -->
     <script src="./js/control-panel-claude.js"></script>
@@ -551,6 +542,8 @@
       }
     </style>
 
+    <!-- JavaScript files are loaded via script tags in the HTML head or body -->
+
     <!-- Development helper - remove in production -->
     <script>
       // 🔧 Development Helper: Log modular architecture status
@@ -572,6 +565,42 @@
           console.log(
             "  Appearance Handler:",
             typeof AppearanceTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  Display Handler:",
+            typeof DisplayTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  Content Handler:",
+            typeof ContentTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  Filtering Handler:",
+            typeof FilteringTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  DataSources Handler:",
+            typeof DataSourcesTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  Advanced Handler:",
+            typeof AdvancedTabHandler !== "undefined"
+              ? "✅ Loaded"
+              : "❌ Missing",
+          );
+          console.log(
+            "  Management Handler:",
+            typeof ManagementTabHandler !== "undefined"
               ? "✅ Loaded"
               : "❌ Missing",
           );

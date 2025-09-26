@@ -7758,7 +7758,7 @@ window.tourSearchFunctions = (function () {
                 // Setup robust begin handler
                 const beginHandler = () => {
                   Logger.info('[3D BEGIN] Model begin triggered, attempting element trigger');
-                  
+
                   const tryByLabelFallback = () => {
                     const sprite = _find3DSpriteByLabel(tour, { label: rawLabel, parentModelId });
                     if (sprite) {
@@ -7806,7 +7806,7 @@ window.tourSearchFunctions = (function () {
               } else {
                 // Fallback: immediate trigger without begin handler
                 Logger.warn('[3D FALLBACK] No parent item bind capability, using immediate trigger');
-                
+
                 const tryByLabelFallback = () => {
                   const sprite = _find3DSpriteByLabel(tour, { label: rawLabel, parentModelId });
                   if (sprite) {
@@ -7851,12 +7851,12 @@ window.tourSearchFunctions = (function () {
           if (result.item.camera && (result.item.type === 'Hotspot' || result.item.type === 'Polygon' || 
               result.item.type === 'ProjectedImage' || result.item.type === 'Image' || 
               result.item.type === 'Text' || result.item.type === 'Video' || result.item.type === 'Webframe')) {
-            
+
             if (typeof result.item.mediaIndex === 'number') {
               // Pre-fetch the target item before playlist selection
               const items = targetPlaylist.get && targetPlaylist.get('items');
               const itemObj = items && items[result.item.mediaIndex];
-              
+
               if (itemObj && typeof tour.setPanoramaCameraWithSpot === 'function') {
                 const applyCamera = () => {
                   const { yaw, pitch, fov } = result.item.camera;
@@ -7890,7 +7890,7 @@ window.tourSearchFunctions = (function () {
                   itemObj._searchCameraBeginHandler = once;
                   itemObj.bind('begin', once);
                   Logger.debug('[NAV] bound one-shot camera begin handler');
-                  
+
                   // Now trigger the playlist selection (which will fire begin)
                   targetPlaylist.set('selectedIndex', result.item.mediaIndex);
                 } else {
@@ -7910,14 +7910,14 @@ window.tourSearchFunctions = (function () {
           if (result.item.type === 'Hotspot' || result.item.type === 'Polygon' || 
               result.item.type === 'ProjectedImage' || result.item.type === 'Image' || 
               result.item.type === 'Text' || result.item.type === 'Video' || result.item.type === 'Webframe') {
-            
+
             // Navigate using mediaIndex then focus overlay
             if (typeof result.item.mediaIndex === 'number') {
               targetPlaylist.set('selectedIndex', result.item.mediaIndex);
-              
+
               const items = targetPlaylist.get && targetPlaylist.get('items');
               const itemObj = items && items[result.item.mediaIndex];
-              
+
               if (itemObj && typeof tour.focusOverlayByName === 'function' && result.item.label) {
                 tour.focusOverlayByName(itemObj, result.item.label);
                 Logger.info('[NAV] hotspot+focus', { mediaIndex: result.item.mediaIndex, label: result.item.label });
@@ -9850,12 +9850,9 @@ window.tourSearchFunctions = (function () {
     console.log("🎬 Animations enabled:", animationsEnabled);
     console.log("🎬 Prefers reduced motion:", prefersReducedMotion);
 
-    // Toggle .sp-anim-on class conditionally based on animations enabled
-    if (animationsEnabled) {
-      document.documentElement.classList.add('sp-anim-on');
-    } else {
-      document.documentElement.classList.remove('sp-anim-on');
-    }
+    // [CRITICAL FIX] Always add the .sp-anim-on class for basic styling, 
+    // but use CSS variables to control actual animations
+    document.documentElement.classList.add('sp-anim-on');
 
     // Set animation state variable to control transitions in CSS
     root.style.setProperty(
@@ -9983,7 +9980,7 @@ window.tourSearchFunctions = (function () {
               box-shadow var(--animation-fast-duration) var(--animation-easing);
 }
 `;
-    
+
     document.head.appendChild(styleElement);
     console.log("🎬 Animation styles injected");
   }
@@ -10843,7 +10840,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Config: Container search integration
           containerSearch: {
             enableContainerSearch: true, // Enable container search functionality
-            containerNames: [""], // Array of container names to include in search results i.e "My_Container","TwinsViewer-Container"
+            containerNames: ["TwinsViewer-Container"], // Array of container names to include in search results i.e "My_Container","TwinsViewer-Container"
           },
         },
 
@@ -10915,10 +10912,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Base timing values used throughout the search interface (in milliseconds)
             fast: 600, // *** TESTING: Increased from 250ms - Quick animations for instant feedback (button hovers, icon changes)
             // RECOMMENDED: 150-250ms for responsive feel, 100ms for very snappy, 300ms for slightly smoother
-            
+
             normal: 800, // *** TESTING: Increased from 250ms - Standard animations for main interactions (opening panels, transitions)  
             // RECOMMENDED: 250-350ms for balanced feel, 200ms for quick, 400-500ms for more deliberate
-            
+
             slow: 1200, // *** TESTING: Increased from 400ms - Slower animations for complex transitions (page changes, major state changes)
             // RECOMMENDED: 400-600ms for smooth feel, 300ms for quicker, 700-800ms for very smooth
           },
@@ -10935,11 +10932,11 @@ document.addEventListener("DOMContentLoaded", function () {
           searchBar: {
             openDuration: 700, // *** TESTING: Increased from 300ms - Time for search bar to appear when activated
             // RECOMMENDED: 300-400ms feels responsive, 200ms very snappy, 500-600ms more graceful
-            
+
             closeDuration: 500, // *** TESTING: Increased from 200ms - Time for search bar to disappear when closed
             // TIP: Usually faster than opening - users expect quick closure
             // RECOMMENDED: 200ms balanced, 150ms very quick, 300ms more gentle
-            
+
             scaleEffect: true, // *** true/false - Whether search bar grows slightly when focused
             // true: Search bar subtly scales up on focus - feels interactive and modern
             // false: No scaling - cleaner, more minimal appearance
@@ -10949,13 +10946,13 @@ document.addEventListener("DOMContentLoaded", function () {
             fadeInDuration: 600, // *** TESTING: Increased from 200ms - Time for each result item to fade in when appearing
             // RECOMMENDED: 200ms feels smooth, 150ms quicker, 300ms more gentle
             // TIP: Shorter values feel more responsive, longer values feel smoother
-            
+
             slideDistance: 25, // *** TESTING: Increased from 10px - Distance results slide in from (vertical movement)
             // 0px: No slide, just fade - minimal, clean
             // 5-10px: Subtle slide - modern, polished feel
             // 15-30px: More dramatic slide - attention-grabbing but can be distracting
             // RECOMMENDED: 8-12px for subtle polish
-            
+
             staggerDelay: 150, // *** TESTING: Increased from 80ms - Delay between each result appearing (cascade effect)
             // 0ms: All results appear at once - instant but can feel overwhelming
             // 50-100ms: Nice cascade effect - feels organized and flows well
@@ -10967,7 +10964,7 @@ document.addEventListener("DOMContentLoaded", function () {
             respectPreference: false, // *** TESTING: Disabled to force animations for testing
             // true (HIGHLY RECOMMENDED): Respects user's accessibility needs - shows you care about all users
             // false: Ignores system preference - animations always play (not recommended for accessibility)
-            
+
             fallbackDuration: 80, // *** 0-200ms - Animation duration when user prefers reduced motion
             // 0ms: Completely instant - most accessible but least polished
             // 50-100ms: Very quick transitions - maintains some polish while being accessible

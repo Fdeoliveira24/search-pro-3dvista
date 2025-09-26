@@ -1,12 +1,20 @@
+// File loading confirmed - now debugging the flow
+console.log("========================================");
+console.log("APPEARANCE TAB JS FILE LOADED SUCCESSFULLY");
+console.log("========================================");
+
 /**
  * Search Pro Control Panel - Appearance Tab Handler
  * Handles all functionality specific to the Appearance settings tab
  */
+console.log("🚨🚨🚨 APPEARANCE-TAB.JS FILE IS LOADING! 🚨🚨🚨");
 
 class AppearanceTabHandler {
   constructor() {
     this.core = null;
     this.tabId = "appearance";
+    console.log("APPEARANCE TAB HANDLER CONSTRUCTOR CALLED!");
+    console.log("🚨🚨🚨 APPEARANCE TAB HANDLER CONSTRUCTOR CALLED! 🚨🚨🚨");
   }
 
   /**
@@ -21,13 +29,18 @@ class AppearanceTabHandler {
    */
   init(container) {
     try {
-      console.log("🎨 Initializing Appearance tab handler");
+      console.log("🚨🚨🚨 APPEARANCE TAB INIT CALLED! 🚨🚨🚨");
+      console.log("🚨 Container received:", container);
+      console.log("🚨 Core instance:", this.core);
 
       // Setup form listeners
       this.core.setupFormListeners(container);
 
       // Setup appearance-specific handlers
       this.setupAppearanceHandlers(container);
+
+      // Setup border radius validation
+      this.setupBorderRadiusValidation(container);
 
       // Populate form with current values
       this.core.populateForm(container);
@@ -72,26 +85,79 @@ class AppearanceTabHandler {
    */
   setupColorPickerHandlers(container) {
     try {
+      console.log(`🚨🚨🚨 SETUP COLOR PICKER HANDLERS CALLED! 🚨🚨🚨`);
+      console.log(`🚨 Container:`, container);
       const colorInputs = container.querySelectorAll(".color-input");
+      console.log(`🔥 CRITICAL: Found ${colorInputs.length} color inputs in appearance tab`);
+      
+      // Check specifically for groupHeaderBackground
+      const groupHeaderBg = container.querySelector("#groupHeaderBackground");
+      console.log(`🔥 CRITICAL: groupHeaderBackground element found:`, groupHeaderBg);
+      if (groupHeaderBg) {
+        console.log(`🔥 CRITICAL: groupHeaderBg id="${groupHeaderBg.id}", value="${groupHeaderBg.value}"`);
+      }
       colorInputs.forEach((input) => {
+        console.log(`🔥 CRITICAL: Processing color input: id="${input.id}"`);
+        if (input.id === "groupHeaderBackground") {
+          console.log(`🔥 CRITICAL: FOUND GROUP HEADER BACKGROUND INPUT!`);
+        }
         const hexInput = input.parentNode.querySelector(".color-hex-input");
-        if (!hexInput) return;
+        if (!hexInput) {
+          console.log(`🔥 CRITICAL: No hex input found for ${input.id}`);
+          return;
+        }
 
         // Update HEX input when color picker changes
         input.addEventListener("input", (e) => {
+          console.log(`🔥 CRITICAL: Color input changed: ${e.target.id} = ${e.target.value}`);
+          if (e.target.id === "groupHeaderBackground") {
+            console.log(`🔥 CRITICAL: GROUP HEADER BACKGROUND EVENT FIRED!`);
+            console.log(`🔥 CRITICAL: About to call onFormChange and applyColorLivePreview`);
+          }
           hexInput.value = e.target.value;
           hexInput.classList.remove("error");
+          
+          // CRITICAL: Ensure core form change is called first
           this.core.onFormChange(e.target);
+          
+          // CRITICAL: Then apply live preview
           this.applyColorLivePreview(e.target.id, e.target.value);
+          
+          if (e.target.id === "groupHeaderBackground") {
+            console.log(`🔥 CRITICAL: Finished onFormChange and applyColorLivePreview for groupHeaderBackground`);
+          }
+          
+          // Sync Result Icon Color with Icon Color in Display tab
+          if (e.target.id === "resultIconColor") {
+            this.syncIconColors(e.target.value);
+          }
         });
 
         // Update color picker when HEX input changes
         hexInput.addEventListener("input", (e) => {
           if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(e.target.value)) {
+            console.log(`🔥 CRITICAL: HEX input changed: ${input.id} = ${e.target.value}`);
+            if (input.id === "groupHeaderBackground") {
+              console.log(`🔥 CRITICAL: GROUP HEADER BACKGROUND HEX EVENT FIRED!`);
+              console.log(`🔥 CRITICAL: About to call onFormChange and applyColorLivePreview for HEX`);
+            }
             input.value = e.target.value;
             hexInput.classList.remove("error");
+            
+            // CRITICAL: Ensure core form change is called first
             this.core.onFormChange(input);
+            
+            // CRITICAL: Then apply live preview
             this.applyColorLivePreview(input.id, input.value);
+            
+            if (input.id === "groupHeaderBackground") {
+              console.log(`🔥 CRITICAL: Finished onFormChange and applyColorLivePreview for groupHeaderBackground HEX`);
+            }
+            
+            // Sync Result Icon Color with Icon Color in Display tab
+            if (input.id === "resultIconColor") {
+              this.syncIconColors(e.target.value);
+            }
           } else {
             hexInput.classList.add("error");
           }
@@ -183,23 +249,22 @@ class AppearanceTabHandler {
     try {
       const resetButtons = container.querySelectorAll(".reset-section-button");
       resetButtons.forEach((button) => {
-        button.addEventListener("click", (e) => {
+        // Remove any existing listeners to prevent duplicates
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        newButton.addEventListener("click", (e) => {
           e.preventDefault();
           const section = e.target.closest("button").dataset.section;
           if (section) {
             this.resetColorSection(section);
-            // Show feedback toast
-            this.core.showToast(
-              "success",
-              `${section} Reset`,
-              `${section} colors restored to defaults`,
-            );
+            // Note: resetColorSection now handles its own toast notifications
           }
         });
       });
 
       console.log(
-        `🔄 Reset button handlers set up for ${resetButtons.length} buttons`,
+        `🔄 Reset button handlers set up for ${resetButtons.length} buttons (duplicates prevented)`,
       );
     } catch (error) {
       console.error("🚨 Error setting up reset button handlers:", error);
@@ -211,34 +276,64 @@ class AppearanceTabHandler {
    */
   setupTypographyHandlers(container) {
     try {
-      const typographySelects = container.querySelectorAll(".form-select");
-      typographySelects.forEach((select) => {
+      console.log("🎯 TYPOGRAPHY SETUP: Starting typography handlers setup");
+      
+      // Target typography-specific selects and inputs within typography section
+      const typographySection = container.querySelector('section[aria-labelledby="typography-heading"]');
+      if (!typographySection) {
+        console.warn("🎯 TYPOGRAPHY SETUP: Typography section not found");
+        // Try alternative selectors
+        const altSection = container.querySelector('[data-section="typography"]');
+        if (altSection) {
+          console.log("🎯 TYPOGRAPHY SETUP: Found typography section via data-section");
+        } else {
+          console.error("🎯 TYPOGRAPHY SETUP: No typography section found with any selector");
+          return;
+        }
+      } else {
+        console.log("🎯 TYPOGRAPHY SETUP: Typography section found");
+      }
+
+      const activeSection = typographySection || container.querySelector('[data-section="typography"]');
+
+      const typographySelects = activeSection.querySelectorAll(".form-select");
+      console.log(`🎯 TYPOGRAPHY SETUP: Found ${typographySelects.length} select elements`);
+      
+      typographySelects.forEach((select, index) => {
+        console.log(`🎯 TYPOGRAPHY SETUP: Setting up select ${index + 1} with ID: ${select.id}`);
         select.addEventListener("change", (e) => {
+          console.log(`🎯 TYPOGRAPHY EVENT: Select changed - ${e.target.id} = ${e.target.value}`);
           this.core.onFormChange(e.target);
           this.applyTypographyPreview(e.target.id, e.target.value);
         });
       });
 
-      // Handle text inputs for typography values
-      const typographyInputs = container.querySelectorAll(
+      // Handle text inputs for typography values - be more specific
+      const typographyInputs = activeSection.querySelectorAll(
         'input[id^="input"], input[id^="placeholder"], input[id^="focus"]',
       );
-      typographyInputs.forEach((input) => {
+      console.log(`🎯 TYPOGRAPHY SETUP: Found ${typographyInputs.length} input elements`);
+      
+      typographyInputs.forEach((input, index) => {
+        console.log(`🎯 TYPOGRAPHY SETUP: Setting up input ${index + 1} with ID: ${input.id}, type: ${input.type}`);
         input.addEventListener("change", (e) => {
+          console.log(`🎯 TYPOGRAPHY EVENT: Input change - ${e.target.id} = ${e.target.value}`);
           this.core.onFormChange(e.target);
           this.applyTypographyPreview(e.target.id, e.target.value);
         });
 
         input.addEventListener("input", (e) => {
+          console.log(`🎯 TYPOGRAPHY EVENT: Input input - ${e.target.id} = ${e.target.value}`);
           this.applyTypographyPreview(e.target.id, e.target.value);
         });
       });
 
       console.log(
-        `📝 Typography handlers set up for ${typographySelects.length} selects and ${typographyInputs.length} inputs`,
+        `🎯 TYPOGRAPHY SETUP COMPLETE: ${typographySelects.length} selects and ${typographyInputs.length} inputs configured`,
       );
     } catch (error) {
-      console.error("🚨 Error setting up typography handlers:", error);
+      console.error("🚨 TYPOGRAPHY SETUP ERROR:", error);
+      console.error("🚨 Error stack:", error.stack);
     }
   }
 
@@ -255,10 +350,11 @@ class AppearanceTabHandler {
         clearIcon: "--clear-icon",
         resultsBackground: "--results-background",
         resultText: "--result-text",
-        resultHover: "--result-hover-bg",
+        resultHover: "--result-hover",
         resultBorderLeft: "--result-border-left",
-        groupHeaderColor: "--group-header-color",
-        groupCountColor: "--group-count-color",
+        groupHeaderBackground: "--group-header-bg",
+        groupHeaderColor: "--group-header",
+        groupCountColor: "--group-count",
         resultSubtitle: "--result-subtitle",
         resultIconColor: "--result-icon-color",
         resultSubtextColor: "--result-subtext-color",
@@ -271,14 +367,36 @@ class AppearanceTabHandler {
 
       const shortField = fieldName.split(".").pop();
       const cssVar = cssVarMap[fieldName] || cssVarMap[shortField];
+      
+      console.log(`🔥 CRITICAL DEBUG: fieldName=${fieldName}, shortField=${shortField}, cssVar=${cssVar}`);
+      
+      if (fieldName === "groupHeaderBackground" || shortField === "groupHeaderBackground") {
+        console.log(`🔥 CRITICAL: GROUP HEADER BACKGROUND PROCESSING!`);
+      }
 
       if (cssVar) {
+        console.log(`🔥 CRITICAL: Setting CSS variable ${cssVar} to ${value}`);
         document.documentElement.style.setProperty(cssVar, value);
         const previewPanel = document.getElementById("livePreviewPanel");
         if (previewPanel) {
           previewPanel.style.setProperty(cssVar, value);
+          console.log(`🔥 CRITICAL: Also set CSS variable on preview panel`);
         }
-        console.log(`🎨 Applied live preview for ${fieldName}: ${value}`);
+        
+        // CRITICAL: Force style update
+        if (fieldName === "groupHeaderBackground" || shortField === "groupHeaderBackground") {
+          console.log(`🔥 CRITICAL: Forcing style update for group headers`);
+          const groupHeaders = document.querySelectorAll('.group-header');
+          console.log(`🔥 CRITICAL: Found ${groupHeaders.length} group headers to update`);
+          groupHeaders.forEach(header => {
+            header.style.backgroundColor = value;
+            console.log(`🔥 CRITICAL: Directly set background-color=${value} on header:`, header);
+          });
+        }
+        
+        console.log(`🎨 Applied live preview for ${fieldName}: ${value} -> ${cssVar}`);
+      } else {
+        console.warn(`🎨 No CSS variable found for ${fieldName} (shortField: ${shortField})`);
       }
     } catch (error) {
       console.error("🚨 Error applying color live preview:", error);
@@ -321,41 +439,84 @@ class AppearanceTabHandler {
   }
 
   /**
-   * Apply typography live preview
+   * Apply typography configuration - save to localStorage for tour integration
    */
   applyTypographyPreview(fieldId, value) {
     try {
-      const cssVarMap = {
-        inputFontSize: "--search-input-font-size",
-        inputFontFamily: "--search-input-font-family",
-        inputFontWeight: "--search-input-font-weight",
-        inputFontStyle: "--search-input-font-style",
-        inputLineHeight: "--search-input-line-height",
-        inputLetterSpacing: "--search-input-letter-spacing",
-        inputTextTransform: "--search-input-text-transform",
-        placeholderFontSize: "--search-placeholder-font-size",
-        placeholderFontFamily: "--search-placeholder-font-family",
-        placeholderFontWeight: "--search-placeholder-font-weight",
-        placeholderFontStyle: "--search-placeholder-font-style",
-        placeholderOpacity: "--search-placeholder-opacity",
-        placeholderLetterSpacing: "--search-placeholder-letter-spacing",
-        placeholderTextTransform: "--search-placeholder-text-transform",
-        focusFontSize: "--search-focus-font-size",
-        focusFontWeight: "--search-focus-font-weight",
-        focusLetterSpacing: "--search-focus-letter-spacing",
+      console.log(`🎯 TYPOGRAPHY CHANGE DEBUG: Field ${fieldId} changed to: ${value}`);
+      console.log(`🎯 TYPOGRAPHY TRIGGER: applyTypographyPreview called`);
+      
+      // Map field IDs to full configuration paths
+      const fieldConfigMap = {
+        inputFontSize: "appearance.searchField.typography.fontSize",
+        inputFontFamily: "appearance.searchField.typography.fontFamily", 
+        inputFontWeight: "appearance.searchField.typography.fontWeight",
+        inputFontStyle: "appearance.searchField.typography.fontStyle",
+        inputLineHeight: "appearance.searchField.typography.lineHeight",
+        inputLetterSpacing: "appearance.searchField.typography.letterSpacing",
+        inputTextTransform: "appearance.searchField.typography.textTransform",
+        placeholderFontSize: "appearance.searchField.typography.placeholder.fontSize",
+        placeholderFontFamily: "appearance.searchField.typography.placeholder.fontFamily",
+        placeholderFontWeight: "appearance.searchField.typography.placeholder.fontWeight",
+        placeholderFontStyle: "appearance.searchField.typography.placeholder.fontStyle",
+        placeholderOpacity: "appearance.searchField.typography.placeholder.opacity",
+        placeholderLetterSpacing: "appearance.searchField.typography.placeholder.letterSpacing",
+        placeholderTextTransform: "appearance.searchField.typography.placeholder.textTransform",
+        focusFontSize: "appearance.searchField.typography.focus.fontSize",
+        focusFontWeight: "appearance.searchField.typography.focus.fontWeight",
+        focusLetterSpacing: "appearance.searchField.typography.focus.letterSpacing",
       };
 
-      const cssVar = cssVarMap[fieldId];
-      if (cssVar) {
-        document.documentElement.style.setProperty(cssVar, value);
-        const previewPanel = document.getElementById("livePreviewPanel");
-        if (previewPanel) {
-          previewPanel.style.setProperty(cssVar, value);
+      const configPath = fieldConfigMap[fieldId];
+      console.log(`🎯 TYPOGRAPHY PATH DEBUG: ${fieldId} maps to: ${configPath}`);
+      
+      if (configPath) {
+        // CRITICAL FIX: Get the current live config if it exists, or use base config
+        let liveConfig;
+        const existingLiveConfig = this.core.safeLocalStorageGet("searchProLiveConfig");
+        if (existingLiveConfig) {
+          liveConfig = JSON.parse(JSON.stringify(existingLiveConfig));
+          console.log(`🎯 USING EXISTING LIVE CONFIG from localStorage`);
+        } else {
+          liveConfig = JSON.parse(JSON.stringify(this.core.config));
+          console.log(`🎯 USING BASE CONFIG (no live config exists)`);
         }
-        console.log(`📝 Applied typography preview for ${fieldId}: ${value}`);
+        
+        console.log(`🎯 BEFORE UPDATE: Current config structure:`, {
+          hasAppearance: !!liveConfig.appearance,
+          hasSearchField: !!liveConfig.appearance?.searchField,
+          hasTypography: !!liveConfig.appearance?.searchField?.typography
+        });
+        
+        this.core.safeSetNestedProperty(liveConfig, configPath, value);
+        console.log(`🎯 AFTER UPDATE: Config path ${configPath} set to: ${value}`);
+        
+        // Verify the update was successful
+        const updatedValue = this.core.getNestedProperty(liveConfig, configPath);
+        console.log(`🎯 VERIFICATION: Retrieved value from ${configPath}: ${updatedValue}`);
+        
+        this.core.safeLocalStorageSet("searchProLiveConfig", liveConfig);
+        console.log(`🎯 SAVED TO LOCALSTORAGE: searchProLiveConfig updated`);
+        
+        // Log the complete typography structure for debugging
+        const typographyConfig = liveConfig.appearance?.searchField?.typography;
+        console.log("🎯 FULL TYPOGRAPHY CONFIG:", JSON.stringify(typographyConfig, null, 2));
+        
+        // Also check localStorage directly
+        const savedConfig = this.core.safeLocalStorageGet("searchProLiveConfig");
+        console.log("🎯 LOCALSTORAGE VERIFICATION:", {
+          configExists: !!savedConfig,
+          typographyExists: !!savedConfig?.appearance?.searchField?.typography,
+          savedValue: this.core.getNestedProperty(savedConfig, configPath)
+        });
+        
+      } else {
+        console.warn(`🎯 WARNING: No config mapping found for typography field: ${fieldId}`);
+        console.log(`🎯 Available mappings:`, Object.keys(fieldConfigMap));
       }
     } catch (error) {
-      console.error("🚨 Error applying typography preview:", error);
+      console.error("🚨 TYPOGRAPHY ERROR:", error);
+      console.error("🚨 Error stack:", error.stack);
     }
   }
 
@@ -383,6 +544,7 @@ class AppearanceTabHandler {
             resultText: defaults.appearance.colors.resultText,
             resultHover: defaults.appearance.colors.resultHover,
             resultBorderLeft: defaults.appearance.colors.resultBorderLeft,
+            groupHeaderBackground: defaults.appearance.colors.groupHeaderBackground,
             groupHeaderColor: defaults.appearance.colors.groupHeaderColor,
             groupCountColor: defaults.appearance.colors.groupCountColor,
             resultSubtitle: defaults.appearance.colors.resultSubtitle,
@@ -420,6 +582,12 @@ class AppearanceTabHandler {
           break;
         case "typography":
           this.resetTypographySection();
+          // Show toast once for typography reset
+          this.core.showToast(
+            "success",
+            "Typography Reset",
+            "Typography settings restored to defaults",
+          );
           return;
       }
 
@@ -503,11 +671,7 @@ class AppearanceTabHandler {
       this.setFormValue("focusLetterSpacing", typography.focus.letterSpacing);
 
       console.log("📝 Typography reset to defaults");
-      this.core.showToast(
-        "success",
-        "Typography Reset",
-        "Typography settings restored to defaults",
-      );
+      // Note: Toast notification now handled by resetColorSection to prevent duplicates
     } catch (error) {
       console.error("🚨 Error resetting typography:", error);
     }
@@ -564,11 +728,8 @@ class AppearanceTabHandler {
       switch (true) {
         case fieldName.includes("borderRadius") ||
           fieldName.includes("BorderRadius"):
-          if (value < 0) {
-            isValid = false;
-          } else if (value > 50) {
-            isValid = false;
-          }
+          // Enhanced border radius validation
+          return this.validateBorderRadiusField(field);
           break;
 
         case fieldName === "tagBorderRadius":
@@ -605,6 +766,184 @@ class AppearanceTabHandler {
   }
 
   /**
+   * Enhanced border radius validation with comprehensive warnings
+   */
+  validateBorderRadiusField(input) {
+    try {
+      const value = parseFloat(input.value);
+      const fieldName = input.name || input.id;
+      
+      // Clear previous validation state
+      input.classList.remove('error', 'warning');
+      this.clearValidationMessage(input);
+      
+      // Error for negative values
+      if (value < 0) {
+        input.classList.add('error');
+        this.showValidationMessage(
+          input, 
+          'error', 
+          'Border radius cannot be negative',
+          5000
+        );
+        return false; // Return false for errors (inverse of hasErrors)
+      }
+      
+      // Error for >50px
+      if (value > 50) {
+        input.classList.add('error');
+        this.showValidationMessage(
+          input, 
+          'error', 
+          'Border radius cannot exceed 50px for optimal display',
+          5000
+        );
+        return false; // Return false for errors
+      }
+      
+      // Warning for >35px
+      if (value > 35) {
+        input.classList.add('warning');
+        this.showValidationMessage(
+          input, 
+          'warning', 
+          'Recommended: 0-35px. Max 50px',
+          3000
+        );
+        return true; // Warning, not error - validation passes
+      }
+      
+      // Valid value
+      input.classList.add('valid');
+      return true;
+      
+    } catch (error) {
+      console.error('Error validating border radius field:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Setup border radius validation for all border radius fields
+   */
+  setupBorderRadiusValidation(container) {
+    try {
+      // Find all border radius input fields
+      const borderRadiusFields = container.querySelectorAll('input[name*="borderRadius"], input[id*="BorderRadius"], input[id*="borderRadius"]');
+      
+      borderRadiusFields.forEach(input => {
+        // Add input event listener for real-time validation
+        input.addEventListener('input', (e) => {
+          this.validateBorderRadiusField(e.target);
+        });
+        
+        // Add blur event listener for final validation
+        input.addEventListener('blur', (e) => {
+          this.validateBorderRadiusField(e.target);
+        });
+      });
+      
+      console.log(`🎨 Border radius validation setup for ${borderRadiusFields.length} fields`);
+    } catch (error) {
+      console.error('Error setting up border radius validation:', error);
+    }
+  }
+
+  /**
+   * Show validation message for a field
+   */
+  showValidationMessage(input, type, message, duration = 3000) {
+    try {
+      // Use the global validation message function if available
+      if (typeof window.showValidationMessage === 'function') {
+        window.showValidationMessage(input, type, message, duration);
+        return;
+      }
+      
+      // Fallback: Create simple validation tooltip
+      this.clearValidationMessage(input);
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `validation-message validation-${type}`;
+      messageDiv.textContent = message;
+      messageDiv.id = `${input.id}-validation`;
+      
+      // Style the message
+      messageDiv.style.cssText = `
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: ${type === 'error' ? '#ef4444' : '#f59e0b'};
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 1000;
+        white-space: nowrap;
+        margin-top: 2px;
+      `;
+      
+      // Position relative to input
+      input.parentNode.style.position = 'relative';
+      input.parentNode.appendChild(messageDiv);
+      
+      // Auto-remove after duration
+      setTimeout(() => {
+        this.clearValidationMessage(input);
+      }, duration);
+      
+      console.log(`🎨 Validation message shown: ${type} - ${message}`);
+    } catch (error) {
+      console.error('Error showing validation message:', error);
+    }
+  }
+
+  /**
+   * Clear validation message for a field
+   */
+  clearValidationMessage(input) {
+    try {
+      // Use the global clear function if available
+      if (typeof window.clearValidationMessage === 'function') {
+        window.clearValidationMessage(input.id);
+        return;
+      }
+      
+      // Fallback: Remove our custom message
+      const existingMessage = document.getElementById(`${input.id}-validation`);
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+    } catch (error) {
+      console.error('Error clearing validation message:', error);
+    }
+  }
+
+  /**
+   * Sync Result Icon Color with Icon Color in Display tab
+   */
+  syncIconColors(color) {
+    try {
+      // Update the Icon Color in Display tab
+      const iconColorInput = document.querySelector('#iconColor');
+      const iconColorHex = document.querySelector('#iconColor + .color-hex-input');
+      
+      if (iconColorInput) {
+        iconColorInput.value = color;
+        this.core.setNestedValue(this.core.config, 'thumbnailSettings.iconSettings.iconColor', color);
+      }
+      
+      if (iconColorHex) {
+        iconColorHex.value = color.toUpperCase();
+      }
+      
+      console.log(`🎨 Synced Result Icon Color with Icon Color: ${color}`);
+    } catch (error) {
+      console.error('Error syncing icon colors:', error);
+    }
+  }
+
+  /**
    * Validate entire form for Appearance tab
    */
   validateForm(container = document) {
@@ -613,23 +952,36 @@ class AppearanceTabHandler {
         ".form-input, .toggle-input, .color-input, .range-input, .form-select",
       );
       let isValid = true;
+      const errors = [];
+      const warnings = [];
 
       formInputs.forEach((input) => {
         if (!this.validateField(input)) {
           isValid = false;
+          errors.push(`Invalid value in field: ${input.name || input.id || 'unknown field'}`);
         }
       });
 
       console.log(
         `🎨 Appearance tab validation: ${isValid ? "PASSED" : "FAILED"}`,
       );
-      return isValid;
+      
+      // FIXED: Return consistent validation object structure
+      return {
+        isValid: isValid,
+        errors: errors,
+        warnings: warnings
+      };
     } catch (error) {
       console.error(
         "🚨 Security: Error validating Appearance tab form:",
         error,
       );
-      return false;
+      return {
+        isValid: false,
+        errors: ["Validation error occurred"],
+        warnings: []
+      };
     }
   }
 
@@ -648,6 +1000,7 @@ class AppearanceTabHandler {
         "resultText",
         "resultHover",
         "resultBorderLeft",
+        "groupHeaderBackground",
         "groupHeaderColor",
         "groupCountColor",
         "resultSubtitle",
