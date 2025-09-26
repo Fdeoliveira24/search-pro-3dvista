@@ -11076,9 +11076,9 @@ document.addEventListener("DOMContentLoaded", function () {
     - Google Sheets data can enhance OR replace tour data
     */
         googleSheets: {
-          useGoogleSheetData: false, // *** true/false - Enable Google Sheets/CSV (DISABLES Business Data)
-          includeStandaloneEntries: false, // *** true/false - Include entries without tour matches
-          useAsDataSource: false, // *** true/false - Use as primary data source
+          useGoogleSheetData: true, // *** true/false - Enable Google Sheets/CSV (DISABLES Business Data)
+          includeStandaloneEntries: true, // *** true/false - Include entries without tour matches
+          useAsDataSource: true, // *** true/false - Use as primary data source
           fetchMode: "csv", // *** "csv" file
           // *** MUTUALLY EXCLUSIVE: Choose Online OR Local (not both) ***
           // *** OPTION 1: Online Google Sheets URL (traditional method) ***
