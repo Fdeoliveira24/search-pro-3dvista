@@ -1042,9 +1042,10 @@ if (typeof module !== 'undefined' && module.exports) {
         let config;
 
         try {
-          config = JSON.parse(content);
+          // Handle .js files (matching our export format)
+          config = this.parseJavaScriptConfig(content);
         } catch (parseError) {
-          throw new Error(`Invalid JSON format: ${parseError.message}`);
+          throw new Error(`Invalid JavaScript config file: ${parseError.message}`);
         }
 
         // Validate configuration structure
@@ -1112,6 +1113,36 @@ if (typeof module !== 'undefined' && module.exports) {
   }
 
   /**
+   * Parse JavaScript configuration file
+   */
+  parseJavaScriptConfig(content) {
+    try {
+      // Create a safe sandbox to execute the JavaScript config
+      const sandbox = {
+        window: {},
+        module: { exports: {} },
+        console: { log: () => {}, warn: () => {}, error: () => {} }
+      };
+      
+      // Execute the JavaScript content in sandbox
+      const func = new Function('window', 'module', 'console', content);
+      func(sandbox.window, sandbox.module, sandbox.console);
+      
+      // Extract config from either window.searchProConfig or module.exports
+      let config = sandbox.window.searchProConfig || sandbox.module.exports;
+      
+      if (!config || typeof config !== 'object') {
+        throw new Error('No valid searchProConfig found in JavaScript file');
+      }
+      
+      return config;
+    } catch (error) {
+      console.error('🚨 Error parsing JavaScript config:', error);
+      throw new Error(`Failed to parse JavaScript config: ${error.message}`);
+    }
+  }
+
+  /**
    * Enhanced file upload validation
    */
   validateFileUpload(file) {
@@ -1125,8 +1156,8 @@ if (typeof module !== 'undefined' && module.exports) {
         };
       }
 
-      // Check file extensions - ONLY JSON FILES ALLOWED
-      const allowedExtensions = [".json"];
+      // Check file extensions - JS FILES ONLY (matching export format)
+      const allowedExtensions = [".js"];
       const fileName = file.name.toLowerCase();
       const hasValidExtension = allowedExtensions.some((ext) =>
         fileName.endsWith(ext),
@@ -1135,7 +1166,7 @@ if (typeof module !== 'undefined' && module.exports) {
       if (!hasValidExtension) {
         return {
           isValid: false,
-          error: "Invalid file type. Only .json files are supported.",
+          error: "Invalid file type. Only .js files are supported.",
         };
       }
 
