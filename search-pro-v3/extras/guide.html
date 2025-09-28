@@ -142,7 +142,51 @@
             line-height: var(--line-height-tight);
         }
 
+        /* Navigation */
+        .nav {
+            background: #f0f4ffc0;
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-6);
+            border: 1px solid var(--color-border);
+            transition: all var(--transition-normal);
+        }
 
+        .nav:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-3);
+            list-style: none;
+        }
+
+        .nav-item a {
+            display: block;
+            padding: var(--space-3) var(--space-4);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        }
+
+        .nav-item a:hover {
+            background-color: var(--color-surface-secondary);
+            color: var(--color-primary);
+            transform: translateY(-1px);
+        }
 
         /* Main Content */
         .main-content {
@@ -462,11 +506,14 @@
 
             .sidebar {
                 width: 100%;
-                order: -1; /* Move sidebar to top on mobile */
             }
 
             .toc {
                 position: static;
+            }
+
+            .nav-list {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
         }
 
@@ -486,6 +533,10 @@
                 padding: var(--space-6);
             }
 
+            .nav-list {
+                grid-template-columns: 1fr;
+            }
+
             .step {
                 flex-direction: column;
                 text-align: center;
@@ -499,6 +550,7 @@
         /* Print Styles */
         @media print {
             .header,
+            .nav,
             .sidebar {
                 display: none;
             }
