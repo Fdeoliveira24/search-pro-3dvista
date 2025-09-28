@@ -150,6 +150,44 @@ class ControlPanelCore {
   }
 
   /**
+   * Check if a field name is a thumbnail asset field
+   */
+  isThumbnailAssetField(fieldName) {
+    // Schema A (new)
+    if (
+      fieldName === 'thumbnailSettings.defaultImagePath' ||
+      /^thumbnailSettings\.defaultImages\./.test(fieldName)
+    ) return true;
+
+    // Schema B (Display tab): thumbnails.defaults.*
+    if (
+      fieldName === 'thumbnails.defaultPath' ||
+      /^thumbnails\.defaults\./.test(fieldName)
+    ) return true;
+
+    return false;
+  }
+
+  /**
+   * Strip asset prefix from file path
+   */
+  stripAssetPrefix(value) {
+    if (!value || typeof value !== 'string') return '';
+    return value.replace(/^\.?\/?(?:search-pro-v3\/)?assets\//i, '');
+  }
+
+  /**
+   * Ensure asset prefix for file path
+   */
+  ensureAssetPrefix(value) {
+    if (!value || typeof value !== 'string') return '';
+    const v = value.trim();
+    if (/^(https?:)?\/\//i.test(v) || v.startsWith('/')) return v;
+    const fileOnly = this.stripAssetPrefix(v);
+    return fileOnly ? `assets/${fileOnly}` : '';
+  }
+
+  /**
    * Safe object merge that prevents prototype pollution
    */
   safeObjectMerge(target, source, maxDepth = 10, currentDepth = 0) {
@@ -485,12 +523,10 @@ class ControlPanelCore {
       const name = this.sanitizeInput(input.name || input.id, 100);
       let value = input.type === "checkbox" ? input.checked : input.value;
 
-      // ENHANCED DEBUGGING: Log all form changes, especially panorama-related
-      console.log(`🔍 FORM CHANGE DEBUG: Field "${name}" changed to "${value}" (type: ${input.type})`);
+      if (this.config?.debugMode) console.debug(`FORM CHANGE: ${name} -> ${value} (type: ${input.type})`);
       
-      if (name.includes("includePanoramas")) {
-        console.log("🔍 PANORAMA FORM DEBUG: Panorama toggle changed!", {
-          inputElement: input,
+      if (this.config?.debugMode && name.includes("includePanoramas")) {
+        console.debug("PANORAMA FORM DEBUG: toggle changed", {
           fieldName: name,
           newValue: value,
           inputType: input.type,
@@ -533,6 +569,11 @@ class ControlPanelCore {
         value = numValue;
       }
 
+      // Ensure asset prefix for thumbnail asset fields
+      if (typeof value === 'string' && this.isThumbnailAssetField(name)) {
+        value = this.ensureAssetPrefix(value);
+      }
+
       const success = this.safeSetNestedProperty(this.config, name, value);
       if (!success) {
         console.warn(`🚨 Security: Failed to set property ${name} safely`);
@@ -548,11 +589,11 @@ class ControlPanelCore {
         this.showLivePreview(name, value);
       }, 300);
 
-      console.log(`🔧 Config updated safely: ${name} = ${value}`);
+  if (this.config?.debugMode) console.debug(`CONFIG UPDATED: ${name} = ${value}`);
       
       // ENHANCED DEBUGGING: Log config state after panorama changes
-      if (name.includes("includePanoramas")) {
-        console.log("🔍 PANORAMA CONFIG DEBUG: Config after update", {
+      if (this.config?.debugMode && name.includes("includePanoramas")) {
+        console.debug("PANORAMA CONFIG DEBUG: after update", {
           configAfter: this.config.includeContent?.elements?.includePanoramas,
           fullElementsConfig: this.config.includeContent?.elements
         });
@@ -803,7 +844,8 @@ class ControlPanelCore {
             const filteredValues = value.filter(v => v && v.toString().trim());
             field.value = filteredValues.length > 0 ? filteredValues.join(", ") : "";
           } else {
-            field.value = value === null ? "" : String(value);
+            const s = value === null ? "" : String(value);
+            field.value = this.isThumbnailAssetField(fieldName) ? this.stripAssetPrefix(s) : s;
           }
         }
       });
@@ -886,18 +928,48 @@ class ControlPanelCore {
       },
 
       // ==========================================
-      // SEARCH SETTINGS - Advanced Search Configuration
+      // SEARCH SETTINGS - Advanced Search Configuration (merged into one block)
       // ==========================================
 
       searchSettings: {
+        // Basics
         debounce: 300,
         maxResults: 50,
         caseSensitive: false,
         fuzzySearch: {
           enabled: false,
-          threshold: 0.3
+          threshold: 0.3,
         },
-        highlightMatches: true
+        highlightMatches: true,
+
+        // Field weights
+        fieldWeights: {
+          label: 1.0,
+          businessName: 0.9,
+          subtitle: 0.8,
+          businessTag: 1.0,
+          tags: 0.6,
+          parentLabel: 0.3,
+        },
+
+        // Behavior
+        behavior: {
+          threshold: 0.4,
+          distance: 40,
+          minMatchCharLength: 1,
+          useExtendedSearch: true,
+          ignoreLocation: true,
+          includeScore: true,
+        },
+
+        // Boosts
+        boostValues: {
+          businessMatch: 2.0,
+          sheetsMatch: 2.5,
+          labeledItem: 1.5,
+          unlabeledItem: 1.0,
+          childElement: 0.8,
+        },
       },
 
       // ==========================================
@@ -1212,15 +1284,12 @@ class ControlPanelCore {
         customProperties: []
       }
     },
-
+    
       // ==========================================
       //  FILTERING TAB - Filter Which Content Appears
       // ==========================================
    
-    filter: {
-      // Only blacklistedValues - simple and reliable filtering
-      blacklistedValues: []
-    },
+    // Duplicate simple filter removed to avoid silent override
     // ==========================================
 // DATA SOURCES TAB - External Data Integration
 // ==========================================
@@ -1286,37 +1355,7 @@ googleSheets: {
           },
         },
 
-        // [10.13] Search Ranking & Behavior Settings
-        searchSettings: {
-          // Field weights (0.0 to 1.0) - Higher = More Important
-          fieldWeights: {
-            label: 1.0, // Main item name (highest priority)
-            businessName: 0.9, // Business data name
-            subtitle: 0.8, // Item descriptions
-            businessTag: 1.0, // Business tags
-            tags: 0.6, // Regular tags
-            parentLabel: 0.3, // Parent item name (lowest priority)
-          },
-
-          // Search behavior
-          behavior: {
-            threshold: 0.4, // 0.0 = exact match only, 1.0 = fuzzy match everything
-            distance: 40, // How many characters away a match can be
-            minMatchCharLength: 1, // Minimum characters needed to trigger search
-            useExtendedSearch: true, // Enable 'word syntax for exact matches
-            ignoreLocation: true, // Don't prioritize matches at start of text
-            includeScore: true, // Include relevance scores in results
-          },
-
-          // Boost values for different content types
-          boostValues: {
-            businessMatch: 2.0, // Items enhanced with business data
-            sheetsMatch: 2.5, // Items enhanced with Google Sheets data
-            labeledItem: 1.5, // Items with proper labels
-            unlabeledItem: 1.0, // Items without labels
-            childElement: 0.8, // Child elements like hotspots
-          },
-        },
+        // [10.13] Search Ranking & Behavior Settings moved to root searchSettings
 },
 
       // ...other config sections...

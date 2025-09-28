@@ -2311,6 +2311,8 @@ input[type="file"] {
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   transition: all var(--transition-normal);
+  /* Extra height so Custom Image URL area + action buttons are fully visible */
+  min-height: 525px;
 }
 
 .icon-picker-element:hover {

@@ -565,7 +565,108 @@
             }
         }
 
-        /* Icons - Remove all icon styling */
+        /* Visual Folder Structure */
+        .folder-structure {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin: var(--space-4) 0;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+        }
+
+        .folder-structure-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-family: var(--font-family-base);
+        }
+
+        .folder-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-1) 0;
+            color: var(--color-text-secondary);
+            line-height: 1.4;
+            transition: all var(--transition-normal);
+        }
+
+        .folder-item:hover {
+            color: var(--color-primary);
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: var(--radius-sm);
+            padding-left: var(--space-1);
+            margin-left: -var(--space-1);
+            margin-right: -var(--space-1);
+            padding-right: var(--space-1);
+        }
+
+        .folder-icon, .file-icon {
+            flex-shrink: 0;
+            font-size: var(--font-size-base);
+            width: 18px;
+            text-align: center;
+        }
+
+        .folder-icon {
+            color: #FFA000;
+        }
+
+        .file-icon {
+            color: var(--color-text-muted);
+        }
+
+        .folder-name, .file-name {
+            font-weight: var(--font-weight-medium);
+        }
+
+        .folder-name {
+            color: var(--color-text-primary);
+        }
+
+        .file-name {
+            color: var(--color-text-secondary);
+        }
+
+        /* Indentation levels */
+        .level-0 { margin-left: 0; }
+        .level-1 { margin-left: var(--space-4); }
+        .level-2 { margin-left: var(--space-8); }
+        .level-3 { margin-left: var(--space-12); }
+
+        /* Special highlighting for important files */
+        .folder-item.important .file-name {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .folder-item.important .file-icon {
+            color: var(--color-primary);
+        }
+
+        /* Note styling */
+        .folder-note {
+            color: var(--color-text-light);
+            font-style: italic;
+            font-size: var(--font-size-xs);
+        }
+
+        /* SVG folder and file icons styling */
+        .folder-icon, .file-icon {
+            margin-right: 8px;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        
+        .folder-structure-title .folder-icon {
+            margin-right: 12px;
+        }
     </style>
 </head>
 <body>
@@ -586,7 +687,7 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- Sidebar moved to left -->
+            <!-- Sidebar -->
             <aside class="sidebar">
                 <nav class="toc">
                     <h3 class="toc-title">
@@ -599,13 +700,13 @@
                         <li class="toc-item"><a href="#index-update">Index.html Update</a></li>
                         <li class="toc-item"><a href="#file-upload">File Upload</a></li>
                         <li class="toc-item"><a href="#dashboard">Dashboard Usage</a></li>
-                        <li class="toc-item"><a href="#configuration">Configuration</a></li>
+                        <li class="toc-item"><a href="#configuration">Configuration Deployment</a></li>
                         <li class="toc-item"><a href="#thumbnails">Thumbnails</a></li>
                         <li class="toc-item"><a href="#support">Support</a></li>
                     </ul>
                 </nav>
             </aside>
-
+            
             <main class="content">
                 <!-- Prerequisites Section -->
                 <section id="prerequisites" class="section">
@@ -624,13 +725,6 @@
                         <li><strong>Search Pro V3 Folder</strong> (from Search_Pro-V3.zip)</li>
                         <li><strong>Web Server Access</strong> (hosting platform with file upload capability)</li>
                     </ul>
-
-                    <div class="info-box info">
-                        <span class="info-box-icon icon-info"></span>
-                        <div>
-                            <strong>Important:</strong> Ensure you have backup copies of your tour files before making any modifications.
-                        </div>
-                    </div>
                 </section>
 
                 <!-- File Organization Section -->
@@ -681,19 +775,101 @@
 
                         <p>The <span class="file-path">search-pro-v3/</span> folder contains:</p>
 
-                        <pre><code>search-pro-v3/
-├── assets/                    # Image assets and thumbnails
-├── business-data/            # Business data files
-├── config/                   # Configuration files
-├── css/                      # Stylesheet files
-├── js/                       # JavaScript modules
-├── dashboard/               # Control panel interface
-├── extras/                  # Integration snippets
-├── fuse.js                  # Search library
-└── search-v3.js            # Main search engine</code></pre>
+                        <div class="folder-structure">
+                            <div class="folder-structure-title">
+                                <svg class="folder-icon" width="20" height="16" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                search-pro-v3/ Directory Structure
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">assets/</span>
+                                <span class="folder-note">Image assets and thumbnails</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">business-data/</span>
+                                <span class="folder-note">Business data files</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">config/</span>
+                                <span class="folder-note">Configuration files</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">css/</span>
+                                <span class="folder-note">Stylesheet files</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">js/</span>
+                                <span class="folder-note">JavaScript modules</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">dashboard/</span>
+                                <span class="folder-note">Control panel interface</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">extras/</span>
+                                <span class="folder-note">Integration snippets</span>
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
+                                </svg>
+                                <span class="file-name">fuse.js</span>
+                                <span class="folder-note">Search library</span>
+                            </div>
+                            
+                            <div class="folder-item level-0 important">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
+                                </svg>
+                                <span class="file-name">search-v3.js</span>
+                                <span class="folder-note">Main search engine</span>
+                            </div>
+                        </div>
 
                         <div class="info-box success">
-                            <span class="info-box-icon icon-success"></span>
+                            <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="currentColor"/>
+                            </svg>
                             <div>
                                 <strong>Key Files for Implementation:</strong>
                                 <ul>
@@ -878,21 +1054,128 @@
                             Server Structure
                         </h3>
                         <p>Upload both the tour folder and search-pro-v3 folder so your live structure looks like:</p>
-                        <pre><code>/your-tour/
-  index.html
-  /skin/...
-  (other 3DVista assets...)
-  /search-pro-v3/
-    config/
-      search-pro-config.js
-    extras/
-      Button.js
-      tour_index_update.txt
-    fuse.js/
-    js/
-    css/
-    ...
-    search-v3.js</code></pre>
+                        
+                        <div class="folder-structure">
+                            <div class="folder-structure-title">
+                                <svg class="folder-icon" width="20" height="16" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                Project Directory Structure
+                            </div>
+                            
+                            <div class="folder-item level-0">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">your-tour/</span>
+                            </div>
+                            
+                            <div class="folder-item level-1 important">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
+                                </svg>
+                                <span class="file-name">index.html</span>
+                            </div>
+                            
+                            <div class="folder-item level-1">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">skin/</span>
+                            </div>
+                            
+                            <div class="folder-item level-1">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
+                                </svg>
+                                <span class="file-name folder-note">(other 3DVista assets...)</span>
+                            </div>
+                            
+                            <div class="folder-item level-1">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">search-pro-v3/</span>
+                            </div>
+                            
+                            <div class="folder-item level-2">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">config/</span>
+                            </div>
+                            
+                            <div class="folder-item level-3 important">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
+                                </svg>
+                                <span class="file-name">search-pro-config.js</span>
+                            </div>
+                            
+                            <div class="folder-item level-2">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">extras/</span>
+                            </div>
+                            
+                            <div class="folder-item level-3 important">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
+                                </svg>
+                                <span class="file-name">Button.js</span>
+                            </div>
+                            
+                            <div class="folder-item level-3">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
+                                </svg>
+                                <span class="file-name">tour_index_update.txt</span>
+                            </div>
+                            
+                            <div class="folder-item level-2">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">js/</span>
+                            </div>
+                            
+                            <div class="folder-item level-2">
+                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
+                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
+                                </svg>
+                                <span class="folder-name">css/</span>
+                            </div>
+                            
+                            <div class="folder-item level-2">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
+                                </svg>
+                                <span class="file-name">fuse.js</span>
+                            </div>
+                            
+                            <div class="folder-item level-2 important">
+                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
+                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
+                                </svg>
+                                <span class="file-name">search-v3.js</span>
+                            </div>
+                        </div>
 
                         <div class="info-box info">
                             <div>
@@ -1113,10 +1396,10 @@
 
                     <div class="subsection">
                         <h3 class="subsection-title">
-                            Quick Preview Workflow
+                            Quick Browser Preview Workflow
                         </h3>
                         <ol>
-                            <li>Edit settings in the dashboard tab</li>
+                            <li>Edit settings in the control panel dashboard tabs</li>
                             <li>Switch to tour tab and toggle search button to reload UI with new temporary edits</li>
                             <li>Happy with changes? Export to <code>search-pro-config.js</code> and upload to server</li>
                             <li>Refresh the tour page to verify the live (server) configuration</li>
@@ -1140,9 +1423,16 @@
                             Purpose & Best Practices
                         </h3>
                         <ul>
-                            <li><strong>Visual Preview:</strong> Thumbnails provide visual context for each search result</li>
+                            <li><strong>Visual Preview:</strong> Thumbnails provide visual context for each search result type</li>
                             <li><strong>Priority System:</strong> When configured, thumbnails take priority over icons</li>
-                            <li><strong>Recommendation:</strong> Choose one system only → use thumbnails OR icons, not both</li>
+                            <div class="info-box warning">
+                                <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V9H11V15ZM11 7H9V5H11V7Z" fill="currentColor"/>
+                                </svg>
+                                <div>
+                                    <strong>Recommendation:</strong> Choose one system only → use thumbnails OR icons, not both
+                                </div>
+                            </div>
                         </ul>
                     </div>
 
@@ -1151,20 +1441,20 @@
                             Supported Formats & Placement
                         </h3>
                         
-                        <p><strong>Supported file types:</strong></p>
-                        <ul>
-                            <li>.jpg, .jpeg</li>
-                            <li>.png</li>
-                            <li>.gif</li>
-                            <li>.webp</li>
-                            <li>.svg</li>
-                        </ul>
+                        <div class="info-box success">
+                            <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="currentColor"/>
+                            </svg>
+                            <div>
+                                <strong>Supported:</strong> .jpg, .jpeg, .png, .gif, .webp, .svg
+                            </div>
+                        </div>
 
                         <div class="info-box warning">
                             <div>
                                 <strong>File Placement Rules:</strong>
                                 <ul>
-                                    <li>All images must be placed in <span class="file-path">/search-pro-v3/assets/</span></li>
+                                    <li>All images must be placed in the assets folder: <span class="file-path">/search-pro-v3/assets/</span></li>
                                     <li>File names must match exactly the names in the Display tab configuration</li>
                                     <li>Case-sensitive: <code>hotspot-default.jpg ≠ Hotspot-Default.jpg</code></li>
                                 </ul>
@@ -1193,6 +1483,31 @@
                     </div>
                 </section>
 
+                <!-- Filtering Recommendations Section -->
+                <section id="filtering" class="section">
+                    <header class="section-header">
+                        <h2 class="section-title">
+                            Filtering Tab Recommendations
+                        </h2>
+                        <p class="section-description">
+                            Important guidelines for optimal search filtering configuration.
+                        </p>
+                    </header>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">
+                            Whitelist/Blacklist Settings
+                        </h3>
+                        <div class="info-box warning">
+                            <div>
+                                <strong>Important:</strong> In the Filtering Tab, to avoid confusion or unexpected results, 
+                                enable only ONE filter setting at a time. As long as only one search filter configuration 
+                                is active, the plugin will work as intended.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Support Section -->
                 <section id="support" class="section">
                     <header class="section-header">
@@ -1216,7 +1531,7 @@
                                 <ul>
                                     <li>Ensure config loads before engine in index.html</li>
                                     <li>After uploading new config, refresh the tour page</li>
-                                    <li>Check file permissions: 644 for files, 755 for folders</li>
+                                    <li>Check file permissions: 644 for files, 755 for folders in your server</li>
                                 </ul>
                             </div>
                         </div>
@@ -1254,41 +1569,9 @@
                             <li>Can you open the dashboard URL?</li>
                             <li>Does toggling the Search button reflect dashboard edits (without reload)?</li>
                             <li>Did you export and upload <span class="file-path">/search-pro-v3/config/search-pro-config.js</span>?</li>
-                            <li>Do you see no 404s for config or engine in Network tab?</li>
+                            <li>Did you refresh the tour page?</li>
                             <li>After refresh, are your server-side settings live?</li>
                         </ol>
-                    </div>
-
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Filtering Recommendations
-                        </h3>
-                        <div class="info-box warning">
-                            <div>
-                                <strong>Important:</strong> In the Filtering Tab, to avoid confusion or unexpected results, 
-                                enable only ONE filter setting at a time. As long as only one search filter configuration 
-                                is active, the plugin will work as intended.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Get Help
-                        </h3>
-                        <p>If you need further assistance or have questions:</p>
-                        <ul>
-                            <li><strong>Email Support:</strong> <a href="mailto:info@pxl360.com">info@pxl360.com</a></li>
-                            <li><strong>Feedback:</strong> We'd love your positive review - it helps other 3DVista users discover this powerful plugin</li>
-                        </ul>
-
-                        <div class="info-box success">
-                            <div>
-                                Our advanced search plugin has been thoroughly tested to ensure reliable performance 
-                                across different 3DVista virtual tour projects. Follow the instructions in this guide 
-                                for a consistent and predictable search experience.
-                            </div>
-                        </div>
                     </div>
 
                     <div class="subsection">
@@ -1305,6 +1588,26 @@
                             <li>Remove the <span class="file-path">search-pro-v3/</span> folder from your server</li>
                         </ol>
                     </div>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">
+                            Get Help
+                        </h3>
+                        <p>If you need further assistance or have questions:</p>
+                        <ul>
+                            <li><strong>Email Support:</strong> <a href="mailto:info@pxl360.com">info@pxl360.com</a></li>
+                            <li><strong>Feedback:</strong> We’d also love your feedback. Leaving us a positive review not only makes us proud of our work but also helps other 3DVista users discover the power of this unique plugin—allowing us to dedicate even more time to future development and improvements.</li>
+                        </ul>
+
+                        <div class="info-box success">
+                            <div>
+                                Our advanced search plugin has been thoroughly tested to ensure reliable performance 
+                                across different 3DVista virtual tour projects. Follow the instructions in this guide 
+                                for a consistent and predictable search experience.
+                            </div>
+                        </div>
+                    </div>
+
                 </section>
             </main>
         </div>

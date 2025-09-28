@@ -1,276 +1,17 @@
-/* BACKUP TIMESTAMP 2025-09-26T00:00:00Z — start of file snapshot */
 /*
 ====================================
 3DVista Enhanced Search Script
 Version: 3.0.20
-Last Updated: 09/26/2025
-Description: Fixed container search functionality with proper Fuse.js indexing and preprocessing
+Last Updated: 09/27/2025
+Description:
 ====================================
 */
-/* BACKUP END */
-
-/* === SEARCH PRO – TABLE OF CONTENTS (auto) ===
- [1.0] Global/Module Scope Variables
- [1.1] Logger Shim (fallback, replaced by debug-core-v3.js)
- [1.1.1] Method: setLevel()
- [1.1.2] Method: Compatibility stubs for Logger
- [1.2] Cross-Window Communication Channel
- [2.0] Core Initialization Function
- [2.1] Method: internalInit()
- [2.1.1] Logic Block: Ensure idempotent DOM creation
- [2.1.2] Logic Block: Bind events and set up UI
- [3.0] Script Loader and Initialization
- [3.1] Default Configuration - Legacy config now removed in favor of _config
- [3.2] Utility: Wait for Tour Readiness
- [3.3] Function: initializeSearchWhenTourReady()
- [3.4] Simple Logger Definition
- [3.5] Check if Script is Already Loaded
- [3.6] Mark as Loaded
- [3.7] Define search markup template
- [3.8] Dependency Loader
- [3.9] Function: loadDependencies()
- [3.10] Optional Debug Tools Loader
- [3.11] Function: loadDebugTools()
- [3.12] Font Awesome Loader
- [3.13] Function: loadFontAwesome()
- [3.14] CSS Loader
- [3.15] Function: loadCSS()
- [3.16] DOM Initialization
- [3.17] Function: initializeDom()
- [3.17.1] Step: Find the main viewer element, which is required for injection.
- [3.17.2] Step: Check if the search container already exists to prevent duplication.
- [3.17.3] Step: Create a temporary container to safely build the markup.
- [3.17.4] Step: Append the new search container to the viewer.
- [3.18] Main Initialization Function
- [3.19] Function: initialize()
- [3.20] Module: Tour Lifecycle Binding
- [3.20.1] Method: bindLifecycle()
- [3.20.2] Method: cleanup()
- [3.21] Execution: Initialize Lifecycle Binding
- [3.22] Execution: Start initialization when the DOM is ready
- [3.23] Utility: Lightweight CSV Parser (Papa)
- [3.24] Method: parse()
- [3.24.1] Step: Skip empty lines if requested
- [3.24.2] Step: Parse header row if requested
- [3.24.3] Step: Parse data rows
- [3.24.4] Step: Return final parsed data object
- [4.0] Main Search Module Definition
- [4.1] Centralized Module-Level Variables
- [4.2] Submodule: PlaylistUtils - Enhanced playlist detection utilities
- [4.2.1] Method: getRootPlayerPlayList()
- [4.2.2] Method: getAllPlayLists()
- [4.3] Submodule: keyboardManager - Manages keyboard navigation for search results
- [4.3.1] Method: init()
- [4.4] Module: Constants and Configuration
- [4.5] Helper Function: isMobileDevice()
- [4.6] Class: ConfigBuilder - For creating and managing search configurations
- [4.6.1] Method: constructor()
- [4.6.2] Method: setDisplayOptions()
- [4.6.3] Method: setContentOptions()
- [4.6.4] Method: setFilterOptions()
- [4.6.5] Method: setLabelOptions()
- [4.6.6] Method: setAppearanceOptions()
- [4.6.7] Method: setSearchBarOptions()
- [4.6.8] Method: setGeneralOptions()
- [4.6.9] Method: setDisplayLabels()
- [4.6.10] Method: setBusinessDataOptions()
- [4.6.11] Method: setThumbnailSettings()
- [4.6.12] Method: setIconSettings()
- [4.6.13] Method: setGoogleSheetsOptions()
- [4.6.14] Method: setAnimationOptions()
- [4.6.15] Method: setSearchOptions()
- [4.6.16] Method: build()
- [4.7] Logic Block: Create Default Configuration
- [4.8] Submodule: LOGGING UTILITIES
- [4.9] Logic Block: Module State Variables
- [4.10] Logic Block: DOM ELEMENT CACHE
- [4.11] Submodule: CROSS-WINDOW COMMUNICATION
- [4.11.1] Method: init()
- [4.11.2] Method: send()
- [4.11.3] Method: listen()
- [4.11.4] Method: close()
- [4.12] Submodule: Utility Functions
- [4.13] Method: _debounce()
- [4.14] Method: _getThumbnailUrl() - Centralized thumbnail selection with config respect
- [4.15] Method: _preprocessSearchTerm() - FIXED: Restores apostrophe prefix for container search
- [4.16] Submodule: ARIA and Accessibility Helpers
- [4.17] Method: _convertHexToRGBA()
- [4.18] Helper: _normalizeForFilter() - Normalize strings for consistent filtering
- [4.19] Method: _getOverlayCamera() - Extract camera angles from overlay
- [4.20] Submodule: Element Detection and Filtering
- [4.21] Method: _getElementType()
- [4.22] Method: _validateElementType() - Validate and Normalize Element Types
- [4.23] Submodule: Element Interaction
- [4.24] Method: _triggerElement()
- [4.24.1] Helper to find element by ID using multiple methods
- [4.25] Method: _triggerStandaloneElement() - Enhanced Element Trigger Function
- [4.25.1] If it's a regular tour item, use the standard trigger
- [4.25.2] For standalone Google Sheets entries, try to find a matching tour element
- [4.26] Helper: find a 3D sprite (hotspot) by label within the current model
- [4.27] Method: _triggerElementRetry() - Enhanced Trigger Element Interaction Based on Item Type
- [4.28] Method: attemptTrigger() - Helper Function for Attempting to Trigger Elements
- [4.29] Submodule: UI Management
- [4.30] Method: _applySearchStyling()
- [4.30.1] Clean up any existing style elements
- [4.30.2] Create new style element
- [4.30.3] Generate responsive positioning CSS
- [4.30.4] Width calculation based on device type
- [4.30.5] Maximum width for mobile if specified
- [4.30.6] Base mobile positioning
- [4.30.7] Apply display-related classes and CSS variables
- [4.30.8] Set CSS variables for result tags visibility
- [4.30.9] Apply class-based styling for visibility control
- [4.30.10] Set icon color variable
- [4.30.11] Set border radius CSS variables
- [4.30.12] Set CSS variables for border radius
- [4.30.13] Set thumbnail border properties
- [4.30.14] Handle border width of 0 properly
- [4.30.15] Set thumbnail size properties
- [4.30.16] Extract pixel value from size name (e.g., "48px" -> 48)
- [4.30.17] Always set the current size
- [4.30.18] Update all predefined sizes for backward compatibility
- [4.30.19] Load Font Awesome if enabled
- [4.30.20] Set color variables for search
- [4.30.21] NEW: Set typography variables for search field
- [4.30.22] Set highlight color variables
- [4.30.23] Create background color with opacity
- [4.30.24] Set tag colors
- [4.30.25] Set tag styling variables
- [4.30.26] Handle thumbnail alignment from config
- [4.30.27] Apply thumbnail alignment to the document body as a data attribute
- [4.30.28] Apply styles to the DOM
- [4.30.29] Add or update highlight styles
- [4.30.30] Cache frequently used elements and apply placeholder text
- [4.31] Submodule: Business Data Matching
- [4.32] Method: findBusinessMatch()
- [4.32.1] Skip if no business data or invalid element
- [4.32.2] PRIORITY 1: Check subtitle matches FIRST
- [4.32.3] PRIORITY 2: Check element name matches
- [4.32.4] PRIORITY 3: Check tag matches (lowest priority)
- [4.32.5] No match found
- [4.32.6] Helper function to process business match
- [4.33] Submodule: Event Binding
- [4.34] Method: _bindSearchEventListeners()
- [4.34.1] First clean up any existing event listeners
- [4.34.2] Create a cleanup registry for this session
- [4.34.3] Bind input event with device-appropriate debounce
- [4.34.4] Bind clear button
- [4.34.5] Bind search icon
- [4.34.6] Document click handler for closing search
- [4.34.7] Touch handler for mobile
- [4.34.8] Keyboard navigation
- [4.34.9] Store cleanup functions for later use
- [4.35] Method: _unbindSearchEventListeners()
- [5.0] Module: Data Loading
- [5.1] Method: _loadGoogleSheetsData()
- [5.1.1] Skip if Google Sheets data is not enabled
- [5.1.2] Determine data source (local CSV vs. Google Sheets URL)
- [5.1.3] Check cache first if enabled (online only)
- [5.1.4] Process URL for Google Sheets (online only)
- [5.1.5] Add authentication if enabled (online only)
- [5.1.6] Fetch the data
- [5.2] Method: processGoogleSheetsData()
- [5.2.1] Enhanced tracking for duplicate prevention
- [5.2.2] Track existing items with better context
- [5.2.3] Log potential duplicate scenarios
- [5.2.4] Iterate through Google Sheets entries and match with tour data
- [5.3] Method: _loadBusinessData()
- [5.3.1] Check if business data is enabled
- [5.3.2] Determine the data path for business data
- [5.3.3] Fetch the business data
- [6.0] Module: Search Functionality
- [6.1] Method: _initializeSearch()
- [6.1.1] Log initialization start
- [6.1.2] Resolve the correct tour instance
- [6.1.3] Attempt to get tour from rootPlayer context
- [6.1.4] Apply fallback detection to find a valid tour instance
- [6.1.5] Validate the resolved tour instance
- [6.1.6] Store the validated tour reference globally
- [6.1.7] Reset module-level state
- [6.1.8] Prevent re-initialization
- [6.1.9] Set initialization flags
- [6.1.10] Initialize cross-window communication channel
- [6.1.11] Sub-function: validateDataSourceConfiguration()
- [6.1.12] Validate data source configuration
- [6.1.13] Load external data sources
- [6.1.14] Add business data promise
- [6.1.15] Add Google Sheets data promise
- [6.1.16] Prepare search index after data loading
- [6.1.17] Set up listener for cross-window communication
- [6.1.18] Apply ARIA attributes to the main container
- [6.1.19] Create search UI components
- [6.1.20] Reset state variables (redundant, but safe)
- [6.1.21] Sub-function: _prepareSearchIndex()
- [6.1.22] Sub-function: processPlaylistItem()
- [6.1.23] Sub-function: process3DModel()
- [6.1.24] Sub-function: processPanorama()
- [6.1.25] Sub-function: _processOverlaysWithSource()
- [6.1.26] Sub-function: createHybridClickHandler()
- [6.1.27] Sub-function: getBusinessMatch()
- [6.1.28] Sub-function: getSheetsMatch()
- [6.1.29] Sub-function: getResultLabel()
- [6.1.30] Sub-function: getResultDescription()
- [6.1.31] Sub-function: prepareFuse()
- [6.1.32] Sub-function: _safeGetData()
- [6.1.33] Sub-function: _shouldIncludePanorama()
- [6.1.34] Sub-function: _getDisplayLabel()
- [6.1.35] Sub-function: _getOverlays()
- [6.1.36] Sub-function: _processOverlays()
- [6.1.37] Submodule: UI Building Functions
- [6.1.38] Sub-function: _buildSearchField()
- [6.1.39] Sub-function: _buildNoResultsMessage()
- [6.1.40] Sub-function: _buildResultsContainer()
- [6.1.41] Sub-function: _createSearchInterface()
- [6.1.42] Submodule: UI Helpers
- [6.1.43] Sub-function: highlightMatch()
- [6.1.44] Sub-function: getIconSizeClass() - Get CSS class for icon size
- [6.1.45] Sub-function: getTypeIcon() - FIXED VERSION
- [6.1.46] Sub-function: groupAndSortResults()
- [6.1.47] Sub-function: _resolveDisplayType()
- [6.1.48] Sub-function: performSearch()
- [6.1.49] Set up keyboard navigation
- [6.1.50] Bind search event listeners for UI interactions
- [6.1.51] Prepare the search index
- [6.1.52] Apply search styling
- [6.1.53] Apply custom CSS for showing/hiding tags
- [6.1.54] Get key elements
- [6.1.55] Bind all event listeners
- [6.1.56] Mark initialization as complete
- [7.0] Search Visibility Toggle
- [7.1] Toggle Search Function to Handle Rapid Toggles
- [8.0] Toggle search visibility
- [8.0.1] If 'show' is explicitly specified and matches current state, debounce it
- [8.0.2] Debounce logic for double-calls from 3DVista toggle button
- [8.0.3] Enable proper toggle functionality without modifying 3DVista button code
- [8.0.4] Validate container exists
- [8.0.5] Get animation configuration - FIX: Correct the logic
- [8.1] Update the ARIA state
- [9.0] Public API
- [9.0.1] DOM Elements Cache
- [9.0.2] Initialize Search Functionality
- [10.0] Toggle Search Visibility
- [10.0.1] Get Current Configuration
- [10.0.2] Search History Management
- [10.0.3] Logging Control
- [10.0.4] Utility Functions
- [10.0.5] Expose Google Sheets Data Accessor
- [10.0.6] Expose Business Data Accessor
- [10.0.7] Expose Search Index Accessor
- [10.0.8] Expose Business Matching Function
- [10.1] Method: ensurePlaylistsReady() - Combined Playlist Readiness Detection Utility
- [10.2] Wait for a short time to ensure DOM is stable
- [10.2.1] Logic Block: Find the search container in DOM
- [10.2.2] Logic Block: If container exists in DOM but not in cache, update the cache
- [10.2.3] Now update the config
- [10.2.4] Check for live configuration updates from control panel - External File
- [10.2.5] Show configuration update notification
-=== END TOC === */
 
 // [1.0] Global/Module Scope Variables
 // [1.1] Logger Shim (fallback, replaced by debug-core-v3.js)
 if (!window.Logger) {
   window.Logger = {
-    level: 2, // 0=none, 1=error, 2=warn, 3=info, 4=debug
+    level: 4, // 0=none, 1=error, 2=warn, 3=info, 4=debug
     useColors: true,
     prefix: "[Search]",
 
@@ -11546,3 +11287,260 @@ document.addEventListener("DOMContentLoaded", function () {
 console.log(
   "🔥 CACHE BUST: Search engine reloaded at Sun Aug  3 11:34:37 PM UTC 2025",
 );
+
+/* === SEARCH PRO – TABLE OF CONTENTS ===
+ [1.0] Global/Module Scope Variables
+ [1.1] Logger Shim (fallback, replaced by debug-core-v3.js)
+ [1.1.1] Method: setLevel()
+ [1.1.2] Method: Compatibility stubs for Logger
+ [1.2] Cross-Window Communication Channel
+ [2.0] Core Initialization Function
+ [2.1] Method: internalInit()
+ [2.1.1] Logic Block: Ensure idempotent DOM creation
+ [2.1.2] Logic Block: Bind events and set up UI
+ [3.0] Script Loader and Initialization
+ [3.1] Default Configuration - Legacy config now removed in favor of _config
+ [3.2] Utility: Wait for Tour Readiness
+ [3.3] Function: initializeSearchWhenTourReady()
+ [3.4] Simple Logger Definition
+ [3.5] Check if Script is Already Loaded
+ [3.6] Mark as Loaded
+ [3.7] Define search markup template
+ [3.8] Dependency Loader
+ [3.9] Function: loadDependencies()
+ [3.10] Optional Debug Tools Loader
+ [3.11] Function: loadDebugTools()
+ [3.12] Font Awesome Loader
+ [3.13] Function: loadFontAwesome()
+ [3.14] CSS Loader
+ [3.15] Function: loadCSS()
+ [3.16] DOM Initialization
+ [3.17] Function: initializeDom()
+ [3.17.1] Step: Find the main viewer element, which is required for injection.
+ [3.17.2] Step: Check if the search container already exists to prevent duplication.
+ [3.17.3] Step: Create a temporary container to safely build the markup.
+ [3.17.4] Step: Append the new search container to the viewer.
+ [3.18] Main Initialization Function
+ [3.19] Function: initialize()
+ [3.20] Module: Tour Lifecycle Binding
+ [3.20.1] Method: bindLifecycle()
+ [3.20.2] Method: cleanup()
+ [3.21] Execution: Initialize Lifecycle Binding
+ [3.22] Execution: Start initialization when the DOM is ready
+ [3.23] Utility: Lightweight CSV Parser (Papa)
+ [3.24] Method: parse()
+ [3.24.1] Step: Skip empty lines if requested
+ [3.24.2] Step: Parse header row if requested
+ [3.24.3] Step: Parse data rows
+ [3.24.4] Step: Return final parsed data object
+ [4.0] Main Search Module Definition
+ [4.1] Centralized Module-Level Variables
+ [4.2] Submodule: PlaylistUtils - Enhanced playlist detection utilities
+ [4.2.1] Method: getRootPlayerPlayList()
+ [4.2.2] Method: getAllPlayLists()
+ [4.3] Submodule: keyboardManager - Manages keyboard navigation for search results
+ [4.3.1] Method: init()
+ [4.4] Module: Constants and Configuration
+ [4.5] Helper Function: isMobileDevice()
+ [4.6] Class: ConfigBuilder - For creating and managing search configurations
+ [4.6.1] Method: constructor()
+ [4.6.2] Method: setDisplayOptions()
+ [4.6.3] Method: setContentOptions()
+ [4.6.4] Method: setFilterOptions()
+ [4.6.5] Method: setLabelOptions()
+ [4.6.6] Method: setAppearanceOptions()
+ [4.6.7] Method: setSearchBarOptions()
+ [4.6.8] Method: setGeneralOptions()
+ [4.6.9] Method: setDisplayLabels()
+ [4.6.10] Method: setBusinessDataOptions()
+ [4.6.11] Method: setThumbnailSettings()
+ [4.6.12] Method: setIconSettings()
+ [4.6.13] Method: setGoogleSheetsOptions()
+ [4.6.14] Method: setAnimationOptions()
+ [4.6.15] Method: setSearchOptions()
+ [4.6.16] Method: build()
+ [4.7] Logic Block: Create Default Configuration
+ [4.8] Submodule: LOGGING UTILITIES
+ [4.9] Logic Block: Module State Variables
+ [4.10] Logic Block: DOM ELEMENT CACHE
+ [4.11] Submodule: CROSS-WINDOW COMMUNICATION
+ [4.11.1] Method: init()
+ [4.11.2] Method: send()
+ [4.11.3] Method: listen()
+ [4.11.4] Method: close()
+ [4.12] Submodule: Utility Functions
+ [4.13] Method: _debounce()
+ [4.14] Method: _getThumbnailUrl() - Centralized thumbnail selection with config respect
+ [4.15] Method: _preprocessSearchTerm() - FIXED: Restores apostrophe prefix for container search
+ [4.16] Submodule: ARIA and Accessibility Helpers
+ [4.17] Method: _convertHexToRGBA()
+ [4.18] Helper: _normalizeForFilter() - Normalize strings for consistent filtering
+ [4.19] Method: _getOverlayCamera() - Extract camera angles from overlay
+ [4.20] Submodule: Element Detection and Filtering
+ [4.21] Method: _getElementType()
+ [4.22] Method: _validateElementType() - Validate and Normalize Element Types
+ [4.23] Submodule: Element Interaction
+ [4.24] Method: _triggerElement()
+ [4.24.1] Helper to find element by ID using multiple methods
+ [4.25] Method: _triggerStandaloneElement() - Enhanced Element Trigger Function
+ [4.25.1] If it's a regular tour item, use the standard trigger
+ [4.25.2] For standalone Google Sheets entries, try to find a matching tour element
+ [4.26] Helper: find a 3D sprite (hotspot) by label within the current model
+ [4.27] Method: _triggerElementRetry() - Enhanced Trigger Element Interaction Based on Item Type
+ [4.28] Method: attemptTrigger() - Helper Function for Attempting to Trigger Elements
+ [4.29] Submodule: UI Management
+ [4.30] Method: _applySearchStyling()
+ [4.30.1] Clean up any existing style elements
+ [4.30.2] Create new style element
+ [4.30.3] Generate responsive positioning CSS
+ [4.30.4] Width calculation based on device type
+ [4.30.5] Maximum width for mobile if specified
+ [4.30.6] Base mobile positioning
+ [4.30.7] Apply display-related classes and CSS variables
+ [4.30.8] Set CSS variables for result tags visibility
+ [4.30.9] Apply class-based styling for visibility control
+ [4.30.10] Set icon color variable
+ [4.30.11] Set border radius CSS variables
+ [4.30.12] Set CSS variables for border radius
+ [4.30.13] Set thumbnail border properties
+ [4.30.14] Handle border width of 0 properly
+ [4.30.15] Set thumbnail size properties
+ [4.30.16] Extract pixel value from size name (e.g., "48px" -> 48)
+ [4.30.17] Always set the current size
+ [4.30.18] Update all predefined sizes for backward compatibility
+ [4.30.19] Load Font Awesome if enabled
+ [4.30.20] Set color variables for search
+ [4.30.21] NEW: Set typography variables for search field
+ [4.30.22] Set highlight color variables
+ [4.30.23] Create background color with opacity
+ [4.30.24] Set tag colors
+ [4.30.25] Set tag styling variables
+ [4.30.26] Handle thumbnail alignment from config
+ [4.30.27] Apply thumbnail alignment to the document body as a data attribute
+ [4.30.28] Apply styles to the DOM
+ [4.30.29] Add or update highlight styles
+ [4.30.30] Cache frequently used elements and apply placeholder text
+ [4.31] Submodule: Business Data Matching
+ [4.32] Method: findBusinessMatch()
+ [4.32.1] Skip if no business data or invalid element
+ [4.32.2] PRIORITY 1: Check subtitle matches FIRST
+ [4.32.3] PRIORITY 2: Check element name matches
+ [4.32.4] PRIORITY 3: Check tag matches (lowest priority)
+ [4.32.5] No match found
+ [4.32.6] Helper function to process business match
+ [4.33] Submodule: Event Binding
+ [4.34] Method: _bindSearchEventListeners()
+ [4.34.1] First clean up any existing event listeners
+ [4.34.2] Create a cleanup registry for this session
+ [4.34.3] Bind input event with device-appropriate debounce
+ [4.34.4] Bind clear button
+ [4.34.5] Bind search icon
+ [4.34.6] Document click handler for closing search
+ [4.34.7] Touch handler for mobile
+ [4.34.8] Keyboard navigation
+ [4.34.9] Store cleanup functions for later use
+ [4.35] Method: _unbindSearchEventListeners()
+ [5.0] Module: Data Loading
+ [5.1] Method: _loadGoogleSheetsData()
+ [5.1.1] Skip if Google Sheets data is not enabled
+ [5.1.2] Determine data source (local CSV vs. Google Sheets URL)
+ [5.1.3] Check cache first if enabled (online only)
+ [5.1.4] Process URL for Google Sheets (online only)
+ [5.1.5] Add authentication if enabled (online only)
+ [5.1.6] Fetch the data
+ [5.2] Method: processGoogleSheetsData()
+ [5.2.1] Enhanced tracking for duplicate prevention
+ [5.2.2] Track existing items with better context
+ [5.2.3] Log potential duplicate scenarios
+ [5.2.4] Iterate through Google Sheets entries and match with tour data
+ [5.3] Method: _loadBusinessData()
+ [5.3.1] Check if business data is enabled
+ [5.3.2] Determine the data path for business data
+ [5.3.3] Fetch the business data
+ [6.0] Module: Search Functionality
+ [6.1] Method: _initializeSearch()
+ [6.1.1] Log initialization start
+ [6.1.2] Resolve the correct tour instance
+ [6.1.3] Attempt to get tour from rootPlayer context
+ [6.1.4] Apply fallback detection to find a valid tour instance
+ [6.1.5] Validate the resolved tour instance
+ [6.1.6] Store the validated tour reference globally
+ [6.1.7] Reset module-level state
+ [6.1.8] Prevent re-initialization
+ [6.1.9] Set initialization flags
+ [6.1.10] Initialize cross-window communication channel
+ [6.1.11] Sub-function: validateDataSourceConfiguration()
+ [6.1.12] Validate data source configuration
+ [6.1.13] Load external data sources
+ [6.1.14] Add business data promise
+ [6.1.15] Add Google Sheets data promise
+ [6.1.16] Prepare search index after data loading
+ [6.1.17] Set up listener for cross-window communication
+ [6.1.18] Apply ARIA attributes to the main container
+ [6.1.19] Create search UI components
+ [6.1.20] Reset state variables (redundant, but safe)
+ [6.1.21] Sub-function: _prepareSearchIndex()
+ [6.1.22] Sub-function: processPlaylistItem()
+ [6.1.23] Sub-function: process3DModel()
+ [6.1.24] Sub-function: processPanorama()
+ [6.1.25] Sub-function: _processOverlaysWithSource()
+ [6.1.26] Sub-function: createHybridClickHandler()
+ [6.1.27] Sub-function: getBusinessMatch()
+ [6.1.28] Sub-function: getSheetsMatch()
+ [6.1.29] Sub-function: getResultLabel()
+ [6.1.30] Sub-function: getResultDescription()
+ [6.1.31] Sub-function: prepareFuse()
+ [6.1.32] Sub-function: _safeGetData()
+ [6.1.33] Sub-function: _shouldIncludePanorama()
+ [6.1.34] Sub-function: _getDisplayLabel()
+ [6.1.35] Sub-function: _getOverlays()
+ [6.1.36] Sub-function: _processOverlays()
+ [6.1.37] Submodule: UI Building Functions
+ [6.1.38] Sub-function: _buildSearchField()
+ [6.1.39] Sub-function: _buildNoResultsMessage()
+ [6.1.40] Sub-function: _buildResultsContainer()
+ [6.1.41] Sub-function: _createSearchInterface()
+ [6.1.42] Submodule: UI Helpers
+ [6.1.43] Sub-function: highlightMatch()
+ [6.1.44] Sub-function: getIconSizeClass() - Get CSS class for icon size
+ [6.1.45] Sub-function: getTypeIcon() - FIXED VERSION
+ [6.1.46] Sub-function: groupAndSortResults()
+ [6.1.47] Sub-function: _resolveDisplayType()
+ [6.1.48] Sub-function: performSearch()
+ [6.1.49] Set up keyboard navigation
+ [6.1.50] Bind search event listeners for UI interactions
+ [6.1.51] Prepare the search index
+ [6.1.52] Apply search styling
+ [6.1.53] Apply custom CSS for showing/hiding tags
+ [6.1.54] Get key elements
+ [6.1.55] Bind all event listeners
+ [6.1.56] Mark initialization as complete
+ [7.0] Search Visibility Toggle
+ [7.1] Toggle Search Function to Handle Rapid Toggles
+ [8.0] Toggle search visibility
+ [8.0.1] If 'show' is explicitly specified and matches current state, debounce it
+ [8.0.2] Debounce logic for double-calls from 3DVista toggle button
+ [8.0.3] Enable proper toggle functionality without modifying 3DVista button code
+ [8.0.4] Validate container exists
+ [8.0.5] Get animation configuration - FIX: Correct the logic
+ [8.1] Update the ARIA state
+ [9.0] Public API
+ [9.0.1] DOM Elements Cache
+ [9.0.2] Initialize Search Functionality
+ [10.0] Toggle Search Visibility
+ [10.0.1] Get Current Configuration
+ [10.0.2] Search History Management
+ [10.0.3] Logging Control
+ [10.0.4] Utility Functions
+ [10.0.5] Expose Google Sheets Data Accessor
+ [10.0.6] Expose Business Data Accessor
+ [10.0.7] Expose Search Index Accessor
+ [10.0.8] Expose Business Matching Function
+ [10.1] Method: ensurePlaylistsReady() - Combined Playlist Readiness Detection Utility
+ [10.2] Wait for a short time to ensure DOM is stable
+ [10.2.1] Logic Block: Find the search container in DOM
+ [10.2.2] Logic Block: If container exists in DOM but not in cache, update the cache
+ [10.2.3] Now update the config
+ [10.2.4] Check for live configuration updates from control panel - External File
+ [10.2.5] Show configuration update notification
+=== END TOC === */

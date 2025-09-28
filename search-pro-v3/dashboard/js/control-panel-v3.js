@@ -866,85 +866,51 @@ class SecureSearchProControlPanel {
     this.core.config.showTagsInResults = this.core.config.display.showTagsInResults;
   }
 
-  // Generate JavaScript module content instead of JSON
-  const configObj = JSON.stringify(this.core.config, null, 2);
-  const jsContent = `/**
- * Search Pro Configuration
- * Generated on ${new Date().toLocaleString()}
- * 
- * This file can be directly included in your project.
- */
+  // Build a cleaned clone and normalize asset paths across both schemas
+  const cfg = JSON.parse(JSON.stringify(this.core.config));
+  const ensure = (v) => this.core.ensureAssetPrefix(v);
 
-// Configuration Object
-window.searchProConfig = ${configObj};
-
-// For CommonJS environments
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = window.searchProConfig;
-}
-
-// Auto-application logic with robust error handling
-(function() {
-    let attempts = 0;
-    const maxAttempts = 20; // 10 seconds total
-    
-    function applyConfig() {
-        attempts++;
-        
-        if (window.searchFunctions && window.searchFunctions.updateConfig) {
-            try {
-                window.searchFunctions.updateConfig(window.searchProConfig);
-                console.log('[Search Pro] Configuration applied successfully from generated config file');
-                console.log('[Search Pro] Applied config:', window.searchProConfig);
-                return true;
-            } catch (error) {
-                console.error('[Search Pro] Error applying config:', error);
-                return false;
-            }
-        }
-        
-        if (attempts >= maxAttempts) {
-            console.warn('[Search Pro] Max attempts reached. Search functions may not be available yet.');
-            return false;
-        }
-        
-        return false;
+  // Normalize thumbnailSettings paths
+  if (cfg.thumbnailSettings) {
+    if (typeof cfg.thumbnailSettings.defaultImagePath === 'string') {
+      cfg.thumbnailSettings.defaultImagePath = ensure(cfg.thumbnailSettings.defaultImagePath);
     }
-    
-    // Try immediate application
-    if (applyConfig()) {
-        return;
+    if (cfg.thumbnailSettings.defaultImages && typeof cfg.thumbnailSettings.defaultImages === 'object') {
+      Object.keys(cfg.thumbnailSettings.defaultImages).forEach(k => {
+        const val = cfg.thumbnailSettings.defaultImages[k];
+        if (typeof val === 'string') cfg.thumbnailSettings.defaultImages[k] = ensure(val);
+      });
     }
-    
-    // DOM ready application
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                if (!applyConfig()) {
-                    // Retry with interval
-                    const interval = setInterval(() => {
-                        if (applyConfig() || attempts >= maxAttempts) {
-                            clearInterval(interval);
-                        }
-                    }, 500);
-                }
-            }, 500);
-        });
-    } else {
-        // Document already ready, start retry loop
-        const interval = setInterval(() => {
-            if (applyConfig() || attempts >= maxAttempts) {
-                clearInterval(interval);
-            }
-        }, 500);
+  }
+  // Normalize alternate thumbnails schema if present
+  if (cfg.thumbnails) {
+    if (typeof cfg.thumbnails.defaultPath === 'string') {
+      cfg.thumbnails.defaultPath = ensure(cfg.thumbnails.defaultPath);
     }
-})();
+    if (cfg.thumbnails.defaults && typeof cfg.thumbnails.defaults === 'object') {
+      Object.keys(cfg.thumbnails.defaults).forEach(k => {
+        const val = cfg.thumbnails.defaults[k];
+        if (typeof val === 'string') cfg.thumbnails.defaults[k] = ensure(val);
+      });
+    }
+  }
 
-// Export for module systems (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = window.searchProConfig;
-}
-`;
+  // Remove duplicate root keys, keeping richer variants
+  // (Specifically avoid a second, simple filter and duplicate searchSettings)
+  if (cfg.filter && cfg.filter.blacklistedValues && Object.keys(cfg.filter).length === 1) {
+    // If a richer filter exists elsewhere in the structure, keep that.
+    // Here we do nothing because we already built cfg from core.config which has the correct single filter.
+  }
+  // Ensure only one searchSettings at root (already merged in core defaults)
+
+  // Generate JavaScript module content
+  const header = `/**\n * Search Pro Configuration\n * Generated on ${new Date().toLocaleString()}\n * This file can be directly included in your project.\n */\n\n`;
+  const body = `window.searchProConfig = ${JSON.stringify(cfg, null, 2)};\n\n` +
+    `// Auto-apply if searchFunctions is ready (silent)\n` +
+    `(function(){try{if(window.searchFunctions&&window.searchFunctions.updateConfig){window.searchFunctions.updateConfig(window.searchProConfig);}}catch(e){}})();\n` +
+    `if (typeof module !== 'undefined' && module.exports) { module.exports = window.searchProConfig; }\n`;
+
+  const jsContent = header + body;
 
   // Check file size
   if (jsContent.length > this.core.maxConfigSize) {

@@ -30,6 +30,17 @@ class DisplayTabHandler {
   }
 
   /**
+   * Return only the filename segment of a path (empty string for falsy)
+   */
+  filenameOnly(v) {
+    if (!v) return "";
+    const s = String(v);
+    const parts = s.split('/');
+    const last = parts.pop();
+    return last || "";
+  }
+
+  /**
    * Initialize display tab functionality
    */
   init(container) {
@@ -310,6 +321,8 @@ setupResetButtonHandlers(container) {
    */
   setupColorPickerHandlers(container) {
     try {
+      if (this._colorPickersReady) return;
+      this._colorPickersReady = true;
       const colorInputs = container.querySelectorAll(".color-input");
       colorInputs.forEach((input) => {
         const hexInput = input.parentNode.querySelector(".color-hex-input");
@@ -2056,9 +2069,14 @@ setupResetButtonHandlers(container) {
         if (inputId) {
           const input = document.getElementById(inputId);
           if (input) {
-            // Extract just the filename for display purposes
-            const filename = imagePath.split('/').pop() || imagePath;
+            // Extract just the filename for display purposes (prefer core helper)
+            const core = window.searchProControlPanel?.core || this.core;
+            const filename = core?.stripAssetPrefix
+              ? core.stripAssetPrefix(imagePath)
+              : this.filenameOnly(imagePath);
             input.value = filename;
+            // Also set the value attribute for consistency with static defaults
+            input.setAttribute('value', filename);
             console.log(`🔧 POPULATE: Set ${inputId} = ${filename} (from ${imagePath})`);
           } else {
             console.warn(`🔧 POPULATE: Input ${inputId} not found for element ${element}`);
@@ -2703,15 +2721,22 @@ setupResetButtonHandlers(container) {
         isValid = this.validateBorderWidth(field, value);
       } else if (field.id === "iconSize") {
         isValid = this.validateIconSize(field);
-      } else if (field.id === "thumbnailDefaultPath" || field.id?.endsWith("Default")) {
-        // Normalize asset paths using our helper
+      } else if (field.id === "thumbnailDefaultPath") {
+        // Only the global default path should be normalized to assets/
         if (field.value && field.value.trim()) {
           const normalizedPath = this.toAssetPath(field.value);
           if (normalizedPath !== field.value) {
             field.value = normalizedPath;
-            // Trigger change event to update config
             field.dispatchEvent(new Event('change', { bubbles: true }));
           }
+        }
+      } else if (field.id?.endsWith("Default")) {
+        // Element-specific fields should display filename only (no assets/ prefix)
+        const filename = this.filenameOnly(field.value);
+        if (filename !== field.value) {
+          field.value = filename;
+          field.setAttribute('value', filename);
+          field.dispatchEvent(new Event('change', { bubbles: true }));
         }
       }
 
