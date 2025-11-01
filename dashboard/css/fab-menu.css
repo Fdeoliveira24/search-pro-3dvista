@@ -1,0 +1,206 @@
+/* Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix */
+/**
+ * FAB Menu Styles
+ * Floating Action Button with proper alignment
+ */
+
+/* FAB Container */
+.fab-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: var(--z-fab, 1100);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* FAB Main Button */
+.fab-main {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  order: 2;
+  position: relative;
+  z-index: 10;
+}
+
+.fab-main:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.fab-main.active {
+  transform: rotate(45deg) scale(1.1);
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* FAB Actions Container */
+.fab-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  order: 1;
+  margin-bottom: 16px;
+}
+
+.fab-actions.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Individual FAB Action Buttons */
+.fab-action {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.fab-actions.active .fab-action {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.fab-actions.active .fab-action:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.fab-actions.active .fab-action:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.fab-actions.active .fab-action:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.fab-actions.active .fab-action:nth-child(4) {
+  transition-delay: 0.25s;
+}
+
+.fab-action:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* FAB Action Colors */
+.fab-action.fab-apply {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.fab-action.fab-download {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.fab-action.fab-load {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.fab-action.fab-reset {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* FAB Backdrop */
+.fab-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.fab-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* FAB Labels (optional) */
+.fab-action::before {
+  content: attr(data-label);
+  position: absolute;
+  right: 70px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.fab-action:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Add proper focus states for accessibility */
+.fab-main:focus,
+.fab-action:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Show FAB on mobile/tablet devices */
+@media (max-width: 1024px) {
+  .fab-container {
+    display: flex;
+  }
+}
+
+/* Mobile adjustments - Unified with main breakpoints */
+@media (max-width: 768px) {
+  .fab-container {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .fab-main {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+  }
+
+  .fab-action {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+
+  .fab-actions {
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+}

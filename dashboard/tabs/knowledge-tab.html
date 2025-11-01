@@ -1,0 +1,341 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-cogs panel-icon" aria-hidden="true"></i>
+    <h2>Management</h2>
+  </div>
+  <p class="panel-description">Configuration storage, export, and deployment settings</p>
+</div>
+
+<div class="panel-content">
+  <!-- Configuration Storage Section -->
+  <section class="config-section" aria-labelledby="config-storage-heading">
+    <div class="section-header">
+      <div class="section-header-content">
+        <div class="section-title-group">
+          <h3 class="section-title" id="config-storage-heading">
+            <i class="fas fa-database section-icon" aria-hidden="true"></i>
+            Configuration Storage
+          </h3>
+          <p class="section-description">How your settings are stored and managed</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-1-col">
+      <div class="info-message">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <span
+          >Settings are stored in browser localStorage and persist until cleared. Use export options for permanent
+          storage.</span
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Export & Import Options Section -->
+  <section class="config-section" aria-labelledby="export-import-heading">
+    <div class="section-header">
+      <div class="section-header-content">
+        <div class="section-title-group">
+          <h3 class="section-title" id="export-import-heading">
+            <i class="fas fa-exchange-alt section-icon" aria-hidden="true"></i>
+            Export & Import
+          </h3>
+          <p class="section-description">Save and load configuration files</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-2-col">
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-download" aria-hidden="true"></i>
+          Download Configuration
+        </label>
+        <p class="form-help-text">Export current settings as a JavaScript file for backup or deployment</p>
+        <div class="export-features">
+          <i class="fas fa-check-circle"></i> Creates portable settings file<br />
+          <i class="fas fa-check-circle"></i> Preserves all customizations<br />
+          <i class="fas fa-check-circle"></i> Ready for server deployment
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-upload" aria-hidden="true"></i>
+          Load Configuration
+        </label>
+        <p class="form-help-text">Import a previously saved configuration file to restore settings</p>
+        <div class="export-features">
+          <i class="fas fa-check-circle"></i> Supports JavaScript (.js) files<br />
+          <i class="fas fa-check-circle"></i> Instantly applies all settings<br />
+          <i class="fas fa-check-circle"></i> Perfect for device transfers
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Server Deployment Section -->
+  <section class="config-section" aria-labelledby="server-deployment-heading">
+    <div class="section-header">
+      <div class="section-header-content">
+        <div class="section-title-group">
+          <h3 class="section-title" id="server-deployment-heading">
+            <i class="fas fa-server section-icon" aria-hidden="true"></i>
+            Server Deployment
+          </h3>
+          <p class="section-description">Complete guide for deploying configuration to your virtual tour</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">
+        <i class="fas fa-list-ol" aria-hidden="true"></i>
+        Step-by-Step Installation
+      </h4>
+
+      <div class="form-grid grid-1-col">
+        <div class="deployment-steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <strong>Export Your Configuration:</strong>
+              <span
+                >Click the "Download Configuration" button above to save your settings as
+                <code>search-pro-config.js</code></span
+              >
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <strong>Locate Your Tour Directory:</strong>
+              <span>Find the folder containing your virtual tour files (where <code>index.html</code> is located)</span>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <strong>Place Configuration File:</strong>
+              <span
+                >Upload <code>search-pro-config.js</code> to:
+                <code class="file-path">/search-pro-v3/config/search-pro-config.js</code></span
+              >
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <strong>Ensure Search Engine is Present:</strong>
+              <span
+                >Verify that the search engine file exists at:
+                <code class="file-path">/search-pro-v3/search-v3.js</code></span
+              >
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <strong>Test Your Tour:</strong>
+              <span
+                >Refresh your virtual tour page. The search function should now use your custom configuration
+                automatically.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="infobox-success">
+          <i class="fas fa-check-circle" aria-hidden="true"></i>
+          <span
+            ><strong>Auto-Loading:</strong> Configuration loads automatically when both files are present. No additional
+            setup required!</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">
+        <i class="fas fa-code" aria-hidden="true"></i>
+        Loading Sequence & Technical Details
+      </h4>
+
+      <div class="form-grid grid-1-col">
+        <div class="technical-info">
+          <div class="tech-item">
+            <strong>Correct Loading Order:</strong>
+            <div class="file-structure">
+              <code>&lt;body&gt;</code><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Tour container Loads first - DO NOT TOUCH --&gt;</code><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id="viewer" class="fill-viewport"&gt;&lt;/div&gt;</code><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Load config file exported from Control Panel Dashboard --&gt;</code
+              ><br />
+              <code
+                >&nbsp;&nbsp;&nbsp;&nbsp;&lt;script
+                src="search-pro-v3/config/search-pro-config.js"&gt;&lt;/script&gt;</code
+              ><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Load main search engine script AFTER config file --&gt;</code><br />
+              <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="search-pro-v3/search-v3.js"&gt;&lt;/script&gt;</code><br />
+              <code>&lt;/body&gt;</code>
+            </div>
+          </div>
+
+          <div class="tech-item">
+            <strong>File Structure Requirements:</strong>
+            <div class="file-structure">
+              <code>your-tour-folder/</code><br />
+              <code>├── index.html</code><br />
+              <code>├── search-pro-v3/</code><br />
+              <code>│ ├── config/</code><br />
+              <code>│ │ └── search-pro-config.js</code> <span class="file-note">(your exported config)</span><br />
+              <code>│ └── search-v3.js</code> <span class="file-note">(search engine)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">
+        <i class="fas fa-upload" aria-hidden="true"></i>
+        Server Upload Methods
+      </h4>
+
+      <div class="form-grid grid-2-col">
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+            FTP/SFTP Upload
+          </label>
+          <div class="upload-method">
+            <p>Use your FTP client to upload the configuration file:</p>
+            <ul class="method-steps">
+              <li><i class="fas fa-check-circle step-icon"></i> Connect to your web server via FTP/SFTP</li>
+              <li><i class="fas fa-check-circle step-icon"></i> Navigate to your tour directory</li>
+              <li>
+                <i class="fas fa-check-circle step-icon"></i> Upload <code>search-pro-config.js</code> to the config
+                folder
+              </li>
+              <li>
+                <i class="fas fa-check-circle step-icon"></i> Ensure file permissions allow reading (typically 644)
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-browser" aria-hidden="true"></i>
+            Web Panel Upload
+          </label>
+          <div class="upload-method">
+            <p>Using your hosting control panel file manager:</p>
+            <ul class="method-steps">
+              <li><i class="fas fa-check-circle step-icon"></i> Log into your hosting control panel</li>
+              <li><i class="fas fa-check-circle step-icon"></i> Open the file manager tool</li>
+              <li><i class="fas fa-check-circle step-icon"></i> Navigate to your tour's directory</li>
+              <li><i class="fas fa-check-circle step-icon"></i> Upload the file to the correct path</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Practices Section -->
+  <section class="config-section" aria-labelledby="best-practices-heading">
+    <div class="section-header">
+      <div class="section-header-content">
+        <div class="section-title-group">
+          <h3 class="section-title" id="best-practices-heading">
+            <i class="fas fa-lightbulb section-icon" aria-hidden="true"></i>
+            Best Practices
+          </h3>
+          <p class="section-description">Tips for configuration management</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-2-col">
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-shield-alt" aria-hidden="true"></i>
+          Backup Strategy
+        </label>
+        <div class="practice-list">
+          <i class="fas fa-check-circle"></i> Keep backup copies in secure location<br />
+          <i class="fas fa-check-circle"></i> Export after significant changes<br />
+          <i class="fas fa-check-circle"></i> Test in development environment first
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-users" aria-hidden="true"></i>
+          Team Management
+        </label>
+        <div class="practice-list">
+          <i class="fas fa-check-circle"></i> Use descriptive file names for variants<br />
+          <i class="fas fa-check-circle"></i> Document custom settings for team<br />
+          <i class="fas fa-check-circle"></i> Share configuration files for consistency
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting Section -->
+  <section class="config-section" aria-labelledby="troubleshooting-heading">
+    <div class="section-header">
+      <div class="section-header-content">
+        <div class="section-title-group">
+          <h3 class="section-title" id="troubleshooting-heading">
+            <i class="fas fa-question-circle section-icon" aria-hidden="true"></i>
+            Common Issues
+          </h3>
+          <p class="section-description">Quick solutions to frequent problems</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-1-col">
+      <div class="troubleshooting-compact">
+        <div class="trouble-item">
+          <i class="fas fa-exclamation-triangle trouble-icon"></i>
+          <strong>Settings not applying:</strong>
+          <span>Load configuration file before search engine. Refresh tour page after changes.</span>
+        </div>
+
+        <div class="trouble-item">
+          <i class="fas fa-exclamation-triangle trouble-icon"></i>
+          <strong>File not loading:</strong>
+          <span
+            >Check file path and server permissions. File permissions are typically 644. Review browser console for
+            errors.</span
+          >
+        </div>
+
+        <div class="trouble-item">
+          <i class="fas fa-exclamation-triangle trouble-icon"></i>
+          <strong>Settings disappear:</strong>
+          <span>LocalStorage is temporary. Export to file for permanent storage.</span>
+        </div>
+
+        <div class="trouble-item">
+          <i class="fas fa-exclamation-triangle trouble-icon"></i>
+          <strong>Changes not visible after config upload:</strong>
+          <span
+            >Clear browser cache and server cache. Hard refresh with Ctrl+F5 (or Cmd+Shift+R on Mac) may be
+            required.</span
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

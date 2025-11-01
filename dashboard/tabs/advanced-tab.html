@@ -1,0 +1,681 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-sliders-h panel-icon" aria-hidden="true"></i>
+    <h2>Advanced Settings</h2>
+  </div>
+  <p class="panel-description">Search behavior and performance settings</p>
+</div>
+
+<div class="panel-content">
+  <!-- Animation Settings Section -->
+  <section class="config-section" aria-labelledby="animation-settings-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="animation-settings-heading">
+        <i class="fas fa-magic section-icon" aria-hidden="true"></i>
+        Animation Settings
+      </h3>
+      <p class="section-description">Configure global animation behavior and timing</p>
+    </div>
+
+    <!-- Enable Animations Toggle -->
+    <div class="form-group">
+      <label class="form-label" for="animationsEnabled">
+        Enable Animations
+        <span
+          class="help-tooltip"
+          data-tooltip="Enable animations globally across the search interface"
+          role="button"
+          tabindex="0"
+          aria-label="Help: Enable animations"
+        >
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+        </span>
+      </label>
+      <div class="toggle-switch">
+        <input type="checkbox" id="animationsEnabled" name="animations.enabled" class="toggle-input" />
+        <label for="animationsEnabled" class="toggle-label">
+          <span class="toggle-text">Enable animations globally</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Add spacing between toggle and duration inputs -->
+    <div style="height: 24px;"></div>
+
+    <!-- Animation Durations -->
+    <div class="form-grid grid-4-col">
+      <div class="form-group">
+        <label class="form-label" for="animationsFast">
+          Fast Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Duration for fast animations (150ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Fast duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="animationsFast"
+          name="animations.duration.fast"
+          class="form-input"
+          min="50"
+          max="500"
+          step="50"
+          placeholder="150"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="animationsNormal">
+          Normal Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Duration for normal animations (250ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Normal duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="animationsNormal"
+          name="animations.duration.normal"
+          class="form-input"
+          min="100"
+          max="1000"
+          step="50"
+          placeholder="250"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="animationsSlow">
+          Slow Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Duration for slow animations (400ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Slow duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="animationsSlow"
+          name="animations.duration.slow"
+          class="form-input"
+          min="200"
+          max="2000"
+          step="50"
+          placeholder="400"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="animationsEasing">
+          Easing
+          <span
+            class="help-tooltip"
+            data-tooltip="CSS easing function for animations"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Easing function"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select id="animationsEasing" name="animations.easing" class="form-select">
+          <option value="ease-out">Ease Out</option>
+          <option value="ease-in">Ease In</option>
+          <option value="ease-in-out">Ease In Out</option>
+          <option value="linear">Linear</option>
+          <option value="cubic-bezier(0.4, 0, 0.2, 1)">Material Design</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Bar Animations Section -->
+  <section class="config-section" aria-labelledby="searchbar-animations-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="searchbar-animations-heading">
+        <i class="fas fa-search section-icon" aria-hidden="true"></i>
+        Search Bar Animations
+      </h3>
+      <p class="section-description">Configure search bar opening and closing animations</p>
+    </div>
+
+    <div class="form-grid grid-2-col">
+      <div class="form-group">
+        <label class="form-label" for="searchBarOpenDuration">
+          Open Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="How long the search bar takes to open (300ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Open duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="searchBarOpenDuration"
+          name="animations.searchBar.openDuration"
+          class="form-input"
+          min="100"
+          max="1000"
+          step="50"
+          placeholder="300"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="searchBarCloseDuration">
+          Close Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="How long the search bar takes to close (200ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Close duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="searchBarCloseDuration"
+          name="animations.searchBar.closeDuration"
+          class="form-input"
+          min="50"
+          max="1000"
+          step="50"
+          placeholder="200"
+        />
+      </div>
+    </div>
+
+    <!-- Scale Effect Toggle -->
+    <div class="form-group">
+      <label class="form-label" for="searchBarScaleEffect">
+        Scale Effect
+        <span
+          class="help-tooltip"
+          data-tooltip="Subtle scale effect on open/close operations"
+          role="button"
+          tabindex="0"
+          aria-label="Help: Scale effect"
+        >
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+        </span>
+      </label>
+      <div class="toggle-switch">
+        <input type="checkbox" id="searchBarScaleEffect" name="animations.searchBar.scaleEffect" class="toggle-input" />
+        <label for="searchBarScaleEffect" class="toggle-label">
+          <span class="toggle-text">Subtle scale effect on open/close</span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Animations Section -->
+  <section class="config-section" aria-labelledby="results-animations-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="results-animations-heading">
+        <i class="fas fa-list section-icon" aria-hidden="true"></i>
+        Results Animations
+      </h3>
+      <p class="section-description">Configure how search results appear and animate</p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="resultsFadeInDuration">
+          Fade In Duration (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="How long results take to fade in (200ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Fade in duration"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="resultsFadeInDuration"
+          name="animations.results.fadeInDuration"
+          class="form-input"
+          min="50"
+          max="1000"
+          step="50"
+          placeholder="200"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="resultsSlideDistance">
+          Slide Distance (px)
+          <span
+            class="help-tooltip"
+            data-tooltip="Distance results slide in from (8px recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Slide distance"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="resultsSlideDistance"
+          name="animations.results.slideDistance"
+          class="form-input"
+          min="0"
+          max="50"
+          step="1"
+          placeholder="8"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="resultsStaggerDelay">
+          Stagger Delay (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Delay between each result appearing (30ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Stagger delay"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="resultsStaggerDelay"
+          name="animations.results.staggerDelay"
+          class="form-input"
+          min="0"
+          max="200"
+          step="10"
+          placeholder="30"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Reduced Motion Section -->
+  <section class="config-section" aria-labelledby="reduced-motion-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="reduced-motion-heading">
+        <i class="fas fa-universal-access section-icon" aria-hidden="true"></i>
+        Reduced Motion
+      </h3>
+      <p class="section-description">Accessibility settings for users who prefer reduced motion</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="reducedMotionRespectPreference">
+        Respect User Preference
+        <span
+          class="help-tooltip"
+          data-tooltip="Automatically respect user's system reduced motion preference"
+          role="button"
+          tabindex="0"
+          aria-label="Help: Respect user preference"
+        >
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+        </span>
+      </label>
+      <div class="toggle-switch">
+        <input
+          type="checkbox"
+          id="reducedMotionRespectPreference"
+          name="animations.reducedMotion.respectPreference"
+          class="toggle-input"
+        />
+        <label for="reducedMotionRespectPreference" class="toggle-label">
+          <span class="toggle-text">Respect user's reduced motion preference</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Add spacing between toggle and fallback duration input -->
+    <div style="height: 24px;"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="reducedMotionFallbackDuration">
+        Fallback Duration (ms)
+        <span
+          class="help-tooltip"
+          data-tooltip="Fast animation duration for accessibility (80ms recommended)"
+          role="button"
+          tabindex="0"
+          aria-label="Help: Fallback duration"
+        >
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+        </span>
+      </label>
+      <input
+        type="number"
+        id="reducedMotionFallbackDuration"
+        name="animations.reducedMotion.fallbackDuration"
+        class="form-input"
+        min="20"
+        max="200"
+        step="10"
+        placeholder="80"
+      />
+    </div>
+  </section>
+
+  <!-- Search Settings Section -->
+  <section class="config-section" aria-labelledby="search-settings-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="search-settings-heading">
+        <i class="fas fa-search-plus section-icon" aria-hidden="true"></i>
+        Search Settings
+      </h3>
+      <p class="section-description">Configure search performance and behavior settings</p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="searchDebounce">
+          Search Debounce (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Delay before search starts after user stops typing (300ms recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Search debounce delay"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="searchDebounce"
+            name="searchSettings.debounce"
+            class="form-input"
+            value="300"
+            min="0"
+            max="2000"
+            step="50"
+            aria-describedby="searchDebounce-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">ms</span>
+        </div>
+        <div id="searchDebounce-desc" class="sr-only">
+          Set delay in milliseconds before search starts after typing stops
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="maxResults">
+          Maximum Results
+          <span
+            class="help-tooltip"
+            data-tooltip="Maximum number of results to display (0 = no limit)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Maximum results limit"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="maxResults"
+            name="searchSettings.maxResults"
+            class="form-input"
+            value="50"
+            min="0"
+            max="1000"
+            step="10"
+            aria-describedby="maxResults-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">items</span>
+        </div>
+        <div id="maxResults-desc" class="sr-only">Set maximum number of search results to display (0 for no limit)</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="searchCaseSensitive">
+          Case Sensitive Search
+          <span
+            class="help-tooltip"
+            data-tooltip="Whether search should be case sensitive (Office ≠ office)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Case sensitive search"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="searchCaseSensitive"
+            name="searchSettings.caseSensitive"
+            class="toggle-input"
+            aria-describedby="searchCaseSensitive-desc"
+          />
+          <label for="searchCaseSensitive" class="toggle-label">
+            <span class="toggle-text">Case sensitive search</span>
+          </label>
+        </div>
+        <div id="searchCaseSensitive-desc" class="sr-only">Toggle case sensitivity for search queries</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fuzzySearchEnabled">
+          Enable Fuzzy Search
+          <span
+            class="help-tooltip"
+            data-tooltip="Allow approximate matches for typos and similar words"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable fuzzy search"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="fuzzySearchEnabled"
+            name="searchSettings.fuzzySearch.enabled"
+            class="toggle-input"
+            aria-describedby="fuzzySearchEnabled-desc"
+          />
+          <label for="fuzzySearchEnabled" class="toggle-label">
+            <span class="toggle-text">Enable fuzzy search</span>
+          </label>
+        </div>
+        <div id="fuzzySearchEnabled-desc" class="sr-only">Toggle fuzzy search for approximate matches</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fuzzyThreshold">
+          Fuzzy Search Threshold
+          <span
+            class="help-tooltip"
+            data-tooltip="Lower values = more strict matching (0.3 recommended for balanced results)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Fuzzy search threshold"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="fuzzyThreshold"
+            name="searchSettings.fuzzySearch.threshold"
+            class="form-input"
+            value="0.3"
+            min="0"
+            max="1"
+            step="0.1"
+            aria-describedby="fuzzyThreshold-desc"
+            inputmode="decimal"
+          />
+          <span class="input-unit" aria-hidden="true">score</span>
+        </div>
+        <div id="fuzzyThreshold-desc" class="sr-only">Set fuzzy search threshold (0 = exact match, 1 = very loose)</div>
+      </div>
+
+      <!-- CONTROL 1: Match Strictness Threshold -->
+      <div class="form-group">
+        <label class="form-label" for="searchBehaviorThreshold">
+          Match Strictness Threshold
+          <span
+            class="help-tooltip"
+            data-tooltip="Lower = stricter matching (0.0 = exact match, 1.0 = very loose). Recommended: 0.4"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Match strictness threshold"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="range-input-wrapper">
+          <input
+            type="range"
+            id="searchBehaviorThreshold"
+            name="searchSettings.behavior.threshold"
+            class="range-input"
+            value="0.4"
+            min="0"
+            max="1.0"
+            step="0.05"
+            aria-label="Match strictness threshold"
+            aria-describedby="searchBehaviorThreshold-desc"
+            role="slider"
+            aria-valuemin="0"
+            aria-valuemax="1.0"
+            aria-valuenow="0.4"
+          />
+          <span class="range-value">0.4</span>
+        </div>
+        <div id="searchBehaviorThreshold-desc" class="sr-only">
+          Set match strictness threshold (0.0 = exact match, 1.0 = very loose)
+        </div>
+      </div>
+
+      <!-- CONTROL 2: Minimum Match Characters -->
+      <div class="form-group">
+        <label class="form-label" for="searchMinMatchChars">
+          Minimum Match Characters
+          <span
+            class="help-tooltip"
+            data-tooltip="Minimum consecutive characters required to match a term (1-5 recommended)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Minimum match characters"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="searchMinMatchChars"
+            name="searchSettings.behavior.minMatchCharLength"
+            class="form-input"
+            value="1"
+            min="1"
+            max="5"
+            step="1"
+            aria-describedby="searchMinMatchChars-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">chars</span>
+        </div>
+        <div id="searchMinMatchChars-desc" class="sr-only">
+          Set minimum consecutive characters required for matching
+        </div>
+      </div>
+
+      <!-- CONTROL 3: Extended Search Toggle -->
+      <div class="form-group">
+        <label class="form-label" for="searchExtendedEnabled">
+          Enable Extended Search
+          <span
+            class="help-tooltip"
+            data-tooltip="Enable advanced search operators like 'exact match, ^starts-with, !exclude"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable extended search"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="searchExtendedEnabled"
+            name="searchSettings.behavior.useExtendedSearch"
+            class="toggle-input"
+            checked
+            aria-describedby="searchExtendedEnabled-desc"
+          />
+          <label for="searchExtendedEnabled" class="toggle-label">
+            <span class="toggle-text">Enable advanced search patterns</span>
+          </label>
+        </div>
+        <div id="searchExtendedEnabled-desc" class="sr-only">
+          Toggle extended search pattern operators
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="highlightMatches">
+          Highlight Search Matches
+          <span
+            class="help-tooltip"
+            data-tooltip="Highlight matching text in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Highlight search matches"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="highlightMatches"
+            name="searchSettings.highlightMatches"
+            class="toggle-input"
+            checked
+            aria-describedby="highlightMatches-desc"
+          />
+          <label for="highlightMatches" class="toggle-label">
+            <span class="toggle-text">Highlight matching text</span>
+          </label>
+        </div>
+        <div id="highlightMatches-desc" class="sr-only">Toggle highlighting of matching text in search results</div>
+      </div>
+    </div>
+  </section>
+</div>

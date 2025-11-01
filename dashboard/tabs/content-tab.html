@@ -1,0 +1,1010 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-file-alt panel-icon" aria-hidden="true"></i>
+    <h2>Content Settings</h2>
+  </div>
+  <p class="panel-description">Control what appears in search results and content inclusion rules</p>
+</div>
+
+<div class="panel-content">
+  <!-- Content Inclusion Section -->
+  <section class="config-section" aria-labelledby="content-inclusion-heading">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div>
+        <h3 class="section-title" id="content-inclusion-heading">
+          <i class="fas fa-filter section-icon" aria-hidden="true"></i>
+          Content Inclusion
+        </h3>
+        <p class="section-description">Define what content should be included in search results</p>
+      </div>
+    </div>
+
+    <div class="form-grid grid-3-col" role="group">
+      <div class="form-group">
+        <label class="form-label" for="unlabeledWithSubtitles">
+          Include Unlabeled with Subtitles
+          <span
+            class="help-tooltip"
+            data-tooltip="Include items with no label but with subtitles"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include unlabeled with subtitles"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="unlabeledWithSubtitles"
+            name="includeContent.unlabeledWithSubtitles"
+            class="toggle-input"
+            checked
+            aria-describedby="unlabeledWithSubtitles-desc"
+          />
+          <label for="unlabeledWithSubtitles" class="toggle-label">
+            <span class="toggle-text">Include items with no label but with subtitles</span>
+          </label>
+        </div>
+        <div id="unlabeledWithSubtitles-desc" class="sr-only">
+          Toggle to include or exclude items that have no label but have subtitles
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="unlabeledWithTags">
+          Include Unlabeled with Tags
+          <span
+            class="help-tooltip"
+            data-tooltip="Include items with no label but with tags"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include unlabeled with tags"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="unlabeledWithTags"
+            name="includeContent.unlabeledWithTags"
+            class="toggle-input"
+            checked
+            aria-describedby="unlabeledWithTags-desc"
+          />
+          <label for="unlabeledWithTags" class="toggle-label">
+            <span class="toggle-text">Include items with no label but with tags</span>
+          </label>
+        </div>
+        <div id="unlabeledWithTags-desc" class="sr-only">
+          Toggle to include or exclude items that have no label but have tags
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="completelyBlank">
+          Include Completely Blank
+          <span
+            class="help-tooltip"
+            data-tooltip="Include completely blank items"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include completely blank items"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="completelyBlank"
+            name="includeContent.completelyBlank"
+            class="toggle-input"
+            checked
+            aria-describedby="completelyBlank-desc"
+          />
+          <label for="completelyBlank" class="toggle-label">
+            <span class="toggle-text">Include completely blank items</span>
+          </label>
+        </div>
+        <div id="completelyBlank-desc" class="sr-only">Toggle to include or exclude completely blank items</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Element Types Section -->
+  <section class="config-section" aria-labelledby="element-types-heading">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div>
+        <h3 class="section-title" id="element-types-heading">
+          <i class="fas fa-cubes section-icon" aria-hidden="true"></i>
+          Element Types
+        </h3>
+        <p class="section-description">Select which types of elements to include in search results</p>
+      </div>
+    </div>
+
+    <div class="form-grid grid-3-col" role="group">
+      <div class="form-group">
+        <label class="form-label" for="includePanoramas">
+          Include Panoramas
+          <span
+            class="help-tooltip"
+            data-tooltip="Include panoramas in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include panoramas"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includePanoramas"
+            name="includeContent.elements.includePanoramas"
+            class="toggle-input"
+            checked
+            aria-describedby="includePanoramas-desc"
+          />
+          <label for="includePanoramas" class="toggle-label">
+            <span class="toggle-text">Include panoramas in search results</span>
+          </label>
+        </div>
+        <div id="includePanoramas-desc" class="sr-only">Toggle to include or exclude panoramas in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeHotspots">
+          Include Hotspots
+          <span
+            class="help-tooltip"
+            data-tooltip="Include hotspots in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include hotspots"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeHotspots"
+            name="includeContent.elements.includeHotspots"
+            class="toggle-input"
+            checked
+            aria-describedby="includeHotspots-desc"
+          />
+          <label for="includeHotspots" class="toggle-label">
+            <span class="toggle-text">Include hotspots in search results</span>
+          </label>
+        </div>
+        <div id="includeHotspots-desc" class="sr-only">Toggle to include or exclude hotspots in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includePolygons">
+          Include Polygons
+          <span
+            class="help-tooltip"
+            data-tooltip="Include polygons in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include polygons"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includePolygons"
+            name="includeContent.elements.includePolygons"
+            class="toggle-input"
+            checked
+            aria-describedby="includePolygons-desc"
+          />
+          <label for="includePolygons" class="toggle-label">
+            <span class="toggle-text">Include polygons in search results</span>
+          </label>
+        </div>
+        <div id="includePolygons-desc" class="sr-only">Toggle to include or exclude polygons in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeVideos">
+          Include Videos
+          <span
+            class="help-tooltip"
+            data-tooltip="Include videos in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include videos"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeVideos"
+            name="includeContent.elements.includeVideos"
+            class="toggle-input"
+            checked
+            aria-describedby="includeVideos-desc"
+          />
+          <label for="includeVideos" class="toggle-label">
+            <span class="toggle-text">Include videos in search results</span>
+          </label>
+        </div>
+        <div id="includeVideos-desc" class="sr-only">Toggle to include or exclude videos in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeWebframes">
+          Include Webframes
+          <span
+            class="help-tooltip"
+            data-tooltip="Include webframes in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include webframes"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeWebframes"
+            name="includeContent.elements.includeWebframes"
+            class="toggle-input"
+            checked
+            aria-describedby="includeWebframes-desc"
+          />
+          <label for="includeWebframes" class="toggle-label">
+            <span class="toggle-text">Include webframes in search results</span>
+          </label>
+        </div>
+        <div id="includeWebframes-desc" class="sr-only">Toggle to include or exclude webframes in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeImages">
+          Include Images
+          <span
+            class="help-tooltip"
+            data-tooltip="Include images in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include images"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeImages"
+            name="includeContent.elements.includeImages"
+            class="toggle-input"
+            checked
+            aria-describedby="includeImages-desc"
+          />
+          <label for="includeImages" class="toggle-label">
+            <span class="toggle-text">Include images in search results</span>
+          </label>
+        </div>
+        <div id="includeImages-desc" class="sr-only">Toggle to include or exclude images in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeText">
+          Include Text Elements
+          <span
+            class="help-tooltip"
+            data-tooltip="Include text elements in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include text elements"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeText"
+            name="includeContent.elements.includeText"
+            class="toggle-input"
+            checked
+            aria-describedby="includeText-desc"
+          />
+          <label for="includeText" class="toggle-label">
+            <span class="toggle-text">Include text elements in search results</span>
+          </label>
+        </div>
+        <div id="includeText-desc" class="sr-only">Toggle to include or exclude text elements in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeProjectedImages">
+          Include Projected Images
+          <span
+            class="help-tooltip"
+            data-tooltip="Include projected images in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include projected images"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeProjectedImages"
+            name="includeContent.elements.includeProjectedImages"
+            class="toggle-input"
+            checked
+            aria-describedby="includeProjectedImages-desc"
+          />
+          <label for="includeProjectedImages" class="toggle-label">
+            <span class="toggle-text">Include projected images in search results</span>
+          </label>
+        </div>
+        <div id="includeProjectedImages-desc" class="sr-only">
+          Toggle to include or exclude projected images in search results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="include3DHotspots">
+          Include 3D Hotspots
+          <span
+            class="help-tooltip"
+            data-tooltip="Include 3D hotspots in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include 3D hotspots"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="include3DHotspots"
+            name="includeContent.elements.include3DHotspots"
+            class="toggle-input"
+            checked
+            aria-describedby="include3DHotspots-desc"
+          />
+          <label for="include3DHotspots" class="toggle-label">
+            <span class="toggle-text">Include 3D hotspots in search results</span>
+          </label>
+        </div>
+        <div id="include3DHotspots-desc" class="sr-only">
+          Toggle to include or exclude 3D hotspots in search results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="include3DModels">
+          Include 3D Models
+          <span
+            class="help-tooltip"
+            data-tooltip="Include 3D models in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include 3D models"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="include3DModels"
+            name="includeContent.elements.include3DModels"
+            class="toggle-input"
+            checked
+            aria-describedby="include3DModels-desc"
+          />
+          <label for="include3DModels" class="toggle-label">
+            <span class="toggle-text">Include 3D models in search results</span>
+          </label>
+        </div>
+        <div id="include3DModels-desc" class="sr-only">Toggle to include or exclude 3D models in search results</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="include3DModelObjects">
+          Include 3D Model Objects
+          <span
+            class="help-tooltip"
+            data-tooltip="Include 3D model objects in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include 3D model objects"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="include3DModelObjects"
+            name="includeContent.elements.include3DModelObjects"
+            class="toggle-input"
+            checked
+            aria-describedby="include3DModelObjects-desc"
+          />
+          <label for="include3DModelObjects" class="toggle-label">
+            <span class="toggle-text">Include 3D model objects in search results</span>
+          </label>
+        </div>
+        <div id="include3DModelObjects-desc" class="sr-only">
+          Toggle to include or exclude 3D model objects in search results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeBusiness">
+          Include Business Elements
+          <span
+            class="help-tooltip"
+            data-tooltip="Include business elements in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include business elements"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeBusiness"
+            name="includeContent.elements.includeBusiness"
+            class="toggle-input"
+            checked
+            aria-describedby="includeBusiness-desc"
+          />
+          <label for="includeBusiness" class="toggle-label">
+            <span class="toggle-text">Include business elements in search results</span>
+          </label>
+        </div>
+        <div id="includeBusiness-desc" class="sr-only">
+          Toggle to include or exclude business elements in search results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeContainers">
+          Include UI Containers
+          <span
+            class="help-tooltip"
+            data-tooltip="Include UI containers in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include UI containers"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeContainers"
+            name="includeContent.elements.includeContainers"
+            class="toggle-input"
+            checked
+            aria-describedby="includeContainers-desc"
+          />
+          <label for="includeContainers" class="toggle-label">
+            <span class="toggle-text">Include UI containers in search results</span>
+          </label>
+        </div>
+        <div id="includeContainers-desc" class="sr-only">
+          Toggle to include or exclude UI containers in search results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="skipEmptyLabels">
+          Skip Empty Labels
+          <span
+            class="help-tooltip"
+            data-tooltip="Skip elements with empty labels"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Skip empty labels"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="skipEmptyLabels"
+            name="includeContent.elements.skipEmptyLabels"
+            class="toggle-input"
+            checked
+            aria-describedby="skipEmptyLabels-desc"
+          />
+          <label for="skipEmptyLabels" class="toggle-label">
+            <span class="toggle-text">Skip elements with empty labels</span>
+          </label>
+        </div>
+        <div id="skipEmptyLabels-desc" class="sr-only">Toggle to skip or include elements with empty labels</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="minLabelLength">
+          Minimum Label Length
+          <span
+            class="help-tooltip"
+            data-tooltip="Minimum label length to include in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Minimum label length"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="minLabelLength"
+            name="includeContent.elements.minLabelLength"
+            class="form-input"
+            value="0"
+            min="0"
+            max="100"
+            aria-describedby="minLabelLength-desc"
+            inputmode="numeric"
+          />
+        </div>
+        <div id="minLabelLength-desc" class="sr-only">
+          Set the minimum label length for elements to be included in search results
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Container Search Section -->
+  <section class="config-section" aria-labelledby="container-search-heading">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div>
+        <h3 class="section-title" id="container-search-heading">
+          <i class="fas fa-box section-icon" aria-hidden="true"></i>
+          Container Search Integration
+        </h3>
+        <p class="section-description">Configure container search functionality</p>
+      </div>
+    </div>
+
+    <div class="form-grid grid-1-col" role="group">
+      <div class="form-group">
+        <label class="form-label" for="enableContainerSearch">
+          Enable Container Search
+          <span
+            class="help-tooltip"
+            data-tooltip="Enable container search functionality"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable container search"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="enableContainerSearch"
+            name="includeContent.containerSearch.enableContainerSearch"
+            class="toggle-input"
+            checked
+            aria-describedby="enableContainerSearch-desc"
+          />
+          <label for="enableContainerSearch" class="toggle-label">
+            <span class="toggle-text">Enable container search functionality</span>
+          </label>
+        </div>
+        <div id="enableContainerSearch-desc" class="sr-only">
+          Toggle to enable or disable container search functionality
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="containerNames">
+          Container Names (comma-separated)
+          <span
+            class="help-tooltip"
+            data-tooltip="Comma-separated list of container names to include in search results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Container names"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <textarea
+          id="containerNames"
+          name="containerNames"
+          class="form-input container-names-input"
+          rows="2"
+          placeholder="My_Container, TwinsViewer-Container"
+          aria-describedby="containerNames-desc"
+        ></textarea>
+        <div id="containerNames-desc" class="sr-only">
+          Enter a comma-separated list of container names to include in search results
+        </div>
+        <small class="form-help-text">Array of container names to include in search results</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Display Labels Configuration Section -->
+  <section class="config-section" aria-labelledby="display-labels-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="display-labels-heading">
+        <i class="fas fa-tags section-icon" aria-hidden="true"></i>
+        Display Labels Configuration - Advanced
+      </h3>
+      <p class="section-description">Configure which field to use as the primary label for each element type</p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="displayLabelPanoramas">
+          Panoramas Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for panorama results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Panorama label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelPanoramas"
+          name="displayLabels.panoramas"
+          class="form-select"
+          aria-describedby="displayLabelPanoramas-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelPanoramas-desc" class="sr-only">Select field to use as primary label for panoramas</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelHotspots">
+          Hotspots Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for hotspot results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hotspot label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelHotspots"
+          name="displayLabels.hotspots"
+          class="form-select"
+          aria-describedby="displayLabelHotspots-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelHotspots-desc" class="sr-only">Select field to use as primary label for hotspots</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelPolygons">
+          Polygons Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for polygon results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Polygon label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelPolygons"
+          name="displayLabels.polygons"
+          class="form-select"
+          aria-describedby="displayLabelPolygons-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelPolygons-desc" class="sr-only">Select field to use as primary label for polygons</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelVideos">
+          Videos Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for video results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Video label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelVideos"
+          name="displayLabels.videos"
+          class="form-select"
+          aria-describedby="displayLabelVideos-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelVideos-desc" class="sr-only">Select field to use as primary label for videos</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelImages">
+          Images Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for image results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Image label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelImages"
+          name="displayLabels.images"
+          class="form-select"
+          aria-describedby="displayLabelImages-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelImages-desc" class="sr-only">Select field to use as primary label for images</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="displayLabelText">
+          Text Elements Label Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Field to use as label for text element results"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Text element label field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="displayLabelText"
+          name="displayLabels.text"
+          class="form-select"
+          aria-describedby="displayLabelText-desc"
+        >
+          <option value="label">Label</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+        </select>
+        <div id="displayLabelText-desc" class="sr-only">Select field to use as primary label for text elements</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use As Label Configuration Section -->
+  <section class="config-section" aria-labelledby="use-as-label-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="use-as-label-heading">
+        <i class="fas fa-exchange-alt section-icon" aria-hidden="true"></i>
+        Use As Label Configuration - Advanced
+      </h3>
+      <p class="section-description">Configure alternative field mappings when primary labels are empty</p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelPanoramas">
+          Panoramas Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Panorama fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelPanoramas"
+          name="useAsLabel.panoramas"
+          class="form-select"
+          aria-describedby="useAsLabelPanoramas-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelPanoramas-desc" class="sr-only">
+          Select alternative field for panoramas when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelHotspots">
+          Hotspots Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hotspot fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelHotspots"
+          name="useAsLabel.hotspots"
+          class="form-select"
+          aria-describedby="useAsLabelHotspots-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelHotspots-desc" class="sr-only">
+          Select alternative field for hotspots when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelPolygons">
+          Polygons Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Polygon fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelPolygons"
+          name="useAsLabel.polygons"
+          class="form-select"
+          aria-describedby="useAsLabelPolygons-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelPolygons-desc" class="sr-only">
+          Select alternative field for polygons when label is empty
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelVideos">
+          Videos Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Video fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelVideos"
+          name="useAsLabel.videos"
+          class="form-select"
+          aria-describedby="useAsLabelVideos-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelVideos-desc" class="sr-only">Select alternative field for videos when label is empty</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelImages">
+          Images Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Image fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="useAsLabelImages"
+          name="useAsLabel.images"
+          class="form-select"
+          aria-describedby="useAsLabelImages-desc"
+        >
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelImages-desc" class="sr-only">Select alternative field for images when label is empty</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsLabelText">
+          Text Elements Fallback Field
+          <span
+            class="help-tooltip"
+            data-tooltip="Alternative field to use if primary label is empty"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Text element fallback field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select id="useAsLabelText" name="useAsLabel.text" class="form-select" aria-describedby="useAsLabelText-desc">
+          <option value="none">None</option>
+          <option value="id">ID</option>
+          <option value="title">Title</option>
+          <option value="name">Name</option>
+          <option value="subtitle">Subtitle</option>
+        </select>
+        <div id="useAsLabelText-desc" class="sr-only">
+          Select alternative field for text elements when label is empty
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,696 @@
+/* Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix */
+/* ===================================
+   Modal System Styles - FIXED
+   =================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal, 1200);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1rem;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 450px; /* Slightly smaller than the default 500px */
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-overlay.active .modal-container {
+  transform: scale(1) translateY(0);
+}
+
+/* ===================================
+   Modal Header
+   =================================== */
+
+.modal-header {
+  padding: 2rem 2rem 1rem 2rem;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.modal-icon-container {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+.modal-icon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.modal-title-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.modal-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(100, 116, 139, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  transform: scale(1.05);
+}
+
+/* ===================================
+   Modal Body
+   =================================== */
+
+.modal-body {
+  padding: 0 2rem 1.5rem 2rem;
+  overflow-y: auto;
+  max-height: calc(90vh - 180px); /* Account for header and footer */
+}
+
+.modal-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 1.5rem;
+}
+
+.modal-details {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Improved spacing for logo modal */
+.modal-body .modal-section:first-child {
+  margin-top: 0.5rem;
+}
+
+.modal-body .file-drop-zone {
+  margin-top: 0.75rem;
+}
+
+/* ===================================
+   Modal Footer
+   =================================== */
+
+.modal-footer {
+  padding: 1.5rem 2rem 2rem 2rem;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.modal-footer .btn {
+  min-width: 100px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.modal-footer .btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===================================
+   Modal Type Variations
+   =================================== */
+
+/* Info Modal */
+.modal-info .modal-icon-container {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+/* Success Modal */
+.modal-success .modal-icon-container {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* Warning Modal */
+.modal-warning .modal-icon-container {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* Danger Modal */
+.modal-danger .modal-icon-container {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* Error Modal */
+.modal-error .modal-icon-container {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* Confirm Modal */
+.modal-confirm .modal-icon-container {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+/* ===================================
+   Modal Content Components
+   =================================== */
+
+/* New standardized box components for all modals */
+.modal-info-box,
+.modal-warning-box,
+.modal-danger-box {
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.modal-info-box {
+  background: #f0f9ff;
+  border: 1px solid #7dd3fc;
+  color: #0369a1;
+  margin-bottom: 1rem; /* Only keep one margin-bottom */
+}
+
+.modal-warning-box {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  color: #92400e;
+}
+
+.modal-danger-box {
+  background: #fef2f2; /* Use the enhanced version */
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+
+/* Standardized heading style for all boxes */
+.modal-info-box h4,
+.modal-warning-box h4,
+.modal-danger-box h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.modal-danger-box h4 {
+  color: #dc2626;
+}
+
+/* Standardized list style for all boxes */
+.modal-info-box ul,
+.modal-warning-box ul,
+.modal-danger-box ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.modal-info-box li,
+.modal-warning-box li,
+.modal-danger-box li {
+  margin-bottom: 4px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.modal-danger-box li {
+  color: #dc2626;
+  line-height: 1.4;
+}
+
+.modal-info-box li strong,
+.modal-warning-box li strong,
+.modal-danger-box li strong {
+  font-weight: 600;
+}
+
+/* Modal information grid */
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #475569;
+}
+
+.info-value {
+  color: #0f172a;
+}
+
+/* Tip box styling */
+.modal-tip {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: #047857;
+}
+
+.modal-tip i {
+  margin-right: 8px;
+}
+
+.modal-tip strong {
+  font-weight: 600;
+}
+
+.modal-tip ul {
+  margin: 8px 0 0 20px;
+  padding: 0;
+  list-style-type: disc;
+}
+
+.modal-tip li {
+  margin-bottom: 4px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.modal-tip code {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* ===================================
+   Button Styles
+   =================================== */
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+  color: #374151;
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ===================================
+   Accessibility & Focus States
+   =================================== */
+
+/* Improve button focus states for accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary, #3b82f6);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid var(--color-danger, #ef4444);
+  outline-offset: 2px;
+}
+
+/* ===================================
+   Responsive Design - Unified Breakpoints
+   =================================== */
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 1rem;
+    align-items: flex-start; /* Changed to ensure visibility on small screens */
+    overflow-y: auto; /* Add scrolling for small screens */
+  }
+
+  .modal-container {
+    max-width: 100%;
+    margin: 60px 0 20px 0; /* Add top margin to keep modal below status bar */
+    max-height: none; /* Allow container to expand */
+  }
+
+  .modal-body {
+    max-height: none; /* Remove max height constraint on mobile */
+    overflow-y: visible; /* Let the modal-overlay handle scrolling */
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .modal-header {
+    padding-top: 1.5rem;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .modal-close-btn {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .modal-icon-container {
+    align-self: center;
+  }
+
+  .modal-container {
+    border-radius: 12px; /* Slightly smaller radius on mobile */
+  }
+
+  /* Ensure content is readable */
+  .modal-content,
+  .modal-details {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ===================================
+   Logo Settings Modal Specific Styles
+   =================================== */
+
+/* Modal Sections */
+.modal-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title i {
+  color: #6366f1;
+  font-size: 0.875rem;
+}
+
+/* File Drop Zone */
+.file-drop-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: #f8fafc;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.drag-over {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drop-zone-content i {
+  font-size: 2rem;
+  color: #6366f1;
+  opacity: 0.7;
+}
+
+.drop-zone-content p {
+  margin: 0;
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.drop-zone-content span {
+  color: #9ca3af;
+  font-size: 0.75rem;
+}
+
+.help-text {
+  color: #64748b;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* URL Input Group */
+.url-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.url-input-group input {
+  flex: 1;
+  padding: 0.625rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.url-input-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Brand Text Input Group */
+.brand-text-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.brand-text-group input {
+  flex: 1;
+  padding: 0.625rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.brand-text-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.brand-text-group input::placeholder {
+  color: #9ca3af;
+}
+
+/* Brand Preview */
+.brand-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.preview-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.preview-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive adjustments for branding */
+@media (max-width: 640px) {
+  .brand-preview {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .preview-text {
+    white-space: normal;
+    text-align: center;
+  }
+}

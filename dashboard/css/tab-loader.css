@@ -1,0 +1,153 @@
+/* Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix */
+/**
+ * Tab Loading System Styles
+ * Provides visual feedback during tab content loading
+ */
+
+/* Standardized loading indicator for all tabs */
+.panel-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  min-height: 200px;
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(99, 102, 241, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.panel-loading p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Accessibility for loading state */
+.panel-loading[role="status"] {
+  aria-live: polite;
+  aria-label: "Loading content";
+}
+
+/* Error indicator */
+.panel-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+  background-color: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.error-icon {
+  color: var(--color-danger);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error-content h3 {
+  color: var(--color-danger);
+  font-size: var(--font-size-lg);
+  margin: 0 0 0.5rem 0;
+}
+
+.error-content p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0 0 1.5rem 0;
+}
+
+.btn-retry {
+  padding: 0.5rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-retry:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Tab content animations */
+.tab-panel.active {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Improved loading placeholders */
+.placeholder-section {
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-lg);
+  height: 200px;
+  margin-bottom: 2rem;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Accessibility focus styles */
+.btn-retry:focus {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Fix for excessive whitespace in tab panels */
+.tab-panel {
+  height: auto !important;
+  min-height: auto !important;
+  overflow-y: visible !important;
+}
+
+.panel-content {
+  padding-bottom: 1rem;
+}
+
+/* Prevent unnecessary scrolling */
+.main-content {
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    height: 100vh;
+  }
+
+  .panel-loading {
+    padding: 2rem;
+    min-height: 150px;
+  }
+
+  .loading-spinner {
+    width: 36px;
+    height: 36px;
+  }
+}

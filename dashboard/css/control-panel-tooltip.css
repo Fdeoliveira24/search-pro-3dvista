@@ -1,0 +1,160 @@
+/* Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix */
+/**
+ * Tooltip System Styles
+ * Enhanced tooltips with proper positioning and animations
+ */
+
+/* CSS Variables for tooltip styling */
+:root {
+  --tooltip-bg: rgba(30, 30, 30, 0.95);
+  --tooltip-color: white;
+  --tooltip-border-radius: 8px;
+  --tooltip-padding: 8px 16px;
+  --tooltip-font-size: 14px;
+  --tooltip-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  --tooltip-transition: all 0.2s ease-out;
+  --tooltip-max-width: 400px; /* Increased from 300px */
+  --tooltip-min-width: 120px;
+  --tooltip-z-index: var(--z-tooltip, 1400);
+}
+
+/* Tooltip Container */
+.help-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  cursor: help;
+  color: #64748b;
+  transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.help-tooltip:hover {
+  color: #3b82f6;
+}
+
+/* Tooltip Text */
+.help-tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-color);
+  padding: var(--tooltip-padding);
+  border-radius: var(--tooltip-border-radius);
+  font-size: var(--tooltip-font-size);
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: var(--tooltip-max-width);
+  min-width: var(--tooltip-min-width);
+  width: max-content;
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  hyphens: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: var(--tooltip-transition);
+  z-index: var(--tooltip-z-index);
+  box-shadow: var(--tooltip-shadow);
+}
+
+/* Tooltip Arrow */
+.help-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--tooltip-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--tooltip-transition);
+  z-index: var(--tooltip-z-index);
+}
+
+/* Show tooltip on hover */
+.help-tooltip:hover::before,
+.help-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Show tooltip on focus (keyboard navigation) */
+.help-tooltip:focus::before,
+.help-tooltip:focus::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile touch support */
+.help-tooltip.active::before,
+.help-tooltip.active::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Position adjustments for tooltips near edges */
+.help-tooltip.tooltip-left::before {
+  left: auto;
+  right: 0;
+  transform: translateX(0);
+}
+
+.help-tooltip.tooltip-left::after {
+  left: auto;
+  right: 12px;
+  transform: translateX(0);
+}
+
+.help-tooltip.tooltip-right::before {
+  left: 0;
+  right: auto;
+  transform: translateX(0);
+}
+
+.help-tooltip.tooltip-right::after {
+  left: 12px;
+  right: auto;
+  transform: translateX(0);
+}
+
+/* Responsive adjustments - Unified breakpoints */
+@media (max-width: 768px) {
+  .help-tooltip::before {
+    max-width: calc(100vw - 40px);
+    font-size: 13px;
+    padding: 8px 12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .help-tooltip {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Focus styles for accessibility */
+.help-tooltip:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Ensure tooltips appear above other elements */
+.help-tooltip::before,
+.help-tooltip::after {
+  z-index: var(--tooltip-z-index);
+}

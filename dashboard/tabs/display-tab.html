@@ -1,0 +1,2784 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-eye panel-icon" aria-hidden="true"></i>
+    <h2>Display Settings</h2>
+  </div>
+  <p class="panel-description">Control how elements appear in search results</p>
+</div>
+
+<div class="panel-content">
+  <!-- Display Behavior Section -->
+  <section class="config-section" aria-labelledby="display-behavior-heading">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div>
+        <h3 class="section-title" id="display-behavior-heading">
+          <i class="fas fa-list section-icon" aria-hidden="true"></i>
+          Display Behavior
+        </h3>
+        <p class="section-description">Configure general display settings for search results</p>
+      </div>
+      <button type="button" class="reset-section-button" data-section="displayBehavior">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset
+      </button>
+    </div>
+    <div class="subsection">
+      <h4 class="subsection-title">General Display Settings</h4>
+      <div class="form-grid grid-3-col" role="group" aria-labelledby="display-behavior-heading">
+        <div class="form-group">
+          <label class="form-label" for="showGroupHeaders">
+            Show Group Headers
+            <span
+              class="help-tooltip"
+              data-tooltip="Display category headers in results"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Display category headers"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showGroupHeaders"
+              name="display.showGroupHeaders"
+              class="toggle-input"
+              aria-describedby="showGroupHeaders-desc"
+            />
+            <label for="showGroupHeaders" class="toggle-label">
+              <span class="toggle-text">Display category headers in results</span>
+            </label>
+          </div>
+          <div id="showGroupHeaders-desc" class="sr-only">
+            Toggle to show or hide category headers in search results
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showGroupCount">
+            Show Group Count
+            <span
+              class="help-tooltip"
+              data-tooltip="Display result count per group"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Display result count per group"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showGroupCount"
+              name="display.showGroupCount"
+              class="toggle-input"
+              checked
+              aria-describedby="showGroupCount-desc"
+            />
+            <label for="showGroupCount" class="toggle-label">
+              <span class="toggle-text">Display result count per group</span>
+            </label>
+          </div>
+          <div id="showGroupCount-desc" class="sr-only">
+            Toggle to show or hide result count numbers in group headers
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconsInResults">
+            Show Icons in Results
+            <span
+              class="help-tooltip"
+              data-tooltip="Display element type icons"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Display element type icons"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconsInResults"
+              name="display.showIconsInResults"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconsInResults-desc"
+            />
+            <label for="showIconsInResults" class="toggle-label">
+              <span class="toggle-text">Display element type icons</span>
+            </label>
+          </div>
+          <div id="showIconsInResults-desc" class="sr-only">
+            Toggle to show or hide element type icons in search results
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showTagsInResults">
+            Show Tags in Results
+            <span
+              class="help-tooltip"
+              data-tooltip="Display tag information in search results"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show tags in search results"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showTagsInResults"
+              name="display.showTagsInResults"
+              class="toggle-input"
+              checked
+              aria-describedby="showTagsInResults-desc"
+            />
+            <label for="showTagsInResults" class="toggle-label">
+              <span class="toggle-text">Display tags in search results</span>
+            </label>
+          </div>
+          <div id="showTagsInResults-desc" class="sr-only">Toggle to display tag information in search results</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showSubtitlesInResults">
+            Show Subtitles in Results
+            <span
+              class="help-tooltip"
+              data-tooltip="Display description text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Display description text"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showSubtitlesInResults"
+              name="display.showSubtitlesInResults"
+              class="toggle-input"
+              checked
+              aria-describedby="showSubtitlesInResults-desc"
+            />
+            <label for="showSubtitlesInResults" class="toggle-label">
+              <span class="toggle-text">Display description text</span>
+            </label>
+          </div>
+          <div id="showSubtitlesInResults-desc" class="sr-only">
+            Toggle to show or hide subtitle descriptions in search results
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showParentInfo">
+            Show Parent Info
+            <span
+              class="help-tooltip"
+              data-tooltip="Display parent details"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Display parent details"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showParentInfo"
+              name="display.showParentInfo"
+              class="toggle-input"
+              checked
+              aria-describedby="showParentInfo-desc"
+            />
+            <label for="showParentInfo" class="toggle-label">
+              <span class="toggle-text">Display parent details</span>
+            </label>
+          </div>
+          <div id="showParentInfo-desc" class="sr-only">Toggle to show or hide parent element details in results</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thumbnail Configuration Section -->
+  <section class="config-section" aria-labelledby="thumbnail-config-heading">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div>
+        <h3 class="section-title" id="thumbnail-config-heading">
+          <i class="fas fa-image section-icon" aria-hidden="true"></i>
+          Thumbnail Configuration
+        </h3>
+        <p class="section-description">Configure thumbnail display and appearance settings</p>
+      </div>
+      <button type="button" class="reset-section-button" data-section="thumbnailSettings">
+        <i class="fas fa-undo" aria-hidden="true"></i>
+        Reset
+      </button>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Master Control</h4>
+      <div class="form-group">
+        <label class="form-label" for="enableThumbnails">
+          Enable Thumbnails
+          <span
+            class="help-tooltip"
+            data-tooltip="Master control for thumbnail display"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Master control for thumbnails"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="enableThumbnails"
+            name="thumbnailSettings.enableThumbnails"
+            class="toggle-input"
+            checked
+            aria-describedby="enableThumbnails-desc"
+          />
+          <label for="enableThumbnails" class="toggle-label">
+            <span class="toggle-text">Enable Thumbnails</span>
+          </label>
+        </div>
+        <div id="enableThumbnails-desc" class="sr-only">
+          Master toggle to enable or disable thumbnail display throughout the interface
+        </div>
+      </div>
+
+      <div class="info-message" id="thumbnailPriorityInfo">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        <span>Thumbnails will take priority over icons in search results. Make sure to use one or the other.</span>
+      </div>
+    </div>
+
+    <div class="subsection" id="thumbnailSettings">
+      <h4 class="subsection-title">Thumbnail Appearance</h4>
+
+      <div class="form-grid grid-3-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="thumbnailSizePreset">
+            Size Preset
+            <span
+              class="help-tooltip"
+              data-tooltip="Predefined size options for thumbnails"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Thumbnail size preset"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="thumbnailSizePreset"
+            name="thumbnailSettings.thumbnailSize"
+            class="form-select"
+            aria-describedby="thumbnailSizePreset-desc"
+          >
+            <option value="16px">Extra Small (16px)</option>
+            <option value="24px">Small (24px)</option>
+            <option value="32px">Medium Small (32px)</option>
+            <option value="48px" selected>Medium (48px)</option>
+            <option value="64px">Large (64px)</option>
+            <option value="80px">Extra Large (80px)</option>
+            <option value="96px">Huge (96px)</option>
+          </select>
+          <div id="thumbnailSizePreset-desc" class="sr-only">Select a predefined size for thumbnails</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="thumbnailBorderRadius">
+            Border Radius (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Rounded corners for thumbnails"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Thumbnail border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="range-input-wrapper">
+            <input
+              type="range"
+              id="thumbnailBorderRadius"
+              name="thumbnailSettings.borderRadius"
+              class="range-input"
+              value="0"
+              min="0"
+              max="50"
+              aria-label="Thumbnail border radius"
+              aria-describedby="thumbnailBorderRadius-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="50"
+              aria-valuenow="0"
+            />
+            <span class="range-value">0</span>
+          </div>
+          <div id="thumbnailBorderRadius-desc" class="sr-only">Set border radius for thumbnail corners</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="thumbnailBorderWidth">
+            Border Width (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Thickness of thumbnail borders"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Thumbnail border width"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="range-input-wrapper">
+            <input
+              type="range"
+              id="thumbnailBorderWidth"
+              name="thumbnailSettings.borderWidth"
+              class="range-input"
+              value="0"
+              min="0"
+              max="10"
+              aria-label="Thumbnail border width"
+              aria-describedby="thumbnailBorderWidth-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="10"
+              aria-valuenow="0"
+            />
+            <span class="range-value">0</span>
+          </div>
+          <div id="thumbnailBorderWidth-desc" class="sr-only">Set border width for thumbnails</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="thumbnailBorderColor">
+            Border Color
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of thumbnail borders"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Thumbnail border color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="thumbnailBorderColor"
+              name="thumbnailSettings.borderColor"
+              class="color-input"
+              value="#9cb8ff"
+              aria-describedby="thumbnailBorderColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#9CB8FF"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Thumbnail Border"
+            />
+          </div>
+          <div id="thumbnailBorderColor-desc" class="sr-only">Set the border color for thumbnails</div>
+        </div>
+      </div>
+
+      <!-- Element-Specific Defaults -->
+      <div class="subsection">
+        <h4 class="subsection-title">Element-Specific Defaults</h4>
+        <p class="section-description" style="margin-bottom: 15px">
+          You customize and reset the default thumbnail image for each element type individually, rather than using a
+          single global default for all types.
+        </p>
+        <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 15px 0"></div>
+
+        <div class="infobox infobox-warning">
+          <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+          <strong>Important:</strong>
+          <span
+            >Images must be placed inside the <strong>/assets</strong> folder for proper loading. Make sure image file
+            names match</span
+          >
+        </div>
+
+        <div class="infobox infobox-success">
+          <i class="fas fa-check-circle" aria-hidden="true"></i>
+          <strong>Supported:</strong>
+          <span>.jpg, .jpeg, .png, .gif, .webp, .svg</span>
+        </div>
+
+        <div class="form-grid grid-2-col">
+          <!-- Panorama -->
+          <div class="form-group">
+            <label class="form-label" for="panoramaDefault">
+              <i class="fas fa-home" aria-hidden="true"></i>
+              Panorama Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Panorama default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="panoramaDefault"
+              name="thumbnails.defaults.panorama"
+              class="form-input"
+              value="default-thumbnail.jpg"
+              placeholder="e.g., my-panorama.jpg"
+            />
+          </div>
+
+          <!-- Hotspot -->
+          <div class="form-group">
+            <label class="form-label" for="hotspotDefault">
+              <i class="fas fa-map-pin" aria-hidden="true"></i>
+              Hotspot Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Hotspot default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="hotspotDefault"
+              name="thumbnails.defaults.hotspot"
+              class="form-input"
+              value="hotspot-default.jpg"
+              placeholder="e.g., my-hotspot.png"
+            />
+          </div>
+
+          <!-- Polygon -->
+          <div class="form-group">
+            <label class="form-label" for="polygonDefault">
+              <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+              Polygon Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Polygon default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="polygonDefault"
+              name="thumbnails.defaults.polygon"
+              class="form-input"
+              value="polygon-default.jpg"
+              placeholder="e.g., my-polygon.svg"
+            />
+          </div>
+
+          <!-- Video -->
+          <div class="form-group">
+            <label class="form-label" for="videoDefault">
+              <i class="fas fa-video" aria-hidden="true"></i>
+              Video Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Video default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="videoDefault"
+              name="thumbnails.defaults.video"
+              class="form-input"
+              value="video-default.jpg"
+              placeholder="e.g., my-video.gif"
+            />
+          </div>
+
+          <!-- Webframe -->
+          <div class="form-group">
+            <label class="form-label" for="webframeDefault">
+              <i class="fas fa-globe" aria-hidden="true"></i>
+              Webframe Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Webframe default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="webframeDefault"
+              name="thumbnails.defaults.webframe"
+              class="form-input"
+              value="webframe-default.jpg"
+              placeholder="e.g., my-webframe.webp"
+            />
+          </div>
+
+          <!-- Image -->
+          <div class="form-group">
+            <label class="form-label" for="imageDefault">
+              <i class="fas fa-image" aria-hidden="true"></i>
+              Image Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Image default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="imageDefault"
+              name="thumbnails.defaults.image"
+              class="form-input"
+              value="image-default.jpg"
+              placeholder="e.g., my-image.png"
+            />
+          </div>
+
+          <!-- Text -->
+          <div class="form-group">
+            <label class="form-label" for="textDefault">
+              <i class="fas fa-font" aria-hidden="true"></i>
+              Text Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Text default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="textDefault"
+              name="thumbnails.defaults.text"
+              class="form-input"
+              value="text-default.jpg"
+              placeholder="e.g., my-text.jpeg"
+            />
+          </div>
+
+          <!-- ProjectedImage -->
+          <div class="form-group">
+            <label class="form-label" for="projectedImageDefault">
+              <i class="fas fa-object-group" aria-hidden="true"></i>
+              ProjectedImage Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: ProjectedImage default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="projectedImageDefault"
+              name="thumbnails.defaults.projectedImage"
+              class="form-input"
+              value="projected-image-default.jpg"
+              placeholder="e.g., my-projected.webp"
+            />
+          </div>
+
+          <!-- Element -->
+          <div class="form-group">
+            <label class="form-label" for="elementDefault">
+              <i class="fas fa-cube" aria-hidden="true"></i>
+              Element Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Element default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="elementDefault"
+              name="thumbnails.defaults.element"
+              class="form-input"
+              value="element-default.jpg"
+              placeholder="e.g., my-element.jpg"
+            />
+          </div>
+
+          <!-- Business -->
+          <div class="form-group">
+            <label class="form-label" for="businessDefault">
+              <i class="fas fa-building" aria-hidden="true"></i>
+              Business Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Business default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="businessDefault"
+              name="thumbnails.defaults.business"
+              class="form-input"
+              value="business-default.jpg"
+              placeholder="e.g., my-business.png"
+            />
+          </div>
+
+          <!-- Container -->
+          <div class="form-group">
+            <label class="form-label" for="containerDefault">
+              <i class="fas fa-box" aria-hidden="true"></i>
+              Container Default Path
+            </label>
+            <input
+              type="text"
+              id="containerDefault"
+              name="thumbnails.defaults.container"
+              class="form-input"
+              value="container-default.jpg"
+              placeholder="Enter path"
+            />
+          </div>
+
+          <!-- 3DModel -->
+          <div class="form-group">
+            <label class="form-label" for="3dModelDefault">
+              <i class="fas fa-cube" aria-hidden="true"></i>
+              3DModel Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: 3DModel default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="3dModelDefault"
+              name="thumbnails.defaults.3dModel"
+              class="form-input"
+              value="3d-model-default.jpg"
+              placeholder="e.g., my-3dmodel.webp"
+            />
+          </div>
+
+          <!-- 3DHotspot -->
+          <div class="form-group">
+            <label class="form-label" for="3dHotspotDefault">
+              <i class="fas fa-map-pin" aria-hidden="true"></i>
+              3DHotspot Default Path
+            </label>
+            <input
+              type="text"
+              id="3dHotspotDefault"
+              name="thumbnails.defaults.3dHotspot"
+              class="form-input"
+              value="3d-hotspot-default.jpg"
+              placeholder="Enter path"
+            />
+          </div>
+
+          <!-- 3DModelObject -->
+          <div class="form-group">
+            <label class="form-label" for="3dModelObjectDefault">
+              <i class="fas fa-object-group" aria-hidden="true"></i>
+              3DModelObject Default Path
+            </label>
+            <input
+              type="text"
+              id="3dModelObjectDefault"
+              name="thumbnails.defaults.3dModelObject"
+              class="form-input"
+              value="3d-model-object-default.jpg"
+              placeholder="Enter path"
+            />
+          </div>
+
+          <!-- Other -->
+          <div class="form-group">
+            <label class="form-label" for="otherDefault">
+              <i class="fas fa-question" aria-hidden="true"></i>
+              Other Default Path
+              <span
+                class="help-tooltip"
+                data-tooltip="Specify file name in /assets folder. Supports: .jpg, .jpeg, .png, .gif, .webp, .svg formats"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Other default path supports multiple image formats"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <input
+              type="text"
+              id="otherDefault"
+              name="thumbnails.defaults.other"
+              class="form-input"
+              value="assets/default-thumbnail.jpg"
+              placeholder="e.g., my-other.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- Thumbnail Visibility Controls -->
+      <div class="subsection">
+        <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+          <h4 class="subsection-title">Thumbnail Visibility</h4>
+          <button type="button" class="reset-section-button" data-section="thumbnailVisibility">
+            <i class="fas fa-undo" aria-hidden="true"></i>
+            Reset
+          </button>
+        </div>
+        <p class="section-description">Control which elements show thumbnails</p>
+        <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 15px 0"></div>
+        <div class="form-grid grid-2-col" role="group">
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailPanorama">
+              Panorama
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for panorama elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for panorama"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailPanorama"
+                name="displayElements.showFor.panorama"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailPanorama-desc"
+              />
+              <label for="showThumbnailPanorama" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for panorama</span>
+              </label>
+            </div>
+            <div id="showThumbnailPanorama-desc" class="sr-only">
+              Toggle to show or hide thumbnails for panorama elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailHotspot">
+              Hotspot
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for hotspot elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for hotspot"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailHotspot"
+                name="displayElements.showFor.hotspot"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailHotspot-desc"
+              />
+              <label for="showThumbnailHotspot" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for hotspot</span>
+              </label>
+            </div>
+            <div id="showThumbnailHotspot-desc" class="sr-only">
+              Toggle to show or hide thumbnails for hotspot elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailPolygon">
+              Polygon
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for polygon elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for polygon"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailPolygon"
+                name="displayElements.showFor.polygon"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailPolygon-desc"
+              />
+              <label for="showThumbnailPolygon" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for polygon</span>
+              </label>
+            </div>
+            <div id="showThumbnailPolygon-desc" class="sr-only">
+              Toggle to show or hide thumbnails for polygon elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailVideo">
+              Video
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for video elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for video"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailVideo"
+                name="displayElements.showFor.video"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailVideo-desc"
+              />
+              <label for="showThumbnailVideo" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for video</span>
+              </label>
+            </div>
+            <div id="showThumbnailVideo-desc" class="sr-only">Toggle to show or hide thumbnails for video elements</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailWebframe">
+              Webframe
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for webframe elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for webframe"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailWebframe"
+                name="displayElements.showFor.webframe"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailWebframe-desc"
+              />
+              <label for="showThumbnailWebframe" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for webframe</span>
+              </label>
+            </div>
+            <div id="showThumbnailWebframe-desc" class="sr-only">
+              Toggle to show or hide thumbnails for webframe elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailImage">
+              Image
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for image elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for image"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailImage"
+                name="displayElements.showFor.image"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailImage-desc"
+              />
+              <label for="showThumbnailImage" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for image</span>
+              </label>
+            </div>
+            <div id="showThumbnailImage-desc" class="sr-only">Toggle to show or hide thumbnails for image elements</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailText">
+              Text
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for text elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for text"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailText"
+                name="displayElements.showFor.text"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailText-desc"
+              />
+              <label for="showThumbnailText" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for text</span>
+              </label>
+            </div>
+            <div id="showThumbnailText-desc" class="sr-only">Toggle to show or hide thumbnails for text elements</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailProjectedImage">
+              ProjectedImage
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for projected image elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for projected image"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailProjectedImage"
+                name="displayElements.showFor.projectedImage"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailProjectedImage-desc"
+              />
+              <label for="showThumbnailProjectedImage" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for projectedimage</span>
+              </label>
+            </div>
+            <div id="showThumbnailProjectedImage-desc" class="sr-only">
+              Toggle to show or hide thumbnails for projected image elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailElement">
+              Element
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for general elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for element"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailElement"
+                name="displayElements.showFor.element"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailElement-desc"
+              />
+              <label for="showThumbnailElement" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for element</span>
+              </label>
+            </div>
+            <div id="showThumbnailElement-desc" class="sr-only">
+              Toggle to show or hide thumbnails for general elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailBusiness">
+              Business
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for business elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for business"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailBusiness"
+                name="displayElements.showFor.business"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailBusiness-desc"
+              />
+              <label for="showThumbnailBusiness" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for business</span>
+              </label>
+            </div>
+            <div id="showThumbnailBusiness-desc" class="sr-only">
+              Toggle to show or hide thumbnails for business elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailContainer">
+              Container
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for container elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for container"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailContainer"
+                name="displayElements.showFor.container"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailContainer-desc"
+              />
+              <label for="showThumbnailContainer" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for container</span>
+              </label>
+            </div>
+            <div id="showThumbnailContainer-desc" class="sr-only">
+              Toggle to show or hide thumbnails for container elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnail3DModel">
+              3DModel
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for 3D model elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for 3D model"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnail3DModel"
+                name="displayElements.showFor.3dmodel"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnail3DModel-desc"
+              />
+              <label for="showThumbnail3DModel" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for 3dmodel</span>
+              </label>
+            </div>
+            <div id="showThumbnail3DModel-desc" class="sr-only">
+              Toggle to show or hide thumbnails for 3D model elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnail3DHotspot">
+              3DHotspot
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for 3D hotspot elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for 3D hotspot"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnail3DHotspot"
+                name="displayElements.showFor.3dhotspot"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnail3DHotspot-desc"
+              />
+              <label for="showThumbnail3DHotspot" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for 3dhotspot</span>
+              </label>
+            </div>
+            <div id="showThumbnail3DHotspot-desc" class="sr-only">
+              Toggle to show or hide thumbnails for 3D hotspot elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnail3DModelObject">
+              3DModelObject
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for 3D model object elements"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for 3D model object"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnail3DModelObject"
+                name="displayElements.showFor.3dmodelobject"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnail3DModelObject-desc"
+              />
+              <label for="showThumbnail3DModelObject" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for 3dmodelobject</span>
+              </label>
+            </div>
+            <div id="showThumbnail3DModelObject-desc" class="sr-only">
+              Toggle to show or hide thumbnails for 3D model object elements
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="showThumbnailOther">
+              Other
+              <span
+                class="help-tooltip"
+                data-tooltip="Show thumbnails for other element types"
+                role="button"
+                tabindex="0"
+                aria-label="Help: Show thumbnails for other"
+              >
+                <i class="fas fa-question-circle" aria-hidden="true"></i>
+              </span>
+            </label>
+            <div class="toggle-switch">
+              <input
+                type="checkbox"
+                id="showThumbnailOther"
+                name="displayElements.showFor.other"
+                class="toggle-input"
+                checked
+                aria-describedby="showThumbnailOther-desc"
+              />
+              <label for="showThumbnailOther" class="toggle-label">
+                <span class="toggle-text">Show thumbnails for other</span>
+              </label>
+            </div>
+            <div id="showThumbnailOther-desc" class="sr-only">
+              Toggle to show or hide thumbnails for other element types
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Icon Configuration Section -->
+  <section class="config-section" aria-labelledby="icon-config-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="icon-config-heading">
+        <i class="fas fa-icons section-icon" aria-hidden="true"></i>
+        Icon Configuration
+      </h3>
+      <p class="section-description">Configure icon display and appearance settings</p>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Icon System</h4>
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="enableCustomIcons">
+            Enable Custom Icons
+            <span
+              class="help-tooltip"
+              data-tooltip="Enable/disable the entire icon system. You can use Emojis and custom images URL"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Enable custom icons"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="enableCustomIcons"
+              name="thumbnailSettings.iconSettings.enableCustomIcons"
+              class="toggle-input"
+              aria-describedby="enableCustomIcons-desc"
+            />
+            <label for="enableCustomIcons" class="toggle-label">
+              <span class="toggle-text">Enable/disable the entire icon system.</span>
+            </label>
+          </div>
+          <div id="enableCustomIcons-desc" class="sr-only">Toggle to enable or disable custom icon settings</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="enableFontAwesome">
+            Enable Font Awesome
+            <span
+              class="help-tooltip"
+              data-tooltip="Use Font Awesome icons"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Enable Font Awesome"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="enableFontAwesome"
+              name="thumbnailSettings.iconSettings.enableFontAwesome"
+              class="toggle-input"
+              aria-describedby="enableFontAwesome-desc"
+            />
+            <label for="enableFontAwesome" class="toggle-label">
+              <span class="toggle-text">Use Font Awesome icons</span>
+            </label>
+          </div>
+          <div id="enableFontAwesome-desc" class="sr-only">Toggle to enable or disable Font Awesome icon system</div>
+        </div>
+      </div>
+
+      <!-- Conflict Warning Message -->
+      <div class="infobox-warning" id="iconConflictWarning" style="display: none">
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+        <span
+          >Both Custom Icons and Font Awesome are enabled. Font Awesome icons will be used as fallback when custom icons
+          are not available.</span
+        >
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Icon Appearance</h4>
+
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="iconSize">
+            Icon Size
+            <span
+              class="help-tooltip"
+              data-tooltip="Select icon size preset"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Icon size"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="iconSize"
+            name="thumbnailSettings.iconSettings.iconSize"
+            class="form-select"
+            aria-describedby="iconSize-desc"
+          >
+            <option value="16px">Extra Small (16px)</option>
+            <option value="20px">Small (20px)</option>
+            <option value="24px" selected>Medium (24px)</option>
+            <option value="28px">Medium Large (28px)</option>
+            <option value="32px">Large (32px)</option>
+            <option value="48px">Extra Large (48px)</option>
+            <option value="64px">Huge (64px)</option>
+          </select>
+          <div id="iconSize-desc" class="sr-only">Select the size preset for icons</div>
+
+          <!-- Icon Size Validation Messages -->
+          <div class="validation-message validation-warning" id="iconSizeWarning" style="display: none">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <span>Large icon sizes may affect layout on mobile devices</span>
+          </div>
+
+          <div class="validation-message validation-error" id="iconSizeError" style="display: none">
+            <i class="fas fa-times-circle" aria-hidden="true"></i>
+            <span>Icon size must be between 16px and 96px</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="iconColor">
+            Icon Color
+            <span
+              class="help-tooltip"
+              data-tooltip="Default color for all icons"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Icon color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="iconColor"
+              name="thumbnailSettings.iconSettings.iconColor"
+              class="color-input"
+              value="#3b82f6"
+              aria-describedby="iconColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#3B82F6"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Icon Color"
+            />
+          </div>
+          <div id="iconColor-desc" class="sr-only">Set the default color for icons</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="iconOpacity">
+            Icon Opacity
+            <span
+              class="help-tooltip"
+              data-tooltip="Icon transparency (0.0 = invisible, 1.0 = solid)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Icon opacity"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="range-input-wrapper">
+            <input
+              type="range"
+              id="iconOpacity"
+              name="thumbnailSettings.iconSettings.iconOpacity"
+              class="range-input"
+              value="0.9"
+              min="0"
+              max="1"
+              step="0.1"
+              aria-label="Icon opacity"
+              aria-describedby="iconOpacity-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="1"
+              aria-valuenow="0.9"
+            />
+            <span class="range-value">0.9</span>
+          </div>
+          <div id="iconOpacity-desc" class="sr-only">Set the opacity for icons</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="iconAlignment">
+            Icon Alignment
+            <span
+              class="help-tooltip"
+              data-tooltip="Position relative to text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Icon alignment"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="iconAlignment"
+            name="thumbnailSettings.iconSettings.iconAlignment"
+            class="form-select"
+            aria-describedby="iconAlignment-desc"
+          >
+            <option value="left" selected>Left</option>
+            <option value="right">Right</option>
+          </select>
+          <div id="iconAlignment-desc" class="sr-only">Set the alignment of icons relative to text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="iconMargin">
+            Icon Margin (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Space between icon and text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Icon margin"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="iconMargin"
+              name="thumbnailSettings.iconSettings.iconMargin"
+              class="form-input"
+              value="12"
+              min="0"
+              max="20"
+              aria-describedby="iconMargin-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="iconMargin-desc" class="sr-only">Set the space between icon and text in pixels</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Icon Hover Effects</h4>
+      <div class="form-group">
+        <label class="form-label" for="enableIconHover">
+          Enable Hover Effects
+          <span
+            class="help-tooltip"
+            data-tooltip="Show hover animations on icons"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable hover effects"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="enableIconHover"
+            name="thumbnailSettings.iconSettings.enableIconHover"
+            class="toggle-input"
+            checked
+            aria-describedby="enableIconHover-desc"
+          />
+          <label for="enableIconHover" class="toggle-label">
+            <span class="toggle-text">Show hover animations on icons</span>
+          </label>
+        </div>
+        <div id="enableIconHover-desc" class="sr-only">Toggle to enable or disable hover animations for icons</div>
+      </div>
+
+      <div class="form-grid grid-2-col" id="hoverSettings" role="group">
+        <div class="form-group">
+          <label class="form-label" for="iconHoverScale">
+            Hover Scale
+            <span
+              class="help-tooltip"
+              data-tooltip="Size increase on hover (1.15 = 15% larger)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Hover scale"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="range-input-wrapper">
+            <input
+              type="range"
+              id="iconHoverScale"
+              name="thumbnailSettings.iconSettings.iconHoverScale"
+              class="range-input"
+              value="1.15"
+              min="1.0"
+              max="2.0"
+              step="0.05"
+              aria-label="Icon hover scale"
+              aria-describedby="iconHoverScale-desc"
+              role="slider"
+              aria-valuemin="1.0"
+              aria-valuemax="2.0"
+              aria-valuenow="1.15"
+            />
+            <span class="range-value">1.15</span>
+          </div>
+          <small>1.0 to 2.0 Values: 1.15 = 15% larger on hover</small>
+          <div id="iconHoverScale-desc" class="sr-only">Set the scale factor for icons on hover</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="iconHoverOpacity">
+            Hover Opacity
+            <span
+              class="help-tooltip"
+              data-tooltip="Opacity when hovering (1.0 = fully opaque)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Hover opacity"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="iconHoverOpacity"
+              name="thumbnailSettings.iconSettings.iconHoverOpacity"
+              class="form-input"
+              value="1.0"
+              min="0"
+              max="1"
+              step="0.1"
+              aria-describedby="iconHoverOpacity-desc"
+              inputmode="decimal"
+            />
+          </div>
+          <small>0 to 1 Values: 1.0 = fully opaque on hover</small>
+          <div id="iconHoverOpacity-desc" class="sr-only">Set the opacity for icons on hover</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icon Visibility Section -->
+    <div class="subsection">
+      <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+        <h4 class="subsection-title">Icon Visibility</h4>
+      </div>
+      <p class="section-description">Control icon display for each element type</p>
+
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="showIconPanorama">
+            Panorama
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for panorama elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for panorama"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconPanorama"
+              name="thumbnailSettings.iconSettings.showIconFor.panorama"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconPanorama-desc"
+            />
+            <label for="showIconPanorama" class="toggle-label">
+              <span class="toggle-text">Show icons for panorama</span>
+            </label>
+          </div>
+          <div id="showIconPanorama-desc" class="sr-only">Toggle to show or hide icons for panorama elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconHotspot">
+            Hotspot
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for hotspot elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for hotspot"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconHotspot"
+              name="thumbnailSettings.iconSettings.showIconFor.hotspot"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconHotspot-desc"
+            />
+            <label for="showIconHotspot" class="toggle-label">
+              <span class="toggle-text">Show icons for hotspot</span>
+            </label>
+          </div>
+          <div id="showIconHotspot-desc" class="sr-only">Toggle to show or hide icons for hotspot elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconPolygon">
+            Polygon
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for polygon elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for polygon"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconPolygon"
+              name="thumbnailSettings.iconSettings.showIconFor.polygon"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconPolygon-desc"
+            />
+            <label for="showIconPolygon" class="toggle-label">
+              <span class="toggle-text">Show icons for polygon</span>
+            </label>
+          </div>
+          <div id="showIconPolygon-desc" class="sr-only">Toggle to show or hide icons for polygon elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconVideo">
+            Video
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for video elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for video"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconVideo"
+              name="thumbnailSettings.iconSettings.showIconFor.video"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconVideo-desc"
+            />
+            <label for="showIconVideo" class="toggle-label">
+              <span class="toggle-text">Show icons for video</span>
+            </label>
+          </div>
+          <div id="showIconVideo-desc" class="sr-only">Toggle to show or hide icons for video elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconWebframe">
+            Webframe
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for webframe elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for webframe"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconWebframe"
+              name="thumbnailSettings.iconSettings.showIconFor.webframe"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconWebframe-desc"
+            />
+            <label for="showIconWebframe" class="toggle-label">
+              <span class="toggle-text">Show icons for webframe</span>
+            </label>
+          </div>
+          <div id="showIconWebframe-desc" class="sr-only">Toggle to show or hide icons for webframe elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconImage">
+            Image
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for image elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for image"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconImage"
+              name="thumbnailSettings.iconSettings.showIconFor.image"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconImage-desc"
+            />
+            <label for="showIconImage" class="toggle-label">
+              <span class="toggle-text">Show icons for image</span>
+            </label>
+          </div>
+          <div id="showIconImage-desc" class="sr-only">Toggle to show or hide icons for image elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconText">
+            Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for text elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for text"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconText"
+              name="thumbnailSettings.iconSettings.showIconFor.text"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconText-desc"
+            />
+            <label for="showIconText" class="toggle-label">
+              <span class="toggle-text">Show icons for text</span>
+            </label>
+          </div>
+          <div id="showIconText-desc" class="sr-only">Toggle to show or hide icons for text elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconProjectedImage">
+            ProjectedImage
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for projected image elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for projected image"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconProjectedImage"
+              name="thumbnailSettings.iconSettings.showIconFor.projectedImage"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconProjectedImage-desc"
+            />
+            <label for="showIconProjectedImage" class="toggle-label">
+              <span class="toggle-text">Show icons for projectedimage</span>
+            </label>
+          </div>
+          <div id="showIconProjectedImage-desc" class="sr-only">
+            Toggle to show or hide icons for projected image elements
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconElement">
+            Element
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for general elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for element"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconElement"
+              name="thumbnailSettings.iconSettings.showIconFor.element"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconElement-desc"
+            />
+            <label for="showIconElement" class="toggle-label">
+              <span class="toggle-text">Show icons for element</span>
+            </label>
+          </div>
+          <div id="showIconElement-desc" class="sr-only">Toggle to show or hide icons for general elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconBusiness">
+            Business
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for business elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for business"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconBusiness"
+              name="thumbnailSettings.iconSettings.showIconFor.business"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconBusiness-desc"
+            />
+            <label for="showIconBusiness" class="toggle-label">
+              <span class="toggle-text">Show icons for business</span>
+            </label>
+          </div>
+          <div id="showIconBusiness-desc" class="sr-only">Toggle to show or hide icons for business elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconContainer">
+            Container
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for container elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for container"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconContainer"
+              name="thumbnailSettings.iconSettings.showIconFor.container"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconContainer-desc"
+            />
+            <label for="showIconContainer" class="toggle-label">
+              <span class="toggle-text">Show icons for container</span>
+            </label>
+          </div>
+          <div id="showIconContainer-desc" class="sr-only">Toggle to show or hide icons for container elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIcon3DModel">
+            3DModel
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for 3D model elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for 3D model"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIcon3DModel"
+              name="thumbnailSettings.iconSettings.showIconFor.3dmodel"
+              class="toggle-input"
+              checked
+              aria-describedby="showIcon3DModel-desc"
+            />
+            <label for="showIcon3DModel" class="toggle-label">
+              <span class="toggle-text">Show icons for 3dmodel</span>
+            </label>
+          </div>
+          <div id="showIcon3DModel-desc" class="sr-only">Toggle to show or hide icons for 3D model elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="show3DHotspot">
+            3DHotspot
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for 3D hotspot elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for 3D hotspot"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="show3DHotspot"
+              name="thumbnailSettings.iconSettings.showIconFor.3dhotspot"
+              class="toggle-input"
+              checked
+              aria-describedby="show3DHotspot-desc"
+            />
+            <label for="show3DHotspot" class="toggle-label">
+              <span class="toggle-text">Show icons for 3dhotspot</span>
+            </label>
+          </div>
+          <div id="show3DHotspot-desc" class="sr-only">Toggle to show or hide icons for 3D hotspot elements</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIcon3DModelObject">
+            3DModelObject
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for 3D model object elements"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for 3D model object"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIcon3DModelObject"
+              name="thumbnailSettings.iconSettings.showIconFor.3dmodelobject"
+              class="toggle-input"
+              checked
+              aria-describedby="showIcon3DModelObject-desc"
+            />
+            <label for="showIcon3DModelObject" class="toggle-label">
+              <span class="toggle-text">Show icons for 3dmodelobject</span>
+            </label>
+          </div>
+          <div id="showIcon3DModelObject-desc" class="sr-only">
+            Toggle to show or hide icons for 3D model object elements
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showIconOther">
+            Other
+            <span
+              class="help-tooltip"
+              data-tooltip="Show icons for other element types"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show icons for other"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showIconOther"
+              name="thumbnailSettings.iconSettings.showIconFor.other"
+              class="toggle-input"
+              checked
+              aria-describedby="showIconOther-desc"
+            />
+            <label for="showIconOther" class="toggle-label">
+              <span class="toggle-text">Show icons for other</span>
+            </label>
+          </div>
+          <div id="showIconOther-desc" class="sr-only">Toggle to show or hide icons for other element types</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Professional Icon Picker Section -->
+  <section class="config-section" aria-labelledby="element-icons-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="element-icons-heading">
+        <i class="fas fa-palette section-icon" aria-hidden="true"></i>
+        Professional Icon Picker for Each Element Type
+      </h3>
+      <p class="section-description">Configure custom icons for each element type using Font Awesome or Emoji</p>
+      <div class="infobox infobox-success">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <strong>Important:</strong>
+        <span>Make sure to enable Font Awesome icons if you want to use Font Awesome library.</span>
+      </div>
+    </div>
+
+    <div class="element-icons-grid" id="elementIconsGrid">
+      <!-- Panorama Icon Picker -->
+      <div class="icon-picker-element" data-element="Panorama">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-home" aria-hidden="true"></i>
+            <span>Panorama</span>
+          </div>
+          <div class="current-icon-display" id="currentIconPanorama">
+            <i class="fas fa-home" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Panorama">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridPanorama">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Hotspot Icon Picker -->
+      <div class="icon-picker-element" data-element="Hotspot">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-map-pin" aria-hidden="true"></i>
+            <span>Hotspot</span>
+          </div>
+          <div class="current-icon-display" id="currentIconHotspot">
+            <i class="fas fa-laptop" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Hotspot">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridHotspot">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Polygon Icon Picker -->
+      <div class="icon-picker-element" data-element="Polygon">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+            <span>Polygon</span>
+          </div>
+          <div class="current-icon-display" id="currentIconPolygon">
+            <i class="fas fa-diamond" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Polygon">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridPolygon">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Video Icon Picker -->
+      <div class="icon-picker-element" data-element="Video">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-video" aria-hidden="true"></i>
+            <span>Video</span>
+          </div>
+          <div class="current-icon-display" id="currentIconVideo">
+            <i class="fas fa-video" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Video">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridVideo">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Webframe Icon Picker -->
+      <div class="icon-picker-element" data-element="Webframe">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-globe" aria-hidden="true"></i>
+            <span>Webframe</span>
+          </div>
+          <div class="current-icon-display" id="currentIconWebframe">
+            <i class="fas fa-laptop" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Webframe">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridWebframe">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Image Icon Picker -->
+      <div class="icon-picker-element" data-element="Image">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-image" aria-hidden="true"></i>
+            <span>Image</span>
+          </div>
+          <div class="current-icon-display" id="currentIconImage">
+            <i class="fas fa-image" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Image">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridImage">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Text Icon Picker -->
+      <div class="icon-picker-element" data-element="Text">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-font" aria-hidden="true"></i>
+            <span>Text</span>
+          </div>
+          <div class="current-icon-display" id="currentIconText">
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Text">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridText">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- ProjectedImage Icon Picker -->
+      <div class="icon-picker-element" data-element="ProjectedImage">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-desktop" aria-hidden="true"></i>
+            <span>ProjectedImage</span>
+          </div>
+          <div class="current-icon-display" id="currentIconProjectedImage">
+            <i class="fas fa-desktop" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="ProjectedImage">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridProjectedImage">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Element Icon Picker -->
+      <div class="icon-picker-element" data-element="Element">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-circle" aria-hidden="true"></i>
+            <span>Element</span>
+          </div>
+          <div class="current-icon-display" id="currentIconElement">
+            <i class="fas fa-circle" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Element">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridElement">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Business Icon Picker -->
+      <div class="icon-picker-element" data-element="Business">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-building" aria-hidden="true"></i>
+            <span>Business</span>
+          </div>
+          <div class="current-icon-display" id="currentIconBusiness">
+            <i class="fas fa-building" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Business">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridBusiness">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- 3DHotspot Icon Picker -->
+      <div class="icon-picker-element" data-element="3DHotspot">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-gamepad" aria-hidden="true"></i>
+            <span>3DHotspot</span>
+          </div>
+          <div class="current-icon-display" id="currentIcon3DHotspot">
+            <i class="fas fa-gamepad" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="3DHotspot">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGrid3DHotspot">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Container Icon Picker -->
+      <div class="icon-picker-element" data-element="Container">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-window-restore" aria-hidden="true"></i>
+            <span>Container</span>
+          </div>
+          <div class="current-icon-display" id="currentIconContainer">
+            <i class="fas fa-window-restore" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="Container">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGridContainer">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- 3DModel Icon Picker -->
+      <div class="icon-picker-element" data-element="3DModel">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-cube" aria-hidden="true"></i>
+            <span>3DModel</span>
+          </div>
+          <div class="current-icon-display" id="currentIcon3DModel">
+            <i class="fas fa-cube" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="3DModel">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGrid3DModel">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- 3DModelObject Icon Picker -->
+      <div class="icon-picker-element" data-element="3DModelObject">
+        <div class="icon-picker-header">
+          <div class="element-title">
+            <i class="fas fa-wrench" aria-hidden="true"></i>
+            <span>3DModelObject</span>
+          </div>
+          <div class="current-icon-display" id="currentIcon3DModelObject">
+            <i class="fas fa-wrench" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="icon-picker-controls">
+          <select class="icon-picker-type" data-element="3DModelObject">
+            <option value="fontawesome">Font Awesome</option>
+            <option value="emoji">Emoji</option>
+            <option value="custom">Custom Image URL</option>
+          </select>
+        </div>
+        <div class="icon-picker-grid" id="iconGrid3DModelObject">
+          <!-- Icons will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Label Customization Section -->
+  <section class="config-section" aria-labelledby="label-customization-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="label-customization-heading">
+        <i class="fas fa-tag section-icon" aria-hidden="true"></i>
+        Label Customization
+      </h3>
+      <p class="section-description">Customize display labels for each element type in search results</p>
+    </div>
+
+    <div class="form-grid grid-2-col" role="group" aria-labelledby="label-customization-heading">
+      <!-- Panorama Label -->
+      <div class="form-group">
+        <label class="form-label" for="panoramaLabel"> Panorama Label </label>
+        <input
+          type="text"
+          id="panoramaLabel"
+          name="displayLabels.Panorama"
+          class="form-input"
+          value="Panorama"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Hotspot Label -->
+      <div class="form-group">
+        <label class="form-label" for="hotspotLabel"> Hotspot Label </label>
+        <input
+          type="text"
+          id="hotspotLabel"
+          name="displayLabels.Hotspot"
+          class="form-input"
+          value="Hotspot"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Polygon Label -->
+      <div class="form-group">
+        <label class="form-label" for="polygonLabel"> Polygon Label </label>
+        <input
+          type="text"
+          id="polygonLabel"
+          name="displayLabels.Polygon"
+          class="form-input"
+          value="Polygon"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Video Label -->
+      <div class="form-group">
+        <label class="form-label" for="videoLabel"> Video Label </label>
+        <input
+          type="text"
+          id="videoLabel"
+          name="displayLabels.Video"
+          class="form-input"
+          value="Video"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Webframe Label -->
+      <div class="form-group">
+        <label class="form-label" for="webframeLabel"> Webframe Label </label>
+        <input
+          type="text"
+          id="webframeLabel"
+          name="displayLabels.Webframe"
+          class="form-input"
+          value="Webframe"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Image Label -->
+      <div class="form-group">
+        <label class="form-label" for="imageLabel"> Image Label </label>
+        <input
+          type="text"
+          id="imageLabel"
+          name="displayLabels.Image"
+          class="form-input"
+          value="Image"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Text Label -->
+      <div class="form-group">
+        <label class="form-label" for="textLabel"> Text Label </label>
+        <input
+          type="text"
+          id="textLabel"
+          name="displayLabels.Text"
+          class="form-input"
+          value="Text"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- ProjectedImage Label -->
+      <div class="form-group">
+        <label class="form-label" for="projectedImageLabel"> Projected Image Label </label>
+        <input
+          type="text"
+          id="projectedImageLabel"
+          name="displayLabels.ProjectedImage"
+          class="form-input"
+          value="Projected Image"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Element Label -->
+      <div class="form-group">
+        <label class="form-label" for="elementLabel"> Element Label </label>
+        <input
+          type="text"
+          id="elementLabel"
+          name="displayLabels.Element"
+          class="form-input"
+          value="Element"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Business Label -->
+      <div class="form-group">
+        <label class="form-label" for="businessLabel"> Business Label </label>
+        <input
+          type="text"
+          id="businessLabel"
+          name="displayLabels.Business"
+          class="form-input"
+          value="Business"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- 3DHotspot Label -->
+      <div class="form-group">
+        <label class="form-label" for="3dHotspotLabel"> 3D Hotspot Label </label>
+        <input
+          type="text"
+          id="3dHotspotLabel"
+          name="displayLabels.3DHotspot"
+          class="form-input"
+          value="3D Hotspot"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- 3DModel Label -->
+      <div class="form-group">
+        <label class="form-label" for="3dModelLabel"> 3D Model Label </label>
+        <input
+          type="text"
+          id="3dModelLabel"
+          name="displayLabels.3DModel"
+          class="form-input"
+          value="3D Model"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- 3DModelObject Label -->
+      <div class="form-group">
+        <label class="form-label" for="3dModelObjectLabel"> 3D Model Object Label </label>
+        <input
+          type="text"
+          id="3dModelObjectLabel"
+          name="displayLabels.3DModelObject"
+          class="form-input"
+          value="3D Model Object"
+          placeholder="Enter label"
+        />
+      </div>
+
+      <!-- Container Label -->
+      <div class="form-group">
+        <label class="form-label" for="containerLabel"> Container Label </label>
+        <input
+          type="text"
+          id="containerLabel"
+          name="displayLabels.Container"
+          class="form-input"
+          value="Container"
+          placeholder="Enter label"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Label Fallback Options Section -->
+  <section class="config-section" aria-labelledby="label-fallback-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="label-fallback-heading">
+        <i class="fas fa-tag section-icon" aria-hidden="true"></i>
+        Label Fallback Options
+      </h3>
+      <p class="section-description">When items don't have labels, use these fallback options in order</p>
+    </div>
+
+    <div class="form-grid grid-2-col" role="group" aria-labelledby="label-fallback-heading">
+      <div class="form-group">
+        <label class="form-label" for="unlabeledWithSubtitles">
+          Use Subtitles
+          <span
+            class="help-tooltip"
+            data-tooltip="Use subtitles when labels are missing"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use subtitles as labels"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="unlabeledWithSubtitles"
+            name="useAsLabel.subtitles"
+            class="toggle-input"
+            checked
+            aria-describedby="unlabeledWithSubtitles-desc"
+          />
+          <label for="unlabeledWithSubtitles" class="toggle-label">
+            <span class="toggle-text">Use subtitles when labels are missing</span>
+          </label>
+        </div>
+        <div id="unlabeledWithSubtitles-desc" class="sr-only">
+          Toggle to use subtitles as labels when main labels are missing
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useParentLabel">
+          Use Parent Label
+          <span
+            class="help-tooltip"
+            data-tooltip="Use parent label when subtitles are missing"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use parent label"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useParentLabel"
+            name="useAsLabel.parentLabel"
+            class="toggle-input"
+            checked
+            aria-describedby="useParentLabel-desc"
+          />
+          <label for="useParentLabel" class="toggle-label">
+            <span class="toggle-text">Use parent label when subtitles are missing</span>
+          </label>
+        </div>
+        <div id="useParentLabel-desc" class="sr-only">
+          Toggle to use parent element labels when subtitles are missing
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useTags">
+          Use Tags as Labels
+          <span
+            class="help-tooltip"
+            data-tooltip="Use tags when labels and subtitles are missing"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use tags as labels"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useTags"
+            name="useAsLabel.tags"
+            class="toggle-input"
+            checked
+            aria-describedby="useTags-desc"
+          />
+          <label for="useTags" class="toggle-label">
+            <span class="toggle-text">Use tags when labels and subtitles are missing</span>
+          </label>
+        </div>
+        <div id="useTags-desc" class="sr-only">
+          Toggle to use tags as labels when main labels and subtitles are missing
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useElementType">
+          Use Element Type
+          <span
+            class="help-tooltip"
+            data-tooltip="Use element type when all else is missing"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use element type"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useElementType"
+            name="useAsLabel.elementType"
+            class="toggle-input"
+            aria-describedby="useElementType-desc"
+          />
+          <label for="useElementType" class="toggle-label">
+            <span class="toggle-text">Use element type when all else is missing</span>
+          </label>
+        </div>
+        <div id="useElementType-desc" class="sr-only">
+          Toggle to use element type as label when all other options are missing
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="parentWithType">
+          Include Parent Type
+          <span
+            class="help-tooltip"
+            data-tooltip="Include parent type with label"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include parent type"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="parentWithType"
+            name="useAsLabel.parentWithType"
+            class="toggle-input"
+            aria-describedby="parentWithType-desc"
+          />
+          <label for="parentWithType" class="toggle-label">
+            <span class="toggle-text">Include parent type with label</span>
+          </label>
+        </div>
+        <div id="parentWithType-desc" class="sr-only">
+          Toggle to include parent element type information with labels
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="customText">
+          Custom Text for Unnamed Items
+          <span
+            class="help-tooltip"
+            data-tooltip="Default text to show for completely unnamed items"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Custom text for unnamed items"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="customText"
+          name="useAsLabel.customText"
+          class="form-input"
+          value="[Unnamed Item]"
+          placeholder="Enter fallback text"
+          aria-describedby="customText-desc"
+        />
+        <div id="customText-desc" class="sr-only">Set custom text to display for items that have no name or label</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Prevent extra whitespace at the bottom -->
+<div style="height: 1px; margin: 0; padding: 0"></div>

@@ -1,0 +1,173 @@
+[
+  {
+    "id": "Room-1",
+    "name": "### Room-1",
+    "description": "Opens location name Room-1.",
+    "matchTags": [""],
+    "imageUrl": "https://www.muse-themes.com/cdn/shop/products/thumb-row-scroll-gallery_1024x1024.jpg?v=1619116881",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "MyCoolTag_01",
+    "name": "### Room-2",
+    "description": "MyCoolTag_01 is the only element in Room-2",
+    "matchTags": [""],
+    "imageUrl": "https://images.unsplash.com/photo-1465101162946-4377e57745c3?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Room-3",
+    "name": "### Room-3",
+    "description": "Room-3 Title and Description",
+    "matchTags": ["MyCoolTour_3_and_4"],
+    "imageUrl": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Facility-4",
+    "name": "### Room-4",
+    "description": "Facility-4 Has Subtitle and Two Tags MyCoolTag_04 MyCoolTour_3_and_4",
+    "matchTags": ["Facility-4", "MyCoolTag_04", "MyCoolTour_3_and_4"],
+    "imageUrl": "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Model-01",
+    "name": "### 3D Model 1",
+    "description": "3D model showcase area",
+    "matchTags": ["Model-01"],
+    "imageUrl": "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Technimark-360-video-sample",
+    "name": "### 360 Video 1",
+    "description": "Technimark 360 video demonstration",
+    "matchTags": ["Technimark-360-video-sample"],
+    "imageUrl": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "GoToRoom-2",
+    "name": "### My 1st Hotspot",
+    "description": "Navigation hotspot to room 2",
+    "matchTags": ["GoToRoom-2"],
+    "imageUrl": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Web",
+    "name": "### My Web Page",
+    "description": "Web frame overlay",
+    "matchTags": ["Web"],
+    "imageUrl": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "Info-to_Video-360",
+    "name": "### My 2nd Hotspot - Video Info Hostspot ?",
+    "description": "Information about 360 video",
+    "matchTags": ["Info-to_Video-360"],
+    "imageUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "GoToRoom-1",
+    "name": "### My 3rd Hotspot",
+    "description": "Navigation back to main room",
+    "matchTags": ["GoToRoom-1"],
+    "imageUrl": "https://images.unsplash.com/photo-1464852045489-bccb7d17fe39?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "GoToRoom-4",
+    "name": "### My 4th Hotspot",
+    "description": "Navigation to facility 4",
+    "matchTags": ["GoToRoom-4"],
+    "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "GoToRoom-3",
+    "name": "### My 5th Hotspot",
+    "description": "Navigation to conference area",
+    "matchTags": ["GoToRoom-3"],
+    "imageUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "MyCoolPolygon01",
+    "name": "### Cool Polygon 1",
+    "description": "Interactive polygon area",
+    "matchTags": ["MyCoolPolygon01"],
+    "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "MyProjectedImage",
+    "name": "### Projected Image 1",
+    "description": "Special projected image",
+    "matchTags": ["MyProjectedImage"],
+    "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "MyCoolPlaceholderVideo",
+    "name": "## Placeholder Video 1",
+    "description": "Sample video content",
+    "matchTags": ["MyCoolPlaceholderVideo"],
+    "imageUrl": "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "MyCoolPolygon03",
+    "name": "## Cool Polygon 2",
+    "description": "Interactive polygon in Room 3",
+    "matchTags": ["MyCoolPolygon03"],
+    "imageUrl": "https://images.unsplash.com/photo-1542700303-8e5a4deb8770?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "PolygonOn360Video",
+    "name": "## My Co Polygon on 360 Video",
+    "description": "Interactive region on panoramic video",
+    "matchTags": ["PolygonOn360Video"],
+    "imageUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "",
+    "name": "## Facility-4 Panorama?",
+    "description": "Modern facility room with advanced features",
+    "matchTags": ["Facility-4"],
+    "imageUrl": "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  },
+  {
+    "id": "",
+    "name": "## Untitled Panorama 1",
+    "description": "Panorama with no attributes",
+    "matchTags": ["Untitled Panorama 1"],
+    "imageUrl": "https://images.unsplash.com/photo-1543039625-15d420c30b44?w=400&h=400&fit=crop",
+    "localImage": "assets/default-fallback-business-json.jpg",
+    "_comment": ""
+  }
+]

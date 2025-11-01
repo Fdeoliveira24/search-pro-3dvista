@@ -1,0 +1,945 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-cog panel-icon" aria-hidden="true"></i>
+    <h2>General Settings</h2>
+  </div>
+  <p class="panel-description">Configure basic search behavior, positioning, and mobile settings</p>
+</div>
+
+<div class="panel-content">
+  <!-- Auto-hide Settings Section -->
+  <section class="config-section" aria-labelledby="autohide-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="autohide-heading">
+        <i class="fas fa-eye-slash section-icon" aria-hidden="true"></i>
+        Auto-hide Settings
+      </h3>
+      <p class="section-description">Control when the search bar automatically hides after interaction</p>
+    </div>
+
+    <div class="form-grid grid-2-col" role="group" aria-labelledby="autohide-heading">
+      <div class="form-group">
+        <label class="form-label" for="autoHideMobile">
+          Auto-hide on Mobile
+          <span
+            class="help-tooltip"
+            data-tooltip="Hide search bar on mobile devices after user selection"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hide search bar on mobile after selection"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="autoHideMobile"
+            name="autoHide.mobile"
+            class="toggle-input"
+            aria-describedby="autoHideMobile-desc"
+          />
+          <label for="autoHideMobile" class="toggle-label">
+            <span class="toggle-text">Hide search bar on mobile after selection</span>
+          </label>
+        </div>
+        <div id="autoHideMobile-desc" class="sr-only">
+          Toggle to hide search bar on mobile devices after user makes a selection
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="autoHideDesktop">
+          Auto-hide on Desktop
+          <span
+            class="help-tooltip"
+            data-tooltip="Hide search bar on desktop after user selection"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Hide search bar on desktop after selection"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="autoHideDesktop"
+            name="autoHide.desktop"
+            class="toggle-input"
+            aria-describedby="autoHideDesktop-desc"
+          />
+          <label for="autoHideDesktop" class="toggle-label">
+            <span class="toggle-text">Hide search bar on desktop after selection</span>
+          </label>
+        </div>
+        <div id="autoHideDesktop-desc" class="sr-only">
+          Toggle to hide search bar on desktop after user makes a selection
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Behavior Section -->
+  <section class="config-section" aria-labelledby="search-behavior-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="search-behavior-heading">
+        <i class="fas fa-search section-icon" aria-hidden="true"></i>
+        Search Behavior
+      </h3>
+      <p class="section-description">Control how search functions and responds to user input</p>
+    </div>
+
+    <div class="form-grid grid-2-col" role="group" aria-labelledby="search-behavior-heading">
+      <div class="form-group">
+        <label class="form-label" for="mobileBreakpoint">
+          Mobile Breakpoint (px)
+          <span
+            class="help-tooltip"
+            data-tooltip="Screen width threshold for switching to mobile layout"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Screen width threshold for mobile layout"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="mobileBreakpoint"
+            name="mobileBreakpoint"
+            class="form-input"
+            value="768"
+            min="320"
+            max="1200"
+            step="1"
+            aria-describedby="mobileBreakpoint-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">px</span>
+        </div>
+        <div id="mobileBreakpoint-desc" class="sr-only">
+          Set the screen width in pixels where the layout switches to mobile mode
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="minSearchChars">
+          Minimum Search Characters
+          <span
+            class="help-tooltip"
+            data-tooltip="Number of characters required before search becomes active"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Characters required before search activates"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="minSearchChars"
+            name="minSearchChars"
+            class="form-input"
+            value="2"
+            min="1"
+            max="10"
+            step="1"
+            aria-describedby="minSearchChars-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">chars</span>
+        </div>
+        <div id="minSearchChars-desc" class="sr-only">
+          Set minimum number of characters user must type before search begins
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Bar Configuration Section -->
+  <section class="config-section" aria-labelledby="search-bar-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="search-bar-heading">
+        <i class="fas fa-window-restore section-icon" aria-hidden="true"></i>
+        Search Bar Configuration
+      </h3>
+      <p class="section-description">Position and appearance of the search interface</p>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="basic-settings-heading">Basic Settings</h4>
+      <div class="form-grid grid-2-col" role="group" aria-labelledby="basic-settings-heading">
+        <div class="form-group">
+          <label class="form-label" for="searchPlaceholder">
+            Placeholder Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Text displayed in empty search field as guidance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Text shown in empty search field"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="searchPlaceholder"
+            name="searchBar.placeholder"
+            class="form-input"
+            value="Search... Type * for all"
+            placeholder="Enter placeholder text"
+            maxlength="100"
+            aria-describedby="searchPlaceholder-desc"
+          />
+          <div id="searchPlaceholder-desc" class="sr-only">
+            Set the placeholder text that appears in the search field when empty
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchWidth">
+            Width (px or %)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 95% maximum instead of 100% to prevent overflow"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Enter pixel value (350px) or percentage (95% recommended)"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="searchWidth"
+              name="searchBar.width"
+              class="form-input width-input"
+              value="350px"
+              placeholder="e.g., 350px or 95%"
+              pattern="^\d+(%|px|em|rem|vw)$"
+              aria-describedby="searchWidth-desc"
+            />
+          </div>
+          <div id="searchWidth-desc" class="sr-only">
+            Set the width of the search bar using pixels (350px) or percentage (95% recommended to prevent overflow)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="desktop-position-heading">Desktop Position</h4>
+      <div class="form-grid grid-4-col" role="group" aria-labelledby="desktop-position-heading">
+        <div class="form-group">
+          <label class="form-label" for="positionTop">
+            Top
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance from top of screen in pixels"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Distance from top of screen"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="positionTop"
+              name="searchBar.position.top"
+              class="form-input"
+              value="70"
+              min="0"
+              max="500"
+              step="5"
+              aria-describedby="positionTop-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="positionTop-desc" class="sr-only">Set distance from top of screen in pixels</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="positionRight">
+            Right
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance from right side of screen in pixels"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Distance from right of screen"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="positionRight"
+              name="searchBar.position.right"
+              class="form-input"
+              value="70"
+              min="0"
+              max="500"
+              step="5"
+              aria-describedby="positionRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="positionRight-desc" class="sr-only">Set distance from right side of screen in pixels</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="positionLeft">
+            Left (Optional)
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance from left side - overrides right position when set"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Distance from left (overrides right)"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="positionLeft"
+              name="searchBar.position.left"
+              class="form-input"
+              placeholder="null"
+              min="0"
+              max="500"
+              step="5"
+              aria-describedby="positionLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="positionLeft-desc" class="sr-only">
+            Set distance from left side of screen in pixels (overrides right position)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="positionBottom">
+            Bottom (Optional)
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance from bottom - overrides top position when set"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Distance from bottom (overrides top)"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="positionBottom"
+              name="searchBar.position.bottom"
+              class="form-input"
+              placeholder="null"
+              min="0"
+              max="500"
+              step="5"
+              aria-describedby="positionBottom-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="positionBottom-desc" class="sr-only">
+            Set distance from bottom of screen in pixels (overrides top position)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="mobile-settings-heading">Mobile Settings</h4>
+      <div class="form-grid grid-2-col" role="group" aria-labelledby="mobile-settings-heading">
+        <div class="form-group">
+          <label class="form-label" for="useResponsive">
+            Use Responsive Positioning
+            <span
+              class="help-tooltip"
+              data-tooltip="Enable automatic responsive positioning for mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Enable responsive positioning for mobile"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="useResponsive"
+              name="searchBar.useResponsive"
+              class="toggle-input"
+              checked
+              aria-describedby="useResponsive-desc"
+            />
+            <label for="useResponsive" class="toggle-label">
+              <span class="toggle-text">Enable responsive positioning</span>
+            </label>
+          </div>
+          <div id="useResponsive-desc" class="sr-only">
+            Toggle responsive positioning that adapts to different screen sizes
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mobileOverridesEnabled">
+            Enable Mobile Overrides
+            <span
+              class="help-tooltip"
+              data-tooltip="Use mobile-specific settings that override desktop settings"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Use mobile-specific settings"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="mobileOverridesEnabled"
+              name="searchBar.mobileOverrides.enabled"
+              class="toggle-input"
+              checked
+              aria-describedby="mobileOverridesEnabled-desc"
+            />
+            <label for="mobileOverridesEnabled" class="toggle-label">
+              <span class="toggle-text">Use mobile-specific overrides</span>
+            </label>
+          </div>
+          <div id="mobileOverridesEnabled-desc" class="sr-only">
+            Toggle mobile-specific settings that override desktop configuration
+          </div>
+        </div>
+      </div>
+
+      <h4 class="subsection-title" id="mobile-position-heading">Mobile Position</h4>
+      <div class="form-grid grid-4-col" id="mobilePositionGrid" role="group" aria-labelledby="mobile-position-heading">
+        <div class="form-group">
+          <label class="form-label" for="mobileTop">
+            Mobile Top
+            <span
+              class="help-tooltip"
+              data-tooltip="Top position specifically for mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Top position on mobile"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="mobileTop"
+              name="searchBar.mobilePosition.top"
+              class="form-input"
+              value="60"
+              min="0"
+              max="200"
+              step="5"
+              aria-describedby="mobileTop-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="mobileTop-desc" class="sr-only">Set top position for mobile devices in pixels</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mobileLeft">
+            Mobile Left
+            <span
+              class="help-tooltip"
+              data-tooltip="Left position specifically for mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Left position on mobile"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="mobileLeft"
+              name="searchBar.mobilePosition.left"
+              class="form-input"
+              value="20"
+              min="0"
+              max="100"
+              step="5"
+              aria-describedby="mobileLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="mobileLeft-desc" class="sr-only">Set left position for mobile devices in pixels</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mobileRight">
+            Mobile Right
+            <span
+              class="help-tooltip"
+              data-tooltip="Right position specifically for mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Right position on mobile"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="mobileRight"
+              name="searchBar.mobilePosition.right"
+              class="form-input"
+              value="20"
+              min="0"
+              max="100"
+              step="5"
+              aria-describedby="mobileRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="mobileRight-desc" class="sr-only">Set right position for mobile devices in pixels</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mobileWidth">
+            Mobile Width
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 95% maximum instead of 100% to prevent overflow"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Width on mobile (percentage or pixels)"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="mobileWidth"
+            name="searchBar.mobileOverrides.width"
+            class="form-input width-input"
+            value="90%"
+            placeholder="90% or 350px"
+            pattern="^\d+(%|px|em|rem|vw)$"
+            aria-describedby="mobileWidth-desc"
+          />
+          <div id="mobileWidth-desc" class="sr-only">
+            Set width for mobile devices using percentage (95% recommended to prevent overflow) or pixels
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Element Triggering Section -->
+  <section class="config-section" aria-labelledby="element-triggering-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="element-triggering-heading">
+        <i class="fas fa-bolt section-icon" aria-hidden="true"></i>
+        Element Triggering
+      </h3>
+      <p class="section-description">Configure timing and retry behavior for element interactions</p>
+    </div>
+
+    <div class="form-grid grid-4-col" role="group" aria-labelledby="element-triggering-heading">
+      <div class="form-group">
+        <label class="form-label" for="initialDelay">
+          Initial Delay (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Initial delay before triggering element interactions"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Initial delay before triggering element"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="initialDelay"
+            name="elementTriggering.initialDelay"
+            class="form-input"
+            value="300"
+            min="0"
+            max="5000"
+            step="50"
+            aria-describedby="initialDelay-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">ms</span>
+        </div>
+        <div id="initialDelay-desc" class="sr-only">
+          Set initial delay in milliseconds before triggering element interactions
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="maxRetries">
+          Maximum Retries
+          <span
+            class="help-tooltip"
+            data-tooltip="Maximum number of retry attempts for element interactions"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Maximum number of retry attempts"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="maxRetries"
+            name="elementTriggering.maxRetries"
+            class="form-input"
+            value="3"
+            min="0"
+            max="10"
+            step="1"
+            aria-describedby="maxRetries-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">tries</span>
+        </div>
+        <div id="maxRetries-desc" class="sr-only">
+          Set maximum number of retry attempts for failed element interactions
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="retryInterval">
+          Retry Interval (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Time interval between retry attempts"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Interval between retry attempts"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="retryInterval"
+            name="elementTriggering.retryInterval"
+            class="form-input"
+            value="300"
+            min="100"
+            max="2000"
+            step="50"
+            aria-describedby="retryInterval-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">ms</span>
+        </div>
+        <div id="retryInterval-desc" class="sr-only">Set time interval in milliseconds between retry attempts</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="maxRetryInterval">
+          Max Retry Interval (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Maximum retry interval limit to prevent excessive delays"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Maximum retry interval limit"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="maxRetryInterval"
+            name="elementTriggering.maxRetryInterval"
+            class="form-input"
+            value="1000"
+            min="500"
+            max="5000"
+            step="100"
+            aria-describedby="maxRetryInterval-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">ms</span>
+        </div>
+        <div id="maxRetryInterval-desc" class="sr-only">Set maximum retry interval limit in milliseconds</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="baseRetryInterval">
+          Base Retry Interval (ms)
+          <span
+            class="help-tooltip"
+            data-tooltip="Base retry interval used for exponential backoff calculations"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Base interval for retry calculations"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="baseRetryInterval"
+            name="elementTriggering.baseRetryInterval"
+            class="form-input"
+            value="300"
+            min="100"
+            max="2000"
+            step="50"
+            aria-describedby="baseRetryInterval-desc"
+            inputmode="numeric"
+          />
+          <span class="input-unit" aria-hidden="true">ms</span>
+        </div>
+        <div id="baseRetryInterval-desc" class="sr-only">
+          Set base retry interval in milliseconds for exponential backoff
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advanced Mobile Settings Section -->
+  <section class="config-section" aria-labelledby="advanced-mobile-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="advanced-mobile-heading">
+        <i class="fas fa-mobile-alt section-icon" aria-hidden="true"></i>
+        Advanced Mobile Settings
+      </h3>
+      <p class="section-description">Advanced mobile positioning, sizing, and visibility behavior configuration</p>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="mobile-constraints-heading">Mobile Constraints</h4>
+      <div class="form-grid grid-2-col" role="group" aria-labelledby="mobile-constraints-heading">
+        <div class="form-group">
+          <label class="form-label" for="mobileBreakpointOverride">
+            Mobile Breakpoint Override (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Mobile-specific breakpoint that overrides global setting"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Mobile-specific breakpoint override"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="mobileBreakpointOverride"
+              name="searchBar.mobileOverrides.breakpoint"
+              class="form-input"
+              value="768"
+              min="320"
+              max="1200"
+              step="1"
+              aria-describedby="mobileBreakpointOverride-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="mobileBreakpointOverride-desc" class="sr-only">
+            Set mobile-specific breakpoint that overrides the global mobile breakpoint
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="mobileMaxWidth">
+            Mobile Max Width (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Maximum width constraint for mobile search bar"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Maximum width on mobile devices"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="mobileMaxWidth"
+              name="searchBar.mobileOverrides.maxWidth"
+              class="form-input"
+              value="350"
+              min="200"
+              max="800"
+              step="10"
+              aria-describedby="mobileMaxWidth-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="mobileMaxWidth-desc" class="sr-only">
+            Set maximum width constraint for search bar on mobile devices
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="mobile-position-extended-heading">Extended Mobile Position</h4>
+      <div class="form-grid grid-1-col" role="group" aria-labelledby="mobile-position-extended-heading">
+        <div class="form-group">
+          <label class="form-label" for="mobileBottom">
+            Mobile Bottom Position
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance from bottom on mobile - overrides top position when set"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Bottom position on mobile (overrides top)"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="mobileBottom"
+              name="searchBar.mobilePosition.bottom"
+              class="form-input"
+              value="auto"
+              placeholder="auto, 20px, or similar"
+              aria-describedby="mobileBottom-desc"
+            />
+          </div>
+          <div id="mobileBottom-desc" class="sr-only">Set bottom position for mobile devices (auto, pixels, etc.)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title" id="mobile-visibility-heading">Mobile Visibility Behavior</h4>
+      <div class="form-grid grid-1-col" role="group" aria-labelledby="mobile-visibility-heading">
+        <div class="form-group">
+          <label class="form-label" for="visibilityBehavior">
+            Visibility Behavior
+            <span
+              class="help-tooltip"
+              data-tooltip="Control how search bar visibility behaves on mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Mobile visibility behavior type"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="visibilityBehavior"
+            name="searchBar.mobileOverrides.visibility.behavior"
+            class="form-select"
+            aria-describedby="visibilityBehavior-desc"
+          >
+            <option value="dynamic">Dynamic - Responds to scroll and interaction</option>
+            <option value="fixed">Fixed - Always visible in set position</option>
+            <option value="toggle">Toggle - Manual show/hide controls</option>
+          </select>
+          <div id="visibilityBehavior-desc" class="sr-only">
+            Choose how search bar visibility behaves on mobile devices
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="showOnScroll">
+            Show on Scroll
+            <span
+              class="help-tooltip"
+              data-tooltip="Show search bar when user scrolls on mobile devices"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show search bar when scrolling"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="showOnScroll"
+              name="searchBar.mobileOverrides.visibility.showOnScroll"
+              class="toggle-input"
+              checked
+              aria-describedby="showOnScroll-desc"
+            />
+            <label for="showOnScroll" class="toggle-label">
+              <span class="toggle-text">Show search bar when scrolling</span>
+            </label>
+          </div>
+          <div id="showOnScroll-desc" class="sr-only">Toggle to show search bar when user scrolls on mobile</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="hideThreshold">
+            Hide Threshold (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Distance scrolled before search bar hides on mobile"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Scroll distance before hiding search bar"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="hideThreshold"
+              name="searchBar.mobileOverrides.visibility.hideThreshold"
+              class="form-input"
+              value="100"
+              min="0"
+              max="500"
+              step="10"
+              aria-describedby="hideThreshold-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="hideThreshold-desc" class="sr-only">
+            Set scroll distance in pixels before search bar hides on mobile
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- Prevent extra whitespace at the bottom -->
+<div style="height: 1px; margin: 0; padding: 0"></div>

@@ -1,0 +1,652 @@
+SEARCH PRO V3 FOR 3DVISTA VIRTUAL TOURS TERMS AND CONDITIONS
+Last Updated: 10/09/2025 Version: 1.0
+
+PLEASE READ THESE TERMS CAREFULLY BEFORE PURCHASING OR USING THIS PLUGIN
+
+1. ACCEPTANCE OF TERMS
+By purchasing, downloading, installing, or using Search Pro v3 for 3DVista Virtual Tours (the "Plugin"), you ("User", "you", or "your") agree to be legally bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, do not purchase, download, install, or use the Plugin.
+Your purchase or use of the Plugin constitutes your acceptance of these Terms, regardless of whether you have read them.
+
+2. DEFINITIONS
+2.1 "Plugin" refers to Search Pro v3 for 3DVista Virtual Tours, including all associated files, code, documentation, and updates.
+2.2 "Vendor" refers to PXL360 (doing business as 360 Virtual Tour Solutions), the creator and distributor of the Plugin.
+2.3 "3DVista" refers to 3DVista software and its parent company, with which the Vendor has no affiliation.
+2.4 "License" refers to the right to use the Plugin as granted under these Terms.
+2.5 "Project" refers to a single 3DVista virtual tour implementation.
+2.6 "Core Files" refers to the unmodifiable Plugin files (search-01-non-mod.js, search-01-non-mod.css).
+2.7 "Configuration Files" refers to user-modifiable settings files (search-pro-config.js) created by the Control Panel.
+
+3. NO AFFILIATION WITH 3DVISTA
+3.1 The Plugin is an independent third-party product created by PXL360 and is NOT affiliated with, authorized by, endorsed by, or supported by 3DVista or any of its subsidiaries or affiliates.
+3.2 3DVista does not provide support, maintenance, troubleshooting, or updates for this Plugin.
+3.3 3DVista is not responsible for the functionality, performance, security, or compatibility of this Plugin.
+3.4 All technical support, updates, and maintenance are provided solely by PXL360.
+3.5 All product and company names mentioned are trademarks or registered trademarks of their respective owners. Use of these names does not imply endorsement.
+3.6 PXL360 is not responsible for conflicts, compatibility issues, or functionality problems arising from interactions with other third-party plugins or products available on the 3DVista marketplace or elsewhere. No third-party products sold on the 3DVista marketplace are affiliated with or supported by 3DVista.
+
+4. LICENSE GRANT
+4.1 Subject to your compliance with these Terms and payment of applicable fees, PXL360 grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to use the Plugin.
+4.2 LICENSE SCOPE:
+	•	a) Each purchase grants a single-user license
+	•	b) You may use the Plugin on unlimited 3DVista projects that you own or manage
+	•	c) You may use the Plugin for personal or commercial purposes
+	•	d) The license is perpetual (does not expire) unless terminated under Section 18
+4.3 You may modify Configuration Files (search-pro-config.js) created by the Control Panel for your specific needs.
+4.4 LICENSE RESTRICTIONS:
+	•	a) You may NOT resell, redistribute, or sublicense the Plugin
+	•	b) You may NOT transfer your license to another person or entity without written permission from PXL360
+	•	c) You may NOT use the Plugin to create competing products or services
+	•	d) You may NOT provide the Plugin to third parties as part of a service offering without written permission
+	•	e) You may NOT modify Core Files (search-01-non-mod.js, search-01-non-mod.css)
+
+5. PROHIBITED USES AND RESTRICTIONS
+You agree NOT to:
+5.1 Use the Plugin for any unlawful purpose or in violation of any applicable laws or regulations.
+5.2 Reverse engineer, decompile, or disassemble the Plugin's Core Files to extract source code or algorithms.
+5.3 Modify, adapt, or create derivative works based on the Plugin's Core Files, except for Configuration Files as permitted in Section 4.3.
+5.4 Remove, alter, or obscure any copyright, trademark, or proprietary notices contained in the Plugin.
+5.5 Sell, rent, lease, sublicense, or otherwise transfer the Plugin to any third party.
+5.6 Use the Plugin in any manner that could damage, disable, overburden, or impair PXL360's services or interfere with any other party's use of the Plugin.
+5.7 Distribute or make the Plugin available over a network where it could be used by multiple users simultaneously, unless you have purchased appropriate licenses.
+5.8 Use the Plugin to create a competing search plugin or service for 3DVista or similar platforms.
+5.9 Claim ownership of the Plugin or misrepresent your relationship with PXL360.
+
+6. INTELLECTUAL PROPERTY RIGHTS
+6.1 The Plugin, including all code, design, documentation, graphics, user interface, and trade secrets, is and remains the exclusive property of PXL360.
+6.2 These Terms do not grant you any intellectual property rights in the Plugin except for the limited license explicitly granted in Section 4.
+6.3 All rights not expressly granted herein are reserved by PXL360.
+6.4 The Plugin is protected by copyright laws, international copyright treaties, and other intellectual property laws and treaties.
+6.5 Any feedback, suggestions, or ideas you provide regarding the Plugin may be used by PXL360 without compensation or attribution.
+
+7. THIRD-PARTY SOFTWARE AND DEPENDENCIES
+7.1 The Plugin incorporates third-party libraries, including but not limited to Fuse.js, which are subject to their own license terms.
+7.2 By using the Plugin, you agree to comply with all applicable third-party licenses.
+7.3 PXL360 makes no warranties regarding third-party components and is not responsible for their functionality or support.
+7.4 A complete list of third-party components and their licenses is available in the Plugin documentation.
+
+8. DEPENDENCY ON 3DVISTA SOFTWARE
+8.1 The Plugin is designed to work with 3DVista Virtual Tour software. The Plugin's functionality depends on 3DVista's software architecture and APIs.
+8.2 PXL360 is not responsible for changes, updates, or modifications to 3DVista software that may affect the Plugin's functionality.
+8.3 PXL360 will make reasonable efforts to maintain compatibility with current versions of 3DVista software through updates (see Section 9).
+8.4 If 3DVista makes changes that break the Plugin's functionality, PXL360 will attempt to provide compatibility updates within a reasonable timeframe but makes no guarantees regarding timing or ability to resolve all compatibility issues.
+8.5 Users are responsible for ensuring compatibility between their version of 3DVista and the Plugin version they are using.
+
+9. UPDATES AND MAINTENANCE
+9.1 FREE LIFETIME UPDATES:
+	•	a) Your purchase includes free access to all future updates, enhancements, and new features
+	•	b) Updates may include bug fixes, compatibility improvements, new features, and security patches
+	•	c) Updates are provided at PXL360's discretion and on no set schedule
+	•	d) No guaranteed timeframe for specific features or fixes
+9.2 UPDATE DELIVERY:
+	•	a) Updates will be made available through the original download location or via email notification
+	•	b) You are responsible for monitoring and installing updates
+	•	c) PXL360 is not required to notify you of available updates but will make reasonable efforts to do so
+9.3 COMPATIBILITY UPDATE SUPPORT:
+	•	a) When PXL360 releases compatibility updates for new 3DVista versions, basic troubleshooting support for installing and implementing these updates is FREE for 30 days after the update release
+	•	b) After 30 days from update release, standard paid support rules apply (see Section 10)
+	•	c) This extended support window applies only to compatibility updates, not general Plugin support
+9.4 MAINTENANCE OBLIGATIONS:
+	•	a) PXL360 has no obligation to maintain, support, or update the Plugin indefinitely
+	•	b) PXL360 reserves the right to discontinue the Plugin at any time with 90 days notice
+	•	c) In the event of discontinuation, your license remains valid for the final version
+9.5 You acknowledge that failure to install updates may result in compatibility issues, security vulnerabilities, or degraded functionality.
+
+10. TECHNICAL SUPPORT
+10.1 INITIAL 14-DAY SUPPORT PERIOD:
+Your purchase includes 14 days of comprehensive technical support from the date of purchase.
+Support Period Details:
+	•	a) Support period begins on the date of successful payment and license delivery
+	•	b) The 14-day period is calculated from the purchase date and is not extendable or renewable
+	•	c) This period is designed to allow sufficient time for installation, configuration, testing, and initial deployment
+What's Covered During 14-Day Period:
+	•	Installation assistance and step-by-step guidance
+	•	Configuration support and Control Panel usage questions
+	•	Troubleshooting of Plugin functionality issues
+	•	Compatibility verification with your 3DVista version
+	•	Standard use case implementation guidance
+	•	Questions about Plugin features and settings
+	•	Best practices recommendations
+	•	Bug report submission and verification
+How to Access Support During 14-Day Period:
+	•	Email: support@pxl360.com (for detailed issues, documentation requests, and technical troubleshooting)
+	•	WhatsApp: +1.704.705.5659 (for quick questions during business hours only)
+Response Times During 14-Day Period:
+	•	Target response time: Within 24-48 business hours
+	•	No guaranteed response time, but we prioritize new license holders
+	•	Business hours: Monday-Friday, 9 AM - 5 PM Mountain Time (excluding US holidays)
+	•	Support provided in English only
+
+10.2 ONGOING SUPPORT (AFTER 14-DAY PERIOD):
+After the initial 14-day period, PXL360 continues to provide free support for specific issue types, while other services are available at standard rates.
+ALWAYS FREE (UNLIMITED):
+Bug Reports and Verification:
+	•	What's FREE: Reporting verified bugs in unmodified Core Files
+	•	What's FREE: Bug fixes delivered through free Plugin updates
+	•	Important: Troubleshooting to determine whether an issue is actually a bug (versus user error, configuration issue, environment conflict, or custom code problem) may be subject to paid support charges after the 14-day period
+	•	Not Covered: Issues caused by modified Core Files, conflicts with custom code, incompatible hosting environments, or other third-party plugins
+Basic "How Do I..." Questions:
+	•	What's FREE: Reasonable number of straightforward how-to questions about using existing Plugin features
+	•	Examples of FREE questions: "How do I change the search bar color?" "How do I filter by tags?" "How do I export my configuration?"
+	•	What's NOT FREE: Extensive training, repetitive questions about the same topics, requests for step-by-step tutorials beyond basic documentation, or questions that require significant research or testing
+	•	Guideline: If your question can be answered in 5-10 minutes using existing documentation or quick guidance, it's typically free. If it requires custom testing, detailed walkthroughs, or extended back-and-forth, it may be referred to paid support.
+Compatibility Issues:
+	•	What's FREE: Compatibility updates when 3DVista releases new versions that affect the Plugin
+	•	What's FREE: Basic troubleshooting during the 30-day period after a compatibility update is released (see Section 9.3)
+	•	Important: Complex implementation support, troubleshooting server-specific issues, or resolving conflicts with your specific environment may require paid support
+	•	Not Covered: Compatibility issues with beta versions of 3DVista, unofficial 3DVista modifications, or other third-party software
+PAID SUPPORT ($90/HOUR):
+After the initial 14-day period, the following services are billed at $90 USD per hour:
+Installation and Troubleshooting:
+	•	Hands-on installation assistance
+	•	Server or hosting environment troubleshooting
+	•	Complex configuration issues requiring significant time
+	•	Performance optimization guidance
+	•	Debugging conflicts with other scripts or plugins
+	•	Recovery from misconfiguration or data loss
+Extended Training and Consultation:
+	•	Personalized training sessions beyond basic usage
+	•	Live walkthroughs of advanced features
+	•	Best practices consultation for specific projects
+	•	Strategy sessions for complex filtering requirements
+	•	Tour design and optimization recommendations
+Billing Terms for Paid Support:
+	•	Minimum billing: 1 hour
+	•	Billing increments: 30-minute increments after the first hour
+	•	Payment required: Before support service begins
+	•	Invoicing: Provided upon completion of service
+	•	Payment methods: As specified by PXL360
+
+10.3 CUSTOM DEVELOPMENT SERVICES:
+Custom development services are NOT included in any support period and are always billed separately at $90 USD per hour.
+What Constitutes Custom Development:
+	•	Custom features not included in the standard Plugin
+	•	Integration with third-party booking systems, CRMs, or databases
+	•	Custom styling or layouts beyond Control Panel capabilities
+	•	White-label customization or rebranding
+	•	Advanced API integrations
+	•	Custom search algorithms or filtering logic
+	•	Modifications to Core Files for specific use cases
+	•	Creating custom add-ons or extensions
+	•	Automated deployment or management systems
+Custom Development Process:
+	•	Step 1: Contact support@pxl360.com with your custom development request
+	•	Step 2: FREE initial consultation (15-30 minutes) to understand your requirements and assess feasibility
+	•	Step 3: PXL360 provides a written quote with estimated hours and scope
+	•	Step 4: Upon acceptance, payment terms are established
+	•	Step 5: Development begins after payment agreement is confirmed
+	•	Important: Custom development requests may not always be feasible due to Plugin architecture limitations. The free consultation will clarify what's possible.
+Custom Development Terms:
+	•	Minimum billing: 2 hours for custom development projects
+	•	Billing increments: 30-minute increments after minimum
+	•	Payment: 50% deposit required before work begins; remainder due upon completion
+	•	Turnaround time: Varies based on project scope and complexity
+	•	Ownership: Custom code remains property of PXL360 unless otherwise specified in writing
+
+10.4 WHATSAPP SUPPORT GUIDELINES:
+WhatsApp support is available at +1.704.705.5659 with the following guidelines:
+Appropriate WhatsApp Use:
+	•	Quick questions requiring brief answers
+	•	Urgent issues during business hours
+	•	Status updates on open support tickets
+	•	Preliminary questions before sending detailed email
+	•	Confirmation of receipt of emails or files
+WhatsApp Limitations and Rules:
+	•	Text messages only – Voice calls and video calls are NOT supported
+	•	Business hours only – Monday-Friday, 9 AM - 5 PM Mountain Time (excluding US holidays)
+	•	Response time: Same as email (24-48 business hours); WhatsApp is not instant messaging
+	•	No guaranteed immediate response – For urgent issues requiring immediate attention, paid priority support can be arranged
+	•	Detailed technical issues – Should be sent via email to support@pxl360.com with screenshots, configuration files, and detailed descriptions
+	•	Abuse prevention: Excessive messaging, off-hours messaging, spam, inappropriate content, or abusive language will result in immediate WhatsApp support revocation without affecting your Plugin license
+
+10.5 SUPPORT EXCLUSIONS:
+The following are NOT covered under any support period:
+Explicitly Not Supported:
+	•	Training on 3DVista software itself (refer to 3DVista documentation)
+	•	Troubleshooting of your web server, hosting environment, or network unless directly related to Plugin installation
+	•	Configuration of 3DVista projects unrelated to the Plugin
+	•	Issues caused by modified Core Files
+	•	Recovery from user error or accidental deletion without backups
+	•	Support for pirated, shared, or transferred licenses
+	•	Issues arising from failure to install available updates
+	•	Conflicts with custom code, modified 3DVista files, or other third-party plugins (including other 3DVista marketplace products)
+	•	Support for beta, alpha, or development versions of 3DVista
+	•	Issues on unsupported or outdated browsers
+	•	Data recovery services
+
+10.6 SUPPORT RESPONSE TIME EXPECTATIONS:
+During 14-Day Period:
+	•	Target: 24-48 business hours
+	•	Priority: New users receive priority attention
+	•	Follow-up: Complex issues may require additional time for testing and resolution
+After 14-Day Period (Free Support):
+	•	Target: 48-72 business hours
+	•	Priority: Lower priority than paid support requests
+	•	Scope: Limited to issues covered under Section 10.2
+Paid Support:
+	•	Target: 24 business hours or better
+	•	Priority: Highest priority for paying customers
+	•	Dedicated attention: Paid support receives focused assistance
+Emergency/Priority Support:
+	•	Available by special arrangement for critical issues
+	•	Requires advance agreement and premium pricing
+	•	Contact support@pxl360.com for availability
+
+10.7 SUPPORT TERMINATION AND RESTRICTIONS:
+PXL360 reserves the right to refuse or terminate support under the following circumstances:
+Immediate Support Termination:
+	•	Violation of these Terms (see Section 5)
+	•	Use of pirated, cracked, or unauthorized versions of the Plugin
+	•	Modified or tampered Core Files without authorization
+	•	Fraudulent payment or chargeback attempts
+	•	Abusive, threatening, or inappropriate behavior toward support staff
+	•	Excessive or unreasonable support demands that constitute abuse
+	•	Sharing login credentials or license information with unauthorized parties
+Support Limitations:
+	•	PXL360 may limit support responses if issues are determined to be outside the Plugin's scope
+	•	Repeated questions about the same resolved issue may be referred to existing documentation
+	•	Users who fail to provide requested information (screenshots, configuration files, error logs) in a timely manner may experience delayed support
+
+10.8 SUPPORT SUMMARY TABLE:
+Support Type
+During 14 Days
+After 14 Days
+Installation assistance
+✅ FREE
+💰 $90/hour
+Configuration guidance
+✅ FREE
+✅ FREE (basic)<br>💰 $90/hour (extensive)
+How-to questions
+✅ FREE
+✅ FREE (reasonable number)
+Bug reports (verified)
+✅ FREE
+✅ FREE (via updates)
+Bug troubleshooting
+✅ FREE
+💰 $90/hour (if not verified bug)
+Compatibility issues
+✅ FREE
+✅ FREE (first 30 days after update)<br>💰 $90/hour (after 30 days)
+Compatibility troubleshooting
+✅ FREE
+✅ FREE (first 30 days after update)<br>💰 $90/hour (after 30 days)
+Training and walkthroughs
+✅ FREE (basic)
+💰 $90/hour
+Custom features
+💰 $90/hour
+💰 $90/hour
+Custom development
+💰 $90/hour
+💰 $90/hour
+Integration services
+💰 $90/hour
+💰 $90/hour
+Priority/emergency support
+💰 Premium rate
+💰 Premium rate
+
+11. PAYMENT AND PRICING
+11.1 PRICING:
+	•	a) Current price: $149 USD (one-time payment)
+	•	b) Pricing is subject to change at PXL360's discretion
+	•	c) Price changes do not affect existing license holders
+11.2 PAYMENT TERMS:
+	•	a) Payment is required before Plugin download access is granted
+	•	b) All prices are in United States Dollars (USD)
+	•	c) Payment is processed through authorized payment processors
+	•	d) You are responsible for any taxes, duties, or fees imposed by your jurisdiction
+11.3 NO SUBSCRIPTION FEES:
+	•	a) This is a one-time payment product
+	•	b) No recurring fees, subscription costs, or renewal charges
+	•	c) Free updates included (see Section 9)
+11.4 ADDITIONAL SERVICE BILLING:
+	•	a) Paid support and custom development services are billed separately
+	•	b) Invoices are provided for all paid services
+	•	c) Payment for services must be received before work begins or support is provided
+
+12. NO REFUND POLICY
+12.1 ALL SALES ARE FINAL. PXL360 does not offer refunds, returns, or exchanges under any circumstances.
+12.2 This no-refund policy applies regardless of:
+	•	a) Whether you have used the Plugin
+	•	b) Technical difficulties or compatibility issues
+	•	c) Change of mind or buyer's remorse
+	•	d) Failure to read these Terms or Plugin documentation
+	•	e) Misunderstanding of Plugin features or capabilities
+	•	f) Your ability or inability to use the Plugin
+	•	g) Dissatisfaction with the Plugin
+	•	h) Conflicts with other software or plugins
+	•	i) Changes to 3DVista software after your purchase
+12.3 Before purchasing, you are strongly encouraged to:
+	•	a) Review the live demo at https://pxl360.com/search-plugin/index.html
+	•	b) Read all documentation at https://pxl360.com/search-plugin/search-pro-v3/extras/guide.html
+	•	c) Review the complete feature list and requirements
+	•	d) Test the demo thoroughly to understand functionality
+	•	e) Contact support@pxl360.com with any pre-purchase questions
+12.4 By completing your purchase, you acknowledge that you have reviewed available materials and agree to the no-refund policy.
+12.5 Chargebacks or payment disputes initiated after purchase will result in immediate license termination and may result in legal action.
+
+13. DISCLAIMER OF WARRANTIES
+13.1 THE PLUGIN IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+13.2 PXL360 DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:
+	•	a) Implied warranties of merchantability
+	•	b) Implied warranties of fitness for a particular purpose
+	•	c) Implied warranties of non-infringement
+	•	d) Warranties regarding accuracy, reliability, or completeness
+	•	e) Warranties of uninterrupted, timely, secure, or error-free operation
+	•	f) Warranties regarding the results that may be obtained from use of the Plugin
+	•	g) Warranties regarding compatibility with all versions of 3DVista or all hosting environments
+	•	h) Warranties regarding compatibility with other third-party plugins or software
+13.3 PXL360 does not warrant that:
+	•	a) The Plugin will meet your specific requirements or expectations
+	•	b) The Plugin will be error-free, secure, or function without interruption
+	•	c) Defects will be corrected within any specific timeframe
+	•	d) The Plugin will be compatible with all third-party software, plugins, or services
+	•	e) The Plugin will be compatible with future versions of 3DVista software
+	•	f) The Plugin will work in all hosting environments or server configurations
+13.4 Some jurisdictions do not allow the exclusion of implied warranties. In such jurisdictions, the above exclusions may not apply to you. You may have additional rights that vary by jurisdiction.
+13.5 You acknowledge that you have relied on no warranties, representations, or statements except those explicitly set forth in these Terms.
+
+14. LIMITATION OF LIABILITY
+14.1 TO THE MAXIMUM EXTENT PERMITTED BY LAW, PXL360 SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO YOUR USE OF THE PLUGIN.
+14.2 This limitation includes, but is not limited to, damages for:
+	•	a) Loss of profits, revenue, or business opportunities
+	•	b) Loss of data or information
+	•	c) Business interruption
+	•	d) Loss of goodwill or reputation
+	•	e) Cost of substitute products or services
+	•	f) Personal or property damage
+	•	g) Loss of use or downtime
+	•	h) Costs of procurement of substitute services
+14.3 MAXIMUM LIABILITY:
+In no event shall PXL360's total aggregate liability exceed the amount you actually paid for the Plugin ($149 USD or current purchase price).
+14.4 These limitations apply:
+	•	a) Whether the claim is based in contract, tort, strict liability, or any other legal theory
+	•	b) Even if PXL360 has been advised of the possibility of such damages
+	•	c) Even if the limited remedies provided herein fail of their essential purpose
+	•	d) Regardless of the form of action, whether in contract, negligence, strict product liability, or otherwise
+14.5 Some jurisdictions do not allow limitations on liability. In such jurisdictions, PXL360's liability shall be limited to the maximum extent permitted by law.
+
+15. INDEMNIFICATION
+15.1 You agree to indemnify, defend, and hold harmless PXL360, its officers, directors, employees, agents, and affiliates from and against any and all claims, damages, obligations, losses, liabilities, costs, or expenses (including reasonable attorneys' fees) arising from:
+	•	a) Your use or misuse of the Plugin
+	•	b) Your violation of these Terms
+	•	c) Your violation of any third-party rights, including intellectual property rights, privacy rights, or publicity rights
+	•	d) Your violation of any applicable laws or regulations
+	•	e) Content you create, display, or distribute using the Plugin
+	•	f) Your negligence or willful misconduct
+	•	g) Any claim that your use of the Plugin caused harm to a third party
+	•	h) Modifications you make to Core Files
+15.2 This indemnification obligation survives termination of these Terms and your license.
+15.3 PXL360 reserves the right to assume exclusive defense and control of any matter subject to indemnification by you, at your expense.
+15.4 You will not settle any claim that affects PXL360's rights or interests without PXL360's prior written consent.
+
+16. USER RESPONSIBILITIES
+16.1 You are solely responsible for:
+	•	a) Testing the Plugin in your specific environment before production deployment
+	•	b) Creating backups of your 3DVista projects before installing or using the Plugin
+	•	c) Ensuring proper integration with your 3DVista projects
+	•	d) Maintaining security of your license and download access credentials
+	•	e) Keeping your contact information current for update notifications and support
+	•	f) Reading and understanding Plugin documentation before requesting support
+	•	g) Complying with all applicable laws when using the Plugin
+	•	h) Ensuring your use of the Plugin does not violate any third-party rights
+	•	i) Monitoring and installing updates as they become available
+	•	j) Securing your server and hosting environment
+	•	k) Implementing appropriate access controls and security measures
+16.2 You acknowledge that improper installation, configuration, or use may result in:
+	•	a) Plugin malfunction or failure
+	•	b) Damage to your 3DVista project or website
+	•	c) Loss of data or functionality
+	•	d) Security vulnerabilities
+	•	e) Performance issues
+	•	f) User experience degradation
+16.3 PXL360 is not responsible for any damage or loss resulting from your failure to properly install, configure, test, back up, or use the Plugin according to documentation.
+
+17. DATA PRIVACY AND COLLECTION
+17.1 PLUGIN DATA COLLECTION:
+	•	a) The Plugin does NOT collect, transmit, or store any personal data from end users viewing your virtual tours
+	•	b) The Plugin operates entirely client-side in the user's browser
+	•	c) No data is sent to PXL360 servers during normal Plugin operation
+	•	d) No cookies, trackers, or analytics are installed by the Plugin
+17.2 CONFIGURATION DATA:
+	•	a) Configuration settings may be stored in the user's browser LocalStorage for Control Panel functionality
+	•	b) This data remains on the user's device and is not transmitted to PXL360
+	•	c) Users can clear this data at any time through browser settings
+17.3 CUSTOMER INFORMATION:
+	•	a) PXL360 collects minimal customer information necessary for license management and support:
+	◦	Name
+	◦	Email address
+	◦	Purchase details and transaction information
+	◦	Support correspondence
+	•	b) This information is used solely for:
+	◦	License delivery and verification
+	◦	Support communications
+	◦	Update notifications
+	◦	Important announcements regarding the Plugin
+	•	c) PXL360 does not sell, rent, or share your information with third parties except:
+	◦	As required by law or legal process
+	◦	With payment processors for transaction processing
+	◦	With service providers under confidentiality agreements
+	•	d) You may request deletion of your personal information by contacting support@pxl360.com, subject to legal retention requirements
+17.4 YOUR RESPONSIBILITIES:
+	•	a) You are solely responsible for complying with all privacy laws and regulations applicable to your use of the Plugin and your virtual tours
+	•	b) You must implement appropriate privacy policies for your virtual tours and websites
+	•	c) You must comply with GDPR, CCPA, and other applicable data protection regulations
+	•	d) You are responsible for obtaining necessary consents from end users of your tours
+	•	e) You are responsible for protecting any data collected through your tours
+
+18. TERMINATION
+18.1 TERMINATION BY YOU:
+	•	a) You may terminate your license at any time by ceasing to use the Plugin and deleting all copies
+	•	b) Termination does not entitle you to a refund
+	•	c) All provisions of these Terms that by their nature should survive termination remain in effect
+18.2 TERMINATION BY PXL360:
+PXL360 may immediately terminate or suspend your license without notice if:
+	•	a) You violate any provision of these Terms
+	•	b) You engage in prohibited uses outlined in Section 5
+	•	c) You fail to pay any fees owed for support or custom services
+	•	d) You engage in fraudulent or illegal activity related to the Plugin
+	•	e) Your use of the Plugin harms PXL360's reputation or business interests
+	•	f) You initiate a chargeback or payment dispute
+	•	g) You share your license with unauthorized parties
+	•	h) You abuse support services or staff
+18.3 EFFECT OF TERMINATION:
+Upon termination of your license:
+	•	a) Your right to use the Plugin immediately ceases
+	•	b) You must immediately cease all use of the Plugin
+	•	c) You must delete or destroy all copies of the Plugin in your possession and control
+	•	d) You must remove the Plugin from all websites and virtual tours
+	•	e) You remain liable for any obligations incurred before termination
+	•	f) Sections that by their nature should survive (including Sections 6, 13, 14, 15, 19, 20, 21, 23, 24, 25, 26, 27, and 28) remain in effect
+18.4 NO REFUND UPON TERMINATION:
+Termination for any reason does not entitle you to a refund of the purchase price or any fees paid for additional services.
+
+19. GOVERNING LAW AND JURISDICTION
+19.1 These Terms shall be governed by and construed in accordance with the laws of the State of Utah, United States of America, without regard to its conflict of law provisions.
+19.2 Any disputes arising from these Terms or use of the Plugin shall be subject to the exclusive jurisdiction of the state and federal courts located in Salt Lake County, Utah.
+19.3 You consent to personal jurisdiction in these courts and waive any objection to venue in these courts.
+19.4 If any provision of these Terms is found to be unenforceable, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect.
+19.5 The United Nations Convention on Contracts for the International Sale of Goods does not apply to these Terms.
+
+20. DISPUTE RESOLUTION
+20.1 INFORMAL RESOLUTION:
+Before initiating any formal dispute resolution, you agree to first contact PXL360 at support@pxl360.com to attempt to resolve the dispute informally. You must provide:
+	•	a) A detailed description of the dispute
+	•	b) Your desired resolution
+	•	c) Any supporting documentation
+PXL360 will respond within 10 business days and work in good faith to resolve the dispute within 30 days.
+20.2 BINDING ARBITRATION:
+	•	a) Any dispute not resolved informally within 30 days shall be resolved through binding arbitration rather than in court
+	•	b) Arbitration shall be conducted by a single arbitrator under the Commercial Arbitration Rules of the American Arbitration Association
+	•	c) Arbitration shall take place in Salt Lake County, Utah, or virtually if mutually agreed
+	•	d) The arbitrator's decision shall be final and binding
+	•	e) Each party shall bear its own attorney's fees and costs
+	•	f) Arbitration fees shall be split equally between the parties
+	•	g) The arbitrator may award reasonable costs and attorney's fees to the prevailing party
+20.3 CLASS ACTION WAIVER:
+YOU AGREE THAT DISPUTES SHALL BE RESOLVED ON AN INDIVIDUAL BASIS ONLY. YOU WAIVE ANY RIGHT TO PARTICIPATE IN CLASS ACTIONS, CONSOLIDATED PROCEEDINGS, OR REPRESENTATIVE ACTIONS.
+This waiver applies to:
+	•	a) Class arbitrations
+	•	b) Class actions in court
+	•	c) Consolidated proceedings
+	•	d) Representative actions on behalf of others
+20.4 EXCEPTIONS TO ARBITRATION:
+Either party may seek the following in court without first engaging in arbitration:
+	•	a) Injunctive or equitable relief for intellectual property violations
+	•	b) Injunctive or equitable relief for breach of confidentiality obligations
+	•	c) Small claims court actions (if claim qualifies)
+20.5 ARBITRATION OPT-OUT:
+You may opt out of the arbitration requirement by sending written notice to support@pxl360.com within 30 days of purchase. The notice must include your name, purchase information, and a clear statement that you wish to opt out of arbitration. If you opt out, disputes will be resolved in court under Section 19.
+
+21. MODIFICATIONS TO TERMS
+21.1 PXL360 reserves the right to modify these Terms at any time.
+21.2 NOTIFICATION OF CHANGES:
+	•	a) Updated Terms will be posted with a new "Last Updated" date and version number
+	•	b) Significant changes will be communicated via email to registered users when reasonably possible
+	•	c) Continued use of the Plugin after changes constitutes acceptance of modified Terms
+	•	d) You are responsible for reviewing Terms periodically
+21.3 If you do not agree to modified Terms, your sole remedy is to stop using the Plugin and terminate your license under Section 18.1. Termination does not entitle you to a refund.
+21.4 Material changes will not apply retroactively to disputes arising before the change, except as required by law.
+
+22. SEVERABILITY
+22.1 If any provision of these Terms is held to be invalid, illegal, or unenforceable by a court of competent jurisdiction, such provision shall be modified to the minimum extent necessary to make it valid and enforceable while preserving the parties' intent.
+22.2 If such modification is not possible, the invalid provision shall be severed, and the remaining provisions shall continue in full force and effect.
+22.3 The invalidity of any provision shall not affect the validity or enforceability of any other provision.
+22.4 If a court finds the class action waiver in Section 20.3 unenforceable, the entire Section 20 (Dispute Resolution) shall be deemed null and void, but all other provisions of these Terms remain enforceable.
+
+23. ENTIRE AGREEMENT
+23.1 These Terms constitute the entire agreement between you and PXL360 regarding the Plugin and supersede all prior or contemporaneous communications, agreements, proposals, representations, or understandings, whether written or oral.
+23.2 No amendment, modification, or waiver of any provision of these Terms shall be effective unless in writing and signed by an authorized representative of PXL360.
+23.3 Any terms or conditions presented in your purchase order, invoice, or other documentation that conflict with these Terms are hereby rejected and shall have no effect.
+23.4 These Terms may not be contradicted by evidence of any prior or contemporaneous statements or agreements.
+
+24. WAIVER
+24.1 The failure of PXL360 to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision unless acknowledged and agreed to by PXL360 in writing.
+24.2 No waiver of any Term shall be deemed a further or continuing waiver of such Term or any other Term.
+24.3 Any waiver must be in writing and signed by an authorized representative of PXL360.
+24.4 PXL360's waiver of a breach does not waive any subsequent breach.
+
+25. ASSIGNMENT
+25.1 You may not assign, transfer, sublicense, or delegate these Terms or your license without prior written consent from PXL360. Any attempted assignment without consent is void.
+25.2 PXL360 may freely assign these Terms and all rights and obligations hereunder to any third party without notice or your consent, including in connection with a merger, acquisition, corporate reorganization, or sale of assets.
+25.3 These Terms bind and benefit the parties and their permitted successors and assigns.
+
+26. FORCE MAJEURE
+26.1 PXL360 shall not be liable for any failure or delay in performance due to causes beyond its reasonable control, including but not limited to:
+	•	a) Acts of God, natural disasters, earthquakes, floods, fires, or severe weather
+	•	b) War, terrorism, civil unrest, riots, or government actions
+	•	c) Pandemic, epidemic, or public health emergency
+	•	d) Internet or telecommunications failures not caused by PXL360
+	•	e) Power outages or utility failures
+	•	f) Cyberattacks, DDoS attacks, hacking, or malicious actions by third parties
+	•	g) Changes or modifications to 3DVista software beyond PXL360's control
+	•	h) Labor disputes, strikes, or lockouts
+	•	i) Government regulations, embargoes, or sanctions
+26.2 Performance shall be excused during the period of such circumstances, and the time for performance shall be extended for the duration of the force majeure event.
+26.3 If a force majeure event continues for more than 90 days, either party may terminate these Terms without liability.
+
+27. EXPORT COMPLIANCE
+27.1 You acknowledge that the Plugin may be subject to export control laws and regulations of the United States and other countries.
+27.2 You agree to comply with all applicable export and import laws, regulations, and restrictions.
+27.3 You represent and warrant that:
+	•	a) You are not located in, under the control of, or a national or resident of any country subject to U.S. embargo, sanctions, or trade restrictions
+	•	b) You are not on any U.S. government list of prohibited or restricted parties, including the Treasury Department's list of Specially Designated Nationals or the Commerce Department's Denied Persons List
+	•	c) You will not use the Plugin for any purposes prohibited by U.S. law, including development, design, manufacture, or production of nuclear, missile, chemical, or biological weapons
+27.4 Violation of export laws may result in immediate license termination and may subject you to criminal and civil penalties.
+
+28. FEEDBACK AND REVIEWS
+28.1 FEEDBACK LICENSE:
+By submitting feedback, suggestions, ideas, bug reports, feature requests, or recommendations regarding the Plugin (collectively, "Feedback"), you grant PXL360 a perpetual, irrevocable, worldwide, royalty-free, fully paid-up, sublicensable, transferable license to:
+	•	a) Use, reproduce, modify, adapt, publish, translate, and create derivative works from your Feedback
+	•	b) Incorporate your Feedback into the Plugin or other products and services
+	•	c) Distribute and commercialize products or services based on or incorporating your Feedback
+This license is granted without any compensation, attribution, or approval requirements.
+28.2 REVIEWS AND TESTIMONIALS:
+	•	a) We appreciate honest reviews and testimonials based on your genuine experience with the Plugin
+	•	b) Positive reviews help other 3DVista users discover the Plugin and support ongoing development and improvements
+	•	c) Reviews should be based on your actual experience with the Plugin
+	•	d) False, misleading, or fraudulent reviews violate these Terms and may result in license termination
+	•	e) You may not be compensated for reviews except through legitimate review platforms
+
+28.3 By submitting a review or testimonial, you grant PXL360 the right to use, reproduce, publish, and display your review and your name (or username) in marketing materials, on the PXL360 website, and in other promotional contexts.
+
+29. NOTICES
+29.1 NOTICE TO YOU:
+PXL360 may provide notices to you via:
+	•	a) Email to the address provided during purchase
+	•	b) Posting in the Plugin documentation
+	•	e) WhatsApp message to your registered phone number (if provided)
+
+29.2 NOTICE TO PXL360:
+All notices to PXL360 must be sent via email to: support@pxl360.com
+Notices regarding legal matters, disputes, or termination should be marked "URGENT: LEGAL NOTICE" in the subject line.
+29.3 DEEMED RECEIPT:
+Notices are deemed received:
+	•	a) Email: When sent (regardless of when actually read)
+	•	b) Posted notices: Upon posting to website or documentation
+
+29.4 You are responsible for:
+	•	a) Monitoring your email regularly
+	•	b) Keeping your contact information current
+	•	c) Ensuring emails from support@pxl360.com are not blocked by spam filters
+
+30. CONTACT INFORMATION
+For questions, support, or other communications regarding these Terms or the Plugin:
+PXL360 (360 Virtual Tour Solutions)
+Primary Support:
+	•	Email: support@pxl360.com
+	•	WhatsApp: +1.704.705.5659 (Business hours only: Monday-Friday, 9 AM - 5 PM Mountain Time)
+
+Support Channels:
+	•	Support requests: support@pxl360.com
+	•	Technical inquiries: support@pxl360.com
+	•	License questions: support@pxl360.com
+	•	Custom development inquiries: support@pxl360.com
+	•	Pre-purchase questions: support@pxl360.com
+	•	Billing questions: support@pxl360.com
+	•	Legal notices: support@pxl360.com (mark subject "URGENT: LEGAL NOTICE")
+Resources:
+	•	Live Demo: https://pxl360.com/search-plugin/index.html
+	•	Installation Guide: https://pxl360.com/search-plugin/search-pro-v3/extras/guide.html
+	•	Documentation: Included with Plugin download
+Business Hours:
+	•	Monday through Friday
+	•	9:00 AM to 5:00 PM Mountain Time (MT/MST/MDT)
+	•	Excluding U.S. federal holidays
+Support is provided in English only.
+
+31. ACKNOWLEDGMENT
+BY PURCHASING, DOWNLOADING, INSTALLING, OR USING THE PLUGIN, YOU ACKNOWLEDGE AND AGREE THAT:
+a) You have read, understood, and agree to be bound by these Terms in their entirety
+b) You have had the opportunity to review:
+	•	The live demo at https://pxl360.com/search-plugin/index.html
+	•	Complete documentation at https://pxl360.com/search-plugin/search-pro-v3/extras/guide.html
+	•	The complete feature list and system requirements
+c) You understand that:
+	•	The Plugin is provided "AS IS" without warranties of any kind
+	•	All sales are final with no refunds under any circumstances
+	•	PXL360 is not affiliated with or endorsed by 3DVista
+	•	3DVista does not provide support for this Plugin
+	•	Support is limited to 14 days for comprehensive assistance; ongoing support is available only for specific issue types (bugs, basic how-to questions, compatibility updates)
+	•	Paid support at $90/hour is required for extended assistance beyond the free support scope
+	•	Custom development services are billed separately
+d) You accept all limitations of liability, disclaimers of warranties, and indemnification obligations set forth in these Terms
+e) You are at least 18 years of age and legally capable of entering into binding agreements
+f) Your use of the Plugin complies with all applicable laws and regulations in your jurisdiction
+g) You are responsible for testing the Plugin in your environment before production deployment
+h) You are responsible for maintaining backups of your projects and data
+i) You have been provided sufficient opportunity to ask questions and seek clarification before purchasing
+j) You understand that modification of Core Files is prohibited and may result in license termination
+k) You understand that conflicts with custom code or other third-party plugins are not covered under support
+l) You understand that PXL360 may modify these Terms at any time and continued use constitutes acceptance
+IF YOU DO NOT AGREE TO THESE TERMS IN THEIR ENTIRETY, DO NOT PURCHASE, DOWNLOAD, INSTALL, OR USE THE PLUGIN.
+
+END OF TERMS AND CONDITIONS
+Last Updated: 10/09/25 Version: 1.0
+Document Prepared By: PXL360 (360 Virtual Tour Solutions)
+
+IMPORTANT REMINDER:
+These Terms and Conditions are a legally binding agreement. Please ensure you have read and understood all sections before purchasing or using Search Pro v3 for 3DVista Virtual Tours.
+For questions about these Terms, contact: support@pxl360.com

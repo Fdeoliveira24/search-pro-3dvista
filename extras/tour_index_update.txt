@@ -1,0 +1,12 @@
+
+    <body>
+      <!-- Tour container Loads first - DO NOT TOUCH -->
+      <div id="viewer" class="fill-viewport"></div> 
+
+      <!-- Load main search engine script AFTER config file -->
+      <script src="search-pro-v3/search-v3.js"></script> 
+        
+      <!-- Load config file exported from Control Panel Dashboard -->
+      <script src="search-pro-v3/config/search-pro-config.js"></script>
+      
+    </body>

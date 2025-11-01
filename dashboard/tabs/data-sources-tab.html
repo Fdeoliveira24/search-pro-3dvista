@@ -1,0 +1,612 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-database panel-icon" aria-hidden="true"></i>
+    <h2>Data Sources</h2>
+  </div>
+  <p class="panel-description">Configure business data and Google Sheets integration</p>
+</div>
+
+<div class="panel-content">
+  <div id="dataSourcesWarningBanner" class="infobox-warning" style="display: none">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span id="dataSourcesWarningMessage">Only one data source can be enabled at a time.</span>
+  </div>
+
+  <!-- Business Data Integration Section -->
+  <section class="config-section" aria-labelledby="business-data-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="business-data-heading">
+        <i class="fas fa-briefcase section-icon" aria-hidden="true"></i>
+        Business Data Integration
+      </h3>
+      <p class="section-description">Use business data to enhance or replace tour content</p>
+    </div>
+
+    <div class="form-grid grid-1-col">
+      <div class="form-group">
+        <label class="form-label" for="useBusinessData">
+          Enable Business Data
+          <span
+            class="help-tooltip"
+            data-tooltip="Use business data from a local JSON file to enhance or replace tour content. Enabling this will disable Google Sheets integration."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable Business Data"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useBusinessData"
+            name="businessData.useBusinessData"
+            class="toggle-input"
+            aria-describedby="useBusinessData-desc"
+          />
+          <label for="useBusinessData" class="toggle-label">
+            <span class="toggle-text">Use business data (disables Google Sheets)</span>
+          </label>
+        </div>
+        <div id="useBusinessData-desc" class="sr-only">Toggle to enable or disable business data integration</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="replaceTourData">
+          Replace Tour Data
+          <span
+            class="help-tooltip"
+            data-tooltip="Replace tour element labels with names from your business data file. Useful for customizing labels to match your business terminology."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Replace Tour Data"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="replaceTourData"
+            name="businessData.replaceTourData"
+            class="toggle-input"
+            aria-describedby="replaceTourData-desc"
+          />
+          <label for="replaceTourData" class="toggle-label">
+            <span class="toggle-text">Replace tour labels with business labels</span>
+          </label>
+        </div>
+        <div id="replaceTourData-desc" class="sr-only">Toggle to replace tour data with business data</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeStandaloneBusinessEntries">
+          Include Standalone Entries
+          <span
+            class="help-tooltip"
+            data-tooltip="Add business data entries that do not have a matching tour element. These will appear as standalone results in search."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include Standalone Entries"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeStandaloneBusinessEntries"
+            name="businessData.includeStandaloneEntries"
+            class="toggle-input"
+            aria-describedby="includeStandaloneBusinessEntries-desc"
+          />
+          <label for="includeStandaloneBusinessEntries" class="toggle-label">
+            <span class="toggle-text">Add business entries without tour matches</span>
+          </label>
+        </div>
+        <div id="includeStandaloneBusinessEntries-desc" class="sr-only">
+          Toggle to include standalone business entries
+        </div>
+      </div>
+    </div>
+
+    <!-- Add spacing between toggle sections and file/directory inputs -->
+    <div style="height: 24px;"></div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="businessDataFile">
+          Business Data File
+          <span
+            class="help-tooltip"
+            data-tooltip="The filename of your business data (JSON format). Example: business.json."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Business Data File"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="businessDataFile"
+          name="businessData.businessDataFile"
+          class="form-input"
+          placeholder="business.json"
+          aria-describedby="businessDataFile-desc"
+        />
+        <div id="businessDataFile-desc" class="sr-only">Enter the business data filename</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="businessDataDirectory">
+          Business Data Directory
+          <span
+            class="help-tooltip"
+            data-tooltip="The folder where your business data file is stored. Example: business-data."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Business Data Directory"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="businessDataDirectory"
+          name="businessData.businessDataDir"
+          class="form-input"
+          placeholder="business-data"
+          aria-describedby="businessDataDirectory-desc"
+        />
+        <div id="businessDataDirectory-desc" class="sr-only">Enter the business data directory</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="matchField">
+          Match Field
+          <span
+            class="help-tooltip"
+            data-tooltip="The field in your business data used to match tour elements (e.g., id or tag). Must correspond to a field in both your tour and business data."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Match Field"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="matchField"
+          name="businessData.matchField"
+          class="form-input"
+          placeholder="id"
+          aria-describedby="matchField-desc"
+        />
+        <div id="matchField-desc" class="sr-only">Enter the field to match against</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="businessDataWarning" class="infobox-warning" style="display: none">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>Google Sheets or Local CSV is currently enabled. Disable it to enable Business Data.</span>
+  </div>
+
+  <!-- Add spacing between sections -->
+  <div class="section-spacing"></div>
+
+  <!-- Google Sheets Integration Section -->
+  <section class="config-section" aria-labelledby="google-sheets-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="google-sheets-heading">
+        <i class="fas fa-table section-icon" aria-hidden="true"></i>
+        Google Sheets Integration
+      </h3>
+      <p class="section-description">Integrate data from Google Sheets or local CSV files</p>
+    </div>
+
+    <div class="form-grid grid-1-col">
+      <div class="form-group">
+        <label class="form-label" for="useGoogleSheetData">
+          Enable Google Sheets/CSV
+          <span
+            class="help-tooltip"
+            data-tooltip="Use data from a Google Sheet or local CSV file to enhance or replace tour content. Enabling this will disable Business Data integration."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable Google Sheets"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useGoogleSheetData"
+            name="googleSheets.useGoogleSheetData"
+            class="toggle-input"
+            aria-describedby="useGoogleSheetData-desc"
+          />
+          <label for="useGoogleSheetData" class="toggle-label">
+            <span class="toggle-text">Use Google Sheets data (disables Business Data)</span>
+          </label>
+        </div>
+        <div id="useGoogleSheetData-desc" class="sr-only">Toggle to enable or disable Google Sheets integration</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="includeStandaloneGoogleEntries">
+          Include Standalone Entries
+          <span
+            class="help-tooltip"
+            data-tooltip="Add Google Sheets or CSV entries that do not have a matching tour element. These will appear as standalone results in search."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Include Standalone Entries"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="includeStandaloneGoogleEntries"
+            name="googleSheets.includeStandaloneEntries"
+            class="toggle-input"
+            aria-describedby="includeStandaloneGoogleEntries-desc"
+          />
+          <label for="includeStandaloneGoogleEntries" class="toggle-label">
+            <span class="toggle-text">Include entries without tour matches</span>
+          </label>
+        </div>
+        <div id="includeStandaloneGoogleEntries-desc" class="sr-only">
+          Toggle to include standalone Google Sheets entries
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useAsDataSource">
+          Use as Primary Data Source
+          <span
+            class="help-tooltip"
+            data-tooltip="Make Google Sheets or CSV the main source for search labels and descriptions. If disabled, tour data remains primary."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use as Primary Data Source"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useAsDataSource"
+            name="googleSheets.useAsDataSource"
+            class="toggle-input"
+            checked
+            aria-describedby="useAsDataSource-desc"
+          />
+          <label for="useAsDataSource" class="toggle-label">
+            <span class="toggle-text">Use as primary data source</span>
+          </label>
+        </div>
+        <div id="useAsDataSource-desc" class="sr-only">Toggle to use as primary data source</div>
+      </div>
+    </div>
+
+    <!-- Add spacing between toggle sections and URL input -->
+    <div style="height: 24px;"></div>
+
+    <div class="form-grid grid-1-col">
+      <div class="form-group">
+        <label class="form-label" for="googleSheetUrl">
+          Google Sheets URL
+          <span
+            class="help-tooltip"
+            data-tooltip="Paste the sharing URL of your Google Sheet here. The system will automatically convert it to a CSV export link if needed."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Google Sheets URL"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <textarea
+          id="googleSheetUrl"
+          name="googleSheets.googleSheetUrl"
+          class="form-input"
+          rows="3"
+          placeholder="https://docs.google.com/spreadsheets/d/your-sheet-id/export?format=csv"
+          aria-describedby="googleSheetUrl-desc"
+        ></textarea>
+        <div class="field-note">Paste your Google Sheets sharing URL here</div>
+        <div id="googleSheetUrl-desc" class="sr-only">Enter the Google Sheets URL</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="useLocalCSV">
+          Use Local CSV
+          <span
+            class="help-tooltip"
+            data-tooltip="Use a CSV file stored locally on your server instead of Google Sheets. When enabled, the Google Sheets URL is ignored."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Use Local CSV"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="useLocalCSV"
+            name="googleSheets.useLocalCSV"
+            class="toggle-input"
+            checked
+            aria-describedby="useLocalCSV-desc"
+          />
+          <label for="useLocalCSV" class="toggle-label">
+            <span class="toggle-text">Use local CSV file (ignores Google Sheets URL)</span>
+          </label>
+        </div>
+        <div id="useLocalCSV-desc" class="sr-only">Toggle to use local CSV file instead of Google Sheets</div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-2-col">
+      <div class="form-group">
+        <label class="form-label" for="localCSVFile">
+          Local CSV File
+          <span
+            class="help-tooltip"
+            data-tooltip="The filename of your local CSV file. Example: search-data.csv"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Local CSV File"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="localCSVFile"
+          name="googleSheets.localCSVFile"
+          class="form-input"
+          placeholder="search-data.csv"
+          aria-describedby="localCSVFile-desc"
+        />
+        <div id="localCSVFile-desc" class="sr-only">Enter the local CSV filename</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="localCSVDirectory">
+          Local CSV Directory
+          <span
+            class="help-tooltip"
+            data-tooltip="The folder where your local CSV file is stored. Example: business-data."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Local CSV Directory"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="localCSVDirectory"
+          name="googleSheets.localCSVDir"
+          class="form-input"
+          placeholder="business-data"
+          aria-describedby="localCSVDirectory-desc"
+        />
+        <div id="localCSVDirectory-desc" class="sr-only">Enter the local CSV directory</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="googleSheetsWarning" class="infobox-warning" style="display: none">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>Business Data is currently enabled. Disable it to enable Google Sheets or Local CSV.</span>
+  </div>
+
+  <!-- Add spacing between sections -->
+  <div class="section-spacing"></div>
+
+  <!-- CSV Parsing Options Section -->
+  <section class="config-section" aria-labelledby="csv-parsing-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="csv-parsing-heading">
+        <i class="fas fa-file-csv section-icon" aria-hidden="true"></i>
+        CSV Parsing Options
+      </h3>
+      <p class="section-description">Configure how CSV data is parsed and processed</p>
+    </div>
+
+    <div class="form-grid grid-3-col">
+      <div class="form-group">
+        <label class="form-label" for="csvHeader">
+          First Row Contains Headers
+          <span
+            class="help-tooltip"
+            data-tooltip="Treat the first row of your CSV file as column headers. Recommended for most CSV files."
+            role="button"
+            tabindex="0"
+            aria-label="Help: First Row Contains Headers"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="csvHeader"
+            name="googleSheets.csvOptions.header"
+            class="toggle-input"
+            checked
+            aria-describedby="csvHeader-desc"
+          />
+          <label for="csvHeader" class="toggle-label">
+            <span class="toggle-text">First row contains column headers</span>
+          </label>
+        </div>
+        <div id="csvHeader-desc" class="sr-only">Toggle if first row contains headers</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="csvSkipEmptyLines">
+          Skip Empty Lines
+          <span
+            class="help-tooltip"
+            data-tooltip="Ignore empty lines in your CSV file during import."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Skip Empty Lines"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="csvSkipEmptyLines"
+            name="googleSheets.csvOptions.skipEmptyLines"
+            class="toggle-input"
+            checked
+            aria-describedby="csvSkipEmptyLines-desc"
+          />
+          <label for="csvSkipEmptyLines" class="toggle-label">
+            <span class="toggle-text">Skip empty lines in CSV</span>
+          </label>
+        </div>
+        <div id="csvSkipEmptyLines-desc" class="sr-only">Toggle to skip empty lines in CSV</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="csvDynamicTyping">
+          Auto-convert Data Types
+          <span
+            class="help-tooltip"
+            data-tooltip="Automatically convert values in your CSV to numbers, booleans, or strings as appropriate."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Auto-convert Data Types"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="csvDynamicTyping"
+            name="googleSheets.csvOptions.dynamicTyping"
+            class="toggle-input"
+            checked
+            aria-describedby="csvDynamicTyping-desc"
+          />
+          <label for="csvDynamicTyping" class="toggle-label">
+            <span class="toggle-text">Automatically convert data types</span>
+          </label>
+        </div>
+        <div id="csvDynamicTyping-desc" class="sr-only">Toggle to automatically convert data types</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add spacing between sections -->
+  <div class="section-spacing"></div>
+
+  <!-- Caching Options Section -->
+  <section class="config-section" aria-labelledby="caching-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="caching-heading">
+        <i class="fas fa-database section-icon" aria-hidden="true"></i>
+        Caching Options
+      </h3>
+      <p class="section-description">Configure caching for Google Sheets data (local files are not cached)</p>
+    </div>
+
+    <div class="form-grid grid-1-col">
+      <div class="form-group">
+        <label class="form-label" for="enableCaching">
+          Enable Caching
+          <span
+            class="help-tooltip"
+            data-tooltip="Store Google Sheets data in the browser for faster loading. Local files are not cached."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Enable Caching"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="toggle-switch">
+          <input
+            type="checkbox"
+            id="enableCaching"
+            name="googleSheets.caching.enabled"
+            class="toggle-input"
+            aria-describedby="enableCaching-desc"
+          />
+          <label for="enableCaching" class="toggle-label">
+            <span class="toggle-text">Cache Google Sheets data (local files are not cached)</span>
+          </label>
+        </div>
+        <div id="enableCaching-desc" class="sr-only">Toggle to enable caching</div>
+      </div>
+    </div>
+
+    <div class="form-grid grid-2-col">
+      <div class="form-group">
+        <label class="form-label" for="cacheTimeout">
+          Cache Timeout (minutes)
+          <span
+            class="help-tooltip"
+            data-tooltip="How long (in minutes) to keep Google Sheets data cached before refreshing."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Cache Timeout"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="number"
+          id="cacheTimeout"
+          name="googleSheets.caching.timeoutMinutes"
+          class="form-input"
+          min="1"
+          max="1440"
+          placeholder="60"
+          aria-describedby="cacheTimeout-desc"
+        />
+        <div id="cacheTimeout-desc" class="sr-only">Enter cache timeout in minutes</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="storageKey">
+          Storage Key
+          <span
+            class="help-tooltip"
+            data-tooltip="The key used to store cached Google Sheets data in the browser."
+            role="button"
+            tabindex="0"
+            aria-label="Help: Storage Key"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="storageKey"
+          name="googleSheets.caching.storageKey"
+          class="form-input"
+          placeholder="tourGoogleSheetsData"
+          aria-describedby="storageKey-desc"
+        />
+        <div id="storageKey-desc" class="sr-only">Enter cache storage key</div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+fuse.js/
+fontawesome/
+
+# Build outputs
+*.min.js
+*.min.css
+dist/
+build/
+
+# Third-party libraries
+lib/
+extras/
+
+# Data files
+business-data/business.json
+business-data/search-data.csv
+
+# Assets
+assets/
+webfonts/
+
+# Generated files
+*.map

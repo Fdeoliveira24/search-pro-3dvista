@@ -1,0 +1,1946 @@
+<div class="panel-header">
+  <!-- Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix -->
+  <div class="panel-title">
+    <i class="fas fa-palette panel-icon" aria-hidden="true"></i>
+    <h2>Appearance Settings</h2>
+  </div>
+  <p class="panel-description">Customize visual styling, colors, typography, and visual elements</p>
+</div>
+
+<div class="panel-content">
+  <!-- Search Field Styling Section -->
+  <section class="config-section" aria-labelledby="search-field-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="search-field-heading">
+        <i class="fas fa-search section-icon" aria-hidden="true"></i>
+        Search Field Styling
+      </h3>
+      <p class="section-description">Customize the appearance of the search input field</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+        <h4 class="subsection-title">Search Field Colors</h4>
+        <button type="button" class="reset-section-button" data-section="searchField">
+          <i class="fas fa-undo" aria-hidden="true"></i>
+          Reset Colors
+        </button>
+      </div>
+
+      <div class="form-grid grid-3-col" role="group" aria-labelledby="search-field-heading">
+        <div class="form-group">
+          <label class="form-label" for="searchBackground">
+            Search Background
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color of the search input field"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Search background color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="searchBackground"
+              name="appearance.colors.searchBackground"
+              class="color-input"
+              value="#f4f3f2"
+              aria-describedby="searchBackground-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#f4f3f2"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Search Background"
+            />
+          </div>
+          <div id="searchBackground-desc" class="sr-only">Set the background color for the search input field</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchText">
+            Search Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the text typed in the search field"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Search text color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="searchText"
+              name="appearance.colors.searchText"
+              class="color-input"
+              value="#1a1a1a"
+              aria-describedby="searchText-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#1a1a1a"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Search Text"
+            />
+          </div>
+          <div id="searchText-desc" class="sr-only">Set the color for text typed in the search field</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="placeholderText">
+            Placeholder Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the placeholder text shown when field is empty"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Placeholder text color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="placeholderText"
+              name="appearance.colors.placeholderText"
+              class="color-input"
+              value="#94a3b8"
+              aria-describedby="placeholderText-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#94a3b8"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Placeholder Text"
+            />
+          </div>
+          <div id="placeholderText-desc" class="sr-only">Set the color for placeholder text in the search field</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchIcon">
+            Search Icon
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the search magnifying glass icon"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Search icon color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="searchIcon"
+              name="appearance.colors.searchIcon"
+              class="color-input"
+              value="#94a3b8"
+              aria-describedby="searchIcon-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#94a3b8"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Search Icon"
+            />
+          </div>
+          <div id="searchIcon-desc" class="sr-only">Set the color for the search magnifying glass icon</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clearIcon">
+            Clear Icon
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the clear/X button that appears when typing"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Clear icon color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="clearIcon"
+              name="appearance.colors.clearIcon"
+              class="color-input"
+              value="#94a3b8"
+              aria-describedby="clearIcon-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#94a3b8"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Clear Icon"
+            />
+          </div>
+          <div id="clearIcon-desc" class="sr-only">Set the color for the clear button icon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Border Radius (px)</h4>
+      <div class="form-grid grid-4-col border-radius-grid" role="group">
+        <div class="form-group">
+          <label class="form-label" for="searchBorderTopLeft">
+            Top Left (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Top left border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="searchBorderTopLeft"
+              name="appearance.searchField.borderRadius.topLeft"
+              class="form-input"
+              value="35"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="searchBorderTopLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="searchBorderTopLeft-desc" class="sr-only">Set top left corner border radius for search field</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchBorderTopRight">
+            Top Right (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Top right border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="searchBorderTopRight"
+              name="appearance.searchField.borderRadius.topRight"
+              class="form-input"
+              value="35"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="searchBorderTopRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="searchBorderTopRight-desc" class="sr-only">Set top right corner border radius for search field</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchBorderBottomLeft">
+            Bottom Left (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Bottom left border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="searchBorderBottomLeft"
+              name="appearance.searchField.borderRadius.bottomLeft"
+              class="form-input"
+              value="35"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="searchBorderBottomLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="searchBorderBottomLeft-desc" class="sr-only">
+            Set bottom left corner border radius for search field
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="searchBorderBottomRight">
+            Bottom Right (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Bottom right border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="searchBorderBottomRight"
+              name="appearance.searchField.borderRadius.bottomRight"
+              class="form-input"
+              value="35"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="searchBorderBottomRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="searchBorderBottomRight-desc" class="sr-only">
+            Set bottom right corner border radius for search field
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search Results Styling Section -->
+  <section class="config-section" aria-labelledby="search-results-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="search-results-heading">
+        <i class="fas fa-list section-icon" aria-hidden="true"></i>
+        Search Results Styling
+      </h3>
+      <p class="section-description">Customize the appearance of search results and result items</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+        <h4 class="subsection-title">Results Colors</h4>
+        <button type="button" class="reset-section-button" data-section="searchResults">
+          <i class="fas fa-undo" aria-hidden="true"></i>
+          Reset Colors
+        </button>
+      </div>
+
+      <div class="form-grid grid-3-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="resultsBackground">
+            Results Background
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color of the search results container"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Results background color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultsBackground"
+              name="appearance.colors.resultsBackground"
+              class="color-input"
+              value="#ffffff"
+              aria-describedby="resultsBackground-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#ffffff"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Results Background"
+            />
+          </div>
+          <div id="resultsBackground-desc" class="sr-only">
+            Set the background color for the search results container
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultText">
+            Result Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the main text in search result items"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result text color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultText"
+              name="appearance.colors.resultText"
+              class="color-input"
+              value="#1e293b"
+              aria-describedby="resultText-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#1e293b"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Text"
+            />
+          </div>
+          <div id="resultText-desc" class="sr-only">Set the color for main text in search result items</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultHover">
+            Result Hover
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color when hovering over a result item"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result hover color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultHover"
+              name="appearance.colors.resultHover"
+              class="color-input"
+              value="#f0f0f0"
+              aria-describedby="resultHover-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#f0f0f0"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Hover"
+            />
+          </div>
+          <div id="resultHover-desc" class="sr-only">Set the background color when hovering over result items</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultBorderLeft">
+            Result Border
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the left border on result items"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result border color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultBorderLeft"
+              name="appearance.colors.resultBorderLeft"
+              class="color-input"
+              value="#ebebeb"
+              aria-describedby="resultBorderLeft-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#ebebeb"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Border"
+            />
+          </div>
+          <div id="resultBorderLeft-desc" class="sr-only">Set the color for the left border on result items</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="groupHeaderBackground">
+            Group Header Background
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color for group header sections"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Group header background color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="groupHeaderBackground"
+              name="appearance.colors.groupHeaderBackground"
+              class="color-input"
+              value="#ffffff"
+              aria-describedby="groupHeaderBackground-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#FFFFFF"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Group Header Background"
+            />
+          </div>
+          <div id="groupHeaderBackground-desc" class="sr-only">Set the background color for group header sections</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="groupHeaderColor">
+            Group Header
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of group header text (Panoramas, Hotspots, etc.)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Group header color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="groupHeaderColor"
+              name="appearance.colors.groupHeaderColor"
+              class="color-input"
+              value="#20293A"
+              aria-describedby="groupHeaderColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#20293A"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Group Header"
+            />
+          </div>
+          <div id="groupHeaderColor-desc" class="sr-only">Set the color for group header text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="groupCountColor">
+            Group Count
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of the count numbers in group headers (5)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Group count color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="groupCountColor"
+              name="appearance.colors.groupCountColor"
+              class="color-input"
+              value="#94a3b8"
+              aria-describedby="groupCountColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#94a3b8"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Group Count"
+            />
+          </div>
+          <div id="groupCountColor-desc" class="sr-only">Set the color for count numbers in group headers</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultSubtitle">
+            Result Subtitle
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of subtitle text in result items"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result subtitle color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultSubtitle"
+              name="appearance.colors.resultSubtitle"
+              class="color-input"
+              value="#64748b"
+              aria-describedby="resultSubtitle-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#64748b"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Subtitle"
+            />
+          </div>
+          <div id="resultSubtitle-desc" class="sr-only">Set the color for subtitle text in result items</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultIconColor">
+            Result Icon
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of icons next to result items"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result icon color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultIconColor"
+              name="appearance.colors.resultIconColor"
+              class="color-input"
+              value="#6e85f7"
+              aria-describedby="resultIconColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#6e85f7"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Icon"
+            />
+          </div>
+          <div id="resultIconColor-desc" class="sr-only">Set the color for icons next to result items</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultSubtextColor">
+            Result Subtext
+            <span
+              class="help-tooltip"
+              data-tooltip="Color of secondary text and descriptions in results"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Result subtext color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="resultSubtextColor"
+              name="appearance.colors.resultSubtextColor"
+              class="color-input"
+              value="#000000"
+              aria-describedby="resultSubtextColor-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#000000"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Result Subtext"
+            />
+          </div>
+          <div id="resultSubtextColor-desc" class="sr-only">Set the color for secondary text in result items</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Results Border Radius (px)</h4>
+      <div class="form-grid grid-4-col border-radius-grid" role="group">
+        <div class="form-group">
+          <label class="form-label" for="resultsBorderTopLeft">
+            Top Left (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Results top left border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="resultsBorderTopLeft"
+              name="appearance.searchResults.borderRadius.topLeft"
+              class="form-input"
+              value="5"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="resultsBorderTopLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="resultsBorderTopLeft-desc" class="sr-only">
+            Set top left corner border radius for results container
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultsBorderTopRight">
+            Top Right (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Results top right border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="resultsBorderTopRight"
+              name="appearance.searchResults.borderRadius.topRight"
+              class="form-input"
+              value="5"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="resultsBorderTopRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="resultsBorderTopRight-desc" class="sr-only">
+            Set top right corner border radius for results container
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultsBorderBottomLeft">
+            Bottom Left (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Results bottom left border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="resultsBorderBottomLeft"
+              name="appearance.searchResults.borderRadius.bottomLeft"
+              class="form-input"
+              value="5"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="resultsBorderBottomLeft-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="resultsBorderBottomLeft-desc" class="sr-only">
+            Set bottom left corner border radius for results container
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="resultsBorderBottomRight">
+            Bottom Right (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Recommended: 0-35px for optimal appearance"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Results bottom right border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="resultsBorderBottomRight"
+              name="appearance.searchResults.borderRadius.bottomRight"
+              class="form-input"
+              value="5"
+              min="0"
+              max="50"
+              step="1"
+              aria-describedby="resultsBorderBottomRight-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="resultsBorderBottomRight-desc" class="sr-only">
+            Set bottom right corner border radius for results container
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlight & Selection Settings Section -->
+  <section class="config-section" aria-labelledby="highlight-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="highlight-heading">
+        <i class="fas fa-highlighter section-icon" aria-hidden="true"></i>
+        Highlight & Selection Settings
+      </h3>
+      <p class="section-description">Customize how search terms are highlighted in results</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+        <h4 class="subsection-title">Highlight Colors</h4>
+        <button type="button" class="reset-section-button" data-section="highlight">
+          <i class="fas fa-undo" aria-hidden="true"></i>
+          Reset Colors
+        </button>
+      </div>
+
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="highlightBackground">
+            Highlight Background
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color for highlighted search terms"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Highlight background color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="highlightBackground"
+              name="appearance.colors.highlightBackground"
+              class="color-input"
+              value="#ffff00"
+              aria-describedby="highlightBackground-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#ffff00"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Highlight Background"
+            />
+          </div>
+          <div id="highlightBackground-desc" class="sr-only">Set the background color for highlighted search terms</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="highlightText">
+            Highlight Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Text color for highlighted search terms"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Highlight text color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="highlightText"
+              name="appearance.colors.highlightText"
+              class="color-input"
+              value="#000000"
+              aria-describedby="highlightText-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#000000"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Highlight Text"
+            />
+          </div>
+          <div id="highlightText-desc" class="sr-only">Set the text color for highlighted search terms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Highlight Controls</h4>
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="highlightOpacity">
+            Background Opacity
+            <span
+              class="help-tooltip"
+              data-tooltip="Transparency of the highlight background (0 = transparent, 1 = solid)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Highlight opacity"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="range-input-wrapper">
+            <input
+              type="range"
+              id="highlightOpacity"
+              name="appearance.colors.highlightBackgroundOpacity"
+              class="range-input"
+              min="0"
+              max="1"
+              step="0.1"
+              value="0.5"
+              aria-label="Highlight background opacity"
+              aria-describedby="highlightOpacity-desc"
+              role="slider"
+              aria-valuemin="0"
+              aria-valuemax="1"
+              aria-valuenow="0.5"
+            />
+            <span class="range-value">0.5</span>
+          </div>
+          <div id="highlightOpacity-desc" class="sr-only">Set the opacity for highlight background</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="highlightWeight">
+            Font Weight
+            <span
+              class="help-tooltip"
+              data-tooltip="Font weight for highlighted text (normal, bold, etc.)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Highlight font weight"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="highlightWeight"
+            name="appearance.colors.highlightWeight"
+            class="form-select"
+            aria-describedby="highlightWeight-desc"
+          >
+            <option value="100">100 (Ultra Light)</option>
+            <option value="200">200 (Extra Light)</option>
+            <option value="300">300 (Light)</option>
+            <option value="400">400 (Normal)</option>
+            <option value="500">500 (Medium)</option>
+            <option value="600">600 (Semi Bold)</option>
+            <option value="700">700 (Bold)</option>
+            <option value="800">800 (Extra Bold)</option>
+            <option value="900">900 (Ultra Bold)</option>
+            <option value="normal">Normal</option>
+            <option value="bold" selected>Bold</option>
+          </select>
+          <div id="highlightWeight-desc" class="sr-only">Set the font weight for highlighted text</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Tag Styling Section -->
+  <section class="config-section" aria-labelledby="tag-styling-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="tag-styling-heading">
+        <i class="fas fa-tags section-icon" aria-hidden="true"></i>
+        Complete Tag Styling
+      </h3>
+      <p class="section-description">Customize the appearance and behavior of result tags</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-header" style="display: flex; align-items: center; justify-content: space-between">
+        <h4 class="subsection-title">Tag Colors</h4>
+        <button type="button" class="reset-section-button" data-section="tags">
+          <i class="fas fa-undo" aria-hidden="true"></i>
+          Reset Colors
+        </button>
+      </div>
+
+      <div class="form-grid grid-3-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="tagBackground">
+            Tag Background
+            <span
+              class="help-tooltip"
+              data-tooltip="Background color for tag pills"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag background color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="tagBackground"
+              name="appearance.colors.tagBackground"
+              class="color-input"
+              value="#e0f2fe"
+              aria-describedby="tagBackground-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#e0f2fe"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Tag Background"
+            />
+          </div>
+          <div id="tagBackground-desc" class="sr-only">Set the background color for tag pills</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagText">
+            Tag Text
+            <span
+              class="help-tooltip"
+              data-tooltip="Text color for tag content"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag text color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="tagText"
+              name="appearance.colors.tagText"
+              class="color-input"
+              value="#0369a1"
+              aria-describedby="tagText-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#0369a1"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Tag Text"
+            />
+          </div>
+          <div id="tagText-desc" class="sr-only">Set the text color for tag content</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagBorder">
+            Tag Border
+            <span
+              class="help-tooltip"
+              data-tooltip="Border color for tag pills"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag border color"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="color-input-wrapper">
+            <input
+              type="color"
+              id="tagBorder"
+              name="appearance.colors.tagBorder"
+              class="color-input"
+              value="#0891b2"
+              aria-describedby="tagBorder-desc"
+            />
+            <input
+              type="text"
+              class="color-hex-input"
+              value="#0891b2"
+              maxlength="7"
+              pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              aria-label="HEX color value for Tag Border"
+            />
+          </div>
+          <div id="tagBorder-desc" class="sr-only">Set the border color for tag pills</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Tag Appearance</h4>
+      <div class="form-grid grid-3-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="tagBorderRadius">
+            Border Radius (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Rounded corners for tag pills (0-20 recommended)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag border radius"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="number"
+              id="tagBorderRadius"
+              name="appearance.tags.borderRadius"
+              class="form-input"
+              value="16"
+              min="0"
+              max="20"
+              step="1"
+              aria-describedby="tagBorderRadius-desc"
+              inputmode="numeric"
+            />
+            <span class="input-unit" aria-hidden="true">px</span>
+          </div>
+          <div id="tagBorderRadius-desc" class="sr-only">Set the border radius for tag pills</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagFontSize">
+            Font Size (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Font size for tag text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag font size"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="tagFontSize"
+              name="appearance.tags.fontSize"
+              class="form-input"
+              value="11px"
+              aria-describedby="tagFontSize-desc"
+            />
+          </div>
+          <div id="tagFontSize-desc" class="sr-only">Set the font size for tag text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagFontWeight">
+            Font Weight
+            <span
+              class="help-tooltip"
+              data-tooltip="Font weight for tag text (normal, bold, etc.)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag font weight"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="tagFontWeight"
+            name="appearance.tags.fontWeight"
+            class="form-select"
+            aria-describedby="tagFontWeight-desc"
+          >
+            <option value="100">100 (Ultra Light)</option>
+            <option value="200">200 (Extra Light)</option>
+            <option value="300">300 (Light)</option>
+            <option value="400">400 (Normal)</option>
+            <option value="500">500 (Medium)</option>
+            <option value="600" selected>600 (Semi Bold)</option>
+            <option value="700">700 (Bold)</option>
+            <option value="800">800 (Extra Bold)</option>
+            <option value="900">900 (Ultra Bold)</option>
+          </select>
+          <div id="tagFontWeight-desc" class="sr-only">Set the font weight for tag text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagTextTransform">
+            Text Transform
+            <span
+              class="help-tooltip"
+              data-tooltip="Text transformation for tag content"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag text transform"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="tagTextTransform"
+            name="appearance.tags.textTransform"
+            class="form-select"
+            aria-describedby="tagTextTransform-desc"
+          >
+            <option value="none">None</option>
+            <option value="uppercase" selected>Uppercase</option>
+            <option value="lowercase">Lowercase</option>
+            <option value="capitalize">Capitalize</option>
+          </select>
+          <div id="tagTextTransform-desc" class="sr-only">Set the text transformation for tag content</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagPadding">
+            Padding (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Internal spacing for tags (vertical horizontal)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag padding"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="tagPadding"
+            name="appearance.tags.padding"
+            class="form-input"
+            value="3px 10px"
+            placeholder="3px 10px"
+            aria-describedby="tagPadding-desc"
+          />
+          <div id="tagPadding-desc" class="sr-only">Set the internal padding for tags</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagMargin">
+            Margin (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Space between tags"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag margin"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="tagMargin"
+            name="appearance.tags.margin"
+            class="form-input"
+            value="2px"
+            placeholder="2px"
+            aria-describedby="tagMargin-desc"
+          />
+          <div id="tagMargin-desc" class="sr-only">Set the margin between tags</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Tag Border Settings</h4>
+      <div class="form-grid grid-2-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="tagShowBorder">
+            Show Border
+            <span
+              class="help-tooltip"
+              data-tooltip="Display border around tags"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Show tag border"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <div class="toggle-switch">
+            <input
+              type="checkbox"
+              id="tagShowBorder"
+              name="appearance.tags.showBorder"
+              class="toggle-input"
+              checked
+              aria-describedby="tagShowBorder-desc"
+            />
+            <label for="tagShowBorder" class="toggle-label">
+              <span class="toggle-text">Display border around tags</span>
+            </label>
+          </div>
+          <div id="tagShowBorder-desc" class="sr-only">Toggle to show or hide borders around tags</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="tagBorderWidth">
+            Border Width (px)
+            <span
+              class="help-tooltip"
+              data-tooltip="Thickness of tag borders"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Tag border width"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="tagBorderWidth"
+            name="appearance.tags.borderWidth"
+            class="form-input"
+            value="1px"
+            placeholder="1px"
+            aria-describedby="tagBorderWidth-desc"
+          />
+          <div id="tagBorderWidth-desc" class="sr-only">Set the width of tag borders</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography Controls Section -->
+  <section class="config-section" aria-labelledby="typography-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="typography-heading">
+        <i class="fas fa-font section-icon" aria-hidden="true"></i>
+        Typography Controls
+      </h3>
+      <p class="section-description">Customize the typography for search input text</p>
+    </div>
+
+    <div class="subsection">
+      <h4 class="subsection-title">Input Text Styling</h4>
+      <div class="color-reset-header">
+        <button type="button" class="reset-section-button" data-section="typography">
+          <i class="fas fa-undo" aria-hidden="true"></i>
+          Reset Typography
+        </button>
+      </div>
+
+      <div class="form-grid grid-3-col" role="group">
+        <div class="form-group">
+          <label class="form-label" for="inputFontSize">
+            Font Size
+            <span
+              class="help-tooltip"
+              data-tooltip="Font size for text typed in the search field"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input font size"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="inputFontSize"
+            name="appearance.searchField.typography.fontSize"
+            class="form-input"
+            value="16px"
+            placeholder="16px"
+            aria-describedby="inputFontSize-desc"
+          />
+          <div id="inputFontSize-desc" class="sr-only">Set the font size for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputFontFamily">
+            Font Family
+            <span
+              class="help-tooltip"
+              data-tooltip="Font family for input text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input font family"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="inputFontFamily"
+            name="appearance.searchField.typography.fontFamily"
+            class="form-select"
+            aria-describedby="inputFontFamily-desc"
+          >
+            <option value="inherit" selected>System Default</option>
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+            <option value="'Times New Roman', Times, serif">Times New Roman</option>
+            <option value="Georgia, Times, serif">Georgia</option>
+            <option value="'Courier New', Courier, monospace">Courier New</option>
+            <option value="Verdana, Arial, sans-serif">Verdana</option>
+            <option value="'Trebuchet MS', Arial, sans-serif">Trebuchet MS</option>
+            <option value="Impact, Arial, sans-serif">Impact</option>
+            <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+          </select>
+          <div id="inputFontFamily-desc" class="sr-only">Set the font family for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputFontWeight">
+            Font Weight
+            <span
+              class="help-tooltip"
+              data-tooltip="Font weight for input text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input font weight"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="inputFontWeight"
+            name="appearance.searchField.typography.fontWeight"
+            class="form-select"
+            aria-describedby="inputFontWeight-desc"
+          >
+            <option value="100">100 (Ultra Light)</option>
+            <option value="200">200 (Extra Light)</option>
+            <option value="300">300 (Light)</option>
+            <option value="400" selected>400 (Normal)</option>
+            <option value="500">500 (Medium)</option>
+            <option value="600">600 (Semi Bold)</option>
+            <option value="700">700 (Bold)</option>
+            <option value="800">800 (Extra Bold)</option>
+            <option value="900">900 (Ultra Bold)</option>
+          </select>
+          <div id="inputFontWeight-desc" class="sr-only">Set the font weight for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputFontStyle">
+            Font Style
+            <span
+              class="help-tooltip"
+              data-tooltip="Font style for input text (normal, italic, etc.)"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input font style"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="inputFontStyle"
+            name="appearance.searchField.typography.fontStyle"
+            class="form-select"
+            aria-describedby="inputFontStyle-desc"
+          >
+            <option value="normal" selected>Normal</option>
+            <option value="italic">Italic</option>
+            <option value="oblique">Oblique</option>
+          </select>
+          <div id="inputFontStyle-desc" class="sr-only">Set the font style for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputLineHeight">
+            Line Height
+            <span
+              class="help-tooltip"
+              data-tooltip="Line height for input text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input line height"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="inputLineHeight"
+            name="appearance.searchField.typography.lineHeight"
+            class="form-input"
+            value="1.5"
+            placeholder="1.5"
+            aria-describedby="inputLineHeight-desc"
+          />
+          <div id="inputLineHeight-desc" class="sr-only">Set the line height for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputLetterSpacing">
+            Letter Spacing
+            <span
+              class="help-tooltip"
+              data-tooltip="Letter spacing for input text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input letter spacing"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <input
+            type="text"
+            id="inputLetterSpacing"
+            name="appearance.searchField.typography.letterSpacing"
+            class="form-input"
+            value="0px"
+            placeholder="0px"
+            aria-describedby="inputLetterSpacing-desc"
+          />
+          <div id="inputLetterSpacing-desc" class="sr-only">Set the letter spacing for input text</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputTextTransform">
+            Text Transform
+            <span
+              class="help-tooltip"
+              data-tooltip="Text transformation for input text"
+              role="button"
+              tabindex="0"
+              aria-label="Help: Input text transform"
+            >
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </label>
+          <select
+            id="inputTextTransform"
+            name="appearance.searchField.typography.textTransform"
+            class="form-select"
+            aria-describedby="inputTextTransform-desc"
+          >
+            <option value="none" selected>None</option>
+            <option value="uppercase">Uppercase</option>
+            <option value="lowercase">Lowercase</option>
+            <option value="capitalize">Capitalize</option>
+          </select>
+          <div id="inputTextTransform-desc" class="sr-only">Set the text transformation for input text</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholder Styling Section -->
+  <section class="config-section" aria-labelledby="placeholder-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="placeholder-heading">
+        <i class="fas fa-i-cursor section-icon" aria-hidden="true"></i>
+        Placeholder Styling
+      </h3>
+      <p class="section-description">Customize the appearance of placeholder text in the search field</p>
+    </div>
+
+    <div class="form-grid grid-3-col" role="group" aria-labelledby="placeholder-heading">
+      <div class="form-group">
+        <label class="form-label" for="placeholderFontSize">
+          Font Size
+          <span
+            class="help-tooltip"
+            data-tooltip="Font size for placeholder text"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder font size"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="placeholderFontSize"
+          name="appearance.searchField.typography.placeholder.fontSize"
+          class="form-input"
+          value="16px"
+          placeholder="16px"
+          aria-describedby="placeholderFontSize-desc"
+        />
+        <div id="placeholderFontSize-desc" class="sr-only">Set the font size for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderFontFamily">
+          Font Family
+          <span
+            class="help-tooltip"
+            data-tooltip="Font family for placeholder text"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder font family"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="placeholderFontFamily"
+          name="appearance.searchField.typography.placeholder.fontFamily"
+          class="form-select"
+          aria-describedby="placeholderFontFamily-desc"
+        >
+          <option value="inherit" selected>System Default</option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+          <option value="'Times New Roman', Times, serif">Times New Roman</option>
+          <option value="Georgia, Times, serif">Georgia</option>
+          <option value="'Courier New', Courier, monospace">Courier New</option>
+          <option value="Verdana, Arial, sans-serif">Verdana</option>
+          <option value="'Trebuchet MS', Arial, sans-serif">Trebuchet MS</option>
+          <option value="Impact, Arial, sans-serif">Impact</option>
+          <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+        </select>
+        <div id="placeholderFontFamily-desc" class="sr-only">Set the font family for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderFontWeight">
+          Font Weight
+          <span
+            class="help-tooltip"
+            data-tooltip="Font weight for placeholder text"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder font weight"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="placeholderFontWeight"
+          name="appearance.searchField.typography.placeholder.fontWeight"
+          class="form-select"
+          aria-describedby="placeholderFontWeight-desc"
+        >
+          <option value="100">100 (Ultra Light)</option>
+          <option value="200">200 (Extra Light)</option>
+          <option value="300">300 (Light)</option>
+          <option value="400" selected>400 (Normal)</option>
+          <option value="500">500 (Medium)</option>
+          <option value="600">600 (Semi Bold)</option>
+          <option value="700">700 (Bold)</option>
+          <option value="800">800 (Extra Bold)</option>
+          <option value="900">900 (Ultra Bold)</option>
+        </select>
+        <div id="placeholderFontWeight-desc" class="sr-only">Set the font weight for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderFontStyle">
+          Font Style
+          <span
+            class="help-tooltip"
+            data-tooltip="Font style for placeholder text (italic for emphasis)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder font style"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="placeholderFontStyle"
+          name="appearance.searchField.typography.placeholder.fontStyle"
+          class="form-select"
+          aria-describedby="placeholderFontStyle-desc"
+        >
+          <option value="normal">Normal</option>
+          <option value="italic" selected>Italic</option>
+          <option value="oblique">Oblique</option>
+        </select>
+        <div id="placeholderFontStyle-desc" class="sr-only">Set the font style for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderOpacity">
+          Opacity
+          <span
+            class="help-tooltip"
+            data-tooltip="Transparency of placeholder text (0 = invisible, 1 = solid)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder opacity"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <div class="range-input-wrapper">
+          <input
+            type="range"
+            id="placeholderOpacity"
+            name="appearance.searchField.typography.placeholder.opacity"
+            class="range-input"
+            min="0"
+            max="1"
+            step="0.1"
+            value="0.7"
+            aria-label="Placeholder text opacity"
+            aria-describedby="placeholderOpacity-desc"
+            role="slider"
+            aria-valuemin="0"
+            aria-valuemax="1"
+            aria-valuenow="0.7"
+          />
+          <span class="range-value">0.7</span>
+        </div>
+        <div id="placeholderOpacity-desc" class="sr-only">Set the opacity for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderLetterSpacing">
+          Letter Spacing
+          <span
+            class="help-tooltip"
+            data-tooltip="Letter spacing for placeholder text"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder letter spacing"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="placeholderLetterSpacing"
+          name="appearance.searchField.typography.placeholder.letterSpacing"
+          class="form-input"
+          value="0px"
+          placeholder="0px"
+          aria-describedby="placeholderLetterSpacing-desc"
+        />
+        <div id="placeholderLetterSpacing-desc" class="sr-only">Set the letter spacing for placeholder text</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="placeholderTextTransform">
+          Text Transform
+          <span
+            class="help-tooltip"
+            data-tooltip="Text transformation for placeholder text"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Placeholder text transform"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="placeholderTextTransform"
+          name="appearance.searchField.typography.placeholder.textTransform"
+          class="form-select"
+          aria-describedby="placeholderTextTransform-desc"
+        >
+          <option value="none" selected>None</option>
+          <option value="uppercase">Uppercase</option>
+          <option value="lowercase">Lowercase</option>
+          <option value="capitalize">Capitalize</option>
+        </select>
+        <div id="placeholderTextTransform-desc" class="sr-only">Set the text transformation for placeholder text</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Group Header Configuration Section -->
+  <section class="config-section" aria-labelledby="group-header-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="group-header-heading">
+        <i class="fas fa-layer-group section-icon" aria-hidden="true"></i>
+        Group Header Configuration
+      </h3>
+      <p class="section-description">Configure the alignment and position of group headers in search results</p>
+    </div>
+
+    <div class="form-grid grid-2-col" role="group" aria-labelledby="group-header-heading">
+      <div class="form-group">
+        <label class="form-label" for="groupHeaderAlignment">
+          Group Header Alignment
+          <span
+            class="help-tooltip"
+            data-tooltip="Horizontal alignment of group headers (Panoramas, Hotspots, etc.)"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Group header alignment"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select id="groupHeaderAlignment" name="thumbnailSettings.groupHeaderAlignment" class="form-select">
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+        <div id="groupHeaderAlignment-desc" class="sr-only">Set the horizontal alignment for group headers</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="groupHeaderPosition">
+          Group Header Position
+          <span
+            class="help-tooltip"
+            data-tooltip="Vertical position of group headers relative to their group content"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Group header position"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="groupHeaderPosition"
+          name="thumbnailSettings.groupHeaderPosition"
+          class="form-select"
+          aria-describedby="groupHeaderPosition-desc"
+        >
+          <option value="top" selected>Top</option>
+          <option value="bottom">Bottom</option>
+        </select>
+        <div id="groupHeaderPosition-desc" class="sr-only">Set the vertical position for group headers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Focus State Styling Section -->
+  <section class="config-section" aria-labelledby="focus-state-heading">
+    <div class="section-header">
+      <h3 class="section-title" id="focus-state-heading">
+        <i class="fas fa-bullseye section-icon" aria-hidden="true"></i>
+        Focus State Styling
+      </h3>
+      <p class="section-description">Customize how the search field appears when focused or active</p>
+    </div>
+
+    <div class="form-grid grid-3-col" role="group" aria-labelledby="focus-state-heading">
+      <div class="form-group">
+        <label class="form-label" for="focusFontSize">
+          Focus Font Size (px)
+          <span
+            class="help-tooltip"
+            data-tooltip="Font size when the search field is focused"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Focus font size"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="focusFontSize"
+          name="appearance.searchField.typography.focus.fontSize"
+          class="form-input"
+          value="16px"
+          placeholder="16px"
+          aria-describedby="focusFontSize-desc"
+        />
+        <div id="focusFontSize-desc" class="sr-only">Set the font size when the search field is focused</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="focusFontWeight">
+          Focus Font Weight
+          <span
+            class="help-tooltip"
+            data-tooltip="Font weight when the search field is focused"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Focus font weight"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <select
+          id="focusFontWeight"
+          name="appearance.searchField.typography.focus.fontWeight"
+          class="form-select"
+          aria-describedby="focusFontWeight-desc"
+        >
+          <option value="100">100 (Ultra Light)</option>
+          <option value="200">200 (Extra Light)</option>
+          <option value="300">300 (Light)</option>
+          <option value="400">400 (Normal)</option>
+          <option value="500" selected>500 (Medium)</option>
+          <option value="600">600 (Semi Bold)</option>
+          <option value="700">700 (Bold)</option>
+          <option value="800">800 (Extra Bold)</option>
+          <option value="900">900 (Ultra Bold)</option>
+        </select>
+        <div id="focusFontWeight-desc" class="sr-only">Set the font weight when the search field is focused</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="focusLetterSpacing">
+          Focus Letter Spacing
+          <span
+            class="help-tooltip"
+            data-tooltip="Letter spacing when the search field is focused"
+            role="button"
+            tabindex="0"
+            aria-label="Help: Focus letter spacing"
+          >
+            <i class="fas fa-question-circle" aria-hidden="true"></i>
+          </span>
+        </label>
+        <input
+          type="text"
+          id="focusLetterSpacing"
+          name="appearance.searchField.typography.focus.letterSpacing"
+          class="form-input"
+          value="0.25px"
+          placeholder="0.25px"
+          aria-describedby="focusLetterSpacing-desc"
+        />
+        <div id="focusLetterSpacing-desc" class="sr-only">Set the letter spacing when the search field is focused</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Prevent extra whitespace at the bottom -->
+<div style="height: 1px; margin: 0; padding: 0"></div>
