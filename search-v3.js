@@ -1,40 +1,3 @@
-// [SearchPro] Global Console Silencer
-(function() {
-  try {
-    // Check URL parameter (available immediately)
-    const urlDebug = window.location.search.includes('debug=true') || 
-                     localStorage.getItem('searchProDebugEnabled') === 'true';
-    
-    if (urlDebug) {
-      console.log("[SearchPro] 🔊 Debug mode ENABLED");
-      return;
-    }
-    
-    // Silent mode - override console in this file only
-    const noop = function() {};
-    
-    // Store original methods
-    const _log = console.log;
-    const _info = console.info;
-    const _debug = console.debug;
-    
-    // Override to be silent by default
-    console.log = noop;
-    console.info = noop;
-    console.debug = noop;
-    
-    // Restore originals if window errors occur (safety)
-    window.addEventListener('error', function() {
-      console.log = _log;
-      console.info = _info;
-      console.debug = _debug;
-    }, { once: true });
-    
-  } catch (err) {
-    // Don't use console here - might cause recursion
-  }
-})();
-
 /*
 ====================================
 3DVista Enhanced Search Script
@@ -43,6 +6,47 @@ Last Updated: 11/01/2025
 Description: Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix
 ====================================
 */
+
+// [SearchPro] Global Console Silencer
+(function () {
+  try {
+    // Check URL parameter (available immediately)
+    const urlDebug =
+      window.location.search.includes("debug=true") ||
+      localStorage.getItem("searchProDebugEnabled") === "true";
+
+    if (urlDebug) {
+      console.log("[SearchPro] 🔊 Debug mode ENABLED");
+      return;
+    }
+
+    // Silent mode - override console in this file only
+    const noop = function () {};
+
+    // Store original methods
+    const _log = console.log;
+    const _info = console.info;
+    const _debug = console.debug;
+
+    // Override to be silent by default
+    console.log = noop;
+    console.info = noop;
+    console.debug = noop;
+
+    // Restore originals if window errors occur (safety)
+    window.addEventListener(
+      "error",
+      function () {
+        console.log = _log;
+        console.info = _info;
+        console.debug = _debug;
+      },
+      { once: true }
+    );
+  } catch (err) {
+    // Don't use console here - might cause recursion
+  }
+})();
 
 // [1.0] Global/Module Scope Variables
 // [1.1] Logger Shim (fallback, replaced by debug-core-v3.js)
@@ -5606,18 +5610,18 @@ window.tourSearchFunctions = (function () {
     Logger?.info?.(`[BusinessData] Loading from: ${dataPath}`);
 
     return fetch(dataPath)
-      .then(r => {
+      .then((r) => {
         if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
         return r.json();
       })
-      .then(data => {
+      .then((data) => {
         if (!Array.isArray(data)) data = [data];
         _businessData = data;
         window._businessData = data; // global reference
         Logger?.info?.(`[BusinessData] Loaded ${data.length} entries`);
         return data;
       })
-      .catch(err => {
+      .catch((err) => {
         Logger?.warn?.(`[BusinessData] Load failed: ${err.message}`);
         _businessData = [];
         return [];
@@ -6244,7 +6248,11 @@ window.tourSearchFunctions = (function () {
         }
 
         // [6.1.21.0.15.1] Merge Business Data if available
-        if (_config.businessData?.useBusinessData && Array.isArray(_businessData) && _businessData.length) {
+        if (
+          _config.businessData?.useBusinessData &&
+          Array.isArray(_businessData) &&
+          _businessData.length
+        ) {
           Logger.info(`[Fuse Index] Adding ${_businessData.length} business data entries`);
           const businessEntries = _businessData.map((entry) => ({
             id: entry.id || `biz-${Math.random().toString(36).slice(2)}`,
@@ -6253,7 +6261,7 @@ window.tourSearchFunctions = (function () {
             type: "Business",
             elementType: "Business",
             businessName: entry.name || "",
-            businessTag: Array.isArray(entry.tags) ? entry.tags.join(" ") : (entry.tag || ""),
+            businessTag: Array.isArray(entry.tags) ? entry.tags.join(" ") : entry.tag || "",
             tags: entry.matchTags || [],
             businessData: entry,
             source: "businessData",
@@ -6262,7 +6270,9 @@ window.tourSearchFunctions = (function () {
             boost: _config.searchSettings.boostValues.labeledItem,
           }));
           fuseData.push(...businessEntries);
-          Logger.info(`[Fuse Index] Business data merged successfully - ${businessEntries.length} entries added`);
+          Logger.info(
+            `[Fuse Index] Business data merged successfully - ${businessEntries.length} entries added`
+          );
         }
 
         // [6.1.21.0.16] Create and return Fuse.js instance
@@ -9121,111 +9131,112 @@ window.tourSearchFunctions = (function () {
   }
 
   // [8.5] MOBILE VISIBILITY BEHAVIOR CONTROLLER
-// Wait for config to be ready before initializing
-document.addEventListener("SearchConfigReady", function onSearchConfigReady() {
-  try {
-    if (window.__spMobileVisibilityBound) {
-      Logger?.debug?.("[Mobile Visibility] Already initialized, skipping");
-      return;
-    }
-    window.__spMobileVisibilityBound = true;
+  // Wait for config to be ready before initializing
+  document.addEventListener("SearchConfigReady", function onSearchConfigReady() {
+    try {
+      if (window.__spMobileVisibilityBound) {
+        Logger?.debug?.("[Mobile Visibility] Already initialized, skipping");
+        return;
+      }
+      window.__spMobileVisibilityBound = true;
 
-    const behavior = _config?.searchBar?.mobileOverrides?.visibility?.behavior;
-    const breakpoint = _config?.searchBar?.mobileOverrides?.breakpoint || 768;
-    const isMobile = window.innerWidth <= breakpoint;
+      const behavior = _config?.searchBar?.mobileOverrides?.visibility?.behavior;
+      const breakpoint = _config?.searchBar?.mobileOverrides?.breakpoint || 768;
+      const isMobile = window.innerWidth <= breakpoint;
 
-    const container = _elements?.container || document.getElementById("searchContainer");
-    const field = container?.querySelector(".search-field");
+      const container = _elements?.container || document.getElementById("searchContainer");
+      const field = container?.querySelector(".search-field");
 
-    if (!field) {
-      Logger?.debug?.("[Mobile Visibility] No search field found — skipping");
-      return;
-    }
-
-    // --- Always ensure visible by default ---
-    field.style.display = "block";
-    field.style.opacity = "1";
-
-    if (!behavior) {
-      Logger?.debug?.("[Mobile Visibility] No behavior defined — default to FIXED");
-      return;
-    }
-
-    Logger?.info?.(`📱 Mobile visibility behavior detected: ${behavior}`);
-
-    // [8.5.1] FIXED — always visible
-    if (behavior === "fixed") {
-      Logger?.debug?.("[Mobile Visibility] FIXED mode — always visible");
-      return;
-    }
-
-    // [8.5.2] TOGGLE — disabled in 3DVista (prevent conflict)
-    if (behavior === "toggle") {
-      Logger?.debug?.("[Mobile Visibility] TOGGLE mode detected, disabled for 3DVista (safety fallback)");
-      field.style.display = "block";
-      field.style.opacity = "1";
-      return;
-    }
-
-    // [8.5.3] DYNAMIC — optional safe fallback (only applies if scrolling exists)
-    if (behavior === "dynamic") {
-      if (!isMobile) {
-        Logger?.debug?.("[Mobile Visibility] Not mobile, skipping DYNAMIC behavior");
+      if (!field) {
+        Logger?.debug?.("[Mobile Visibility] No search field found — skipping");
         return;
       }
 
-      let lastScrollY = window.scrollY;
-      let scrollTimeout;
-      const threshold = _config?.searchBar?.mobileOverrides?.visibility?.hideThreshold || 50;
+      // --- Always ensure visible by default ---
+      field.style.display = "block";
+      field.style.opacity = "1";
 
-      field.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      if (!behavior) {
+        Logger?.debug?.("[Mobile Visibility] No behavior defined — default to FIXED");
+        return;
+      }
 
-      window.addEventListener("scroll", () => {
-        const currY = window.scrollY;
-        const diff = currY - lastScrollY;
-        if (Math.abs(diff) < 10) return;
+      Logger?.info?.(`📱 Mobile visibility behavior detected: ${behavior}`);
 
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          if (diff > threshold && currY > 100) {
-            field.style.opacity = "0";
-            field.style.transform = "translateY(-10px)";
-            Logger?.debug?.("⬇️ Dynamic: Hide on scroll down");
-          } else if (diff < -threshold) {
+      // [8.5.1] FIXED — always visible
+      if (behavior === "fixed") {
+        Logger?.debug?.("[Mobile Visibility] FIXED mode — always visible");
+        return;
+      }
+
+      // [8.5.2] TOGGLE — disabled in 3DVista (prevent conflict)
+      if (behavior === "toggle") {
+        Logger?.debug?.(
+          "[Mobile Visibility] TOGGLE mode detected, disabled for 3DVista (safety fallback)"
+        );
+        field.style.display = "block";
+        field.style.opacity = "1";
+        return;
+      }
+
+      // [8.5.3] DYNAMIC — optional safe fallback (only applies if scrolling exists)
+      if (behavior === "dynamic") {
+        if (!isMobile) {
+          Logger?.debug?.("[Mobile Visibility] Not mobile, skipping DYNAMIC behavior");
+          return;
+        }
+
+        let lastScrollY = window.scrollY;
+        let scrollTimeout;
+        const threshold = _config?.searchBar?.mobileOverrides?.visibility?.hideThreshold || 50;
+
+        field.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+
+        window.addEventListener("scroll", () => {
+          const currY = window.scrollY;
+          const diff = currY - lastScrollY;
+          if (Math.abs(diff) < 10) return;
+
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            if (diff > threshold && currY > 100) {
+              field.style.opacity = "0";
+              field.style.transform = "translateY(-10px)";
+              Logger?.debug?.("⬇️ Dynamic: Hide on scroll down");
+            } else if (diff < -threshold) {
+              field.style.opacity = "1";
+              field.style.transform = "translateY(0)";
+              Logger?.debug?.("⬆️ Dynamic: Show on scroll up");
+            }
+            lastScrollY = currY;
+          }, 100);
+        });
+
+        Logger?.debug?.(`[Mobile Visibility] DYNAMIC mode active (threshold ${threshold}px)`);
+        return;
+      }
+
+      // [8.5.4] Resize guard — ensures visibility on desktop switch
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          const nowMobile = window.innerWidth <= breakpoint;
+          if (!nowMobile && field.style.display === "none") {
+            field.style.display = "block";
             field.style.opacity = "1";
             field.style.transform = "translateY(0)";
-            Logger?.debug?.("⬆️ Dynamic: Show on scroll up");
+            Logger?.debug?.("[Mobile Visibility] Switched to desktop, ensuring field visible");
           }
-          lastScrollY = currY;
-        }, 100);
+        }, 250);
       });
-
-      Logger?.debug?.(`[Mobile Visibility] DYNAMIC mode active (threshold ${threshold}px)`);
-      return;
+    } catch (err) {
+      Logger?.warn?.("⚠️ Mobile visibility behavior error:", err);
     }
+  });
 
-    // [8.5.4] Resize guard — ensures visibility on desktop switch
-    let resizeTimeout;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        const nowMobile = window.innerWidth <= breakpoint;
-        if (!nowMobile && field.style.display === "none") {
-          field.style.display = "block";
-          field.style.opacity = "1";
-          field.style.transform = "translateY(0)";
-          Logger?.debug?.("[Mobile Visibility] Switched to desktop, ensuring field visible");
-        }
-      }, 250);
-    });
-
-  } catch (err) {
-    Logger?.warn?.("⚠️ Mobile visibility behavior error:", err);
-  }
-});
-
-// [8.9] Expose business data loader globally (for async post-init and debug)
-window._loadBusinessData = _loadBusinessData;
+  // [8.9] Expose business data loader globally (for async post-init and debug)
+  window._loadBusinessData = _loadBusinessData;
   // [9.0] Public API
   return {
     // [9.0.1] DOM Elements Cache
@@ -9253,23 +9264,29 @@ window._loadBusinessData = _loadBusinessData;
         try {
           if (_config?.businessData?.useBusinessData && typeof _loadBusinessData === "function") {
             Logger.info("[BusinessData] Initiating asynchronous data load...");
-            _loadBusinessData().then((data) => {
-              if (Array.isArray(data) && data.length) {
-                Logger.info(`[BusinessData] Loaded ${data.length} entries — merging into search index...`);
-                if (typeof _prepareSearchIndex === "function") {
-                  // Rebuild index including business data
-                  fuse = _prepareSearchIndex(tour, _config);
-                  Logger.info("✅ Business data successfully integrated into Fuse index");
+            _loadBusinessData()
+              .then((data) => {
+                if (Array.isArray(data) && data.length) {
+                  Logger.info(
+                    `[BusinessData] Loaded ${data.length} entries — merging into search index...`
+                  );
+                  if (typeof _prepareSearchIndex === "function") {
+                    // Rebuild index including business data
+                    fuse = _prepareSearchIndex(tour, _config);
+                    Logger.info("✅ Business data successfully integrated into Fuse index");
+                  } else {
+                    Logger.warn(
+                      "⚠️ _prepareSearchIndex unavailable — storing data for deferred merge"
+                    );
+                    _config._pendingBusinessData = data;
+                  }
                 } else {
-                  Logger.warn("⚠️ _prepareSearchIndex unavailable — storing data for deferred merge");
-                  _config._pendingBusinessData = data;
+                  Logger.info("[BusinessData] No valid entries found to merge");
                 }
-              } else {
-                Logger.info("[BusinessData] No valid entries found to merge");
-              }
-            }).catch((err) => {
-              Logger.warn("[BusinessData] Failed to load business data:", err);
-            });
+              })
+              .catch((err) => {
+                Logger.warn("[BusinessData] Failed to load business data:", err);
+              });
           }
         } catch (e) {
           Logger.warn("[BusinessData] Unexpected loader error:", e);
@@ -10441,7 +10458,7 @@ document.addEventListener("DOMContentLoaded", function () {
             minSearchChars: activeConfig?.minSearchChars,
             enableThumbnails: activeConfig?.thumbnailSettings?.enableThumbnails,
           });
-          
+
           // ⭐ NEW: Dispatch event to notify mobile visibility controller
           document.dispatchEvent(new CustomEvent("SearchConfigReady"));
           console.log("🎯 SEARCH ENGINE: SearchConfigReady event dispatched");

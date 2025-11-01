@@ -1,986 +1,1102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>3DVista Search Pro - Implementation Guide</title>
     <style>
-        :root {
-            /* Typography - Match Control Panel */
-            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-family-mono: "Fira Code", "Monaco", "Cascadia Code", monospace;
-            
-            --font-size-xs: 0.75rem;
-            --font-size-sm: 0.875rem;
-            --font-size-base: 1rem;
-            --font-size-lg: 1.125rem;
-            --font-size-xl: 1.25rem;
-            --font-size-2xl: 1.5rem;
-            --font-size-3xl: 1.875rem;
-            
-            --font-weight-normal: 400;
-            --font-weight-medium: 500;
-            --font-weight-semibold: 600;
-            --font-weight-bold: 700;
-            
-            --line-height-tight: 1.25;
-            --line-height-normal: 1.5;
-            --line-height-relaxed: 1.75;
+      :root {
+        /* Typography - Match Control Panel */
+        --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --font-family-mono: "Fira Code", "Monaco", "Cascadia Code", monospace;
 
-            /* Colors - Match Control Panel */
-            --color-primary: #3b82f6;
-            --color-primary-hover: #2563eb;
-            --color-success: #38a169;
-            --color-warning: #d69e2e;
-            --color-danger: #ef4444;
-            
-            --color-background: #f7fafc;
-            --color-surface: #ffffff;
-            --color-surface-secondary: #edf2f7;
-            
-            --color-text-primary: #2d3748;
-            --color-text-secondary: #4a5568;
-            --color-text-muted: #718096;
-            --color-text-light: #a0aec0;
-            
-            --color-border: #e5e7eb;
-            --color-border-light: #f1f5f9;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-3xl: 1.875rem;
 
-            /* Spacing - Match Control Panel */
-            --space-1: 0.25rem;
-            --space-2: 0.5rem;
-            --space-3: 0.75rem;
-            --space-4: 1rem;
-            --space-5: 1.25rem;
-            --space-6: 1.5rem;
-            --space-8: 2rem;
-            --space-12: 3rem;
-            --space-16: 4rem;
+        --font-weight-normal: 400;
+        --font-weight-medium: 500;
+        --font-weight-semibold: 600;
+        --font-weight-bold: 700;
 
-            /* Border Radius - Match Control Panel */
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 16px;
-            --radius-xl: 25px;
+        --line-height-tight: 1.25;
+        --line-height-normal: 1.5;
+        --line-height-relaxed: 1.75;
 
-            /* Shadows - Match Control Panel */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Colors - Match Control Panel */
+        --color-primary: #3b82f6;
+        --color-primary-hover: #2563eb;
+        --color-success: #38a169;
+        --color-warning: #d69e2e;
+        --color-danger: #ef4444;
 
-            /* Transitions - Match Control Panel */
-            --transition-normal: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+        --color-background: #f7fafc;
+        --color-surface: #ffffff;
+        --color-surface-secondary: #edf2f7;
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        --color-text-primary: #2d3748;
+        --color-text-secondary: #4a5568;
+        --color-text-muted: #718096;
+        --color-text-light: #a0aec0;
 
-        body {
-            font-family: var(--font-family-base);
-            font-size: var(--font-size-base);
-            line-height: var(--line-height-normal);
-            color: var(--color-text-primary);
-            background-color: var(--color-background);
-        }
+        --color-border: #e5e7eb;
+        --color-border-light: #f1f5f9;
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--space-6);
-        }
+        /* Spacing - Match Control Panel */
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.25rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-12: 3rem;
+        --space-16: 4rem;
 
-        /* Header */
-        .header {
-            background: var(--color-surface);
-            padding: var(--space-4) 0;
-            margin-bottom: var(--space-6);
-            box-shadow: var(--shadow-sm);
-        }
+        /* Border Radius - Match Control Panel */
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 16px;
+        --radius-xl: 25px;
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-6);
-        }
+        /* Shadows - Match Control Panel */
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
+        /* Transitions - Match Control Panel */
+        --transition-normal: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      }
 
-        .brand-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
-            border-radius: var(--radius-xl);
-            color: white;
-            font-weight: var(--font-weight-bold);
-            font-size: var(--font-size-lg);
-            box-shadow: var(--shadow-md);
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        .brand-text h1 {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            line-height: var(--line-height-tight);
-        }
+      body {
+        font-family: var(--font-family-base);
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-normal);
+        color: var(--color-text-primary);
+        background-color: var(--color-background);
+      }
 
-        .brand-text p {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            line-height: var(--line-height-tight);
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-6);
+      }
 
-        /* Navigation */
-        .nav {
-            background: #f0f4ffc0;
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            margin-bottom: var(--space-6);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
-        }
+      /* Header */
+      .header {
+        background: var(--color-surface);
+        padding: var(--space-4) 0;
+        margin-bottom: var(--space-6);
+        box-shadow: var(--shadow-sm);
+      }
 
-        .nav:hover {
-            background: rgba(0, 0, 0, 0.03);
-        }
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--space-6);
+      }
 
-        .nav-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
 
-        .nav-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-3);
-            list-style: none;
-        }
+      .brand-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+        border-radius: var(--radius-xl);
+        color: white;
+        font-weight: var(--font-weight-bold);
+        font-size: var(--font-size-lg);
+        box-shadow: var(--shadow-md);
+      }
 
-        .nav-item a {
-            display: block;
-            padding: var(--space-3) var(--space-4);
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            transition: all var(--transition-normal);
-        }
+      .brand-text h1 {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        line-height: var(--line-height-tight);
+      }
 
-        .nav-item a:hover {
-            background-color: var(--color-surface-secondary);
-            color: var(--color-primary);
-            transform: translateY(-1px);
-        }
+      .brand-text p {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-tight);
+      }
 
-        /* Main Content */
+      /* Navigation */
+      .nav {
+        background: #f0f4ffc0;
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        margin-bottom: var(--space-6);
+        border: 1px solid var(--color-border);
+        transition: all var(--transition-normal);
+      }
+
+      .nav:hover {
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      .nav-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-4);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .nav-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-3);
+        list-style: none;
+      }
+
+      .nav-item a {
+        display: block;
+        padding: var(--space-3) var(--space-4);
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-normal);
+      }
+
+      .nav-item a:hover {
+        background-color: var(--color-surface-secondary);
+        color: var(--color-primary);
+        transform: translateY(-1px);
+      }
+
+      /* Main Content */
+      .main-content {
+        display: flex;
+        gap: var(--space-8);
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+      }
+
+      /* Table of Contents */
+      .toc {
+        position: sticky;
+        top: 120px;
+        background: #f0f4ffc0;
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        border: 1px solid var(--color-border);
+        transition: all var(--transition-normal);
+      }
+
+      .toc:hover {
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      .toc-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-4);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .toc-list {
+        list-style: none;
+      }
+
+      .toc-item {
+        margin-bottom: var(--space-2);
+      }
+
+      .toc-item a {
+        display: block;
+        padding: var(--space-2) var(--space-3);
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-sm);
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-normal);
+      }
+
+      .toc-item a:hover {
+        background-color: var(--color-surface-secondary);
+        color: var(--color-primary);
+      }
+
+      .toc-item.active a {
+        background-color: var(--color-primary);
+        color: white;
+      }
+
+      /* Sections */
+      .section {
+        background: #f0f4ffc0;
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+        border: 1px solid var(--color-border);
+        transition: all var(--transition-normal);
+      }
+
+      .section:hover {
+        background: rgba(0, 0, 0, 0.03);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .section-header {
+        margin-bottom: var(--space-6);
+        padding-bottom: var(--space-4);
+      }
+
+      .section-title {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-2);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .section-icon {
+        color: var(--color-primary);
+        font-size: var(--font-size-xl);
+      }
+
+      .section-description {
+        font-size: var(--font-size-base);
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-relaxed);
+      }
+
+      /* Subsections */
+      .subsection {
+        margin-bottom: var(--space-5);
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-normal);
+      }
+
+      .subsection:hover {
+        border-color: var(--color-primary);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-1px);
+      }
+
+      .subsection:last-child {
+        margin-bottom: 0;
+      }
+
+      .subsection-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-4);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .subsection-icon {
+        color: #8b5cf6;
+        font-size: var(--font-size-base);
+      }
+
+      /* Content Elements */
+      p {
+        margin-bottom: var(--space-4);
+        line-height: var(--line-height-relaxed);
+      }
+
+      ul,
+      ol {
+        margin-bottom: var(--space-4);
+        padding-left: var(--space-6);
+      }
+
+      li {
+        margin-bottom: var(--space-2);
+        line-height: var(--line-height-relaxed);
+      }
+
+      /* Code Blocks */
+      code {
+        background-color: var(--color-surface-secondary);
+        color: var(--color-text-primary);
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-family-mono);
+        font-size: var(--font-size-sm);
+      }
+
+      pre {
+        background-color: var(--color-text-primary);
+        color: white;
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        overflow-x: auto;
+        margin-bottom: var(--space-4);
+      }
+
+      pre code {
+        background: none;
+        padding: 0;
+        color: inherit;
+        font-size: var(--font-size-sm);
+      }
+
+      /* File Path Styling */
+      .file-path {
+        display: inline-block;
+        background: var(--color-text-primary);
+        color: white;
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-md);
+        font-family: var(--font-family-mono);
+        font-size: var(--font-size-xs);
+        font-weight: 500;
+        margin: var(--space-1) 0;
+      }
+
+      /* Info Boxes */
+      .info-box {
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        margin: var(--space-5) 0;
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        border: 1px solid var(--color-border);
+      }
+
+      .info-box-icon {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-bold);
+        flex-shrink: 0;
+        margin-top: var(--space-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        color: inherit;
+      }
+
+      .info-box.info {
+        background: rgba(59, 130, 246, 0.08);
+        color: var(--color-primary);
+        border-color: rgba(59, 130, 246, 0.2);
+      }
+
+      .info-box.success {
+        background: #def7f2;
+        color: #256c4b;
+        border-color: #b6e8d8;
+      }
+
+      .info-box.warning {
+        background: #fff7db;
+        color: #7c5a00;
+        border-color: #ffe8a1;
+      }
+
+      .info-box.danger {
+        background: rgba(239, 68, 68, 0.08);
+        color: #b91c1c;
+        border-color: rgba(239, 68, 68, 0.2);
+      }
+
+      /* Steps */
+      .steps {
+        counter-reset: step-counter;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-4);
+        margin-bottom: var(--space-5);
+        padding-bottom: var(--space-5);
+        border-bottom: 1px solid var(--color-border-light);
+      }
+
+      .step:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .step-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+        color: white;
+        border-radius: 50%;
+        font-weight: var(--font-weight-semibold);
+        font-size: var(--font-size-sm);
+        flex-shrink: 0;
+        box-shadow: var(--shadow-sm);
+        counter-increment: step-counter;
+      }
+
+      .step-number::before {
+        content: counter(step-counter);
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-2);
+      }
+
+      .step-description {
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-relaxed);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
         .main-content {
-            display: flex;
-            gap: var(--space-8);
-        }
-
-        .content {
-            flex: 1;
+          flex-direction: column;
         }
 
         .sidebar {
-            width: 280px;
-            flex-shrink: 0;
+          width: 100%;
         }
 
-        /* Table of Contents */
         .toc {
-            position: sticky;
-            top: 120px;
-            background: #f0f4ffc0;
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
+          position: static;
         }
 
-        .toc:hover {
-            background: rgba(0, 0, 0, 0.03);
+        .nav-list {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: var(--space-4);
         }
 
-        .toc-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
+        .header-content {
+          padding: 0 var(--space-4);
+          flex-direction: column;
+          gap: var(--space-4);
+          text-align: center;
         }
 
-        .toc-list {
-            list-style: none;
-        }
-
-        .toc-item {
-            margin-bottom: var(--space-2);
-        }
-
-        .toc-item a {
-            display: block;
-            padding: var(--space-2) var(--space-3);
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-sm);
-            transition: all var(--transition-normal);
-        }
-
-        .toc-item a:hover {
-            background-color: var(--color-surface-secondary);
-            color: var(--color-primary);
-        }
-
-        .toc-item.active a {
-            background-color: var(--color-primary);
-            color: white;
-        }
-
-        /* Sections */
         .section {
-            background: #f0f4ffc0;
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
-            margin-bottom: var(--space-6);
-            border: 1px solid var(--color-border);
-            transition: all var(--transition-normal);
+          padding: var(--space-6);
         }
 
-        .section:hover {
-            background: rgba(0, 0, 0, 0.03);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .section-header {
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-4);
-        }
-
-        .section-title {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
-
-        .section-icon {
-            color: var(--color-primary);
-            font-size: var(--font-size-xl);
-        }
-
-        .section-description {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
-            line-height: var(--line-height-relaxed);
-        }
-
-        /* Subsections */
-        .subsection {
-            margin-bottom: var(--space-5);
-            padding: var(--space-4);
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-normal);
-        }
-
-        .subsection:hover {
-            border-color: var(--color-primary);
-            box-shadow: var(--shadow-sm);
-            transform: translateY(-1px);
-        }
-
-        .subsection:last-child {
-            margin-bottom: 0;
-        }
-
-        .subsection-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .subsection-icon {
-            color: #8b5cf6;
-            font-size: var(--font-size-base);
-        }
-
-        /* Content Elements */
-        p {
-            margin-bottom: var(--space-4);
-            line-height: var(--line-height-relaxed);
-        }
-
-        ul, ol {
-            margin-bottom: var(--space-4);
-            padding-left: var(--space-6);
-        }
-
-        li {
-            margin-bottom: var(--space-2);
-            line-height: var(--line-height-relaxed);
-        }
-
-        /* Code Blocks */
-        code {
-            background-color: var(--color-surface-secondary);
-            color: var(--color-text-primary);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-sm);
-            font-family: var(--font-family-mono);
-            font-size: var(--font-size-sm);
-        }
-
-        pre {
-            background-color: var(--color-text-primary);
-            color: white;
-            padding: var(--space-4);
-            border-radius: var(--radius-md);
-            overflow-x: auto;
-            margin-bottom: var(--space-4);
-        }
-
-        pre code {
-            background: none;
-            padding: 0;
-            color: inherit;
-            font-size: var(--font-size-sm);
-        }
-
-        /* File Path Styling */
-        .file-path {
-            display: inline-block;
-            background: var(--color-text-primary);
-            color: white;
-            padding: var(--space-2) var(--space-3);
-            border-radius: var(--radius-md);
-            font-family: var(--font-family-mono);
-            font-size: var(--font-size-xs);
-            font-weight: 500;
-            margin: var(--space-1) 0;
-        }
-
-        /* Info Boxes */
-        .info-box {
-            padding: var(--space-4);
-            border-radius: var(--radius-md);
-            margin: var(--space-5) 0;
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-3);
-            border: 1px solid var(--color-border);
-        }
-
-        .info-box-icon {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            flex-shrink: 0;
-            margin-top: var(--space-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            color: inherit;
-        }
-
-        .info-box.info {
-            background: rgba(59, 130, 246, 0.08);
-            color: var(--color-primary);
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-
-        .info-box.success {
-            background: #def7f2;
-            color: #256c4b;
-            border-color: #b6e8d8;
-        }
-
-        .info-box.warning {
-            background: #fff7db;
-            color: #7c5a00;
-            border-color: #ffe8a1;
-        }
-
-        .info-box.danger {
-            background: rgba(239, 68, 68, 0.08);
-            color: #b91c1c;
-            border-color: rgba(239, 68, 68, 0.2);
-        }
-
-        /* Steps */
-        .steps {
-            counter-reset: step-counter;
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
+        .nav-list {
+          grid-template-columns: 1fr;
         }
 
         .step {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-4);
-            margin-bottom: var(--space-5);
-            padding-bottom: var(--space-5);
-            border-bottom: 1px solid var(--color-border-light);
-        }
-
-        .step:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+          flex-direction: column;
+          text-align: center;
         }
 
         .step-number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
-            color: white;
-            border-radius: 50%;
-            font-weight: var(--font-weight-semibold);
-            font-size: var(--font-size-sm);
-            flex-shrink: 0;
-            box-shadow: var(--shadow-sm);
-            counter-increment: step-counter;
+          align-self: center;
+        }
+      }
+
+      /* Print Styles */
+      @media print {
+        .header,
+        .nav,
+        .sidebar {
+          display: none;
         }
 
-        .step-number::before {
-            content: counter(step-counter);
+        .main-content {
+          flex-direction: column;
         }
 
-        .step-content {
-            flex: 1;
+        .section {
+          box-shadow: none;
+          page-break-inside: avoid;
         }
+      }
 
-        .step-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
-        }
+      /* Visual Folder Structure */
+      .folder-structure {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        margin: var(--space-4) 0;
+        font-family: var(--font-family-mono);
+        font-size: var(--font-size-sm);
+      }
 
-        .step-description {
-            color: var(--color-text-secondary);
-            line-height: var(--line-height-relaxed);
-        }
+      .folder-structure-title {
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-4);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-family: var(--font-family-base);
+      }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .main-content {
-                flex-direction: column;
-            }
+      .folder-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-1) 0;
+        color: var(--color-text-secondary);
+        line-height: 1.4;
+        transition: all var(--transition-normal);
+      }
 
-            .sidebar {
-                width: 100%;
-            }
+      .folder-item:hover {
+        color: var(--color-primary);
+        background: rgba(59, 130, 246, 0.05);
+        border-radius: var(--radius-sm);
+        padding-left: var(--space-1);
+        margin-left: -var(--space-1);
+        margin-right: -var(--space-1);
+        padding-right: var(--space-1);
+      }
 
-            .toc {
-                position: static;
-            }
+      .folder-icon,
+      .file-icon {
+        flex-shrink: 0;
+        font-size: var(--font-size-base);
+        width: 18px;
+        text-align: center;
+      }
 
-            .nav-list {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-        }
+      .folder-icon {
+        color: #ffa000;
+      }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: var(--space-4);
-            }
+      .file-icon {
+        color: var(--color-text-muted);
+      }
 
-            .header-content {
-                padding: 0 var(--space-4);
-                flex-direction: column;
-                gap: var(--space-4);
-                text-align: center;
-            }
+      .folder-name,
+      .file-name {
+        font-weight: var(--font-weight-medium);
+      }
 
-            .section {
-                padding: var(--space-6);
-            }
+      .folder-name {
+        color: var(--color-text-primary);
+      }
 
-            .nav-list {
-                grid-template-columns: 1fr;
-            }
+      .file-name {
+        color: var(--color-text-secondary);
+      }
 
-            .step {
-                flex-direction: column;
-                text-align: center;
-            }
+      /* Indentation levels */
+      .level-0 {
+        margin-left: 0;
+      }
+      .level-1 {
+        margin-left: var(--space-4);
+      }
+      .level-2 {
+        margin-left: var(--space-8);
+      }
+      .level-3 {
+        margin-left: var(--space-12);
+      }
 
-            .step-number {
-                align-self: center;
-            }
-        }
+      /* Special highlighting for important files */
+      .folder-item.important .file-name {
+        color: var(--color-primary);
+        font-weight: var(--font-weight-semibold);
+      }
 
-        /* Print Styles */
-        @media print {
-            .header,
-            .nav,
-            .sidebar {
-                display: none;
-            }
+      .folder-item.important .file-icon {
+        color: var(--color-primary);
+      }
 
-            .main-content {
-                flex-direction: column;
-            }
+      /* Note styling */
+      .folder-note {
+        color: var(--color-text-light);
+        font-style: italic;
+        font-size: var(--font-size-xs);
+      }
 
-            .section {
-                box-shadow: none;
-                page-break-inside: avoid;
-            }
-        }
+      /* SVG folder and file icons styling */
+      .folder-icon,
+      .file-icon {
+        margin-right: 8px;
+        flex-shrink: 0;
+        vertical-align: middle;
+      }
 
-        /* Visual Folder Structure */
-        .folder-structure {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            margin: var(--space-4) 0;
-            font-family: var(--font-family-mono);
-            font-size: var(--font-size-sm);
-        }
-
-        .folder-structure-title {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-family: var(--font-family-base);
-        }
-
-        .folder-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-1) 0;
-            color: var(--color-text-secondary);
-            line-height: 1.4;
-            transition: all var(--transition-normal);
-        }
-
-        .folder-item:hover {
-            color: var(--color-primary);
-            background: rgba(59, 130, 246, 0.05);
-            border-radius: var(--radius-sm);
-            padding-left: var(--space-1);
-            margin-left: -var(--space-1);
-            margin-right: -var(--space-1);
-            padding-right: var(--space-1);
-        }
-
-        .folder-icon, .file-icon {
-            flex-shrink: 0;
-            font-size: var(--font-size-base);
-            width: 18px;
-            text-align: center;
-        }
-
-        .folder-icon {
-            color: #FFA000;
-        }
-
-        .file-icon {
-            color: var(--color-text-muted);
-        }
-
-        .folder-name, .file-name {
-            font-weight: var(--font-weight-medium);
-        }
-
-        .folder-name {
-            color: var(--color-text-primary);
-        }
-
-        .file-name {
-            color: var(--color-text-secondary);
-        }
-
-        /* Indentation levels */
-        .level-0 { margin-left: 0; }
-        .level-1 { margin-left: var(--space-4); }
-        .level-2 { margin-left: var(--space-8); }
-        .level-3 { margin-left: var(--space-12); }
-
-        /* Special highlighting for important files */
-        .folder-item.important .file-name {
-            color: var(--color-primary);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .folder-item.important .file-icon {
-            color: var(--color-primary);
-        }
-
-        /* Note styling */
-        .folder-note {
-            color: var(--color-text-light);
-            font-style: italic;
-            font-size: var(--font-size-xs);
-        }
-
-        /* SVG folder and file icons styling */
-        .folder-icon, .file-icon {
-            margin-right: 8px;
-            flex-shrink: 0;
-            vertical-align: middle;
-        }
-        
-        .folder-structure-title .folder-icon {
-            margin-right: 12px;
-        }
+      .folder-structure-title .folder-icon {
+        margin-right: 12px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="brand">
-                <div class="brand-icon">
-                    <span class="brand-initials">SP</span>
-                </div>
-                <div class="brand-text">
-                    <h1>Search Pro V3</h1>
-                    <p>Installation Guide v1.1</p>
-                </div>
-            </div>
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon">
+            <span class="brand-initials">SP</span>
+          </div>
+          <div class="brand-text">
+            <h1>Search Pro V3</h1>
+            <p>Installation Guide v1.1</p>
+          </div>
         </div>
+      </div>
     </header>
 
     <div class="container">
-        <div class="main-content">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <nav class="toc">
-                    <h3 class="toc-title">
-                        Table of Contents
-                    </h3>
-                    <ul class="toc-list">
-                        <li class="toc-item"><a href="#prerequisites">Prerequisites</a></li>
-                        <li class="toc-item"><a href="#file-organization">File Organization</a></li>
-                        <li class="toc-item"><a href="#button-action">Button Setup</a></li>
-                        <li class="toc-item"><a href="#index-update">Index.html Update</a></li>
-                        <li class="toc-item"><a href="#file-upload">File Upload</a></li>
-                        <li class="toc-item"><a href="#dashboard">Dashboard Usage</a></li>
-                        <li class="toc-item"><a href="#configuration">Configuration Deployment</a></li>
-                        <li class="toc-item"><a href="#thumbnails">Thumbnails</a></li>
-                        <li class="toc-item"><a href="#support">Support</a></li>
-                    </ul>
-                </nav>
-            </aside>
-            
-            <main class="content">
-                <!-- Prerequisites Section -->
-                <section id="prerequisites" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Prerequisites
-                        </h2>
-                        <p class="section-description">
-                            Essential requirements before implementing the Search Pro system in your 3DVista virtual tour.
-                        </p>
-                    </header>
+      <div class="main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <nav class="toc">
+            <h3 class="toc-title">Table of Contents</h3>
+            <ul class="toc-list">
+              <li class="toc-item"><a href="#prerequisites">Prerequisites</a></li>
+              <li class="toc-item"><a href="#file-organization">File Organization</a></li>
+              <li class="toc-item"><a href="#button-action">Button Setup</a></li>
+              <li class="toc-item"><a href="#index-update">Index.html Update</a></li>
+              <li class="toc-item"><a href="#file-upload">File Upload</a></li>
+              <li class="toc-item"><a href="#dashboard">Dashboard Usage</a></li>
+              <li class="toc-item"><a href="#configuration">Configuration Deployment</a></li>
+              <li class="toc-item"><a href="#thumbnails">Thumbnails</a></li>
+              <li class="toc-item"><a href="#support">Support</a></li>
+            </ul>
+          </nav>
+        </aside>
 
-                    <ul>
-                        <li><strong>3DVista Virtual Tour</strong> (desktop application)</li>
-                        <li><strong>Text/Code Editor</strong> (VS Code, Sublime Text, etc.)</li>
-                        <li><strong>Search Pro V3 Folder</strong> (from Search_Pro-V3.zip)</li>
-                        <li><strong>Web Server Access</strong> (hosting platform with file upload capability)</li>
-                    </ul>
-                </section>
+        <main class="content">
+          <!-- Prerequisites Section -->
+          <section id="prerequisites" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Prerequisites</h2>
+              <p class="section-description">
+                Essential requirements before implementing the Search Pro system in your 3DVista virtual tour.
+              </p>
+            </header>
 
-                <!-- File Organization Section -->
-                <section id="file-organization" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            File Organization
-                        </h2>
-                        <p class="section-description">
-                            Properly organize and understand the Search Pro file structure for seamless integration.
-                        </p>
-                    </header>
+            <ul>
+              <li><strong>3DVista Virtual Tour</strong> (desktop application)</li>
+              <li><strong>Text/Code Editor</strong> (VS Code, Sublime Text, etc.)</li>
+              <li><strong>Search Pro V3 Folder</strong> (from Search_Pro-V3.zip)</li>
+              <li><strong>Web Server Access</strong> (hosting platform with file upload capability)</li>
+            </ul>
+          </section>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Unzip and Place the Search Folder
-                        </h3>
+          <!-- File Organization Section -->
+          <section id="file-organization" class="section">
+            <header class="section-header">
+              <h2 class="section-title">File Organization</h2>
+              <p class="section-description">
+                Properly organize and understand the Search Pro file structure for seamless integration.
+              </p>
+            </header>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Extract the Archive</h4>
-                                    <p class="step-description">
-                                        Locate <code>Search_Pro-V3.zip</code> and extract it. Inside you'll find the 
-                                        <span class="file-path">search-pro-v3/</span> folder containing all plugin components.
-                                    </p>
-                                </div>
-                            </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Unzip and Place the Search Folder</h3>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Create Backup Copy</h4>
-                                    <p class="step-description">
-                                        Make a backup copy of <span class="file-path">search-pro-v3/</span> somewhere safe 
-                                        before making any modifications.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Extract the Archive</h4>
+                    <p class="step-description">
+                      Locate <code>Search_Pro-V3.zip</code> and extract it. Inside you'll find the
+                      <span class="file-path">search-pro-v3/</span> folder containing all plugin components.
+                    </p>
+                  </div>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Directory Structure
-                        </h3>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Create Backup Copy</h4>
+                    <p class="step-description">
+                      Make a backup copy of <span class="file-path">search-pro-v3/</span> somewhere safe before making
+                      any modifications.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                        <p>The <span class="file-path">search-pro-v3/</span> folder contains:</p>
+            <div class="subsection">
+              <h3 class="subsection-title">Directory Structure</h3>
 
-                        <div class="folder-structure">
-                            <div class="folder-structure-title">
-                                <svg class="folder-icon" width="20" height="16" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                search-pro-v3/ Directory Structure
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">assets/</span>
-                                <span class="folder-note">Image assets and thumbnails</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">business-data/</span>
-                                <span class="folder-note">Business data files</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">config/</span>
-                                <span class="folder-note">Configuration files</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">css/</span>
-                                <span class="folder-note">Stylesheet files</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">dashboard/</span>
-                                <span class="folder-note">Control panel interface</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">extras/</span>
-                                <span class="folder-note">Integration snippets</span>
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
-                                </svg>
-                                <span class="file-name">fuse.js</span>
-                                <span class="folder-note">Search library Folder</span>
-                            </div>
-                            
-                            <div class="folder-item level-0 important">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
-                                </svg>
-                                <span class="file-name">search-v3.js</span>
-                                <span class="folder-note">Main search engine</span>
-                            </div>
-                        </div>
+              <p>The <span class="file-path">search-pro-v3/</span> folder contains:</p>
 
-                        <div class="info-box success">
-                            <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="currentColor"/>
-                            </svg>
-                            <div>
-                                <strong>Key Files for Implementation:</strong>
-                                <ul>
-                                    <li><code>extras/Button.js</code> - JavaScript for 3DVista button action</li>
-                                    <li><code>extras/tour_index_update.txt</code> - HTML snippet for index.html</li>
-                                    <li><code>config/search-pro-config.js</code> - Exported configuration file</li>
-                                    <li><code>dashboard/control-panel-v3.html</code> - Configuration interface</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+              <div class="folder-structure">
+                <div class="folder-structure-title">
+                  <svg
+                    class="folder-icon"
+                    width="20"
+                    height="16"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  search-pro-v3/ Directory Structure
+                </div>
 
-                <!-- Button Action Section -->
-                <section id="button-action" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Connect Button Action in 3DVista
-                        </h2>
-                        <p class="section-description">
-                            The search system requires a button trigger. It doesn't auto-initialize on page load.
-                        </p>
-                    </header>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">assets/</span>
+                  <span class="folder-note">Image assets and thumbnails</span>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Implementation Steps
-                        </h3>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">business-data/</span>
+                  <span class="folder-note">Business data files</span>
+                </div>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Get the Button Code</h4>
-                                    <p class="step-description">
-                                        Open <span class="file-path">search-pro-v3/extras/Button.js</span> in your editor 
-                                        and copy the entire file content.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">config/</span>
+                  <span class="folder-note">Configuration files</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Create Button in 3DVista</h4>
-                                    <p class="step-description">
-                                        Open your tour in 3DVista → Go to <strong>Skin tab</strong> → 
-                                        Add an <strong>Icon Button</strong> → Choose an icon and position it → 
-                                        In the <strong>Actions panel</strong>, choose <strong>Execute JavaScript (JS)</strong>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">css/</span>
+                  <span class="folder-note">Stylesheet files</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Paste the Code</h4>
-                                    <p class="step-description">
-                                        In the JavaScript editor window, paste the content from Button.js 
-                                        (no modifications needed) and click <strong>Done</strong>.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">dashboard/</span>
+                  <span class="folder-note">Control panel interface</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Preview and Publish</h4>
-                                    <p class="step-description">
-                                        Click <strong>Preview</strong> in 3DVista to save changes, then 
-                                        <strong>Publish → Web/Mobile</strong> to generate your tour files.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77243 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">extras/</span>
+                  <span class="folder-note">Integration snippets</span>
+                </div>
 
-                        <div class="info-box warning">
-                            <span class="info-box-icon icon-warning"></span>
-                            <div>
-                                <strong>Important:</strong> The button code must remain exactly as provided. 
-                                Do not rename functions, IDs, or signatures that the engine expects.
-                            </div>
-                        </div>
-                    </div>
+                <div class="folder-item level-0">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#6B7280"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF" />
+                  </svg>
+                  <span class="file-name">fuse.js</span>
+                  <span class="folder-note">Search library Folder</span>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            How the Button Works
-                        </h3>
-                        <ul>
-                            <li>On <strong>first click</strong>, initializes the Search system and looks for the search UI container</li>
-                            <li>On <strong>subsequent clicks</strong>, toggles the search panel open/closed</li>
-                            <li>Acts as the official entry point to the search system</li>
-                        </ul>
-                    </div>
-                </section>
+                <div class="folder-item level-0 important">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#4A90E2"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF" />
+                  </svg>
+                  <span class="file-name">search-v3.js</span>
+                  <span class="folder-note">Main search engine</span>
+                </div>
+              </div>
 
-                <!-- Index Update Section -->
-                <section id="index-update" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Update Tour's index.html
-                        </h2>
-                        <p class="section-description">
-                            Inject the required script tags in the correct order. Loading order is critical for proper functionality.
-                        </p>
-                    </header>
+              <div class="info-box success">
+                <svg
+                  class="info-box-icon"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <div>
+                  <strong>Key Files for Implementation:</strong>
+                  <ul>
+                    <li><code>extras/Button.js</code> - JavaScript for 3DVista button action</li>
+                    <li><code>extras/tour_index_update.txt</code> - HTML snippet for index.html</li>
+                    <li><code>config/search-pro-config.js</code> - Exported configuration file</li>
+                    <li><code>dashboard/control-panel-v3.html</code> - Configuration interface</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
 
-                    <div class="info-box info">
-                        <div>
-                            <strong>Loading Order Matters:</strong> Configuration file must load before the search engine script.
-                        </div>
-                    </div>
+          <!-- Button Action Section -->
+          <section id="button-action" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Connect Button Action in 3DVista</h2>
+              <p class="section-description">
+                The search system requires a button trigger. It doesn't auto-initialize on page load.
+              </p>
+            </header>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            For Tours WITHOUT Loading Screen
-                        </h3>
-                        <p>Replace the entire <code>&lt;body&gt;</code> section of your tour's index.html with:</p>
-                        <pre><code>&lt;body&gt;
+            <div class="subsection">
+              <h3 class="subsection-title">Implementation Steps</h3>
+
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Get the Button Code</h4>
+                    <p class="step-description">
+                      Open <span class="file-path">search-pro-v3/extras/Button.js</span> in your editor and copy the
+                      entire file content.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Create Button in 3DVista</h4>
+                    <p class="step-description">
+                      Open your tour in 3DVista → Go to <strong>Skin tab</strong> → Add an
+                      <strong>Icon Button</strong> → Choose an icon and position it → In the
+                      <strong>Actions panel</strong>, choose <strong>Execute JavaScript (JS)</strong>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Paste the Code</h4>
+                    <p class="step-description">
+                      In the JavaScript editor window, paste the content from Button.js (no modifications needed) and
+                      click <strong>Done</strong>.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Preview and Publish</h4>
+                    <p class="step-description">
+                      Click <strong>Preview</strong> in 3DVista to save changes, then
+                      <strong>Publish → Web/Mobile</strong> to generate your tour files.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-box warning">
+                <span class="info-box-icon icon-warning"></span>
+                <div>
+                  <strong>Important:</strong> The button code must remain exactly as provided. Do not rename functions,
+                  IDs, or signatures that the engine expects.
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">How the Button Works</h3>
+              <ul>
+                <li>
+                  On <strong>first click</strong>, initializes the Search system and looks for the search UI container
+                </li>
+                <li>On <strong>subsequent clicks</strong>, toggles the search panel open/closed</li>
+                <li>Acts as the official entry point to the search system</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Index Update Section -->
+          <section id="index-update" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Update Tour's index.html</h2>
+              <p class="section-description">
+                Inject the required script tags in the correct order. Loading order is critical for proper
+                functionality.
+              </p>
+            </header>
+
+            <div class="info-box info">
+              <div>
+                <strong>Loading Order Matters:</strong> Configuration file must load before the search engine script.
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">For Tours WITHOUT Loading Screen</h3>
+              <p>Replace the entire <code>&lt;body&gt;</code> section of your tour's index.html with:</p>
+              <pre><code>&lt;body&gt;
   &lt;!-- Tour container loads first - DO NOT TOUCH --&gt;
   &lt;div id="viewer" class="fill-viewport"&gt;&lt;/div&gt;
 
@@ -990,14 +1106,12 @@
   &lt;!-- Load config file exported from Control Panel Dashboard AFTER search file --&gt;
   &lt;script src="search-pro-v3/config/search-pro-config.js"&gt;&lt;/script&gt;
 &lt;/body&gt;</code></pre>
-                    </div>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            For Tours WITH 3DVista Loading Screen
-                        </h3>
-                        <p>Place the search scripts after the preload block:</p>
-                        <pre><code>&lt;body&gt;
+            <div class="subsection">
+              <h3 class="subsection-title">For Tours WITH 3DVista Loading Screen</h3>
+              <p>Place the search scripts after the preload block:</p>
+              <pre><code>&lt;body&gt;
   &lt;div id="preloadContainer" class="fill-viewport"&gt;
     &lt;!-- 3DVista's preload markup --&gt;
   &lt;/div&gt;
@@ -1011,686 +1125,826 @@
   &lt;!-- Load config file exported from Control Panel Dashboard AFTER search file --&gt;
   &lt;script src="search-pro-v3/config/search-pro-config.js"&gt;&lt;/script&gt;
 &lt;/body&gt;</code></pre>
-                    </div>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Pathing Rules
-                        </h3>
-                        <div class="info-box warning">
-                            <div>
-                                <ul>
-                                    <li><span class="file-path">search-pro-v3/</span> must sit next to your tour's index.html (same directory level)</li>
-                                    <li>The script paths shown are relative and assume that layout</li>
-                                    <li>If you place the folder elsewhere, adjust the <code>src</code> paths accordingly</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+            <div class="subsection">
+              <h3 class="subsection-title">Pathing Rules</h3>
+              <div class="info-box warning">
+                <div>
+                  <ul>
+                    <li>
+                      <span class="file-path">search-pro-v3/</span> must sit next to your tour's index.html (same
+                      directory level)
+                    </li>
+                    <li>The script paths shown are relative and assume that layout</li>
+                    <li>If you place the folder elsewhere, adjust the <code>src</code> paths accordingly</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
 
-                <!-- File Upload Section -->
-                <section id="file-upload" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Upload Files to Server
-                        </h2>
-                        <p class="section-description">
-                            Deploy your tour and search system files to your web hosting platform.
-                        </p>
-                    </header>
+          <!-- File Upload Section -->
+          <section id="file-upload" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Upload Files to Server</h2>
+              <p class="section-description">Deploy your tour and search system files to your web hosting platform.</p>
+            </header>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Server Structure
-                        </h3>
-                        <p>Upload both the tour folder and search-pro-v3 folder so your live structure looks like:</p>
-                        
-                        <div class="folder-structure">
-                            <div class="folder-structure-title">
-                                <svg class="folder-icon" width="20" height="16" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                Project Directory Structure
-                            </div>
-                            
-                            <div class="folder-item level-0">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">your-tour/</span>
-                            </div>
-                            
-                            <div class="folder-item level-1 important">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
-                                </svg>
-                                <span class="file-name">index.html</span>
-                                <span class="folder-note">Tour entry point</span>
-                            </div>
-                            
-                            <div class="folder-item level-1">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">skin/</span>
-                                <span class="folder-note">3DVista tour assets</span>
-                            </div>
-                            
-                            <div class="folder-item level-1">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
-                                </svg>
-                                <span class="file-name folder-note">(other 3DVista assets...)</span>
-                            </div>
-                            
-                            <div class="folder-item level-1">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">search-pro-v3/</span>
-                            </div>
-                            
-                            <div class="folder-item level-2">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">config/</span>
-                                <span class="folder-note">Configuration files</span>
-                            </div>
-                            
-                            <div class="folder-item level-3 important">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
-                                </svg>
-                                <span class="file-name">search-pro-config.js</span>
-                                <span class="folder-note">Exported configuration file</span>
-                            </div>
-                            
-                            <div class="folder-item level-2">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">extras/</span>
-                                <span class="folder-note">Integration snippets</span>
-                            </div>
-                            
-                            <div class="folder-item level-3 important">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
-                                </svg>
-                                <span class="file-name">Button.js</span>
-                                <span class="folder-note">JavaScript for 3DVista button action</span>
-                            </div>
-                            
-                            <div class="folder-item level-3">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
-                                </svg>
-                                <span class="file-name">tour_index_update.txt</span>
-                                <span class="folder-note">HTML snippet for index.html</span>
-                            </div>
-                            
-                            <div class="folder-item level-2">
-                                <svg class="folder-icon" width="16" height="12" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z" fill="#FFA000"/>
-                                    <path d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z" fill="#FFCA28"/>
-                                </svg>
-                                <span class="folder-name">css/</span>
-                                <span class="folder-note">Stylesheet files</span>
-                            </div>
-                            
-                            <div class="folder-item level-2">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#6B7280"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF"/>
-                                </svg>
-                                <span class="file-name">fuse.js</span>
-                                <span class="folder-note">Search library Folder</span>
-                            </div>
-                            
-                            <div class="folder-item level-2 important">
-                                <svg class="file-icon" width="16" height="12" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z" fill="#4A90E2"/>
-                                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF"/>
-                                </svg>
-                                <span class="file-name">search-v3.js</span>
-                                <span class="folder-note">Main search engine</span>
-                            </div>
-                        </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Server Structure</h3>
+              <p>Upload both the tour folder and search-pro-v3 folder so your live structure looks like:</p>
 
-                        <div class="info-box info">
-                            <div>
-                                <strong>CDN Note:</strong> If you use a CDN, ensure it serves .js, .json, and .css files 
-                                with proper Content-Type headers, and clear any caches after upload.
-                            </div>
-                        </div>
-                    </div>
+              <div class="folder-structure">
+                <div class="folder-structure-title">
+                  <svg
+                    class="folder-icon"
+                    width="20"
+                    height="16"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  Project Directory Structure
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Minimal "Works Everywhere" Rules
-                        </h3>
-                        <ul>
-                            <li><strong>Order matters:</strong> search-v3.js must load before config</li>
-                            <li><strong>Don't alter the button JS action</strong> - it's the official entry point</li>
-                            <li><strong>Keep search-pro-v3/ self-contained</strong> so you can drop it into any tour</li>
-                        </ul>
-                    </div>
-                </section>
+                <div class="folder-item level-0">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">your-tour/</span>
+                </div>
 
-                <!-- Dashboard Section -->
-                <section id="dashboard" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Search Pro Dashboard Usage
-                        </h2>
-                        <p class="section-description">
-                            Access and use the standalone settings interface to configure your search system.
-                        </p>
-                    </header>
+                <div class="folder-item level-1 important">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#4A90E2"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF" />
+                  </svg>
+                  <span class="file-name">index.html</span>
+                  <span class="folder-note">Tour entry point</span>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Open the Dashboard
-                        </h3>
+                <div class="folder-item level-1">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">skin/</span>
+                  <span class="folder-note">3DVista tour assets</span>
+                </div>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Verify File Upload</h4>
-                                    <p class="step-description">
-                                        Ensure you've uploaded the entire <span class="file-path">search-pro-v3/</span> 
-                                        folder to the same directory level as your tour's index.html.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-1">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#6B7280"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF" />
+                  </svg>
+                  <span class="file-name folder-note">(other 3DVista assets...)</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Access Control Panel</h4>
-                                    <p class="step-description">
-                                        In your browser, open the control panel directly (replace with your domain/path):
-                                        <span class="file-path">https://your-domain.com/search-pro-v3/dashboard/control-panel-v3.html</span>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-1">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">search-pro-v3/</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Keep Two Tabs Open</h4>
-                                    <p class="step-description">
-                                        Maintain one tab with your tour and one with the dashboard for quick preview testing.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="folder-item level-2">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">config/</span>
+                  <span class="folder-note">Configuration files</span>
+                </div>
 
-                        <div class="info-box warning">
-                            <div>
-                                <strong>Troubleshooting:</strong> If the page shows 404 error, double-check your directory path. 
-                                Typos and subfolder misplacements are the most common cause.
-                            </div>
-                        </div>
-                    </div>
+                <div class="folder-item level-3 important">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#4A90E2"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF" />
+                  </svg>
+                  <span class="file-name">search-pro-config.js</span>
+                  <span class="folder-note">Exported configuration file</span>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Making Changes
-                        </h3>
+                <div class="folder-item level-2">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">extras/</span>
+                  <span class="folder-note">Integration snippets</span>
+                </div>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Adjust Settings</h4>
-                                    <p class="step-description">
-                                        Configure settings across tabs: General, Appearance, Display, Content, Filtering, 
-                                        Advanced, etc.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-3 important">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#4A90E2"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF" />
+                  </svg>
+                  <span class="file-name">Button.js</span>
+                  <span class="folder-note">JavaScript for 3DVista button action</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Live Test (No Reload)</h4>
-                                    <p class="step-description">
-                                        Switch to your tour tab and toggle the Search button. The panel will reinitialize 
-                                        and pick up latest dashboard edits.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="folder-item level-3">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#6B7280"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF" />
+                  </svg>
+                  <span class="file-name">tour_index_update.txt</span>
+                  <span class="folder-note">HTML snippet for index.html</span>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Preserve Changes</h4>
-                                    <p class="step-description">
-                                        Local edits persist via browser localStorage until you refresh. Use export options 
-                                        to make changes permanent.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="folder-item level-2">
+                  <svg
+                    class="folder-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 18 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2 1.75H8.1L6.3 0H1.8C0.81 0 0 0.7875 0 1.75V12.25C0 13.2125 0.81 14 1.8 14H15.165L18 9.1875V3.5C18 2.5375 17.19 1.75 16.2 1.75Z"
+                      fill="#FFA000"
+                    />
+                    <path
+                      d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
+                      fill="#FFCA28"
+                    />
+                  </svg>
+                  <span class="folder-name">css/</span>
+                  <span class="folder-note">Stylesheet files</span>
+                </div>
 
-                        <div class="info-box info">
-                            <div>
-                                <strong>Important:</strong> Do not reload either page until you export your configuration. 
-                                Local changes are stored in browser localStorage and will be lost on refresh.
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <div class="folder-item level-2">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#6B7280"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#9CA3AF" />
+                  </svg>
+                  <span class="file-name">fuse.js</span>
+                  <span class="folder-note">Search library Folder</span>
+                </div>
 
-                <!-- Configuration Section -->
-                <section id="configuration" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Export & Deploy Configuration
-                        </h2>
-                        <p class="section-description">
-                            Save your settings and deploy them to make changes permanent and available to all users.
-                        </p>
-                    </header>
+                <div class="folder-item level-2 important">
+                  <svg
+                    class="file-icon"
+                    width="16"
+                    height="12"
+                    viewBox="0 0 16 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0H2C0.9 0 0 0.9 0 2V18C0 19.1 0.9 20 2 20H14C15.1 20 16 19.1 16 18V6L10 0Z"
+                      fill="#4A90E2"
+                    />
+                    <path d="M10 0V6H16L10 0Z" fill="#6BB6FF" />
+                  </svg>
+                  <span class="file-name">search-v3.js</span>
+                  <span class="folder-note">Main search engine</span>
+                </div>
+              </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Export & Import Process
-                        </h3>
+              <div class="info-box info">
+                <div>
+                  <strong>CDN Note:</strong> If you use a CDN, ensure it serves .js, .json, and .css files with proper
+                  Content-Type headers, and clear any caches after upload.
+                </div>
+              </div>
+            </div>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Download Configuration</h4>
-                                    <p class="step-description">
-                                        Click <strong>"Download"</strong> in the dashboard to save your current settings 
-                                        as <span class="file-path">search-pro-config.js</span> - a portable, 
-                                        production-ready JavaScript file.
-                                    </p>
-                                </div>
-                            </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Minimal "Works Everywhere" Rules</h3>
+              <ul>
+                <li><strong>Order matters:</strong> search-v3.js must load before config</li>
+                <li><strong>Don't alter the button JS action</strong> - it's the official entry point</li>
+                <li><strong>Keep search-pro-v3/ self-contained</strong> so you can drop it into any tour</li>
+              </ul>
+            </div>
+          </section>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Load Configuration (Optional)</h4>
-                                    <p class="step-description">
-                                        Use <strong>"Load"</strong> to import a previously saved configuration file. 
-                                        Great for restoring backups or syncing settings across devices.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+          <!-- Dashboard Section -->
+          <section id="dashboard" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Search Pro Dashboard Usage</h2>
+              <p class="section-description">
+                Access and use the standalone settings interface to configure your search system.
+              </p>
+            </header>
 
-                        <div class="info-box danger">
-                            <div>
-                                <strong>Critical:</strong> DO NOT edit the config file manually. DO NOT delete any lines. 
-                                The config file is precisely wired to the search engine.
-                            </div>
-                        </div>
-                    </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Open the Dashboard</h3>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Deploy to Server
-                        </h3>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Verify File Upload</h4>
+                    <p class="step-description">
+                      Ensure you've uploaded the entire <span class="file-path">search-pro-v3/</span>
+                      folder to the same directory level as your tour's index.html.
+                    </p>
+                  </div>
+                </div>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Export Your Configuration</h4>
-                                    <p class="step-description">
-                                        From the dashboard, download <span class="file-path">search-pro-config.js</span>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Access Control Panel</h4>
+                    <p class="step-description">
+                      In your browser, open the control panel directly (replace with your domain/path):
+                      <span class="file-path"
+                        >https://your-domain.com/search-pro-v3/dashboard/control-panel-v3.html</span
+                      >
+                    </p>
+                  </div>
+                </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Upload to Config Directory</h4>
-                                    <p class="step-description">
-                                        Upload your exported file to: 
-                                        <span class="file-path">/search-pro-v3/config/search-pro-config.js</span>
-                                        (Overwrite the existing file if prompted)
-                                    </p>
-                                </div>
-                            </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Keep Two Tabs Open</h4>
+                    <p class="step-description">
+                      Maintain one tab with your tour and one with the dashboard for quick preview testing.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Test Your Tour</h4>
-                                    <p class="step-description">
-                                        Open/refresh your tour URL and click the Search button. Your tour should now use 
-                                        the new server-side configuration automatically.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="info-box warning">
+                <div>
+                  <strong>Troubleshooting:</strong> If the page shows 404 error, double-check your directory path. Typos
+                  and subfolder misplacements are the most common cause.
+                </div>
+              </div>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Quick Browser Preview Workflow
-                        </h3>
-                        <ol>
-                            <li>Edit settings in the control panel dashboard tabs</li>
-                            <li>Switch to tour tab and toggle search button to reload UI with new temporary edits</li>
-                            <li>Happy with changes? Export to <code>search-pro-config.js</code> and upload to server</li>
-                            <li>Refresh the tour page to verify the live (server) configuration</li>
-                        </ol>
-                    </div>
-                </section>
+            <div class="subsection">
+              <h3 class="subsection-title">Making Changes</h3>
 
-                <!-- Thumbnails Section -->
-                <section id="thumbnails" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Thumbnail Configuration
-                        </h2>
-                        <p class="section-description">
-                            Optional but recommended: Add visual previews to enhance search results presentation.
-                        </p>
-                    </header>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Adjust Settings</h4>
+                    <p class="step-description">
+                      Configure settings across tabs: General, Appearance, Display, Content, Filtering, Advanced, etc.
+                    </p>
+                  </div>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Purpose & Best Practices
-                        </h3>
-                        <ul>
-                            <li><strong>Visual Preview:</strong> Thumbnails provide visual context for each search result type</li>
-                            <li><strong>Priority System:</strong> When configured, thumbnails take priority over icons</li>
-                            <div class="info-box warning">
-                                <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V9H11V15ZM11 7H9V5H11V7Z" fill="currentColor"/>
-                                </svg>
-                                <div>
-                                    <strong>Recommendation:</strong> Choose one system only → use thumbnails OR icons, not both
-                                </div>
-                            </div>
-                        </ul>
-                    </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Live Test (No Reload)</h4>
+                    <p class="step-description">
+                      Switch to your tour tab and toggle the Search button. The panel will reinitialize and pick up
+                      latest dashboard edits.
+                    </p>
+                  </div>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Supported Formats & Placement
-                        </h3>
-                        
-                        <div class="info-box success">
-                            <svg class="info-box-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z" fill="currentColor"/>
-                            </svg>
-                            <div>
-                                <strong>Supported:</strong> .jpg, .jpeg, .png, .gif, .webp, .svg
-                            </div>
-                        </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Preserve Changes</h4>
+                    <p class="step-description">
+                      Local edits persist via browser localStorage until you refresh. Use export options to make changes
+                      permanent.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                        <div class="info-box warning">
-                            <div>
-                                <strong>File Placement Rules:</strong>
-                                <ul>
-                                    <li>All images must be placed in the assets folder: <span class="file-path">/search-pro-v3/assets/</span></li>
-                                    <li>File names must match exactly the names in the Display tab configuration</li>
-                                    <li>Case-sensitive: <code>hotspot-default.jpg ≠ Hotspot-Default.jpg</code></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+              <div class="info-box info">
+                <div>
+                  <strong>Important:</strong> Do not reload either page until you export your configuration. Local
+                  changes are stored in browser localStorage and will be lost on refresh.
+                </div>
+              </div>
+            </div>
+          </section>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Common Issues & Solutions
-                        </h3>
-                        
-                        <p><strong>Thumbnail not displaying:</strong></p>
-                        <ul>
-                            <li>Check file path: must be <span class="file-path">/search-pro-v3/assets/filename.ext</span></li>
-                            <li>Verify case matching (upper/lowercase)</li>
-                            <li>Confirm file extension spelling (.jpeg vs .jpg)</li>
-                            <li>Test direct image access: <code>https://your-domain.com/search-pro-v3/assets/yourfile.jpg</code></li>
-                        </ul>
+          <!-- Configuration Section -->
+          <section id="configuration" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Export & Deploy Configuration</h2>
+              <p class="section-description">
+                Save your settings and deploy them to make changes permanent and available to all users.
+              </p>
+            </header>
 
-                        <p><strong>Old image still showing:</strong></p>
-                        <ul>
-                            <li>Browser cache: Hard-refresh (Ctrl/Cmd + Shift + R)</li>
-                            <li>CDN/Cloudflare cache: Purge cache for the specific asset file</li>
-                        </ul>
-                    </div>
-                </section>
+            <div class="subsection">
+              <h3 class="subsection-title">Export & Import Process</h3>
 
-                <!-- Filtering Recommendations Section -->
-                <section id="filtering" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Filtering Tab Recommendations
-                        </h2>
-                        <p class="section-description">
-                            Important guidelines for optimal search filtering configuration.
-                        </p>
-                    </header>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Download Configuration</h4>
+                    <p class="step-description">
+                      Click <strong>"Download"</strong> in the dashboard to save your current settings as
+                      <span class="file-path">search-pro-config.js</span> - a portable, production-ready JavaScript
+                      file.
+                    </p>
+                  </div>
+                </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Whitelist/Blacklist Settings
-                        </h3>
-                        <div class="info-box warning">
-                            <div>
-                                <strong>Important:</strong> In the Filtering Tab, to avoid confusion or unexpected results, 
-                                enable only ONE filter setting at a time. As long as only one search filter configuration 
-                                is active, the plugin will work as intended.
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Load Configuration (Optional)</h4>
+                    <p class="step-description">
+                      Use <strong>"Load"</strong> to import a previously saved configuration file. Great for restoring
+                      backups or syncing settings across devices.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                <!-- Support Section -->
-                <section id="support" class="section">
-                    <header class="section-header">
-                        <h2 class="section-title">
-                            Support & Troubleshooting
-                        </h2>
-                        <p class="section-description">
-                            Common issues, quick fixes, and how to get help when you need it.
-                        </p>
-                    </header>
+              <div class="info-box danger">
+                <div>
+                  <strong>Critical:</strong> DO NOT edit the config file manually. DO NOT delete any lines. The config
+                  file is precisely wired to the search engine.
+                </div>
+              </div>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Common Issues & Quick Fixes
-                        </h3>
+            <div class="subsection">
+              <h3 class="subsection-title">Deploy to Server</h3>
 
-                        <div class="info-box info">
-                            <span class="info-box-icon">1</span>
-                            <div>
-                                <strong>Settings not applying (live site):</strong>
-                                <ul>
-                                    <li>Ensure config loads before engine in index.html</li>
-                                    <li>After uploading new config, refresh the tour page</li>
-                                    <li>Check file permissions: 644 for files, 755 for folders in your server</li>
-                                </ul>
-                            </div>
-                        </div>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Export Your Configuration</h4>
+                    <p class="step-description">
+                      From the dashboard, download <span class="file-path">search-pro-config.js</span>
+                    </p>
+                  </div>
+                </div>
 
-                        <div class="info-box warning">
-                            <span class="info-box-icon">2</span>
-                            <div>
-                                <strong>File not loading:</strong>
-                                <ul>
-                                    <li>Check file path spelling and placement</li>
-                                    <li>Open DevTools → Console/Network tab for 404/403 errors</li>
-                                    <li>Verify MIME type errors</li>
-                                </ul>
-                            </div>
-                        </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Upload to Config Directory</h4>
+                    <p class="step-description">
+                      Upload your exported file to:
+                      <span class="file-path">/search-pro-v3/config/search-pro-config.js</span>
+                      (Overwrite the existing file if prompted)
+                    </p>
+                  </div>
+                </div>
 
-                        <div class="info-box danger">
-                            <span class="info-box-icon">3</span>
-                            <div>
-                                <strong>Settings disappear:</strong>
-                                <ul>
-                                    <li>Expected if relying on localStorage only</li>
-                                    <li>Always Export → upload search-pro-config.js for permanent changes</li>
-                                    <li>Hard-refresh or clear cache if changes not visible</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Test Your Tour</h4>
+                    <p class="step-description">
+                      Open/refresh your tour URL and click the Search button. Your tour should now use the new
+                      server-side configuration automatically.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            60-Second Success Checklist
-                        </h3>
-                        <ol>
-                            <li>Can you open the dashboard URL?</li>
-                            <li>Does toggling the Search button reflect dashboard edits (without reload)?</li>
-                            <li>Did you export and upload <span class="file-path">/search-pro-v3/config/search-pro-config.js</span>?</li>
-                            <li>Did you refresh the tour page?</li>
-                            <li>After refresh, are your server-side settings live?</li>
-                        </ol>
-                    </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Quick Browser Preview Workflow</h3>
+              <ol>
+                <li>Edit settings in the control panel dashboard tabs</li>
+                <li>Switch to tour tab and toggle search button to reload UI with new temporary edits</li>
+                <li>Happy with changes? Export to <code>search-pro-config.js</code> and upload to server</li>
+                <li>Refresh the tour page to verify the live (server) configuration</li>
+              </ol>
+            </div>
+          </section>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Secure Your Dashboard (Recommended)
-                        </h3>
-                        <p>After completing your configuration, protect your dashboard from unauthorized access:</p>
-                        
-                        <div class="info-box warning">
-                            <div>
-                                <strong>Security Risk:</strong> Anyone who discovers your dashboard URL can modify your search settings. 
-                                Take one of these protective measures after finalizing your configuration.
-                            </div>
-                        </div>
+          <!-- Thumbnails Section -->
+          <section id="thumbnails" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Thumbnail Configuration</h2>
+              <p class="section-description">
+                Optional but recommended: Add visual previews to enhance search results presentation.
+              </p>
+            </header>
 
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Option 1: Delete Dashboard (Recommended)</h4>
-                                    <p class="step-description">
-                                        Remove the entire <span class="file-path">dashboard/</span> folder from your server after exporting your final configuration. 
-                                        You can always re-upload it later if you need to make changes.
-                                    </p>
-                                </div>
-                            </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Purpose & Best Practices</h3>
+              <ul>
+                <li><strong>Visual Preview:</strong> Thumbnails provide visual context for each search result type</li>
+                <li><strong>Priority System:</strong> When configured, thumbnails take priority over icons</li>
+                <div class="info-box warning">
+                  <svg
+                    class="info-box-icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V9H11V15ZM11 7H9V5H11V7Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <div><strong>Recommendation:</strong> Choose one system only → use thumbnails OR icons, not both</div>
+                </div>
+              </ul>
+            </div>
 
-                            <div class="step">
-                                <div class="step-number"></div>
-                                <div class="step-content">
-                                    <h4 class="step-title">Option 2: Password Protection</h4>
-                                    <p class="step-description">
-                                        Use your hosting platform's password protection feature (like .htaccess for Apache) 
-                                        to restrict access to the <span class="file-path">/search-pro-v3/dashboard/</span> directory.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+            <div class="subsection">
+              <h3 class="subsection-title">Supported Formats & Placement</h3>
 
-                        <div class="info-box success">
-                            <div>
-                                <strong>Best Practice:</strong> Delete the dashboard folder entirely once you're satisfied with your configuration. 
-                                The search system will continue to work perfectly using only the exported 
-                                <span class="file-path">search-pro-config.js</span> file.
-                            </div>
-                        </div>
-                    </div>
+              <div class="info-box success">
+                <svg
+                  class="info-box-icon"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM8 15L3 10L4.41 8.59L8 12.17L15.59 4.58L17 6L8 15Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <div><strong>Supported:</strong> .jpg, .jpeg, .png, .gif, .webp, .svg</div>
+              </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Clean Uninstall (If Needed)
-                        </h3>
-                        <p>To completely remove the search system:</p>
-                        <ol>
-                            <li>Remove the JS action from the 3DVista button (or delete the button)</li>
-                            <li>Remove these two lines from index.html:
-                                <pre><code>&lt;script src="search-pro-v3/search-v3.js"&gt;&lt;/script&gt;
+              <div class="info-box warning">
+                <div>
+                  <strong>File Placement Rules:</strong>
+                  <ul>
+                    <li>
+                      All images must be placed in the assets folder:
+                      <span class="file-path">/search-pro-v3/assets/</span>
+                    </li>
+                    <li>File names must match exactly the names in the Display tab configuration</li>
+                    <li>Case-sensitive: <code>hotspot-default.jpg ≠ Hotspot-Default.jpg</code></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">Common Issues & Solutions</h3>
+
+              <p><strong>Thumbnail not displaying:</strong></p>
+              <ul>
+                <li>Check file path: must be <span class="file-path">/search-pro-v3/assets/filename.ext</span></li>
+                <li>Verify case matching (upper/lowercase)</li>
+                <li>Confirm file extension spelling (.jpeg vs .jpg)</li>
+                <li>
+                  Test direct image access: <code>https://your-domain.com/search-pro-v3/assets/yourfile.jpg</code>
+                </li>
+              </ul>
+
+              <p><strong>Old image still showing:</strong></p>
+              <ul>
+                <li>Browser cache: Hard-refresh (Ctrl/Cmd + Shift + R)</li>
+                <li>CDN/Cloudflare cache: Purge cache for the specific asset file</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Filtering Recommendations Section -->
+          <section id="filtering" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Filtering Tab Recommendations</h2>
+              <p class="section-description">Important guidelines for optimal search filtering configuration.</p>
+            </header>
+
+            <div class="subsection">
+              <h3 class="subsection-title">Whitelist/Blacklist Settings</h3>
+              <div class="info-box warning">
+                <div>
+                  <strong>Important:</strong> In the Filtering Tab, to avoid confusion or unexpected results, enable
+                  only ONE filter setting at a time. As long as only one search filter configuration is active, the
+                  plugin will work as intended.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Support Section -->
+          <section id="support" class="section">
+            <header class="section-header">
+              <h2 class="section-title">Support & Troubleshooting</h2>
+              <p class="section-description">Common issues, quick fixes, and how to get help when you need it.</p>
+            </header>
+
+            <div class="subsection">
+              <h3 class="subsection-title">Common Issues & Quick Fixes</h3>
+
+              <div class="info-box info">
+                <span class="info-box-icon">1</span>
+                <div>
+                  <strong>Settings not applying (live site):</strong>
+                  <ul>
+                    <li>Ensure config loads before engine in index.html</li>
+                    <li>After uploading new config, refresh the tour page</li>
+                    <li>Check file permissions: 644 for files, 755 for folders in your server</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="info-box warning">
+                <span class="info-box-icon">2</span>
+                <div>
+                  <strong>File not loading:</strong>
+                  <ul>
+                    <li>Check file path spelling and placement</li>
+                    <li>Open DevTools → Console/Network tab for 404/403 errors</li>
+                    <li>Verify MIME type errors</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="info-box danger">
+                <span class="info-box-icon">3</span>
+                <div>
+                  <strong>Settings disappear:</strong>
+                  <ul>
+                    <li>Expected if relying on localStorage only</li>
+                    <li>Always Export → upload search-pro-config.js for permanent changes</li>
+                    <li>Hard-refresh or clear cache if changes not visible</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">60-Second Success Checklist</h3>
+              <ol>
+                <li>Can you open the dashboard URL?</li>
+                <li>Does toggling the Search button reflect dashboard edits (without reload)?</li>
+                <li>
+                  Did you export and upload <span class="file-path">/search-pro-v3/config/search-pro-config.js</span>?
+                </li>
+                <li>Did you refresh the tour page?</li>
+                <li>After refresh, are your server-side settings live?</li>
+              </ol>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">Secure Your Dashboard (Recommended)</h3>
+              <p>After completing your configuration, protect your dashboard from unauthorized access:</p>
+
+              <div class="info-box warning">
+                <div>
+                  <strong>Security Risk:</strong> Anyone who discovers your dashboard URL can modify your search
+                  settings. Take one of these protective measures after finalizing your configuration.
+                </div>
+              </div>
+
+              <div class="steps">
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Option 1: Delete Dashboard (Recommended)</h4>
+                    <p class="step-description">
+                      Remove the entire <span class="file-path">dashboard/</span> folder from your server after
+                      exporting your final configuration. You can always re-upload it later if you need to make changes.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-number"></div>
+                  <div class="step-content">
+                    <h4 class="step-title">Option 2: Password Protection</h4>
+                    <p class="step-description">
+                      Use your hosting platform's password protection feature (like .htaccess for Apache) to restrict
+                      access to the <span class="file-path">/search-pro-v3/dashboard/</span> directory.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-box success">
+                <div>
+                  <strong>Best Practice:</strong> Delete the dashboard folder entirely once you're satisfied with your
+                  configuration. The search system will continue to work perfectly using only the exported
+                  <span class="file-path">search-pro-config.js</span> file.
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <h3 class="subsection-title">Clean Uninstall (If Needed)</h3>
+              <p>To completely remove the search system:</p>
+              <ol>
+                <li>Remove the JS action from the 3DVista button (or delete the button)</li>
+                <li>
+                  Remove these two lines from index.html:
+                  <pre><code>&lt;script src="search-pro-v3/search-v3.js"&gt;&lt;/script&gt;
 &lt;script src="search-pro-v3/config/search-pro-config.js"&gt;&lt;/script&gt;</code></pre>
-                            </li>
-                            <li>Remove the <span class="file-path">search-pro-v3/</span> folder from your server</li>
-                        </ol>
-                    </div>
+                </li>
+                <li>Remove the <span class="file-path">search-pro-v3/</span> folder from your server</li>
+              </ol>
+            </div>
 
-                    <div class="subsection">
-                        <h3 class="subsection-title">
-                            Get Help
-                        </h3>
-                        <p>If you need further assistance or have questions:</p>
-                        <ul>
-                            <li><strong>Email Support:</strong> <a href="mailto:info@pxl360.com">info@pxl360.com</a></li>
-                            <li><strong>Feedback:</strong> We’d also love your feedback. Leaving us a positive review not only makes us proud of our work but also helps other 3DVista users discover the power of this unique plugin—allowing us to dedicate even more time to future development and improvements.</li>
-                        </ul>
+            <div class="subsection">
+              <h3 class="subsection-title">Get Help</h3>
+              <p>If you need further assistance or have questions:</p>
+              <ul>
+                <li><strong>Email Support:</strong> <a href="mailto:info@pxl360.com">info@pxl360.com</a></li>
+                <li>
+                  <strong>Feedback:</strong> We’d also love your feedback. Leaving us a positive review not only makes
+                  us proud of our work but also helps other 3DVista users discover the power of this unique
+                  plugin—allowing us to dedicate even more time to future development and improvements.
+                </li>
+              </ul>
 
-                        <div class="info-box success">
-                            <div>
-                                Our advanced search plugin has been thoroughly tested to ensure reliable performance 
-                                across different 3DVista virtual tour projects. Follow the instructions in this guide 
-                                for a consistent and predictable search experience.
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-            </main>
-        </div>
+              <div class="info-box success">
+                <div>
+                  Our advanced search plugin has been thoroughly tested to ensure reliable performance across different
+                  3DVista virtual tour projects. Follow the instructions in this guide for a consistent and predictable
+                  search experience.
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
 
     <script>
-        // Simple smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+      // Simple smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
             });
+          }
+        });
+      });
+
+      // Update active TOC item on scroll
+      function updateActiveTOC() {
+        const sections = document.querySelectorAll("section[id]");
+        const tocItems = document.querySelectorAll(".toc-item");
+
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (window.scrollY >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
         });
 
-        // Update active TOC item on scroll
-        function updateActiveTOC() {
-            const sections = document.querySelectorAll('section[id]');
-            const tocItems = document.querySelectorAll('.toc-item');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.scrollY >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
+        tocItems.forEach((item) => {
+          item.classList.remove("active");
+          if (item.querySelector("a").getAttribute("href") === "#" + current) {
+            item.classList.add("active");
+          }
+        });
+      }
 
-            tocItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.querySelector('a').getAttribute('href') === '#' + current) {
-                    item.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveTOC);
-        updateActiveTOC(); // Initial call
+      window.addEventListener("scroll", updateActiveTOC);
+      updateActiveTOC(); // Initial call
     </script>
-</body>
+  </body>
 </html>

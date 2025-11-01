@@ -951,7 +951,6 @@
 }
 
 /* Hides tabs from the sidebar */
-#data-sources-tab
-{
+#data-sources-tab {
   display: none !important;
 }

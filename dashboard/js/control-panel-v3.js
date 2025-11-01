@@ -758,15 +758,14 @@ class SecureSearchProControlPanel {
               if (window.parent?.tourSearchFunctions?.reinitializeSearch) {
                 console.log("✅ [SearchPro] Reinitializing search system");
                 window.parent.tourSearchFunctions.reinitializeSearch(true);
-              } 
-              else if (window.parent?.searchFunctions?.updateConfig) {
+              } else if (window.parent?.searchFunctions?.updateConfig) {
                 console.log("✅ [SearchPro] Updating runtime config directly");
                 window.parent.searchFunctions.updateConfig(this.core.config);
-              } 
-              else {
-                console.warn("⚠️ [SearchPro] No live runtime handler found; using localStorage sync only");
+              } else {
+                console.warn(
+                  "⚠️ [SearchPro] No live runtime handler found; using localStorage sync only"
+                );
               }
-
             } catch (err) {
               console.error("❌ [SearchPro] Live config propagation failed:", err);
             }

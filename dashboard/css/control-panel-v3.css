@@ -1743,8 +1743,6 @@ textarea:focus,
   font-family: "Courier New", Courier, monospace;
 }
 
-
-
 /* Mobile Responsive Adjustments for Appearance Tab */
 @media (max-width: 768px) {
   .color-input-wrapper {
