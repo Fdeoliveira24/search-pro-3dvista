@@ -1,0 +1,27 @@
+{
+  "esversion": 11,
+  "browser": true,
+  "node": false,
+  "undef": true,
+  "unused": true,
+  "maxerr": 5000,
+  "predef": [
+    "window",
+    "document",
+    "self",
+    "console",
+    "fetch",
+    "SEARCH_MARKUP",
+    "Fuse",
+    "_config",
+    "PlaylistUtils",
+    "TourBinding",
+    "BroadcastChannel",
+    "Papa",
+    "Logger",
+    "_businessData",
+    "initializeSearch",
+    "_prepareSearchIndex",
+    "_getDisplayLabel"
+  ]
+}

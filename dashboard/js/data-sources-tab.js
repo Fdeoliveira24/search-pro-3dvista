@@ -28,14 +28,10 @@ class DataSourcesTabHandler {
       this.core.setupFormListeners(container);
 
       // Setup data sources specific features
-      this.setupMutualExclusivityHandlers(container);
       this.setupLocalCSVHandlers(container);
 
       // Populate form with current values
       this.populateDataSourcesForm(container);
-
-      // Initial update of mutual exclusivity state
-      this.updateMutualExclusivityStates(container);
 
       // Validate all fields
       this.validateForm(container);
@@ -57,107 +53,12 @@ class DataSourcesTabHandler {
       // Let core populate most fields first
       this.core.populateForm(container);
 
-      // Update mutual exclusivity states
-      this.updateMutualExclusivityStates(container);
-
       // Update local CSV states
       this.updateLocalCSVStates(container);
 
       console.log("💾 Data Sources form populated");
     } catch (error) {
       console.error("🚨 Security: Error populating data sources form:", error);
-    }
-  }
-
-  /**
-   * Setup mutual exclusivity handlers for Business Data vs Google Sheets
-   */
-  setupMutualExclusivityHandlers(container) {
-    try {
-      const businessDataToggle = container.querySelector("#useBusinessData");
-      const googleSheetsToggle = container.querySelector("#useGoogleSheetData");
-      const mainWarningBanner = container.querySelector("#dataSourcesWarningBanner");
-
-      if (businessDataToggle && googleSheetsToggle) {
-        businessDataToggle.addEventListener("change", () => {
-          if (businessDataToggle.checked) {
-            // If user tries to enable Business Data while Google Sheets is enabled
-            if (googleSheetsToggle.checked) {
-              // Show warning in main banner temporarily
-              if (mainWarningBanner) {
-                mainWarningBanner.style.display = "flex";
-                const messageEl = mainWarningBanner.querySelector("#dataSourcesWarningMessage");
-                if (messageEl) {
-                  messageEl.textContent =
-                    "Business Data and Google Sheets cannot be enabled simultaneously. Google Sheets has been disabled.";
-                }
-                // Auto-hide the warning after 5 seconds
-                setTimeout(() => {
-                  if (mainWarningBanner.style.display !== "none") {
-                    mainWarningBanner.style.display = "none";
-                  }
-                }, 5000);
-              }
-
-              // Disable Google Sheets with visual feedback
-              googleSheetsToggle.checked = false;
-              this.updateToggleState(googleSheetsToggle, false);
-              this.core.onFormChange(googleSheetsToggle);
-
-              // Show toast notification
-              if (this.core.showToast) {
-                this.core.showToast(
-                  "warning",
-                  "Data Source Switched",
-                  "Google Sheets disabled - Business Data is now active"
-                );
-              }
-            }
-          }
-          this.updateMutualExclusivityStates(container);
-        });
-
-        googleSheetsToggle.addEventListener("change", () => {
-          if (googleSheetsToggle.checked) {
-            // If user tries to enable Google Sheets while Business Data is enabled
-            if (businessDataToggle.checked) {
-              // Show warning in main banner temporarily
-              if (mainWarningBanner) {
-                mainWarningBanner.style.display = "flex";
-                const messageEl = mainWarningBanner.querySelector("#dataSourcesWarningMessage");
-                if (messageEl) {
-                  messageEl.textContent =
-                    "Google Sheets and Business Data cannot be enabled simultaneously. Business Data has been disabled.";
-                }
-                // Auto-hide the warning after 5 seconds
-                setTimeout(() => {
-                  if (mainWarningBanner.style.display !== "none") {
-                    mainWarningBanner.style.display = "none";
-                  }
-                }, 5000);
-              }
-            }
-            // Disable Business Data
-            businessDataToggle.checked = false;
-            this.updateToggleState(businessDataToggle, false);
-            this.core.onFormChange(businessDataToggle);
-
-            // Show toast notification
-            if (this.core.showToast) {
-              this.core.showToast(
-                "info",
-                "Mutual Exclusivity",
-                "Business Data integration disabled because Google Sheets is enabled"
-              );
-            }
-          }
-          this.updateMutualExclusivityStates(container);
-        });
-      }
-
-      console.log("🔄 Mutual exclusivity handlers set up");
-    } catch (error) {
-      console.error("🚨 Error setting up mutual exclusivity handlers:", error);
     }
   }
 
@@ -188,85 +89,6 @@ class DataSourcesTabHandler {
       console.log("📁 Local CSV handlers set up");
     } catch (error) {
       console.error("🚨 Error setting up local CSV handlers:", error);
-    }
-  }
-
-  /**
-   * Update mutual exclusivity visual states
-   */
-  updateMutualExclusivityStates(container) {
-    try {
-      const businessDataToggle = container.querySelector("#useBusinessData");
-      const googleSheetsToggle = container.querySelector("#useGoogleSheetData");
-      const businessDataSection = container.querySelector(
-        '[aria-labelledby="business-data-heading"]'
-      );
-      const googleSheetsSection = container.querySelector(
-        '[aria-labelledby="google-sheets-heading"]'
-      );
-
-      // Get warning elements
-      const mainWarningBanner = container.querySelector("#dataSourcesWarningBanner");
-      const businessDataWarning = container.querySelector("#businessDataWarning");
-      const googleSheetsWarning = container.querySelector("#googleSheetsWarning");
-
-      // Hide all warnings initially
-      if (mainWarningBanner) mainWarningBanner.style.display = "none";
-      if (businessDataWarning) businessDataWarning.style.display = "none";
-      if (googleSheetsWarning) googleSheetsWarning.style.display = "none";
-
-      if (businessDataToggle?.checked) {
-        // Business Data is enabled - disable Google Sheets section visually
-        if (googleSheetsSection) {
-          googleSheetsSection.style.opacity = "0.6";
-          googleSheetsSection.classList.add("disabled-section");
-          this.disableSectionInputs(googleSheetsSection, true);
-        }
-        if (businessDataSection) {
-          businessDataSection.style.opacity = "1";
-          businessDataSection.classList.remove("disabled-section");
-          this.disableSectionInputs(businessDataSection, false);
-        }
-        // Show Google Sheets warning
-        if (googleSheetsWarning) googleSheetsWarning.style.display = "flex";
-      } else if (googleSheetsToggle?.checked) {
-        // Google Sheets is enabled - disable Business Data section visually
-        if (businessDataSection) {
-          businessDataSection.style.opacity = "0.6";
-          businessDataSection.classList.add("disabled-section");
-          this.disableSectionInputs(businessDataSection, true);
-        }
-        if (googleSheetsSection) {
-          googleSheetsSection.style.opacity = "1";
-          googleSheetsSection.classList.remove("disabled-section");
-          this.disableSectionInputs(googleSheetsSection, false);
-        }
-        // Show Business Data warning
-        if (businessDataWarning) businessDataWarning.style.display = "flex";
-      } else {
-        // Neither is enabled - enable both sections
-        if (businessDataSection) {
-          businessDataSection.style.opacity = "1";
-          businessDataSection.classList.remove("disabled-section");
-          this.disableSectionInputs(businessDataSection, false);
-        }
-        if (googleSheetsSection) {
-          googleSheetsSection.style.opacity = "1";
-          googleSheetsSection.classList.remove("disabled-section");
-          this.disableSectionInputs(googleSheetsSection, false);
-        }
-        // Show main warning if neither is enabled
-        if (mainWarningBanner) {
-          mainWarningBanner.style.display = "flex";
-          const messageEl = mainWarningBanner.querySelector("#dataSourcesWarningMessage");
-          if (messageEl) {
-            messageEl.textContent =
-              "No data source is currently enabled. Only one external data source can be enabled at a time. Enable either Business Data or Google Sheets/CSV to use external data.";
-          }
-        }
-      }
-    } catch (error) {
-      console.error("🚨 Error updating mutual exclusivity states:", error);
     }
   }
 
@@ -315,76 +137,6 @@ class DataSourcesTabHandler {
   }
 
   /**
-   * Disable/enable section inputs
-   */
-  disableSectionInputs(section, disable) {
-    try {
-      // Get all form inputs in the section
-      const inputs = section.querySelectorAll("input, textarea, select, button");
-
-      inputs.forEach((input) => {
-        // Skip the main toggle switches - they should remain enabled
-        if (input.id !== "useBusinessData" && input.id !== "useGoogleSheetData") {
-          input.disabled = disable;
-
-          // Add visual feedback for disabled state
-          if (disable) {
-            input.classList.add("disabled-input");
-
-            // For toggles, add additional styling
-            if (input.type === "checkbox") {
-              const toggleLabel = input.closest(".toggle-switch")?.querySelector(".toggle-label");
-              if (toggleLabel) {
-                toggleLabel.classList.add("disabled-label");
-              }
-            }
-          } else {
-            input.classList.remove("disabled-input");
-
-            // Remove disabled styling from toggles
-            if (input.type === "checkbox") {
-              const toggleLabel = input.closest(".toggle-switch")?.querySelector(".toggle-label");
-              if (toggleLabel) {
-                toggleLabel.classList.remove("disabled-label");
-              }
-            }
-          }
-        }
-      });
-
-      // Add visual cue to section headers
-      const sectionHeader = section.querySelector(".section-header");
-      if (sectionHeader) {
-        if (disable) {
-          sectionHeader.classList.add("disabled-header");
-        } else {
-          sectionHeader.classList.remove("disabled-header");
-        }
-      }
-    } catch (error) {
-      console.error("🚨 Error disabling section inputs:", error);
-    }
-  }
-
-  /**
-   * Update toggle state with visual feedback
-   */
-  updateToggleState(toggle, checked) {
-    try {
-      toggle.checked = checked;
-      const formGroup = toggle.closest(".form-group");
-      if (formGroup) {
-        formGroup.classList.add("auto-changed");
-        setTimeout(() => {
-          formGroup.classList.remove("auto-changed");
-        }, 600);
-      }
-    } catch (error) {
-      console.error("🚨 Error updating toggle state:", error);
-    }
-  }
-
-  /**
    * Setup reset button handlers
    */
   setupResetButtonHandlers(container) {
@@ -394,9 +146,7 @@ class DataSourcesTabHandler {
         button.addEventListener("click", (e) => {
           e.preventDefault();
           const section = button.dataset.section;
-          if (section === "businessData") {
-            this.resetBusinessDataToDefaults(container);
-          } else if (section === "googleSheets") {
+          if (section === "googleSheets") {
             this.resetGoogleSheetsToDefaults(container);
           } else if (section === "csvParsing") {
             this.resetCSVParsingToDefaults(container);
@@ -412,80 +162,22 @@ class DataSourcesTabHandler {
   }
 
   /**
-   * Reset Business Data section to defaults
-   */
-  resetBusinessDataToDefaults(container) {
-    try {
-      const defaults = this.core.getDefaultConfig().businessData || {};
-
-      // Reset business data options
-      if (!this.core.config.businessData) {
-        this.core.config.businessData = {};
-      }
-
-      this.core.config.businessData.useBusinessData =
-        defaults.useBusinessData !== undefined ? defaults.useBusinessData : false;
-      this.core.config.businessData.replaceTourData =
-        defaults.replaceTourData !== undefined ? defaults.replaceTourData : false;
-      this.core.config.businessData.includeStandaloneEntries =
-        defaults.includeStandaloneEntries !== undefined ? defaults.includeStandaloneEntries : false;
-      this.core.config.businessData.businessDataFile = defaults.businessDataFile || "business.json";
-      this.core.config.businessData.businessDataDir = defaults.businessDataDir || "business-data";
-      this.core.config.businessData.matchField = defaults.matchField || "id";
-
-      // Update form
-      this.populateDataSourcesForm(container);
-
-      if (this.core.showToast) {
-        this.core.showToast(
-          "success",
-          "Reset Complete",
-          "Business Data settings reset to defaults"
-        );
-      }
-      console.log("🔄 Business Data settings reset to defaults");
-    } catch (error) {
-      console.error("🚨 Error resetting business data settings:", error);
-    }
-  }
-
-  /**
    * Reset Google Sheets section to defaults
    */
   resetGoogleSheetsToDefaults(container) {
     try {
-      const defaults = this.core.getDefaultConfig().googleSheets || {};
+      const defaults = this.core.getDefaultConfig().googleSheets;
+      const resolved = JSON.parse(JSON.stringify(defaults));
 
-      // Reset Google Sheets options
-      if (!this.core.config.googleSheets) {
-        this.core.config.googleSheets = {};
-      }
-
-      this.core.config.googleSheets.useGoogleSheetData =
-        defaults.useGoogleSheetData !== undefined ? defaults.useGoogleSheetData : false;
-      this.core.config.googleSheets.includeStandaloneEntries =
-        defaults.includeStandaloneEntries !== undefined ? defaults.includeStandaloneEntries : false;
-      this.core.config.googleSheets.useAsDataSource =
-        defaults.useAsDataSource !== undefined ? defaults.useAsDataSource : false;
-      this.core.config.googleSheets.googleSheetUrl = defaults.googleSheetUrl || "";
-      this.core.config.googleSheets.useLocalCSV =
-        defaults.useLocalCSV !== undefined ? defaults.useLocalCSV : false;
-      this.core.config.googleSheets.localCSVFile = defaults.localCSVFile || "search-data.csv";
-      this.core.config.googleSheets.localCSVDir = defaults.localCSVDir || "business-data";
-
-      // Update form
+      // Update UI
+      this.core.config.googleSheets = resolved;
       this.populateDataSourcesForm(container);
 
       if (this.core.showToast) {
-        this.core.showToast(
-          "success",
-          "Reset Complete",
-          "Google Sheets settings reset to defaults"
-        );
+        this.core.showToast("success", "Reset Complete", "Google Sheets settings restored");
       }
-      console.log("🔄 Google Sheets settings reset to defaults");
-    } catch (error) {
-      console.error("🚨 Error resetting Google Sheets settings:", error);
+    } catch (err) {
+      console.error("🚨 Error resetting Google Sheets:", err);
     }
   }
 
@@ -563,15 +255,7 @@ class DataSourcesTabHandler {
     try {
       const fieldName = input.name || input.id;
 
-      // Handle mutual exclusivity
-      if (fieldName === "businessData.useBusinessData" || fieldName === "useBusinessData") {
-        this.updateMutualExclusivityStates(document.getElementById("data-sources-panel"));
-      } else if (
-        fieldName === "googleSheets.useGoogleSheetData" ||
-        fieldName === "useGoogleSheetData"
-      ) {
-        this.updateMutualExclusivityStates(document.getElementById("data-sources-panel"));
-      } else if (fieldName === "googleSheets.useLocalCSV" || fieldName === "useLocalCSV") {
+      if (fieldName === "googleSheets.useLocalCSV" || fieldName === "useLocalCSV") {
         this.updateLocalCSVStates(document.getElementById("data-sources-panel"));
       }
 
@@ -598,10 +282,17 @@ class DataSourcesTabHandler {
 
       // Custom validation rules for Data Sources tab fields
       if (fieldName.includes("googleSheetUrl") && value) {
-        // Validate Google Sheets URL format
-        const isValidUrl = /^https:\/\/docs\.google\.com\/spreadsheets\//.test(value);
-        if (!isValidUrl) {
-          isValid = false;
+        // Allow Google Sheets or CSV URLs; skip check if local CSV is enabled
+        const useLocalCSV =
+          (this.core.config?.googleSheets && this.core.config.googleSheets.useLocalCSV) || false;
+        if (!useLocalCSV) {
+          const lower = value.toLowerCase();
+          const isHttp = lower.startsWith("http://") || lower.startsWith("https://");
+          const isSheets = lower.includes("docs.google.com/spreadsheets");
+          const isCsv = lower.endsWith(".csv");
+          if (!(isHttp || isSheets || isCsv)) {
+            isValid = false;
+          }
         }
       } else if (fieldName.includes("timeoutMinutes")) {
         const numValue = parseInt(value);
@@ -700,9 +391,6 @@ class DataSourcesTabHandler {
       const defaults = this.core.getDefaultConfig();
 
       // Reset data sources settings
-      if (defaults.businessData) {
-        this.core.config.businessData = JSON.parse(JSON.stringify(defaults.businessData));
-      }
       if (defaults.googleSheets) {
         this.core.config.googleSheets = JSON.parse(JSON.stringify(defaults.googleSheets));
       }
@@ -727,7 +415,6 @@ class DataSourcesTabHandler {
       return {
         tab: "Data Sources",
         sections: {
-          businessData: this.core.config.businessData || {},
           googleSheets: this.core.config.googleSheets || {},
         },
       };
@@ -775,6 +462,12 @@ class DataSourcesTabHandler {
         // Set property safely
         this.core.safeSetNestedProperty(this.core.config, name, value);
       });
+
+      // Patch: Normalize CSV directory so runtime loader resolves correct path
+      const gs = this.core.config.googleSheets;
+      if (gs && gs.useLocalCSV && gs.localCSVDir) {
+        gs.localCSVDir = gs.localCSVDir.replace(/^\/+/, "").replace(/^\.?\//, "");
+      }
 
       console.log("💾 Data Sources tab config updated from form");
     } catch (error) {

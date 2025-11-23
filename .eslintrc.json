@@ -1,0 +1,30 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "globals": {
+    "SEARCH_MARKUP": "readonly",
+    "Fuse": "readonly",
+    "_config": "readonly",
+    "PlaylistUtils": "readonly",
+    "TourBinding": "readonly",
+    "BroadcastChannel": "readonly",
+    "Logger": "readonly",
+    "_businessData": "readonly",
+    "initializeSearch": "readonly",
+    "_prepareSearchIndex": "readonly",
+    "_getDisplayLabel": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "vars": "local", "args": "after-used", "ignoreRestSiblings": true }],
+    "no-undef": "error",
+    "no-console": "off",
+    "no-redeclare": "error",
+    "no-unsafe-optional-chaining": "off"
+  }
+}

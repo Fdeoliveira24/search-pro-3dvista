@@ -1,6 +1,6 @@
 /**
  * Search Pro Control Panel - Core Module
- * Version 3.2 - Last Update on 11/01/2025 - Search Pro Configuration Loading - Google Sheets / CSV / Business JSON integration, runtime synchronization, Exact matches config, Silence Console Fix
+ * Version 3.1 - Last Update on 10/31/2025 - Search Pro Configuration Loading - Technical Reference - Race Condition Fix
  * Shared functionality and base class for all tab handlers
  *
  * SECURITY FEATURES:
@@ -176,11 +176,11 @@ class ControlPanelCore {
   }
 
   /**
-   * Strip asset prefix from file path
+   * Strip asset prefix from file path (supports both V3 and V4 paths)
    */
   stripAssetPrefix(value) {
     if (!value || typeof value !== "string") return "";
-    return value.replace(/^\.?\/?(?:search-pro-v3\/)?assets\//i, "");
+    return value.replace(/^\.?\/?(?:search-pro-v[34]\/)?assets\//i, "");
   }
 
   /**
@@ -833,7 +833,7 @@ class ControlPanelCore {
    * Get default configuration structure
    */
   getDefaultConfig() {
-    return {
+    const defaults = {
       // ==========================================
       // GENERAL TAB - General Settings
       // ==========================================
@@ -917,9 +917,7 @@ class ControlPanelCore {
         // Field weights
         fieldWeights: {
           label: 1.0,
-          businessName: 0.9,
           subtitle: 0.8,
-          businessTag: 1.0,
           tags: 0.6,
           parentLabel: 0.3,
         },
@@ -936,7 +934,6 @@ class ControlPanelCore {
 
         // Boosts
         boostValues: {
-          businessMatch: 2.0,
           sheetsMatch: 2.5,
           labeledItem: 1.5,
           unlabeledItem: 1.0,
@@ -1123,7 +1120,6 @@ class ControlPanelCore {
           Text: "assets/text-default.jpg",
           ProjectedImage: "assets/projected-image-default.jpg",
           Element: "assets/element-default.jpg",
-          Business: "assets/business-default.jpg",
           "3DModel": "assets/3d-model-default.jpg",
           "3DHotspot": "assets/3d-hotspot-default.jpg",
           "3DModelObject": "assets/3d-model-object-default.jpg",
@@ -1159,7 +1155,6 @@ class ControlPanelCore {
             Text: "fas fa-file-alt",
             ProjectedImage: "fas fa-desktop",
             Element: "fas fa-circle",
-            Business: "fas fa-building",
             "3DHotspot": "fas fa-gamepad",
             Container: "fas fa-window-restore",
             "3DModel": "fas fa-cube",
@@ -1176,7 +1171,6 @@ class ControlPanelCore {
             text: true,
             projectedImage: true,
             element: true,
-            business: true,
             "3dmodel": true,
             "3dhotspot": true,
             "3dmodelobject": true,
@@ -1202,7 +1196,6 @@ class ControlPanelCore {
         Text: "Text",
         ProjectedImage: "Projected Image",
         Element: "Element",
-        Business: "Business",
         "3DHotspot": "3D Hotspot",
         "3DModel": "3D Model",
         "3DModelObject": "3D Model Object",
@@ -1237,7 +1230,6 @@ class ControlPanelCore {
           includeText: true,
           includeProjectedImages: true,
           includeElements: true,
-          includeBusiness: true,
           include3DModels: true,
           include3DHotspots: true,
           include3DModelObjects: true,
@@ -1260,22 +1252,11 @@ class ControlPanelCore {
       // ==========================================
       // DATA SOURCES TAB - External Data Integration
       // ==========================================
-      // [10.14] Business Data Integration
-      businessData: {
-        useBusinessData: false,
-        replaceTourData: false,
-        includeStandaloneEntries: false,
-        businessDataFile: "business.json",
-        businessDataDir: "business-data",
-        matchField: "id",
-        businessDataUrl: "", // Let search-v3.js resolve via __fromScript()
-      },
-
       // [10.15] Google Sheets Integration
       googleSheets: {
         useGoogleSheetData: false,
         includeStandaloneEntries: false,
-        useAsDataSource: false,
+        useAsDataSource: true,
         fetchMode: "csv",
         googleSheetUrl:
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrQ9oy4JjwYAdTG1DKne9cu76PZCrZgtIOCX56sxVoBwRzys36mTqvFMvTE2TB-f-k5yZz_uWwW5Ou/pub?output=csv",
@@ -1328,6 +1309,31 @@ class ControlPanelCore {
 
       // ...other config sections...
     };
+
+    // [PATCH] Ensure nested googleSheets structure is always complete
+    if (!defaults.googleSheets.csvOptions) {
+      defaults.googleSheets.csvOptions = {
+        header: true,
+        skipEmptyLines: true,
+        dynamicTyping: true,
+      };
+    }
+    if (!defaults.googleSheets.caching) {
+      defaults.googleSheets.caching = {
+        enabled: false,
+        timeoutMinutes: 60,
+        storageKey: "tourGoogleSheetsData",
+      };
+    }
+    if (!defaults.googleSheets.progressiveLoading) {
+      defaults.googleSheets.progressiveLoading = {
+        enabled: false,
+        initialFields: [],
+        detailFields: [],
+      };
+    }
+
+    return defaults;
   }
 
   /**

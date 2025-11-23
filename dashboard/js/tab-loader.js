@@ -501,22 +501,7 @@ class TabLoader {
             <div class="form-grid">
               <div class="info-message">
                 <i class="fas fa-info-circle"></i>
-                <span>Configure Google Sheets data sources. Full configuration requires server access.</span>
-              </div>
-            </div>
-          </section>
-
-          <section class="config-section">
-            <div class="section-header">
-              <h3 class="section-title">
-                <i class="fas fa-building section-icon"></i>
-                Business Data
-              </h3>
-            </div>
-            <div class="form-grid">
-              <div class="info-message">
-                <i class="fas fa-info-circle"></i>
-                <span>Configure business data integration. Full configuration requires server access.</span>
+                <span>Configure Google Sheets or Local CSV data source. Full configuration requires server access.</span>
               </div>
             </div>
           </section>

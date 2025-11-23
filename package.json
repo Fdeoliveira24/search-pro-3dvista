@@ -1,7 +1,7 @@
 {
-  "name": "search-pro-v3",
-  "version": "3.1.0",
-  "description": "Search Pro Configuration Loading - Technical Reference - Race Condition Fix",
+  "name": "search-pro-v4",
+  "version": "4.0.0",
+  "description": "Search Pro V4 - Enhanced search for 3DVista tours with backward compatibility",
   "private": true,
   "scripts": {
     "format": "prettier --write \"**/*.{js,css,html}\" --ignore-path .prettierignore",

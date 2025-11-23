@@ -949,8 +949,3 @@
 #advanced-panel .config-section[aria-labelledby="reduced-motion-heading"] {
   display: none !important;
 }
-
-/* Hides tabs from the sidebar */
-#data-sources-tab {
-  display: none !important;
-}

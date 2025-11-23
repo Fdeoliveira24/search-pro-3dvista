@@ -4,199 +4,10 @@
     <i class="fas fa-database panel-icon" aria-hidden="true"></i>
     <h2>Data Sources</h2>
   </div>
-  <p class="panel-description">Configure business data and Google Sheets integration</p>
+  <p class="panel-description">Configure Google Sheets or Local CSV data source</p>
 </div>
 
 <div class="panel-content">
-  <div id="dataSourcesWarningBanner" class="infobox-warning" style="display: none">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span id="dataSourcesWarningMessage">Only one data source can be enabled at a time.</span>
-  </div>
-
-  <!-- Business Data Integration Section -->
-  <section class="config-section" aria-labelledby="business-data-heading">
-    <div class="section-header">
-      <h3 class="section-title" id="business-data-heading">
-        <i class="fas fa-briefcase section-icon" aria-hidden="true"></i>
-        Business Data Integration
-      </h3>
-      <p class="section-description">Use business data to enhance or replace tour content</p>
-    </div>
-
-    <div class="form-grid grid-1-col">
-      <div class="form-group">
-        <label class="form-label" for="useBusinessData">
-          Enable Business Data
-          <span
-            class="help-tooltip"
-            data-tooltip="Use business data from a local JSON file to enhance or replace tour content. Enabling this will disable Google Sheets integration."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Enable Business Data"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <div class="toggle-switch">
-          <input
-            type="checkbox"
-            id="useBusinessData"
-            name="businessData.useBusinessData"
-            class="toggle-input"
-            aria-describedby="useBusinessData-desc"
-          />
-          <label for="useBusinessData" class="toggle-label">
-            <span class="toggle-text">Use business data (disables Google Sheets)</span>
-          </label>
-        </div>
-        <div id="useBusinessData-desc" class="sr-only">Toggle to enable or disable business data integration</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="replaceTourData">
-          Replace Tour Data
-          <span
-            class="help-tooltip"
-            data-tooltip="Replace tour element labels with names from your business data file. Useful for customizing labels to match your business terminology."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Replace Tour Data"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <div class="toggle-switch">
-          <input
-            type="checkbox"
-            id="replaceTourData"
-            name="businessData.replaceTourData"
-            class="toggle-input"
-            aria-describedby="replaceTourData-desc"
-          />
-          <label for="replaceTourData" class="toggle-label">
-            <span class="toggle-text">Replace tour labels with business labels</span>
-          </label>
-        </div>
-        <div id="replaceTourData-desc" class="sr-only">Toggle to replace tour data with business data</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="includeStandaloneBusinessEntries">
-          Include Standalone Entries
-          <span
-            class="help-tooltip"
-            data-tooltip="Add business data entries that do not have a matching tour element. These will appear as standalone results in search."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Include Standalone Entries"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <div class="toggle-switch">
-          <input
-            type="checkbox"
-            id="includeStandaloneBusinessEntries"
-            name="businessData.includeStandaloneEntries"
-            class="toggle-input"
-            aria-describedby="includeStandaloneBusinessEntries-desc"
-          />
-          <label for="includeStandaloneBusinessEntries" class="toggle-label">
-            <span class="toggle-text">Add business entries without tour matches</span>
-          </label>
-        </div>
-        <div id="includeStandaloneBusinessEntries-desc" class="sr-only">
-          Toggle to include standalone business entries
-        </div>
-      </div>
-    </div>
-
-    <!-- Add spacing between toggle sections and file/directory inputs -->
-    <div style="height: 24px"></div>
-
-    <div class="form-grid grid-3-col">
-      <div class="form-group">
-        <label class="form-label" for="businessDataFile">
-          Business Data File
-          <span
-            class="help-tooltip"
-            data-tooltip="The filename of your business data (JSON format). Example: business.json."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Business Data File"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <input
-          type="text"
-          id="businessDataFile"
-          name="businessData.businessDataFile"
-          class="form-input"
-          placeholder="business.json"
-          aria-describedby="businessDataFile-desc"
-        />
-        <div id="businessDataFile-desc" class="sr-only">Enter the business data filename</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="businessDataDirectory">
-          Business Data Directory
-          <span
-            class="help-tooltip"
-            data-tooltip="The folder where your business data file is stored. Example: business-data."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Business Data Directory"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <input
-          type="text"
-          id="businessDataDirectory"
-          name="businessData.businessDataDir"
-          class="form-input"
-          placeholder="business-data"
-          aria-describedby="businessDataDirectory-desc"
-        />
-        <div id="businessDataDirectory-desc" class="sr-only">Enter the business data directory</div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="matchField">
-          Match Field
-          <span
-            class="help-tooltip"
-            data-tooltip="The field in your business data used to match tour elements (e.g., id or tag). Must correspond to a field in both your tour and business data."
-            role="button"
-            tabindex="0"
-            aria-label="Help: Match Field"
-          >
-            <i class="fas fa-question-circle" aria-hidden="true"></i>
-          </span>
-        </label>
-        <input
-          type="text"
-          id="matchField"
-          name="businessData.matchField"
-          class="form-input"
-          placeholder="id"
-          aria-describedby="matchField-desc"
-        />
-        <div id="matchField-desc" class="sr-only">Enter the field to match against</div>
-      </div>
-    </div>
-  </section>
-
-  <div id="businessDataWarning" class="infobox-warning" style="display: none">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span>Google Sheets or Local CSV is currently enabled. Disable it to enable Business Data.</span>
-  </div>
-
-  <!-- Add spacing between sections -->
-  <div class="section-spacing"></div>
-
   <!-- Google Sheets Integration Section -->
   <section class="config-section" aria-labelledby="google-sheets-heading">
     <div class="section-header">
@@ -213,7 +24,7 @@
           Enable Google Sheets/CSV
           <span
             class="help-tooltip"
-            data-tooltip="Use data from a Google Sheet or local CSV file to enhance or replace tour content. Enabling this will disable Business Data integration."
+            data-tooltip="Use data from a Google Sheet or local CSV file to enhance or replace tour content. Enabling this will disable the alternate source."
             role="button"
             tabindex="0"
             aria-label="Help: Enable Google Sheets"
@@ -230,7 +41,7 @@
             aria-describedby="useGoogleSheetData-desc"
           />
           <label for="useGoogleSheetData" class="toggle-label">
-            <span class="toggle-text">Use Google Sheets data (disables Business Data)</span>
+            <span class="toggle-text">Use Google Sheets data (disables the alternate source)</span>
           </label>
         </div>
         <div id="useGoogleSheetData-desc" class="sr-only">Toggle to enable or disable Google Sheets integration</div>
@@ -405,14 +216,6 @@
       </div>
     </div>
   </section>
-
-  <div id="googleSheetsWarning" class="infobox-warning" style="display: none">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span>Business Data is currently enabled. Disable it to enable Google Sheets or Local CSV.</span>
-  </div>
-
-  <!-- Add spacing between sections -->
-  <div class="section-spacing"></div>
 
   <!-- CSV Parsing Options Section -->
   <section class="config-section" aria-labelledby="csv-parsing-heading">
